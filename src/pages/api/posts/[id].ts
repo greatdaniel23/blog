@@ -41,8 +41,8 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
         const { title, slug, description, content, hero_image, author, is_published } = body;
 
         await db.prepare(`
-      UPDATE posts
-      SET title = ?, slug = ?, description = ?, content = ?,
+      UPDATE posts 
+      SET title = ?, slug = ?, description = ?, content = ?, 
           hero_image = ?, author = ?, is_published = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
     `).bind(title, slug, description, content, hero_image, author, is_published ? 1 : 0, id).run();

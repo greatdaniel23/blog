@@ -2,7 +2,7 @@
 title: "Discover Local Attractions"
 description: "Your curated guide to the best experiences, dining, and hidden gems near The Grand Hotel."
 pubDate: "2026-02-01"
-heroImage: "../../assets/images/local-attractions.jpg"
+heroImage: "/images/local-attractions.jpg"
 author: "Concierge Team"
 tags: ["attractions", "travel", "local", "dining", "culture"]
 ---

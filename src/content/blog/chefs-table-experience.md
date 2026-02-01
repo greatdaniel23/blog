@@ -2,7 +2,7 @@
 title: "Behind the Kitchen: Chef's Table Experience"
 description: "An intimate look at our culinary philosophy and the exclusive Chef's Table dining experience."
 pubDate: "2026-02-01"
-heroImage: "../../assets/images/chefs-table.jpg"
+heroImage: "/images/chefs-table.jpg"
 author: "Executive Chef Marco Bellini"
 tags: ["dining", "culinary", "chef", "experience", "food"]
 ---
@@ -27,7 +27,7 @@ A custom-built table within our kitchen, positioned to see every station while r
 ### The Menu
 No written menu. Each evening is crafted based on:
 - What arrived from our farmers that morning
-- The season's peak ingredients
+- The season's peak ingredients  
 - Your preferences and dietary needs
 - A bit of inspiration (and improvisation)
 

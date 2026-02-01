@@ -9,8 +9,8 @@ export const GET: APIRoute = async ({ locals }) => {
 
         const { results } = await db.prepare(`
       SELECT id, slug, title, description, hero_image, author, pub_date, view_count
-      FROM posts
-      WHERE is_published = 1
+      FROM posts 
+      WHERE is_published = 1 
       ORDER BY pub_date DESC
     `).all();
 

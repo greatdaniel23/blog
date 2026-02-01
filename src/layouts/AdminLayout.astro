@@ -37,7 +37,7 @@ const { title } = Astro.props;
         <a href="/" target="_blank">🔗 View Site</a>
       </div>
     </aside>
-
+    
     <main class="main-content">
       <slot />
     </main>
@@ -51,18 +51,18 @@ const { title } = Astro.props;
     padding: 0;
     box-sizing: border-box;
   }
-
+  
   body {
     font-family: 'Inter', sans-serif;
     background: #f7fafc;
     color: #2d3748;
   }
-
+  
   .admin-container {
     display: flex;
     min-height: 100vh;
   }
-
+  
   .sidebar {
     width: 250px;
     background: #1a365d;
@@ -72,25 +72,25 @@ const { title } = Astro.props;
     position: fixed;
     height: 100vh;
   }
-
+  
   .logo {
     padding: 1.5rem;
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }
-
+  
   .logo h2 {
     font-size: 1.25rem;
   }
-
+  
   .sidebar nav {
     flex: 1;
     padding: 1rem 0;
   }
-
+  
   .sidebar ul {
     list-style: none;
   }
-
+  
   .sidebar li a {
     display: block;
     padding: 0.875rem 1.5rem;
@@ -98,22 +98,22 @@ const { title } = Astro.props;
     text-decoration: none;
     transition: all 0.2s;
   }
-
+  
   .sidebar li a:hover {
     background: rgba(255,255,255,0.1);
     color: white;
   }
-
+  
   .sidebar-footer {
     padding: 1.5rem;
     border-top: 1px solid rgba(255,255,255,0.1);
   }
-
+  
   .sidebar-footer a {
     color: rgba(255,255,255,0.8);
     text-decoration: none;
   }
-
+  
   .main-content {
     flex: 1;
     margin-left: 250px;

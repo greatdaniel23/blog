@@ -12,30 +12,30 @@ export const prerender = false;
         <button type="button" class="btn-primary" id="publish">Publish</button>
       </div>
     </div>
-
+    
     <form id="postForm" class="post-form">
       <div class="form-main">
         <div class="form-group">
           <label for="title">Title</label>
           <input type="text" id="title" name="title" placeholder="Enter post title" required />
         </div>
-
+        
         <div class="form-group">
           <label for="slug">Slug</label>
           <input type="text" id="slug" name="slug" placeholder="post-url-slug" required />
         </div>
-
+        
         <div class="form-group">
           <label for="description">Description</label>
           <textarea id="description" name="description" rows="3" placeholder="Brief description for SEO"></textarea>
         </div>
-
+        
         <div class="form-group">
           <label for="content">Content</label>
           <textarea id="content" name="content" rows="20" placeholder="Write your post content in Markdown..." required></textarea>
         </div>
       </div>
-
+      
       <div class="form-sidebar">
         <div class="sidebar-card">
           <h3>Featured Image</h3>
@@ -45,14 +45,14 @@ export const prerender = false;
           </div>
           <div class="image-preview" id="imagePreview"></div>
         </div>
-
+        
         <div class="sidebar-card">
           <h3>Author</h3>
           <div class="form-group">
             <input type="text" id="author" name="author" value="Hotel Editorial Team" />
           </div>
         </div>
-
+        
         <div class="sidebar-card">
           <h3>Tags</h3>
           <div class="form-group">
@@ -67,18 +67,18 @@ export const prerender = false;
 
 <style>
   .editor-page { padding: 2rem; }
-
+  
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
   }
-
+  
   h1 { color: #1a365d; }
-
+  
   .actions { display: flex; gap: 0.75rem; }
-
+  
   .btn-primary, .btn-secondary {
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
@@ -86,33 +86,33 @@ export const prerender = false;
     cursor: pointer;
     border: none;
   }
-
+  
   .btn-primary { background: #d4af37; color: white; }
   .btn-secondary { background: #edf2f7; color: #4a5568; }
-
+  
   .post-form {
     display: grid;
     grid-template-columns: 1fr 300px;
     gap: 2rem;
   }
-
+  
   .form-main {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
-
+  
   .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
-
+  
   .form-group label {
     font-weight: 600;
     color: #4a5568;
   }
-
+  
   .form-group input,
   .form-group textarea {
     padding: 0.75rem 1rem;
@@ -121,39 +121,39 @@ export const prerender = false;
     font-size: 1rem;
     font-family: inherit;
   }
-
+  
   .form-group input:focus,
   .form-group textarea:focus {
     outline: none;
     border-color: #d4af37;
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
   }
-
+  
   .form-group textarea#content {
     font-family: 'Monaco', 'Menlo', monospace;
     font-size: 0.875rem;
     line-height: 1.6;
   }
-
+  
   .form-sidebar {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
-
+  
   .sidebar-card {
     background: white;
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
-
+  
   .sidebar-card h3 {
     color: #1a365d;
     margin-bottom: 1rem;
     font-size: 1rem;
   }
-
+  
   .image-preview {
     margin-top: 1rem;
     min-height: 150px;
@@ -164,12 +164,12 @@ export const prerender = false;
     justify-content: center;
     color: #a0aec0;
   }
-
+  
   .image-preview img {
     max-width: 100%;
     border-radius: 8px;
   }
-
+  
   small { color: #a0aec0; }
 </style>
 
@@ -178,7 +178,7 @@ export const prerender = false;
   const slugInput = document.getElementById('slug') as HTMLInputElement;
   const heroInput = document.getElementById('heroImage') as HTMLInputElement;
   const imagePreview = document.getElementById('imagePreview');
-
+  
   // Auto-generate slug from title
   titleInput?.addEventListener('input', () => {
     const slug = titleInput.value
@@ -187,28 +187,28 @@ export const prerender = false;
       .replace(/^-|-$/g, '');
     slugInput.value = slug;
   });
-
+  
   // Preview image
   heroInput?.addEventListener('change', () => {
     if (heroInput.value && imagePreview) {
       imagePreview.innerHTML = `<img src="${heroInput.value}" alt="Preview" onerror="this.parentElement.innerHTML='Invalid image URL'" />`;
     }
   });
-
+  
   // Save draft
   document.getElementById('saveDraft')?.addEventListener('click', async () => {
     await savePost(false);
   });
-
+  
   // Publish
   document.getElementById('publish')?.addEventListener('click', async () => {
     await savePost(true);
   });
-
+  
   async function savePost(publish: boolean) {
     const form = document.getElementById('postForm') as HTMLFormElement;
     const formData = new FormData(form);
-
+    
     const data = {
       title: formData.get('title'),
       slug: formData.get('slug'),
@@ -218,14 +218,14 @@ export const prerender = false;
       author: formData.get('author'),
       is_published: publish
     };
-
+    
     try {
       const response = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-
+      
       if (response.ok) {
         alert(publish ? 'Post published!' : 'Draft saved!');
         window.location.href = '/admin/posts';

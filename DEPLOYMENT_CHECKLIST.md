@@ -173,7 +173,7 @@ Use **astro-docs** for endpoint patterns:
   ```toml
   name = "blogtemplate"
   compatibility_date = "2025-01-01"
-
+  
   [[d1_databases]]
   binding = "DB"
   database_name = "blogdatabase"
