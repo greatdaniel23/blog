@@ -123,8 +123,33 @@ Use **astro-docs** for endpoint patterns:
 - [ ] Create `src/pages/api/` directory
 - [ ] Implement endpoints:
   - [ ] `GET/POST /api/posts` - List/create posts
+  - [ ] `GET/PUT/DELETE /api/posts/[id]` - Single post CRUD
   - [ ] `POST /api/subscribe` - Newsletter signup
   - [ ] `POST /api/contact` - Contact form
+
+---
+
+## Phase 4.5: Admin Dashboard
+
+### 4.5.1 Admin Pages
+- [ ] Create `src/layouts/AdminLayout.astro`
+- [ ] Create admin pages:
+  - [ ] `/admin/` - Dashboard with stats
+  - [ ] `/admin/posts` - Posts list
+  - [ ] `/admin/posts/new` - Create new post
+  - [ ] `/admin/posts/edit/[id]` - Edit existing post
+
+### 4.5.2 Database Tables for Admin
+- [ ] `admin_users` - Admin accounts (email, password_hash, name, role)
+- [ ] `sessions` - Auth sessions (id, user_id, expires_at)
+
+### 4.5.3 Admin Features
+- [ ] Post CRUD (Create, Read, Update, Delete)
+- [ ] Draft/Publish status toggle
+- [ ] View count tracking
+- [ ] Categories and tags management
+- [ ] Newsletter subscribers list
+- [ ] Contact form submissions
 
 ---
 
