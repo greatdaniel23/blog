@@ -1,24 +1,16 @@
-# build output
-dist/
-# generated types
-.astro/
-
-# dependencies
+# Blog Project Ignore List
 node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
+dist/
+.wrangler/
+.astro/
+*.log
 .DS_Store
 
-# jetbrains setting folder
-.idea/
+# Secrets - never commit
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
+# Client secrets
+client_secret*.json
