@@ -2,7 +2,7 @@
 title: "Seasonal Spa Rituals"
 description: "Embrace the changing seasons with our curated wellness experiences at The Grand Spa."
 pubDate: "2026-02-01"
-heroImage: "/images/spa-ritual.jpg"
+heroImage: '../../assets/spa-ritual.jpg'
 author: "Wellness Director"
 tags: ["spa", "wellness", "seasonal", "relaxation"]
 ---

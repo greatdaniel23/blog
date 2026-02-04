@@ -2,7 +2,7 @@
 title: "A Guide to Our Luxury Suites"
 description: "Explore the unique character of each suite at The Grand Hotel, from intimate retreats to palatial penthouses."
 pubDate: "2026-02-01"
-heroImage: "/images/luxury-suite.jpg"
+heroImage: '../../assets/luxury-suite.jpg'
 author: "Concierge Team"
 tags: ["suites", "accommodation", "luxury", "amenities"]
 ---

@@ -2,7 +2,7 @@
 title: "Behind the Kitchen: Chef's Table Experience"
 description: "An intimate look at our culinary philosophy and the exclusive Chef's Table dining experience."
 pubDate: "2026-02-01"
-heroImage: "/images/chefs-table.jpg"
+heroImage: '../../assets/chefs-table.jpg'
 author: "Executive Chef Marco Bellini"
 tags: ["dining", "culinary", "chef", "experience", "food"]
 ---

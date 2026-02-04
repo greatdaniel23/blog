@@ -1,5 +1,6 @@
 name = "blogtemplate"
 compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat_v2"]
 
 main = "dist/_worker.js/index.js"
 
@@ -15,6 +16,11 @@ database_id = "c32058e0-7666-4284-8130-c8cceb090a82"
 [[r2_buckets]]
 binding = "IMAGES"
 bucket_name = "blogimage"
+
+[[kv_namespaces]]
+binding = "SESSION"
+id = "471b088473d445e1ac4bf33aded07b68"
+preview_id = "471b088473d445e1ac4bf33aded07b68"
 
 [observability]
 enabled = true

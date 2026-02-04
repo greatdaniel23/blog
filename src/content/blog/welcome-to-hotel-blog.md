@@ -2,7 +2,7 @@
 title: "Welcome to The Grand Hotel Blog"
 description: "Discover the art of luxury hospitality, travel tips, and exclusive insights from The Grand Hotel."
 pubDate: "2026-02-01"
-heroImage: "/images/hotel-lobby.jpg"
+heroImage: '../../assets/hotel-lobby.jpg'
 author: "Hotel Editorial Team"
 tags: ["welcome", "hotel", "luxury"]
 ---

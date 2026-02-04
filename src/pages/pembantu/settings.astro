@@ -1,11 +1,10 @@
 ---
 import AdminLayout from "@/layouts/AdminLayout.astro";
-import { getSession } from "auth-astro/server";
+import { getSession } from "../../lib/auth";
 
 const { env } = Astro.locals.runtime;
 // @ts-ignore
-const session = await getSession(Astro.cookies, env?.DB);
-const user = session?.user;
+const { user } = await getSession(Astro.cookies, env?.DB);
 
 if (!user) {
     return Astro.redirect("/pembantu/login");
