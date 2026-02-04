@@ -1,114 +1,136 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { Image } from "astro:assets";
+import SwissLayout from "../../components/SwissLayout.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+interface Post {
+	id: number;
+	slug: string;
+	title: string;
+	description: string;
+	pub_date: string;
+	hero_image: string;
+}
+
+const { env } = Astro.locals.runtime;
+if (!env || !env.DB) {
+	console.error("DB binding missing");
+	throw new Error("DB binding missing");
+}
+const { results: posts } = await env.DB.prepare(
+	"SELECT * FROM posts WHERE is_published = 1 ORDER BY pub_date DESC",
+).all<Post>();
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+	"/src/assets/*.{jpeg,jpg,png,gif}",
+	{ eager: true },
 );
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
+<SwissLayout title="Blog | Alpha Digital Agency" currentPage="blog">
+	<!-- Hero Section -->
+	<section class="max-w-6xl mx-auto mb-16 md:mb-24 px-6 md:px-12">
+		<h1
+			class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-center"
+		>
+			<span
+				class="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] block"
+			>
+				Insights<span class="text-primary">&</span>Stories
+			</span>
+		</h1>
+		<p
+			class="mt-4 md:mt-6 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto text-center leading-relaxed tracking-wide"
+		>
+			Digital marketing expertise for hotels. We decode data, design
+			luxury experiences, and drive direct bookings.
+		</p>
+	</section>
+
+	<!-- Blog Posts Grid -->
+	<section class="max-w-6xl mx-auto pb-16 px-6 md:px-12">
+		{
+			posts.length === 0 ? (
+				<div class="text-center py-16">
+					<p class="text-slate-500 text-lg">
+						No posts published yet.
+					</p>
+				</div>
+			) : (
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{posts.map((post, index) => {
+						const imagePath = post.hero_image?.replace(
+							"../../",
+							"/src/",
+						);
+						const imageModule = imagePath
+							? images[imagePath]
+							: null;
+						const isFeatured = index === 0;
+
+						return (
+							<a
+								href={`/blog/${post.slug}/`}
+								class:list={[
+									"card-swiss block bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark overflow-hidden group",
+									{
+										"md:col-span-2 lg:col-span-3":
+											isFeatured,
+									},
+								]}
+							>
+								{post.hero_image && imageModule && (
+									<div class="overflow-hidden">
+										<Image
+											width={isFeatured ? 1200 : 600}
+											height={isFeatured ? 500 : 300}
+											src={imageModule.default}
+											alt={post.title}
+											class:list={[
+												"w-full object-cover transition-transform duration-300 group-hover:scale-105",
+												{
+													"h-64 md:h-80 lg:h-96":
+														isFeatured,
+													"h-48 md:h-56": !isFeatured,
+												},
+											]}
+										/>
+									</div>
+								)}
+								<div class="p-6 md:p-8">
+									<p class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em] mb-3">
+										<FormattedDate
+											date={new Date(post.pub_date)}
+										/>
 									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+									<h2
+										class:list={[
+											"font-display font-bold text-charcoal dark:text-white leading-tight mb-3 group-hover:text-primary transition-colors",
+											{
+												"text-2xl md:text-3xl lg:text-4xl":
+													isFeatured,
+												"text-xl md:text-2xl":
+													!isFeatured,
+											},
+										]}
+									>
+										{post.title}
+									</h2>
+									<p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed line-clamp-2">
+										{post.description}
+									</p>
+									<div class="mt-4 flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
+										<span>Read Article</span>
+										<span class="material-symbols-outlined text-sm">
+											arrow_forward
+										</span>
+									</div>
+								</div>
+							</a>
+						);
+					})}
+				</div>
+			)
+		}
+	</section>
+</SwissLayout>

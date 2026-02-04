@@ -1,20 +1,116 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+import { Image } from "astro:assets";
+import { marked } from "marked";
+import SwissLayout from "../../components/SwissLayout.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
 
-export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
+const { slug } = Astro.params;
+const { env } = Astro.locals.runtime;
+
+interface Post {
+	id: number;
+	slug: string;
+	title: string;
+	description: string;
+	content: string;
+	pub_date: string;
+	hero_image: string;
+	updated_at: string;
 }
-type Props = CollectionEntry<'blog'>;
 
-const post = Astro.props;
-const { Content } = await render(post);
+const post = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
+	.bind(slug)
+	.first<Post>();
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+	"/src/assets/*.{jpeg,jpg,png,gif}",
+	{ eager: true },
+);
+
+if (!post) {
+	return Astro.redirect("/404");
+}
+
+const content = marked.parse(post.content);
 ---
 
-<BlogPost {...post.data}>
-	<Content />
-</BlogPost>
+<SwissLayout title={`${post.title} | Alpha Digital Agency`} currentPage="blog">
+	<article class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
+		<!-- Hero Image -->
+		{
+			post.hero_image &&
+				images[post.hero_image.replace("../../", "/src/")] && (
+					<div class="mb-8 overflow-hidden border-2 border-charcoal shadow-premium">
+						<Image
+							width={1200}
+							height={600}
+							src={
+								images[
+									post.hero_image.replace("../../", "/src/")
+								].default
+							}
+							alt={post.title}
+							class="w-full h-64 md:h-96 object-cover"
+						/>
+					</div>
+				)
+		}
+
+		<!-- Article Header -->
+		<header class="mb-8 text-center">
+			<p
+				class="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-[0.2em] mb-4"
+			>
+				<FormattedDate date={new Date(post.pub_date)} />
+				{
+					post.updated_at && post.updated_at !== post.pub_date && (
+						<span class="text-slate-400 ml-2">
+							· Updated{" "}
+							<FormattedDate date={new Date(post.updated_at)} />
+						</span>
+					)
+				}
+			</p>
+			<h1
+				class="font-display font-extrabold text-3xl md:text-4xl lg:text-5xl text-charcoal dark:text-white leading-tight mb-4"
+			>
+				{post.title}
+			</h1>
+			<p
+				class="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto"
+			>
+				{post.description}
+			</p>
+		</header>
+
+		<hr class="border-slate-200 dark:border-slate-700 mb-8" />
+
+		<!-- Article Content -->
+		<div
+			class="prose prose-lg max-w-none
+				prose-headings:font-display prose-headings:font-bold prose-headings:text-charcoal dark:prose-headings:text-white
+				prose-p:text-slate-600 dark:prose-p:text-slate-400 prose-p:leading-relaxed
+				prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+				prose-strong:text-charcoal dark:prose-strong:text-white
+				prose-code:bg-slate-100 dark:prose-code:bg-slate-800 prose-code:px-1 prose-code:rounded
+				prose-pre:bg-slate-900 prose-pre:border-2 prose-pre:border-charcoal
+				prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic
+				prose-img:rounded prose-img:border-2 prose-img:border-charcoal prose-img:shadow-premium
+				prose-ul:text-slate-600 dark:prose-ul:text-slate-400
+				prose-ol:text-slate-600 dark:prose-ol:text-slate-400
+				prose-li:marker:text-primary"
+			set:html={content}
+		/>
+
+		<!-- Back to Blog -->
+		<div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
+			<a
+				href="/blog/"
+				class="btn-swiss inline-flex items-center gap-2 px-6 py-3 bg-charcoal dark:bg-white text-white dark:text-charcoal border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest"
+			>
+				<span class="material-symbols-outlined">arrow_back</span>
+				Back to Blog
+			</a>
+		</div>
+	</article>
+</SwissLayout>

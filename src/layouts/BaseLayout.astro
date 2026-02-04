@@ -1,0 +1,241 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+
+const { title, description, image } = Astro.props;
+---
+
+<!doctype html>
+<html class="light" lang="en">
+    <head>
+        <BaseHead title={title} description={description} image={image} />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet"
+        />
+        <script
+            is:inline
+            src="https://cdn.tailwindcss.com?plugins=forms,container-queries"
+        ></script>
+        <script is:inline id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: "#059669",
+                            "primary-dark": "#047857",
+                            charcoal: "#0f172a",
+                            slate: "#64748b",
+                            "background-light": "#f8fafc",
+                            "background-dark": "#020617",
+                            "emerald-dark": "#064e3b",
+                        },
+                        fontFamily: {
+                            display: ["Manrope", "sans-serif"],
+                            body: ["Manrope", "sans-serif"],
+                        },
+                        borderRadius: {
+                            DEFAULT: "0.125rem", // Sharper corners for Swiss feel
+                            lg: "0.25rem",
+                        },
+                        boxShadow: {
+                            // 30-degree approximate offset (X > Y)
+                            premium: "5px 3px 0px 0px rgba(15, 23, 42, 1)",
+                            "premium-hover":
+                                "2px 1px 0px 0px rgba(15, 23, 42, 1)",
+                            "premium-dark":
+                                "5px 3px 0px 0px rgba(255, 255, 255, 0.9)",
+                            "premium-dark-hover":
+                                "2px 1px 0px 0px rgba(255, 255, 255, 0.9)",
+                            glow: "0 0 15px rgba(5, 150, 105, 0.4)",
+                            "inner-light":
+                                "inset 0 1px 0 0 rgba(255, 255, 255, 0.4)",
+                        },
+                        letterSpacing: {
+                            tightest: "-0.05em",
+                            tight: "-0.03em",
+                        },
+                        lineHeight: {
+                            display: "0.9",
+                        },
+                        animation: {
+                            "marquee-left": "marquee-left 40s linear infinite",
+                        },
+                        keyframes: {
+                            "marquee-left": {
+                                "0%": { transform: "translateX(0%)" },
+                                "100%": { transform: "translateX(-50%)" },
+                            },
+                        },
+                        backgroundImage: {
+                            "noise-pattern":
+                                "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.7%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%221%22/%3E%3C/svg%3E')",
+                        },
+                    },
+                },
+            };
+        </script>
+        <style type="text/tailwindcss">
+            @layer base {
+                :root {
+                    --orbit-radius: 40vw;
+                }
+                @media (min-width: 768px) {
+                    :root {
+                        --orbit-radius: 28vw;
+                    }
+                }
+                @media (min-width: 1024px) {
+                    :root {
+                        --orbit-radius: 17vw;
+                    }
+                }
+            }
+            @layer utilities {
+                .preserve-3d {
+                    transform-style: preserve-3d;
+                }
+                .orbit-container-height {
+                    height: clamp(40px, 8vh, 80px);
+                }
+            }
+            .bg-dot-grid {
+                background-size: 50px 50px;
+                background-image: radial-gradient(
+                    circle,
+                    #cbd5e1 1px,
+                    transparent 1px
+                );
+            }
+            .dark .bg-dot-grid {
+                background-image: radial-gradient(
+                    circle,
+                    #1e293b 1px,
+                    transparent 1px
+                );
+            }
+            .btn-swiss {
+                transition:
+                    transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                    box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .btn-swiss:active {
+                transform: translate(2px, 2px);
+                box-shadow: none !important;
+            }
+            @keyframes orbit-rotate {
+                0% {
+                    transform: rotateY(0deg);
+                }
+                100% {
+                    transform: rotateY(-360deg);
+                }
+            }
+            @keyframes orbit-counter-rotate {
+                0% {
+                    transform: rotateY(0deg);
+                }
+                100% {
+                    transform: rotateY(360deg);
+                }
+            }
+            @keyframes orbit-appearance {
+                0% {
+                    opacity: 1;
+                    transform: scale(1.1) translateZ(0);
+                    border-color: rgba(52, 211, 153, 0.9);
+                    box-shadow:
+                        0 0 35px rgba(5, 150, 105, 0.6),
+                        inset 0 0 10px rgba(5, 150, 105, 0.1);
+                    filter: blur(0px);
+                    z-index: 50;
+                }
+                15% {
+                    opacity: 0.9;
+                    transform: scale(0.95);
+                    border-color: rgba(148, 163, 184, 0.3);
+                    box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
+                    filter: blur(0px);
+                    z-index: 40;
+                }
+                40% {
+                    opacity: 0.2;
+                    transform: scale(0.65) translateZ(0);
+                    border-color: rgba(148, 163, 184, 0.1);
+                    box-shadow: none;
+                    filter: blur(2px);
+                    z-index: 0;
+                }
+                60% {
+                    opacity: 0.2;
+                    transform: scale(0.65) translateZ(0);
+                    border-color: rgba(148, 163, 184, 0.1);
+                    box-shadow: none;
+                    filter: blur(2px);
+                    z-index: 0;
+                }
+                85% {
+                    opacity: 0.9;
+                    transform: scale(0.95);
+                    border-color: rgba(148, 163, 184, 0.3);
+                    box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
+                    filter: blur(0px);
+                    z-index: 40;
+                }
+                100% {
+                    opacity: 1;
+                    transform: scale(1.1) translateZ(0);
+                    border-color: rgba(52, 211, 153, 0.9);
+                    box-shadow:
+                        0 0 35px rgba(5, 150, 105, 0.6),
+                        inset 0 0 10px rgba(5, 150, 105, 0.1);
+                    filter: blur(0px);
+                    z-index: 50;
+                }
+            }
+            .perspective-container {
+                perspective: 2500px;
+            }
+            .orbit-axis {
+                transform-style: preserve-3d;
+                animation: orbit-rotate 24s linear infinite;
+            }
+            .orbit-item {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform-style: preserve-3d;
+                margin-top: -18px;
+                margin-left: -70px;
+            }
+            .orbit-content {
+                backface-visibility: hidden;
+                animation:
+                    orbit-counter-rotate 24s linear infinite,
+                    orbit-appearance 24s linear infinite;
+            }
+            .perspective-container:hover .orbit-axis,
+            .perspective-container:hover .orbit-content {
+                animation-play-state: paused;
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background-light dark:bg-background-dark text-charcoal dark:text-white overflow-hidden h-screen flex flex-col font-body selection:bg-primary selection:text-white transition-colors duration-500"
+    >
+        <div
+            class="fixed inset-0 z-0 opacity-[0.04] pointer-events-none mix-blend-multiply dark:mix-blend-overlay bg-noise-pattern"
+        >
+        </div>
+        <div
+            class="fixed inset-0 z-0 pointer-events-none bg-dot-grid opacity-70 mask-image-gradient"
+        >
+        </div>
+
+        <slot />
+    </body>
+</html>

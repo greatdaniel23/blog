@@ -95,6 +95,20 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
 );
 
+-- Gallery images table
+CREATE TABLE IF NOT EXISTS gallery (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image_url TEXT NOT NULL,
+    thumbnail_url TEXT,
+    caption TEXT,
+    alt_text TEXT,
+    likes_count INTEGER DEFAULT 0,
+    comments_count INTEGER DEFAULT 0,
+    is_published BOOLEAN DEFAULT 1,
+    display_order INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Contact form submissions
 CREATE TABLE IF NOT EXISTS contact_submissions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -117,6 +131,8 @@ CREATE INDEX IF NOT EXISTS idx_subscribers_email ON subscribers(email);
 CREATE INDEX IF NOT EXISTS idx_admin_users_email ON admin_users(email);
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires_at);
+CREATE INDEX IF NOT EXISTS idx_gallery_order ON gallery(display_order);
+CREATE INDEX IF NOT EXISTS idx_gallery_published ON gallery(is_published);
 
 -- Insert default categories
 INSERT OR IGNORE INTO categories (name, slug, description) VALUES
@@ -139,3 +155,11 @@ INSERT OR IGNORE INTO tags (name, slug) VALUES
     ('seasonal', 'seasonal'),
     ('chef', 'chef'),
     ('experience', 'experience');
+-- GTM Settings table
+CREATE TABLE IF NOT EXISTS gtm_settings (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    gtm_id TEXT NOT NULL,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT OR IGNORE INTO gtm_settings (id, gtm_id) VALUES (1, '');

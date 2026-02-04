@@ -1,49 +1,323 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout
+	title="Alpha Digital Agency Bali Hero"
+	description="Specialists in the Google Ecosystem & AI Solutions for hotels and luxury brands."
+>
+	<header
+		class="fixed top-0 w-full z-50 px-6 py-4 md:px-12 md:py-5 flex justify-between items-center bg-gradient-to-b from-background-light/90 to-transparent dark:from-background-dark/90 backdrop-blur-[1px]"
+	>
+		<div
+			class="font-display font-extrabold text-xl md:text-2xl tracking-tighter uppercase relative z-10"
+		>
+			Alpha<span class="text-primary">.</span>
+		</div>
+		<nav
+			class="hidden md:flex gap-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
+		>
+			<a class="text-primary border-b-2 border-primary pb-1" href="/"
+				>Home</a
+			>
+			<a class="hover:text-primary transition-colors" href="/blog/"
+				>Blog</a
+			>
+			<a class="hover:text-primary transition-colors" href="/gallery/"
+				>Gallery</a
+			>
+			<a class="hover:text-primary transition-colors" href="/about/"
+				>About</a
+			>
+		</nav>
+	</header>
+	<main
+		class="relative flex-1 flex flex-col items-center justify-center h-full w-full px-4 z-10 pt-16 pb-12"
+	>
+		<div
+			class="absolute inset-0 bg-radial-gradient from-emerald-500/5 to-transparent blur-[100px] pointer-events-none z-0"
+		>
+		</div>
+		<div
+			class="relative z-20 flex flex-col items-center justify-center max-w-[1400px] w-full text-center h-full max-h-[85vh] gap-3 lg:gap-4"
+		>
+			<div class="flex-none mb-3 md:mb-4">
+				<h1
+					class="flex flex-col items-center font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest mix-blend-hard-light dark:mix-blend-normal"
+				>
+					<span
+						class="text-[2.5rem] sm:text-[3.5rem] md:text-5xl lg:text-[4.5rem] xl:text-[6.5rem] 2xl:text-[7.5rem] drop-shadow-sm transition-all duration-300"
+					>
+						Digital Marketing
+					</span>
+					<span
+						class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[3.5rem] 2xl:text-[4.5rem] mt-2 md:mt-2 text-slate-500 dark:text-slate-400 font-bold tracking-tight"
+					>
+						&amp; <span
+							class="text-primary dark:text-emerald-400 relative inline-block"
+						>
+							AI
+							<span
+								class="absolute bottom-1.5 left-0 w-full h-[0.05em] bg-primary/30 dark:bg-emerald-400/30 rounded-full"
+							></span>
+						</span> in Bali
+					</span>
+				</h1>
+				<p
+					class="mt-3 md:mt-4 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-[90%] md:max-w-xl mx-auto leading-relaxed tracking-wide"
+				>
+					Specialists in the Google Ecosystem &amp; AI Solutions for
+					hotels and luxury brands.
+				</p>
+			</div>
+			<div
+				class="flex-none w-full flex items-center justify-center relative perspective-container z-30 group cursor-default orbit-container-height my-0 md:my-1"
+			>
+				<div
+					class="orbit-axis w-0 h-0 relative scale-[0.6] sm:scale-[0.7] md:scale-[0.85] lg:scale-[1.0] xl:scale-100 origin-center transition-transform duration-500"
+				>
+					<div
+						class="orbit-item"
+						style="transform: rotateY(0deg) translateZ(var(--orbit-radius));"
+					>
+						<div
+							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
+							style="animation-delay: 0s;"
+						>
+							<div
+								class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-glow"
+							>
+							</div>
+							<span
+								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
+								>GTM Strategy</span
+							>
+						</div>
+					</div>
+					<div
+						class="orbit-item"
+						style="transform: rotateY(60deg) translateZ(var(--orbit-radius));"
+					>
+						<div
+							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
+							style="animation-delay: -20s;"
+						>
+							<div
+								class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-glow"
+							>
+							</div>
+							<span
+								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
+								>GA4 Analytics</span
+							>
+						</div>
+					</div>
+					<div
+						class="orbit-item"
+						style="transform: rotateY(120deg) translateZ(var(--orbit-radius));"
+					>
+						<div
+							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
+							style="animation-delay: -16s;"
+						>
+							<div
+								class="w-1.5 h-1.5 rounded-full bg-emerald-600 shadow-glow"
+							>
+							</div>
+							<span
+								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
+								>BigQuery</span
+							>
+						</div>
+					</div>
+					<div
+						class="orbit-item"
+						style="transform: rotateY(180deg) translateZ(var(--orbit-radius));"
+					>
+						<div
+							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
+							style="animation-delay: -12s;"
+						>
+							<div
+								class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-glow"
+							>
+							</div>
+							<span
+								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
+								>Looker Studio</span
+							>
+						</div>
+					</div>
+					<div
+						class="orbit-item"
+						style="transform: rotateY(240deg) translateZ(var(--orbit-radius));"
+					>
+						<div
+							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
+							style="animation-delay: -8s;"
+						>
+							<div
+								class="w-1.5 h-1.5 rounded-full bg-emerald-300 shadow-glow"
+							>
+							</div>
+							<span
+								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
+								>AI Agents</span
+							>
+						</div>
+					</div>
+					<div
+						class="orbit-item"
+						style="transform: rotateY(300deg) translateZ(var(--orbit-radius));"
+					>
+						<div
+							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
+							style="animation-delay: -4s;"
+						>
+							<div
+								class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-glow"
+							>
+							</div>
+							<span
+								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
+								>Google Ads</span
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div
+				class="flex-none flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto px-8 sm:px-0 pt-2 pb-2 md:pb-0 z-40"
+			>
+				<a
+					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-3.5 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white text-charcoal dark:text-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
+					href="tel:08814802249"
+				>
+					<span
+						class="material-symbols-outlined text-[18px] md:text-[20px] group-hover:text-primary transition-colors"
+						>call</span
+					>
+					<span
+						class="font-bold text-[11px] md:text-[13px] uppercase tracking-widest"
+						>0881 480 2249</span
+					>
+				</a>
+				<a
+					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
+					href="mailto:daniel@alphadigitalagency.id"
+				>
+					<span
+						class="material-symbols-outlined text-[18px] md:text-[20px]"
+						>mail</span
+					>
+					<span
+						class="font-bold text-[11px] md:text-[13px] uppercase tracking-widest"
+						>Email Us</span
+					>
+				</a>
+			</div>
+		</div>
+		<div
+			class="absolute bottom-0 w-full py-3 md:py-4 border-t border-slate-200 dark:border-slate-800 bg-background-light/50 dark:bg-background-dark/50 backdrop-blur-sm z-20"
+		>
+			<div class="flex w-full overflow-hidden relative">
+				<div
+					class="absolute top-0 left-0 h-full w-20 md:w-32 bg-gradient-to-r from-background-light dark:from-background-dark to-transparent z-10 pointer-events-none"
+				>
+				</div>
+				<div
+					class="absolute top-0 right-0 h-full w-20 md:w-32 bg-gradient-to-l from-background-light dark:from-background-dark to-transparent z-10 pointer-events-none"
+				>
+				</div>
+				<div
+					class="flex animate-marquee-left whitespace-nowrap opacity-60 hover:opacity-100 transition-opacity duration-300"
+				>
+					<div
+						class="flex items-center gap-16 md:gap-20 px-8 md:px-10"
+					>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Luxury Hospitality</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Direct Booking</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Revenue Growth</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Data Science</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Conversion Rate</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Brand Equity</span
+						>
+					</div>
+					<div
+						class="flex items-center gap-16 md:gap-20 px-8 md:px-10"
+					>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Luxury Hospitality</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Direct Booking</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Revenue Growth</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Data Science</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Conversion Rate</span
+						>
+						<span
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							>Brand Equity</span
+						>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<div
+		class="fixed bottom-20 left-6 md:left-12 z-30 hidden xl:flex flex-col gap-1"
+	>
+		<div class="h-12 w-[1px] bg-slate-300 dark:bg-slate-700 mx-auto mb-2">
+		</div>
+		<p
+			class="text-[9px] font-bold uppercase tracking-[0.3em] text-slate-400 rotate-180"
+			style="writing-mode: vertical-rl;"
+		>
+			Bali · ID
+		</p>
+	</div>
+	<div
+		class="fixed bottom-20 right-6 md:right-12 z-30 hidden xl:flex flex-col gap-6"
+	>
+		<a
+			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-primary transition-colors"
+			href="#">IG</a
+		>
+		<a
+			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-primary transition-colors"
+			href="#">LI</a
+		>
+		<a
+			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-primary transition-colors"
+			href="#">TW</a
+		>
+	</div>
+</BaseLayout>

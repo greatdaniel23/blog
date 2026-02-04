@@ -1,0 +1,151 @@
+---
+import SwissLayout from "../../components/SwissLayout.astro";
+
+interface GalleryImage {
+    id: number;
+    image_url: string;
+    caption: string;
+    alt_text: string;
+    likes_count: number;
+    comments_count: number;
+}
+
+const { env } = Astro.locals.runtime;
+if (!env || !env.DB) {
+    console.error("DB binding missing");
+    throw new Error("DB binding missing");
+}
+
+const { results: images } = await env.DB.prepare(
+    "SELECT * FROM gallery WHERE is_published = 1 ORDER BY display_order ASC",
+).all<GalleryImage>();
+---
+
+<SwissLayout title="Gallery | Alpha Digital Agency" currentPage="gallery">
+    <!-- Profile Section -->
+    <section class="max-w-4xl mx-auto mb-12 px-4 md:px-12">
+        <div
+            class="bg-white border-2 border-charcoal shadow-premium p-6 md:p-8"
+        >
+            <div
+                class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10"
+            >
+                <!-- Profile Picture -->
+                <div class="flex-shrink-0">
+                    <div
+                        class="w-24 h-24 md:w-36 md:h-36 rounded-full border-4 border-primary bg-gradient-to-br from-primary to-emerald-400 flex items-center justify-center"
+                    >
+                        <span
+                            class="font-display font-extrabold text-3xl md:text-5xl text-white"
+                            >A</span
+                        >
+                    </div>
+                </div>
+
+                <!-- Profile Info -->
+                <div class="flex-1 text-center md:text-left">
+                    <div
+                        class="flex flex-col md:flex-row md:items-center gap-3 md:gap-6 mb-4"
+                    >
+                        <h1 class="font-display font-bold text-2xl md:text-3xl">
+                            Alpha Digital Agency
+                        </h1>
+                        <a
+                            href="mailto:daniel@alphadigitalagency.id"
+                            class="btn-swiss inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-xs uppercase tracking-widest"
+                        >
+                            <span class="material-symbols-outlined text-sm"
+                                >mail</span
+                            >
+                            Contact
+                        </a>
+                    </div>
+
+                    <p class="text-slate-500 font-mono text-sm mb-4">
+                        @alphadigital
+                    </p>
+
+                    <!-- Stats -->
+                    <div
+                        class="flex justify-center md:justify-start gap-8 mb-4"
+                    >
+                        <div class="text-center">
+                            <span class="font-bold text-xl"
+                                >{images.length}</span
+                            >
+                            <span class="text-slate-500 text-sm ml-1"
+                                >posts</span
+                            >
+                        </div>
+                        <div class="text-center">
+                            <span class="font-bold text-xl">1.2K</span>
+                            <span class="text-slate-500 text-sm ml-1"
+                                >followers</span
+                            >
+                        </div>
+                        <div class="text-center">
+                            <span class="font-bold text-xl">89</span>
+                            <span class="text-slate-500 text-sm ml-1"
+                                >following</span
+                            >
+                        </div>
+                    </div>
+
+                    <p class="text-charcoal font-medium max-w-md">
+                        <span class="font-bold">Digital Marketing & AI</span> in Bali
+                        🌴<br />
+                        Google Ecosystem Specialists • Hotel Marketing • Revenue Growth
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="max-w-4xl mx-auto pb-16 px-4 md:px-12">
+        <!-- Tab Navigation -->
+        <div class="flex justify-center border-t border-slate-200 mb-6">
+            <button
+                class="flex items-center gap-2 px-6 py-4 border-t-2 border-charcoal -mt-[1px] font-bold text-xs uppercase tracking-widest"
+            >
+                <span class="material-symbols-outlined text-sm">grid_view</span>
+                Posts
+            </button>
+        </div>
+
+        <!-- Image Grid -->
+        {
+            images.length === 0 ? (
+                <div class="text-center py-16">
+                    <p class="text-slate-500 text-lg">No gallery images yet.</p>
+                </div>
+            ) : (
+                <div class="grid grid-cols-3 gap-1 md:gap-2">
+                    {images.map((image) => (
+                        <div class="gallery-item bg-slate-200 cursor-pointer">
+                            <img
+                                src={`${image.image_url}&h=400&fit=crop`}
+                                alt={image.alt_text || image.caption}
+                                class="w-full h-full object-cover"
+                            />
+                            <div class="gallery-overlay absolute inset-0 z-10 flex items-center justify-center gap-4 text-white">
+                                <span class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined">
+                                        favorite
+                                    </span>{" "}
+                                    {image.likes_count}
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined">
+                                        chat_bubble
+                                    </span>{" "}
+                                    {image.comments_count}
+                                </span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )
+        }
+    </section>
+</SwissLayout>

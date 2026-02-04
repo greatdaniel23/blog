@@ -1,0 +1,248 @@
+---
+import { getSession } from "../../lib/auth";
+
+const { env } = Astro.locals.runtime;
+const { user } = await getSession(Astro.cookies, env?.DB);
+
+// If not logged in, redirect to login
+if (!user) {
+  return Astro.redirect("/pembantu/login");
+}
+
+// Get stats
+interface Stats {
+  posts: number;
+  gallery: number;
+}
+
+let stats: Stats = { posts: 0, gallery: 0 };
+let recentPosts: any[] = [];
+
+if (env?.DB) {
+  const [postsResult, galleryResult, recentPostsResult] = await Promise.all([
+    env.DB.prepare("SELECT COUNT(*) as count FROM posts").first<{
+      count: number;
+    }>(),
+    env.DB.prepare("SELECT COUNT(*) as count FROM gallery").first<{
+      count: number;
+    }>(),
+    env.DB.prepare(
+      "SELECT * FROM posts ORDER BY created_at DESC LIMIT 5",
+    ).all(),
+  ]);
+
+  stats = {
+    posts: postsResult?.count || 0,
+    gallery: galleryResult?.count || 0,
+  };
+  recentPosts = recentPostsResult.results || [];
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Alpha Admin</title>
+
+    <!-- Google Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="/pembantu/dashboard.css" />
+  </head>
+  <body>
+    <!-- Top Admin Bar -->
+    <div class="wp-admin-bar">
+      <div class="wp-admin-bar-left">
+        <span class="wp-admin-bar-logo">Alpha Admin</span>
+      </div>
+      <div class="wp-admin-bar-right">
+        <span class="wp-admin-bar-user">Howdy, {user.name}</span>
+        <a href="/" target="_blank" class="wp-admin-bar-link">
+          <span class="material-symbols-outlined" style="font-size: 18px;"
+            >open_in_new</span
+          >
+        </a>
+        <button
+          id="logout-btn"
+          class="wp-admin-bar-link"
+          style="background: none; border: none; cursor: pointer;"
+        >
+          <span class="material-symbols-outlined" style="font-size: 18px;"
+            >logout</span
+          >
+        </button>
+      </div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="wp-sidebar">
+      <ul class="wp-sidebar-menu">
+        <li class="wp-sidebar-item">
+          <a href="/pembantu" class="wp-sidebar-link active">
+            <span class="material-symbols-outlined wp-sidebar-icon"
+              >dashboard</span
+            >
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="wp-sidebar-item">
+          <a href="/pembantu/posts" class="wp-sidebar-link">
+            <span class="material-symbols-outlined wp-sidebar-icon"
+              >article</span
+            >
+            <span>Posts</span>
+          </a>
+        </li>
+        <li class="wp-sidebar-item">
+          <a href="/pembantu/gallery" class="wp-sidebar-link">
+            <span class="material-symbols-outlined wp-sidebar-icon"
+              >photo_library</span
+            >
+            <span>Gallery</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="wp-wrap">
+      <h1 class="wp-heading">Dashboard</h1>
+
+      <!-- Stats Grid -->
+      <div class="wp-dashboard-grid mb-lg">
+        <div class="wp-stat-card">
+          <div class="wp-stat-icon blue">
+            <span class="material-symbols-outlined">article</span>
+          </div>
+          <div>
+            <div class="wp-stat-number">{stats.posts}</div>
+            <div class="wp-stat-label">Blog Posts</div>
+          </div>
+        </div>
+
+        <div class="wp-stat-card">
+          <div class="wp-stat-icon green">
+            <span class="material-symbols-outlined">photo_library</span>
+          </div>
+          <div>
+            <div class="wp-stat-number">{stats.gallery}</div>
+            <div class="wp-stat-label">Gallery Images</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two Column Layout -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px;">
+        <!-- Recent Activity -->
+        <div class="wp-widget">
+          <div class="wp-widget-header">
+            <span>Recent Activity</span>
+            <a href="/pembantu/posts">View All</a>
+          </div>
+          <div class="wp-widget-body" style="padding: 0;">
+            <table class="wp-table">
+              <thead>
+                <tr>
+                  <th style="width: 100px;">Status</th>
+                  <th>Title</th>
+                  <th class="column-right">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  recentPosts.map((post: any) => (
+                    <tr>
+                      <td>
+                        <span
+                          class={`wp-badge ${post.is_published ? "wp-badge-success" : "wp-badge-draft"}`}
+                        >
+                          {post.is_published ? "Published" : "Draft"}
+                        </span>
+                      </td>
+                      <td>
+                        <a href={`/pembantu/posts/edit/${post.id}`}>
+                          {post.title}
+                        </a>
+                      </td>
+                      <td class="column-right text-muted">
+                        {new Date(post.created_at).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))
+                }
+                {
+                  recentPosts.length === 0 && (
+                    <tr>
+                      <td
+                        colspan="3"
+                        style="text-align: center; padding: 2rem; color: #787c82;"
+                      >
+                        No posts yet. Create your first one!
+                      </td>
+                    </tr>
+                  )
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="wp-widget">
+          <div class="wp-widget-header">Quick Actions</div>
+          <div class="wp-widget-body">
+            <div class="wp-quick-actions">
+              <a href="/pembantu/posts/new" class="wp-quick-action">
+                <span
+                  class="material-symbols-outlined wp-quick-action-icon"
+                  style="color: #0073aa;">edit_note</span
+                >
+                <div class="wp-quick-action-text">
+                  <div class="wp-quick-action-title">New Post</div>
+                  <div class="wp-quick-action-desc">Write an article</div>
+                </div>
+              </a>
+
+              <a href="/pembantu/gallery" class="wp-quick-action">
+                <span
+                  class="material-symbols-outlined wp-quick-action-icon"
+                  style="color: #46b450;">add_photo_alternate</span
+                >
+                <div class="wp-quick-action-text">
+                  <div class="wp-quick-action-title">Upload Image</div>
+                  <div class="wp-quick-action-desc">Add to gallery</div>
+                </div>
+              </a>
+
+              <a href="/" target="_blank" class="wp-quick-action">
+                <span
+                  class="material-symbols-outlined wp-quick-action-icon"
+                  style="color: #787c82;">open_in_new</span
+                >
+                <div class="wp-quick-action-text">
+                  <div class="wp-quick-action-title">View Site</div>
+                  <div class="wp-quick-action-desc">Open in new tab</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("logout-btn")
+        ?.addEventListener("click", async () => {
+          await fetch("/api/auth/logout", { method: "POST" });
+          window.location.href = "/pembantu/login";
+        });
+    </script>
+  </body>
+</html>

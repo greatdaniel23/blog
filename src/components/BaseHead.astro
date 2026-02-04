@@ -1,10 +1,11 @@
 ---
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
-import '../styles/global.css';
-import type { ImageMetadata } from 'astro';
-import FallbackImage from '../assets/blog-placeholder-1.jpg';
-import { SITE_TITLE } from '../consts';
+import { AstroSeo as SEO } from "@astrolib/seo";
+import "../styles/global.css";
+import type { ImageMetadata } from "astro";
+import FallbackImage from "../assets/blog-placeholder-1.jpg";
+import { SITE_TITLE } from "../consts";
 
 interface Props {
 	title: string;
@@ -13,6 +14,17 @@ interface Props {
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const { env } = Astro.locals.runtime;
+let gtmId = '';
+try {
+  if (env?.DB) {
+     const res = await env.DB.prepare('SELECT gtm_id FROM gtm_settings WHERE id = 1').first();
+     gtmId = res?.gtm_id;
+  }
+} catch (e) {
+  // console.error(e);
+}
 
 const { title, description, image = FallbackImage } = Astro.props;
 ---
@@ -27,32 +39,63 @@ const { title, description, image = FallbackImage } = Astro.props;
 	rel="alternate"
 	type="application/rss+xml"
 	title={SITE_TITLE}
-	href={new URL('rss.xml', Astro.site)}
+	href={new URL("rss.xml", Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
 
 <!-- Font preloads -->
-<link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
-<link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
+<link
+	rel="preload"
+	href="/fonts/atkinson-regular.woff"
+	as="font"
+	type="font/woff"
+	crossorigin
+/>
+<link
+	rel="preload"
+	href="/fonts/atkinson-bold.woff"
+	as="font"
+	type="font/woff"
+	crossorigin
+/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
+<!-- SEO Component -->
+<SEO
+	title={title}
+	description={description}
+	openGraph={{
+		title: title,
+		type: "website",
+		images: [
+			{
+				url: new URL(image.src, Astro.url).toString(),
+				alt: title,
+			},
+		],
+	}}
+	twitter={{
+		card: "summary_large_image",
+		site: "@site",
+		title: title,
+		image: new URL(image.src, Astro.url).toString(),
+		description: description,
+		imageAlt: title,
+	}}
+	extend={{
+		// keeping existing canonical if SEO component handles it differently,
+		// but typically SEO handles canonical.
+		// checking astrolib/seo docs: it handles canonical via `canonical` prop.
+		link: [{ rel: "canonical", href: canonicalURL.href }],
+		meta: [],
+	}}
+/>
 
-<!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
-<meta name="description" content={description} />
-
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+{gtmId && (
+<script is:inline define:vars={{ gtmId }}>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer', gtmId);
+</script>
+)}

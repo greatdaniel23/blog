@@ -6,43 +6,48 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} | Admin - The Grand Hotel</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div class="admin-container">
-    <aside class="sidebar">
-      <div class="logo">
-        <h2>🏨 Admin</h2>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="/admin">📊 Dashboard</a></li>
-          <li><a href="/admin/posts">📝 Posts</a></li>
-          <li><a href="/admin/posts/new">➕ New Post</a></li>
-          <li><a href="/admin/categories">📁 Categories</a></li>
-          <li><a href="/admin/subscribers">📧 Subscribers</a></li>
-          <li><a href="/admin/comments">💬 Comments</a></li>
-          <li><a href="/admin/messages">✉️ Messages</a></li>
-        </ul>
-      </nav>
-      <div class="sidebar-footer">
-        <a href="/" target="_blank">🔗 View Site</a>
-      </div>
-    </aside>
-    
-    <main class="main-content">
-      <slot />
-    </main>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Admin - The Grand Hotel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/pembantu/dashboard.css" />
+  </head>
+  <body>
+    <div class="admin-container">
+      <aside class="sidebar">
+        <div class="logo">
+          <h2>🏨 Admin</h2>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="/pembantu">📊 Dashboard</a></li>
+            <li><a href="/pembantu/posts">📝 Posts</a></li>
+            <li><a href="/pembantu/posts/new">➕ New Post</a></li>
+            <li><a href="/pembantu/categories">📁 Categories</a></li>
+            <li><a href="/pembantu/subscribers">📧 Subscribers</a></li>
+            <li><a href="/pembantu/comments">💬 Comments</a></li>
+            <li><a href="/pembantu/messages">✉️ Messages</a></li>
+            <li><a href="/pembantu/settings">⚙️ Settings</a></li>
+          </ul>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="/" target="_blank">🔗 View Site</a>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <slot />
+      </main>
+    </div>
+  </body>
 </html>
 
 <style is:global>
@@ -51,18 +56,18 @@ const { title } = Astro.props;
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     background: #f7fafc;
     color: #2d3748;
   }
-  
+
   .admin-container {
     display: flex;
     min-height: 100vh;
   }
-  
+
   .sidebar {
     width: 250px;
     background: #1a365d;
@@ -72,48 +77,48 @@ const { title } = Astro.props;
     position: fixed;
     height: 100vh;
   }
-  
+
   .logo {
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  
+
   .logo h2 {
     font-size: 1.25rem;
   }
-  
+
   .sidebar nav {
     flex: 1;
     padding: 1rem 0;
   }
-  
+
   .sidebar ul {
     list-style: none;
   }
-  
+
   .sidebar li a {
     display: block;
     padding: 0.875rem 1.5rem;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     transition: all 0.2s;
   }
-  
+
   .sidebar li a:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     color: white;
   }
-  
+
   .sidebar-footer {
     padding: 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
-  
+
   .sidebar-footer a {
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
   }
-  
+
   .main-content {
     flex: 1;
     margin-left: 250px;

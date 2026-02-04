@@ -12,5 +12,9 @@ binding = "DB"
 database_name = "blogdatabase"
 database_id = "c32058e0-7666-4284-8130-c8cceb090a82"
 
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "blogimage"
+
 [observability]
 enabled = true

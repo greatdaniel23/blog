@@ -1,0 +1,133 @@
+---
+const message = Astro.url.searchParams.get("message");
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Log In | Alpha Admin</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="/pembantu/dashboard.css" />
+        <style>
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                background: var(--wp-bg);
+            }
+            .login-container {
+                width: 100%;
+                max-width: 400px;
+                padding: 20px;
+            }
+            .login-box {
+                background: #fff;
+                border: 1px solid var(--wp-border);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+                padding: 24px;
+            }
+            .login-logo {
+                text-align: center;
+                margin-bottom: 24px;
+                font-size: 28px;
+                font-weight: 600;
+                color: var(--gray-900);
+            }
+            .login-form {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .form-label {
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--gray-900);
+            }
+            .form-input {
+                padding: 8px 10px;
+                border: 1px solid var(--wp-border);
+                border-radius: 3px;
+                font-size: 14px;
+                font-family: var(--font-system);
+            }
+            .form-input:focus {
+                outline: none;
+                border-color: var(--wp-blue);
+                box-shadow: 0 0 0 1px var(--wp-blue);
+            }
+            .login-button {
+                width: 100%;
+                padding: 8px 12px;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 2;
+                border: 1px solid var(--wp-blue);
+                border-radius: 3px;
+                background: var(--wp-blue);
+                color: #fff;
+                cursor: pointer;
+                transition: all 0.15s;
+            }
+            .login-button:hover {
+                background: var(--wp-blue-dark);
+                border-color: var(--wp-blue-dark);
+            }
+            .error-message {
+                padding: 8px 12px;
+                background: #fef2f2;
+                border-left: 4px solid var(--error);
+                color: var(--error);
+                font-size: 13px;
+                border-radius: 3px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login-container">
+            <div class="login-box">
+                <div class="login-logo">Alpha Admin</div>
+
+                {message && <div class="error-message">{message}</div>}
+
+                <form method="POST" action="/api/auth/login" class="login-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            required
+                            autofocus
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label
+                        >
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-input"
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" class="login-button"> Log In </button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

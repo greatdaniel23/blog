@@ -1,0 +1,115 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import { getSession } from "auth-astro/server";
+
+const { env } = Astro.locals.runtime;
+// @ts-ignore
+const session = await getSession(Astro.cookies, env?.DB);
+const user = session?.user;
+
+if (!user) {
+    return Astro.redirect("/pembantu/login");
+}
+---
+
+<AdminLayout title="Settings | Pembantu">
+    <div class="wp-content">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;"
+        >
+            <h1 class="wp-heading" style="margin: 0;">Settings</h1>
+        </div>
+
+        <!-- GTM Settings -->
+        <div class="wp-card">
+            <div class="wp-card-header">
+                <h2 class="wp-card-title">Google Tag Manager</h2>
+            </div>
+            <div class="wp-card-body">
+                <form id="gtm-form">
+                    <div class="wp-form-group">
+                        <label for="gtm-id" class="wp-label"
+                            >GTM Container ID</label
+                        >
+                        <input
+                            type="text"
+                            id="gtm-id"
+                            name="gtm_id"
+                            class="wp-input"
+                            placeholder="GTM-XXXXXXX"
+                        />
+                        <p class="wp-description">
+                            Enter your Google Tag Manager Container ID (starts
+                            with GTM-).
+                        </p>
+                    </div>
+                    <div class="wp-form-actions">
+                        <button type="submit" class="wp-button" id="save-btn">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</AdminLayout>
+
+<script>
+    // Fetch current GTM ID
+    async function loadSettings() {
+        try {
+            const res = await fetch("/api/pembantu/gtm");
+            if (res.ok) {
+                const data = await res.json();
+                const input = document.getElementById(
+                    "gtm-id",
+                ) as HTMLInputElement;
+                if (input && data.gtm_id) {
+                    input.value = data.gtm_id;
+                }
+            }
+        } catch (error) {
+            console.error("Failed to load settings:", error);
+        }
+    }
+
+    loadSettings();
+
+    // Handle Save
+    const form = document.getElementById("gtm-form");
+    const saveBtn = document.getElementById("save-btn") as HTMLButtonElement;
+
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!saveBtn) return;
+
+        const originalText = saveBtn.innerText;
+        saveBtn.innerText = "Saving...";
+        saveBtn.disabled = true;
+
+        const formData = new FormData(e.target as HTMLFormElement);
+        const gtmId = formData.get("gtm_id");
+
+        try {
+            const res = await fetch("/api/pembantu/gtm", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ gtm_id: gtmId }),
+            });
+
+            if (res.ok) {
+                alert("Settings saved successfully!");
+            } else {
+                alert("Failed to save settings.");
+            }
+        } catch (error) {
+            console.error("Error saving settings:", error);
+            alert("An error occurred.");
+        } finally {
+            saveBtn.innerText = originalText;
+            saveBtn.disabled = false;
+        }
+    });
+</script>

@@ -1,0 +1,122 @@
+---
+import { getSession } from "../../../../lib/auth";
+import PostForm from "@/components/admin/PostForm";
+
+const { env } = Astro.locals.runtime;
+const { user } = await getSession(Astro.cookies, env?.DB);
+const { id } = Astro.params;
+
+if (!user) {
+  return Astro.redirect("/pembantu/login");
+}
+
+let initialData = null;
+if (env?.DB) {
+  const post = await env.DB.prepare("SELECT * FROM posts WHERE id = ?")
+    .bind(id)
+    .first();
+
+  if (!post) {
+    return Astro.redirect("/pembantu/posts");
+  }
+
+  initialData = {
+    ...(post as any),
+    is_published: !!post.is_published,
+  };
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Post | Alpha Admin</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/pembantu/dashboard.css" />
+  </head>
+  <body>
+    <!-- Top Admin Bar -->
+    <div class="wp-admin-bar">
+      <div class="wp-admin-bar-left">
+        <span class="wp-admin-bar-logo">Alpha Admin</span>
+      </div>
+      <div class="wp-admin-bar-right">
+        <span class="wp-admin-bar-user">Howdy, {user.name}</span>
+        <a href="/" target="_blank" class="wp-admin-bar-link">
+          <span class="material-symbols-outlined" style="font-size: 18px;"
+            >open_in_new</span
+          >
+        </a>
+        <button
+          id="logout-btn"
+          class="wp-admin-bar-link"
+          style="background: none; border: none; cursor: pointer;"
+        >
+          <span class="material-symbols-outlined" style="font-size: 18px;"
+            >logout</span
+          >
+        </button>
+      </div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="wp-sidebar">
+      <ul class="wp-sidebar-menu">
+        <li class="wp-sidebar-item">
+          <a href="/pembantu" class="wp-sidebar-link">
+            <span class="material-symbols-outlined wp-sidebar-icon"
+              >dashboard</span
+            >
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="wp-sidebar-item">
+          <a href="/pembantu/posts" class="wp-sidebar-link active">
+            <span class="material-symbols-outlined wp-sidebar-icon"
+              >article</span
+            >
+            <span>Posts</span>
+          </a>
+        </li>
+        <li class="wp-sidebar-item">
+          <a href="/pembantu/gallery" class="wp-sidebar-link">
+            <span class="material-symbols-outlined wp-sidebar-icon"
+              >photo_library</span
+            >
+            <span>Gallery</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="wp-wrap">
+      <h1 class="wp-heading">Edit Post</h1>
+      {
+        initialData && (
+          <PostForm
+            client:load
+            initialData={initialData}
+            isEditing={true}
+            apiEndpoint={`/api/pembantu/posts/${id}`}
+            method="PUT"
+          />
+        )
+      }
+    </div>
+
+    <script>
+      document
+        .getElementById("logout-btn")
+        ?.addEventListener("click", async () => {
+          await fetch("/api/auth/logout", { method: "POST" });
+          window.location.href = "/pembantu/login";
+        });
+    </script>
+  </body>
+</html>
