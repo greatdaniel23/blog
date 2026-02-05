@@ -13,7 +13,7 @@ interface Session {
 }
 
 export async function getSession(cookies: any, db: any): Promise<{ user: AdminUser | null }> {
-    const sessionId = cookies.get('session')?.value;
+    const sessionId = cookies.get('session_id')?.value;
 
     if (!sessionId || !db) {
         return { user: null };

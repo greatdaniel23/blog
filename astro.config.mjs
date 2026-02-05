@@ -16,12 +16,5 @@ export default defineConfig({
 		},
 	}),
 	output: 'server',
-	vite: {
-		resolve: {
-			alias: {
-				'react-dom/server': 'react-dom/server.edge',
-			},
-		},
-	},
 });
 

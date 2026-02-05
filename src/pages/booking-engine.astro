@@ -1,0 +1,584 @@
+---
+// Standalone landing page - no layout wrapper
+---
+
+<!doctype html>
+<html class="light" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Alpha Agency - Direct Booking Engine</title>
+        <script
+            is:inline
+            src="https://cdn.tailwindcss.com?plugins=forms,container-queries"
+        ></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet"
+        />
+        <script is:inline id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: "#13ec5b",
+                            "background-light": "#f6f8f6",
+                            "background-dark": "#102216",
+                            "emerald-dark": "#0d1b12",
+                            "emerald-mid": "#4c9a66",
+                        },
+                        fontFamily: {
+                            display: ["Manrope", "sans-serif"],
+                            serif: ["Playfair Display", "serif"],
+                        },
+                        borderRadius: {
+                            DEFAULT: "0.25rem",
+                            lg: "0.5rem",
+                            xl: "0.75rem",
+                            full: "9999px",
+                        },
+                    },
+                },
+            };
+        </script>
+        <style is:inline>
+            .dot-pattern {
+                background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+                background-size: 24px 24px;
+            }
+            .dark .dot-pattern {
+                background-image: radial-gradient(#1f2937 1px, transparent 1px);
+            }
+            body {
+                min-height: max(884px, 100dvh);
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background-light dark:bg-background-dark font-display text-emerald-dark dark:text-gray-100 overflow-x-hidden"
+    >
+        <!-- Header Logo -->
+        <div class="absolute top-6 left-6 z-50 flex items-center gap-2">
+            <span
+                class="material-symbols-outlined text-emerald-dark dark:text-white"
+                style="font-size: 28px;">grid_view</span
+            >
+            <span
+                class="text-emerald-dark dark:text-white text-xl font-black tracking-[-0.03em]"
+                >ALPHA.</span
+            >
+        </div>
+
+        <div class="relative w-full min-h-screen flex flex-col lg:flex-row">
+            <div
+                class="absolute inset-0 dot-pattern opacity-40 pointer-events-none z-0"
+            >
+            </div>
+
+            <!-- Left Content: The Pitch -->
+            <div
+                class="relative z-10 w-full lg:w-1/2 flex flex-col justify-center px-6 py-24 lg:py-12 lg:pl-16 lg:pr-8 xl:pl-24"
+            >
+                <div class="max-w-xl">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 border border-green-200 text-emerald-800 text-xs font-bold uppercase tracking-wide mb-6"
+                    >
+                        <span
+                            class="w-2 h-2 rounded-full bg-primary animate-pulse"
+                        ></span>
+                        Google Connectivity Partner Ready
+                    </div>
+
+                    <h1
+                        class="text-emerald-dark dark:text-white text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight mb-6"
+                    >
+                        The Direct Booking Engine <span
+                            class="text-emerald-500 dark:text-primary"
+                            >Built for Speed.</span
+                        >
+                    </h1>
+
+                    <p
+                        class="text-emerald-mid dark:text-gray-300 text-lg sm:text-xl leading-relaxed mb-6 max-w-lg"
+                    >
+                        Maximize direct revenue with our powerful booking
+                        solution. Built on <strong>edge technology</strong> for lightning-fast
+                        performance, Core Web Vitals excellence, and seamless <strong
+                            >Google Hotel Center</strong
+                        > integration.
+                    </p>
+
+                    <!-- Technical Compliance List for Google Reviewer -->
+                    <div
+                        class="mb-8 space-y-4 bg-white/50 dark:bg-black/20 p-5 rounded-xl border border-emerald-100 dark:border-emerald-900/50 backdrop-blur-sm"
+                    >
+                        <p
+                            class="text-xs font-bold uppercase tracking-wider text-emerald-900 dark:text-emerald-400 mb-1"
+                        >
+                            Technical Capabilities
+                        </p>
+
+                        <div class="grid grid-cols-1 gap-3">
+                            <!-- Real Time Availability -->
+                            <div
+                                class="flex items-start gap-3 text-sm text-emerald-800 dark:text-gray-300"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-primary text-[20px] shrink-0"
+                                    >sync_alt</span
+                                >
+                                <div>
+                                    <strong
+                                        class="block text-emerald-900 dark:text-white"
+                                        >Real-Time Availability Engine</strong
+                                    >
+                                    <span class="text-xs opacity-80"
+                                        >Zero overbookings via instant database
+                                        querying.</span
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Ad Ready Analytics -->
+                            <div
+                                class="flex items-start gap-3 text-sm text-emerald-800 dark:text-gray-300"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-primary text-[20px] shrink-0"
+                                    >analytics</span
+                                >
+                                <div>
+                                    <strong
+                                        class="block text-emerald-900 dark:text-white"
+                                        >Ad-Ready Tracking (GA4 + GTM)</strong
+                                    >
+                                    <span class="text-xs opacity-80"
+                                        >Native support for Google Hotel Ads
+                                        conversion tags.</span
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Payment & Security -->
+                            <div
+                                class="flex items-start gap-3 text-sm text-emerald-800 dark:text-gray-300"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-primary text-[20px] shrink-0"
+                                    >verified_user</span
+                                >
+                                <div>
+                                    <strong
+                                        class="block text-emerald-900 dark:text-white"
+                                        >PCI-DSS Compliant Payments</strong
+                                    >
+                                    <span class="text-xs opacity-80"
+                                        >Secure DOKU Gateway integration with
+                                        full TLS encryption.</span
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Performance -->
+                            <div
+                                class="flex items-start gap-3 text-sm text-emerald-800 dark:text-gray-300"
+                            >
+                                <span
+                                    class="material-symbols-outlined text-primary text-[20px] shrink-0"
+                                    >bolt</span
+                                >
+                                <div>
+                                    <strong
+                                        class="block text-emerald-900 dark:text-white"
+                                        >Edge Performance</strong
+                                    >
+                                    <span class="text-xs opacity-80"
+                                        >Hosted on Cloudflare for global low
+                                        latency & Mobile-First UX.</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4">
+                        <a
+                            href="mailto:daniel@alphadigitalagency.id?subject=request%20install"
+                            class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20"
+                        >
+                            Request to Use
+                        </a>
+                        <a
+                            href="https://bookingengine.alphadigitalagency.id/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="bg-transparent border-2 border-emerald-dark dark:border-gray-200 text-emerald-dark dark:text-gray-200 hover:bg-emerald-dark hover:text-white dark:hover:bg-white dark:hover:text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors"
+                        >
+                            Check Demo
+                        </a>
+                    </div>
+
+                    <div
+                        class="mt-12 flex items-center gap-4 text-sm text-emerald-mid dark:text-gray-400"
+                    >
+                        <div class="flex -space-x-2">
+                            <!-- Reusing the avatars as "Hotel Partners" -->
+                            <div
+                                class="w-8 h-8 rounded-full border-2 border-white dark:border-background-dark bg-gray-200 bg-cover bg-center"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCKFVCe7mQXuh0MnSuer0ZL2SID-czqJs5CMQHFp7Q5tJ964AKflZ5WcWna8Gw-Guzx9wTeY1Zzb6DM0GuBoF3GCWZQJ1iYWnx_bcXBCS3NhqfBKadAqLTgFlpMsdxA5W-pU8ywjv2dAEfmXoaTyOGEi7so94pCkv01na1qMJcntdF6xB5XUaciDTMps0-f91Fu2nXfuRSWCifQPtgt_qTGQnJaDVdjbujuVAAtkKSZgLSYJvokDAv-o7WKcf1fGgBUjZFSTCyvHJ0l')"
+                            >
+                            </div>
+                            <div
+                                class="w-8 h-8 rounded-full border-2 border-white dark:border-background-dark bg-gray-300 bg-cover bg-center"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBjgE4-1cTJt58voYY_KLjP_H_cJomgfxOwPivgkZ7eJZuoH2evAOxzZMOWITGmIi70wbHrBZKeVeNb17BlGPIsnpUgqUGkIIa2jUx5gdcQXfzVNOIQbIZhlSdoeAzWDqJwMUTo1RaHeVyZRywHsFv-2ifL6LDjje_8qxHDvsh0E786BRq2Omy3SJAOqUKGCSHFNUCRnkhrGxadVjbBm_KzHM4jZbfuLs2pvSYFzv4zrsSOEyOkvFwKLFuwZIZ7mHUD6g5zZ94hbB_w')"
+                            >
+                            </div>
+                            <div
+                                class="w-8 h-8 rounded-full border-2 border-white dark:border-background-dark bg-gray-400 bg-cover bg-center"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjSLGanp0lVY7j5dwJDgPlctjU4HoCMgWHgp-UUCiLm_ZVoUaZ2hDkbNI5okV7lHCJTgFSH_LKB1SofRKZfwh69btn5-VWasYaezItEhs8pPfxgdavOh2Q9jhbS9_HZ0vwEiaZd2A_-gOVsFQlu_JD2SxDhUoRO0cklpI451AA4qQ1sIlKZANxbRW5lXdG2Nh30JuM6Pk7v2haELzpW_KI7snBV11sU9qc0W7pnzoGkc9P6sG9PN8Wldx5nuw582ptvSfgcSsB-aw2')"
+                            >
+                            </div>
+                        </div>
+                        <p>
+                            Trusted by <span
+                                class="font-bold text-emerald-dark dark:text-white"
+                                >50+ Hotel Partners</span
+                            >
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content: The Product Visual -->
+            <div
+                class="relative w-full lg:w-1/2 bg-gradient-to-br from-emerald-50 to-green-100 dark:from-gray-800 dark:to-background-dark flex items-center justify-center p-8 lg:p-16 overflow-hidden"
+            >
+                <!-- This card represents the "Mockup" of the Booking Engine Interface -->
+                <div
+                    class="relative w-full max-w-2xl transform lg:translate-x-12 lg:rotate-[-2deg] transition-transform duration-700 hover:rotate-0 shadow-2xl rounded-sm border border-gray-200 dark:border-gray-700 overflow-hidden bg-white"
+                >
+                    <!-- Browser Bar -->
+                    <div
+                        class="h-8 bg-gray-50 border-b border-gray-100 flex items-center px-4 gap-2"
+                    >
+                        <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-yellow-400">
+                        </div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-green-400">
+                        </div>
+                        <div
+                            class="flex-1 text-center text-[10px] font-serif tracking-widest text-gray-400 uppercase"
+                        >
+                            <span
+                                class="material-symbols-outlined text-[10px] align-middle mr-1"
+                                >lock</span
+                            >
+                            booking.rumahdaisycantik.com
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex flex-col h-[600px] overflow-hidden bg-white text-left font-display"
+                    >
+                        <!-- Image Grid (Simulating Room Photos) -->
+                        <div
+                            class="grid grid-cols-3 grid-rows-2 gap-0.5 h-48 sm:h-52 shrink-0"
+                        >
+                            <div
+                                class="col-span-2 row-span-2 bg-cover bg-center h-full w-full"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBgF4EE04hqiaHrXESzFQleJkhZLS-xwnWpYQaGe_rhsTy9v7fw0REiJ4nuFMy-b3KhVKfOx_2H9bIgv-KIHD29nhCD8zFkm0BLww0YETWLvHG6f-WKHgtOa7lYuhEgiMFgp9mM83iH1LAJB-GEGoNmUeFq3aT0Lcqx1hj5m9nzvgPDb0CCsUaloTgrclA9p92507XVuNrrCSKl28SvEd_k0UmNabzzoBaKf4hR5021DlNjXz_mB5j26L4OnvLnLOQQbBikheLHIsoG')"
+                            >
+                            </div>
+                            <div
+                                class="bg-cover bg-center h-full w-full"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBgF4EE04hqiaHrXESzFQleJkhZLS-xwnWpYQaGe_rhsTy9v7fw0REiJ4nuFMy-b3KhVKfOx_2H9bIgv-KIHD29nhCD8zFkm0BLww0YETWLvHG6f-WKHgtOa7lYuhEgiMFgp9mM83iH1LAJB-GEGoNmUeFq3aT0Lcqx1hj5m9nzvgPDb0CCsUaloTgrclA9p92507XVuNrrCSKl28SvEd_k0UmNabzzoBaKf4hR5021DlNjXz_mB5j26L4OnvLnLOQQbBikheLHIsoG')"
+                            >
+                            </div>
+                            <div
+                                class="bg-cover bg-center h-full w-full"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBgF4EE04hqiaHrXESzFQleJkhZLS-xwnWpYQaGe_rhsTy9v7fw0REiJ4nuFMy-b3KhVKfOx_2H9bIgv-KIHD29nhCD8zFkm0BLww0YETWLvHG6f-WKHgtOa7lYuhEgiMFgp9mM83iH1LAJB-GEGoNmUeFq3aT0Lcqx1hj5m9nzvgPDb0CCsUaloTgrclA9p92507XVuNrrCSKl28SvEd_k0UmNabzzoBaKf4hR5021DlNjXz_mB5j26L4OnvLnLOQQbBikheLHIsoG')"
+                            >
+                            </div>
+                        </div>
+
+                        <div class="overflow-y-auto flex-1 p-6 scrollbar-hide">
+                            <div class="flex flex-col sm:flex-row gap-8">
+                                <div class="flex-1 min-w-0">
+                                    <span
+                                        class="block text-primary font-bold text-[10px] tracking-widest uppercase mb-2"
+                                        >Available Now</span
+                                    >
+                                    <h2
+                                        class="font-serif text-3xl sm:text-4xl text-gray-900 leading-tight mb-4"
+                                    >
+                                        Deluxe Ocean View
+                                    </h2>
+                                    <p
+                                        class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6"
+                                    >
+                                        Spacious 45m² suite featuring a private
+                                        balcony with panoramic ocean views,
+                                        king-size bed, and marble bathroom with
+                                        soaking tub.
+                                    </p>
+
+                                    <div class="flex flex-wrap gap-2 mb-8">
+                                        <div
+                                            class="flex items-center gap-1.5 px-3 py-1.5 bg-green-50 border border-green-100 rounded-full text-green-800 text-[10px] font-medium"
+                                        >
+                                            <span
+                                                class="material-symbols-outlined text-[14px]"
+                                                >wifi</span
+                                            >
+                                            Free High-Speed WiFi
+                                        </div>
+                                        <div
+                                            class="px-3 py-1.5 bg-green-50 border border-green-100 rounded-full text-green-800 text-[10px] font-medium"
+                                        >
+                                            Breakfast Included
+                                        </div>
+                                        <div
+                                            class="px-3 py-1.5 bg-green-50 border border-green-100 rounded-full text-green-800 text-[10px] font-medium"
+                                        >
+                                            Non-Smoking
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="flex items-center gap-1 text-gray-500 hover:text-gray-900 transition-colors text-xs font-medium mb-6 cursor-pointer"
+                                    >
+                                        <span
+                                            class="material-symbols-outlined text-[16px]"
+                                            >arrow_back</span
+                                        >
+                                        See Other Rooms
+                                    </div>
+
+                                    <div class="bg-white rounded-lg mb-8">
+                                        <div
+                                            class="grid grid-cols-2 gap-3 mb-3"
+                                        >
+                                            <div
+                                                class="border border-gray-200 rounded p-2 bg-white hover:border-primary transition-colors cursor-pointer"
+                                            >
+                                                <label
+                                                    class="block text-[9px] font-bold text-gray-400 uppercase mb-0.5"
+                                                    >Check-in</label
+                                                >
+                                                <div
+                                                    class="flex items-center justify-between"
+                                                >
+                                                    <span
+                                                        class="text-xs text-gray-700 font-bold"
+                                                        >Feb 10, 2026</span
+                                                    >
+                                                    <span
+                                                        class="material-symbols-outlined text-gray-400 text-[14px]"
+                                                        >calendar_today</span
+                                                    >
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="border border-gray-200 rounded p-2 bg-white hover:border-primary transition-colors cursor-pointer"
+                                            >
+                                                <label
+                                                    class="block text-[9px] font-bold text-gray-400 uppercase mb-0.5"
+                                                    >Check-out</label
+                                                >
+                                                <div
+                                                    class="flex items-center justify-between"
+                                                >
+                                                    <span
+                                                        class="text-xs text-gray-700 font-bold"
+                                                        >Feb 12, 2026</span
+                                                    >
+                                                    <span
+                                                        class="material-symbols-outlined text-gray-400 text-[14px]"
+                                                        >calendar_today</span
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div
+                                                class="border border-gray-200 rounded p-2 bg-white"
+                                            >
+                                                <label
+                                                    class="block text-[9px] font-bold text-gray-400 uppercase mb-0.5"
+                                                    >Guests</label
+                                                >
+                                                <div
+                                                    class="flex items-center justify-between"
+                                                >
+                                                    <span
+                                                        class="text-xs text-gray-700"
+                                                        >2 Adults</span
+                                                    >
+                                                    <span
+                                                        class="material-symbols-outlined text-gray-400 text-[14px]"
+                                                        >expand_more</span
+                                                    >
+                                                </div>
+                                            </div>
+                                            <button
+                                                class="bg-emerald-dark hover:bg-black text-white rounded font-bold text-xs shadow-sm transition-colors flex items-center justify-center"
+                                            >
+                                                Update Search
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div
+                                            class="flex items-center gap-2 mb-3"
+                                        >
+                                            <span
+                                                class="material-symbols-outlined text-primary text-lg"
+                                                >verified</span
+                                            >
+                                            <h3
+                                                class="font-serif text-lg text-gray-900"
+                                            >
+                                                Direct Booking Perks
+                                            </h3>
+                                        </div>
+                                        <div class="grid grid-cols-1 gap-3">
+                                            <div
+                                                class="flex gap-3 p-3 bg-gray-50/50 border border-gray-100 rounded-lg"
+                                            >
+                                                <div
+                                                    class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0 text-green-600"
+                                                >
+                                                    <span
+                                                        class="material-symbols-outlined text-[16px]"
+                                                        >local_bar</span
+                                                    >
+                                                </div>
+                                                <div>
+                                                    <h4
+                                                        class="text-xs font-bold text-gray-900 mb-0.5"
+                                                    >
+                                                        Free Welcome Drink
+                                                    </h4>
+                                                    <p
+                                                        class="text-[10px] text-gray-500 leading-tight"
+                                                    >
+                                                        Exclusive for direct
+                                                        website bookings.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sticky Summary Sidebar -->
+                                <div class="w-full sm:w-60 shrink-0">
+                                    <div
+                                        class="bg-white border border-gray-100 shadow-xl shadow-gray-200/40 rounded-lg p-5 sticky top-0"
+                                    >
+                                        <h3
+                                            class="font-serif text-lg text-gray-900 mb-4 pb-3 border-b border-gray-50"
+                                        >
+                                            Reservation
+                                        </h3>
+                                        <div class="space-y-3 mb-4">
+                                            <div
+                                                class="flex justify-between text-xs"
+                                            >
+                                                <span class="text-gray-500"
+                                                    >Room</span
+                                                >
+                                                <span
+                                                    class="text-gray-900 font-medium text-right"
+                                                    >Deluxe Ocean</span
+                                                >
+                                            </div>
+                                            <div
+                                                class="flex justify-between text-xs"
+                                            >
+                                                <span class="text-gray-500"
+                                                    >Nights</span
+                                                >
+                                                <span
+                                                    class="text-gray-900 font-medium text-right"
+                                                    >2 Nights</span
+                                                >
+                                            </div>
+                                            <div
+                                                class="flex justify-between text-xs"
+                                            >
+                                                <span class="text-gray-500"
+                                                    >Rate</span
+                                                >
+                                                <span
+                                                    class="text-gray-900 font-medium"
+                                                    >IDR 1.850k /night</span
+                                                >
+                                            </div>
+                                            <div
+                                                class="flex justify-between text-xs pt-2 border-t border-gray-50 mt-2"
+                                            >
+                                                <span class="text-gray-500"
+                                                    >Taxes & Fees</span
+                                                >
+                                                <span
+                                                    class="text-gray-900 font-medium"
+                                                    >Included</span
+                                                >
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="flex justify-between items-center mb-6"
+                                        >
+                                            <span
+                                                class="text-xs font-bold text-gray-900"
+                                                >Total</span
+                                            >
+                                            <span
+                                                class="text-lg font-bold text-emerald-600"
+                                                >IDR 3.700k</span
+                                            >
+                                        </div>
+                                        <div class="space-y-3">
+                                            <button
+                                                class="w-full bg-[#13ec5b] hover:bg-green-400 text-emerald-900 text-xs font-bold uppercase tracking-wider py-3 rounded shadow-sm transition-colors"
+                                            >
+                                                Book Securely
+                                            </button>
+                                            <p
+                                                class="text-[9px] text-center text-gray-400"
+                                            >
+                                                <span
+                                                    class="material-symbols-outlined text-[10px] align-middle"
+                                                    >lock</span
+                                                >
+                                                TLS Encryption • PCI Compliant
+                                            </p>
+                                        </div>
+                                        <div
+                                            class="mt-5 pt-4 border-t border-gray-50"
+                                        >
+                                            <p
+                                                class="text-[10px] font-bold text-gray-900 mb-1"
+                                            >
+                                                Best Rate Guarantee
+                                            </p>
+                                            <p
+                                                class="text-[9px] text-gray-400 leading-tight"
+                                            >
+                                                Found a lower price? We'll match
+                                                it and give you 5% off.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

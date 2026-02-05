@@ -20,12 +20,12 @@ const server = new Server(
     }
 );
 
-// --- Mock Implementations ---
+// --- Real API Implementations ---
 
-// 1. Banana: Image Generation (Mock: Copies placeholder)
+// 1. Banana: Image Generation (Real API via Google Gemini Imagen)
 const bananaGenerateImageHandler = async (args: any) => {
-    const { prompt, output_path } = args;
-    console.error(`[Banana] Generating image for prompt: "${prompt}"`);
+    const { prompt, output_path, aspect_ratio } = args;
+    console.error(`[Banana] Generating REAL image via Gemini for: "${prompt}"`);
 
     // Ensure directory exists
     const dir = path.dirname(output_path);
@@ -33,54 +33,73 @@ const bananaGenerateImageHandler = async (args: any) => {
         fs.mkdirSync(dir, { recursive: true });
     }
 
-    // Determine a placeholder source based on prompt keywords (very simple logic)
-    let sourceImage = "blog-placeholder-1.jpg";
-    if (prompt.toLowerCase().includes("food") || prompt.toLowerCase().includes("chef")) {
-        sourceImage = "blog-placeholder-2.jpg";
-    } else if (prompt.toLowerCase().includes("room") || prompt.toLowerCase().includes("suite")) {
-        sourceImage = "blog-placeholder-3.jpg";
-    } else if (prompt.toLowerCase().includes("spa")) {
-        sourceImage = "blog-placeholder-4.jpg";
-    } else if (prompt.toLowerCase().includes("lobby") || prompt.toLowerCase().includes("exterior")) {
-        sourceImage = "blog-placeholder-5.jpg";
+    // Get API key from environment or use a default (for testing)
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
+
+    if (!apiKey) {
+        return {
+            content: [{ type: "text", text: "Error: GEMINI_API_KEY or GOOGLE_API_KEY environment variable not set" }],
+            isError: true,
+        };
     }
 
-    // Assuming we run from d:\blog\blog\mcp-server, source is ../src/assets/
-    const sourcePath = path.resolve(__dirname, "../../src/assets", sourceImage);
+    // Determine aspect ratio for Imagen
+    let aspectRatioParam = "1:1";
+    if (aspect_ratio === "9:16" || aspect_ratio === "16:9" || aspect_ratio === "4:3" || aspect_ratio === "3:4") {
+        aspectRatioParam = aspect_ratio;
+    } else if (aspect_ratio === "4:5") {
+        aspectRatioParam = "3:4"; // Closest supported ratio
+    }
 
     try {
-        if (fs.existsSync(sourcePath)) {
-            fs.copyFileSync(sourcePath, output_path);
-            return {
-                content: [
-                    {
-                        type: "text",
-                        text: `Successfully generated image at ${output_path} (mocked using ${sourceImage})`,
-                    },
-                ],
-            };
-        } else {
-            // Fallback if source assets aren't found relative to where we run
-            // Just write a dummy text file if image missing, or try an absolute path if known? 
-            // For now, let's just write a dummy file to not break the flow.
-            fs.writeFileSync(output_path, "Mock Image Content");
-            return {
-                content: [
-                    {
-                        type: "text",
-                        text: `Generated mock placeholder at ${output_path} (source asset not found, created dummy file)`,
-                    },
-                ],
-            };
+        // Use Gemini 3 Pro Image model
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent?key=${apiKey}`;
+
+        const requestBody = {
+            contents: [{
+                parts: [{ text: `Generate a high-quality image: ${prompt}` }]
+            }],
+            generationConfig: {
+                responseModalities: ["TEXT", "IMAGE"]
+            }
+        };
+
+        console.error(`[Banana] Calling Gemini 2.0 Flash Image API...`);
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`API returned status ${response.status}: ${errorText}`);
         }
+
+        const result = await response.json();
+
+        // Extract image from response - Gemini format
+        const candidates = result.candidates;
+        if (candidates && candidates[0] && candidates[0].content && candidates[0].content.parts) {
+            const parts = candidates[0].content.parts;
+            for (const part of parts) {
+                if (part.inlineData && part.inlineData.data) {
+                    const imageData = part.inlineData.data;
+                    const buffer = Buffer.from(imageData, "base64");
+                    fs.writeFileSync(output_path, buffer);
+
+                    console.error(`[Banana] Successfully saved image to ${output_path} (${buffer.length} bytes)`);
+                    return {
+                        content: [{ type: "text", text: `Successfully generated REAL image at ${output_path} (${buffer.length} bytes)` }],
+                    };
+                }
+            }
+        }
+        throw new Error("No image data in API response: " + JSON.stringify(result).substring(0, 500));
     } catch (error: any) {
+        console.error(`[Banana] Error: ${error.message}`);
         return {
-            content: [
-                {
-                    type: "text",
-                    text: `Error generating image: ${error.message}`,
-                },
-            ],
+            content: [{ type: "text", text: `Error generating image: ${error.message}` }],
             isError: true,
         };
     }
@@ -102,32 +121,86 @@ const stitchCreateProjectHandler = async (args: any) => {
 
 const stitchGenerateScreenHandler = async (args: any) => {
     const { description, output_path } = args;
-    console.error(`[Stitch] Generating screen for: "${description}"`);
+    console.error(`[Stitch] Generating screen with text overlay for: "${description}"`);
 
     const dir = path.dirname(output_path);
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
 
-    const mockHtml = `
-    <!-- Mock Generated Component for: ${description} -->
-    <div class="stitch-generated">
-        <h1>Generated UI</h1>
-        <p>${description}</p>
-        <button>Click Me</button>
-    </div>
-    `;
+    // Get API key from environment
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
 
-    fs.writeFileSync(output_path, mockHtml);
+    if (!apiKey) {
+        return {
+            content: [{ type: "text", text: "Error: GEMINI_API_KEY environment variable not set" }],
+            isError: true,
+        };
+    }
 
-    return {
-        content: [
-            {
-                type: "text",
-                text: `Generated screen at ${output_path}`,
-            },
-        ],
-    };
+    try {
+        // Use Gemini 3 Pro Image to generate a design with text
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent?key=${apiKey}`;
+
+        // Parse the description to extract design instructions
+        const prompt = `Create a professional Instagram post graphic with the following specifications:
+${description}
+
+Requirements:
+- High contrast, easy to read text
+- Professional social media design aesthetic
+- 1080x1350 pixels (4:5 aspect ratio for Instagram)
+- Text should be prominent and centered
+- Use modern, clean typography`;
+
+        const requestBody = {
+            contents: [{
+                parts: [{ text: prompt }]
+            }],
+            generationConfig: {
+                responseModalities: ["TEXT", "IMAGE"]
+            }
+        };
+
+        console.error(`[Stitch] Calling Gemini API for text overlay design...`);
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`API returned status ${response.status}: ${errorText}`);
+        }
+
+        const result = await response.json();
+
+        // Extract image from response
+        const candidates = result.candidates;
+        if (candidates && candidates[0] && candidates[0].content && candidates[0].content.parts) {
+            const parts = candidates[0].content.parts;
+            for (const part of parts) {
+                if (part.inlineData && part.inlineData.data) {
+                    const imageData = part.inlineData.data;
+                    const buffer = Buffer.from(imageData, "base64");
+                    fs.writeFileSync(output_path, buffer);
+
+                    console.error(`[Stitch] Successfully saved composed image to ${output_path} (${buffer.length} bytes)`);
+                    return {
+                        content: [{ type: "text", text: `Successfully generated composed image at ${output_path} (${buffer.length} bytes)` }],
+                    };
+                }
+            }
+        }
+        throw new Error("No image data in API response: " + JSON.stringify(result).substring(0, 500));
+    } catch (error: any) {
+        console.error(`[Stitch] Error: ${error.message}`);
+        return {
+            content: [{ type: "text", text: `Error generating screen: ${error.message}` }],
+            isError: true,
+        };
+    }
 };
 
 // 3. Jules: Code Generation (Mock: Generates Boilerplate)
