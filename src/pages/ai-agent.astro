@@ -1,0 +1,154 @@
+---
+import SwissLayout from "../components/SwissLayout.astro";
+---
+
+<SwissLayout title="AI Agent | Alpha Digital Agency" currentPage="ai-agent">
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center">
+        <h1
+            class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest"
+        >
+            <span class="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] block">
+                AI Agent<span class="text-primary">.</span>
+            </span>
+        </h1>
+        <p class="mt-4 md:mt-6 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto leading-relaxed tracking-wide">
+            Meet your 24/7 virtual concierge — powered by AI, trained on
+            your property, always ready to assist your guests.
+        </p>
+
+        <!-- Live Chat Preview -->
+        <div class="mt-10 flex justify-center">
+            <a
+                href="https://sayanhouse.pages.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-swiss inline-flex items-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+            >
+                <span class="material-symbols-outlined">chat</span>
+                Try the Live Chat
+            </a>
+        </div>
+    </section>
+
+    <!-- What it does -->
+    <section class="max-w-4xl mx-auto pb-10 px-6 md:px-12">
+        <div
+            class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
+        >
+            <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6">
+                What does the AI Agent do?
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                Our AI Agent is a smart chat assistant embedded directly on
+                your property website. It's trained on your villa details,
+                policies, and services — so it answers guest questions
+                instantly, accurately, and in a natural tone.
+            </p>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                No more missed enquiries outside office hours. The agent handles
+                everything from room availability and pricing to local
+                recommendations and booking guidance.
+            </p>
+        </div>
+
+        <!-- Feature Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="material-symbols-outlined text-primary text-3xl">schedule</span>
+                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">24/7 Availability</h3>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                    Always on, even when your team is off. Guests get instant replies
+                    at 2am the same as midday.
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="material-symbols-outlined text-primary text-3xl">hotel</span>
+                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Villa-Trained Knowledge</h3>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                    Trained on your property's rooms, rates, amenities,
+                    and policies — not generic hotel data.
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="material-symbols-outlined text-primary text-3xl">translate</span>
+                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Multilingual</h3>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                    Responds in the guest's language — English, Indonesian,
+                    Mandarin, Japanese, and more, automatically.
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="material-symbols-outlined text-primary text-3xl">trending_up</span>
+                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Drives Direct Bookings</h3>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                    Guides guests toward booking directly, reducing OTA
+                    commissions and increasing revenue.
+                </p>
+            </div>
+        </div>
+
+        <!-- How it works -->
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+            <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+                How it works
+            </h2>
+            <div class="space-y-6">
+                {[
+                    { step: "01", title: "Guest opens the chat", desc: "The AI widget appears on your website. Guests click to start a conversation — no app download needed." },
+                    { step: "02", title: "AI responds instantly", desc: "The agent understands the question and replies with accurate, property-specific information in seconds." },
+                    { step: "03", title: "Guest books directly", desc: "The agent guides the guest to your booking page, capturing the reservation without OTA involvement." },
+                    { step: "04", title: "You review the logs", desc: "Every conversation is logged. Review what guests ask most, spot gaps, and improve over time." },
+                ].map(({ step, title, desc }) => (
+                    <div class="flex gap-6 items-start">
+                        <div class="font-display font-extrabold text-3xl text-primary min-w-[3rem]">{step}</div>
+                        <div>
+                            <h3 class="font-bold text-charcoal dark:text-white mb-1">{title}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{desc}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center">
+            <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
+                Want an AI Agent for your property?
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
+                We build and deploy custom AI agents for hotels and villas across Bali.
+                Get in touch to see what's possible.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                    href="mailto:daniel@alphadigitalagency.id"
+                    class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+                >
+                    <span class="material-symbols-outlined">mail</span>
+                    Email Us
+                </a>
+                <a
+                    href="https://wa.me/628814802249"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
+                >
+                    <span class="material-symbols-outlined">chat</span>
+                    WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+</SwissLayout>

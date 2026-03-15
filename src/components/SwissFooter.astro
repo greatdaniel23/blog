@@ -1,45 +1,168 @@
 ---
 const today = new Date();
+
+const businessInfo = {
+    name: "Alpha Digital Agency Indonesia",
+    address: "Jl Pulau Singkep GG Starindo A4",
+    city: "Denpasar",
+    country: "Indonesia",
+    phone: "+628814802249",
+    email: "daniel@alphadigitalagency.id",
+    website: "https://alphadigitalagency.id",
+};
+
+const services = [
+    { name: "Booking Engine", href: "/booking-engine/" },
+    { name: "Blog", href: "/blog/" },
+    { name: "Gallery", href: "/gallery/" },
+    { name: "Web Development", href: "/" },
+    { name: "Digital Marketing", href: "/" },
+];
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: businessInfo.name,
+    image: "",
+    telephone: businessInfo.phone,
+    email: businessInfo.email,
+    address: {
+        "@type": "PostalAddress",
+        streetAddress: businessInfo.address,
+        addressLocality: businessInfo.city,
+        addressCountry: businessInfo.country,
+    },
+    url: businessInfo.website,
+    sameAs: ["https://instagram.com/alphadigitalagency"],
+};
 ---
 
 <!-- Footer -->
 <footer
-    class="relative z-10 border-t border-slate-200 dark:border-slate-800 py-8 px-6 md:px-12"
+    class="relative z-10 border-t border-slate-200 dark:border-slate-800 py-12 px-6 md:px-12"
 >
-    <div
-        class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4"
-    >
-        <div class="font-display font-bold text-sm text-slate-500">
-            © {today.getFullYear()} Alpha<span class="text-primary">.</span> Digital
-            Agency
+    <div class="max-w-6xl mx-auto">
+        <!-- Main Footer Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <!-- Brand -->
+            <div class="md:col-span-1">
+                <div
+                    class="font-display font-extrabold text-xl tracking-tighter uppercase mb-3"
+                >
+                    Alpha<span class="text-primary">.</span>
+                </div>
+                <p
+                    class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed"
+                >
+                    Digital solutions for modern hospitality businesses.
+                </p>
+            </div>
+
+            <!-- Services -->
+            <div>
+                <h4
+                    class="font-display font-bold text-xs uppercase tracking-[0.2em] text-slate-400 mb-4"
+                >
+                    Services
+                </h4>
+                <ul class="space-y-2">
+                    {
+                        services.map((service) => (
+                            <li>
+                                <a
+                                    href={service.href}
+                                    class="text-sm text-slate-600 dark:text-slate-300 hover:text-primary transition-colors"
+                                >
+                                    {service.name}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div>
+                <h4
+                    class="font-display font-bold text-xs uppercase tracking-[0.2em] text-slate-400 mb-4"
+                >
+                    Contact
+                </h4>
+                <ul
+                    class="space-y-2 text-sm text-slate-600 dark:text-slate-300"
+                >
+                    <li>
+                        <a
+                            href={`mailto:${businessInfo.email}`}
+                            class="hover:text-primary transition-colors"
+                        >
+                            {businessInfo.email}
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href={`tel:${businessInfo.phone}`}
+                            class="hover:text-primary transition-colors"
+                        >
+                            {businessInfo.phone}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Location -->
+            <div>
+                <h4
+                    class="font-display font-bold text-xs uppercase tracking-[0.2em] text-slate-400 mb-4"
+                >
+                    Location
+                </h4>
+                <p
+                    class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"
+                >
+                    {businessInfo.address}<br />
+                    {businessInfo.city}, {businessInfo.country}
+                </p>
+            </div>
         </div>
+
+        <!-- Bottom Bar -->
         <div
-            class="flex gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400"
+            class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4"
         >
-            <a
-                href="https://instagram.com/alphadigitalagency"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="hover:text-primary transition-colors"
+            <div class="font-display font-bold text-sm text-slate-500">
+                © {today.getFullYear()}
+                {businessInfo.name}
+            </div>
+            <div
+                class="flex gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400"
             >
-                IG
-            </a>
-            <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="hover:text-primary transition-colors"
-            >
-                LI
-            </a>
-            <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="hover:text-primary transition-colors"
-            >
-                TW
-            </a>
+                <a
+                    href="/privacy-policy/"
+                    class="hover:text-primary transition-colors"
+                >
+                    Privacy Policy
+                </a>
+                <a
+                    href="https://instagram.com/alphadigitalagency"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-primary transition-colors"
+                >
+                    Instagram
+                </a>
+                <a
+                    href="https://wa.me/628814802249"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-primary transition-colors"
+                >
+                    WhatsApp
+                </a>
+            </div>
         </div>
     </div>
+
+    <!-- JSON-LD Schema for SEO -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </footer>
