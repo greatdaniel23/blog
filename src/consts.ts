@@ -7,7 +7,11 @@ export const SITE_DESCRIPTION =
 export const SITE_URL = 'https://alphadigitalagency.id';
 export const SITE_AUTHOR = 'Daniel — Alpha Digital Agency Indonesia';
 export const SITE_LOGO = 'https://alphadigitalagency.id/favicon.svg';
-export const SITE_SOCIAL = {
-	linkedin: 'https://www.linkedin.com/company/alpha-digital-agency-indonesia',
-	threads: 'https://www.threads.net/@hedonatbali',
-};
+// SITE_SOCIAL: empty until Daniel confirms official handles.
+// - LinkedIn company page slug pending Decision Inbox D-002.
+// - Threads handle pending Decision Inbox D-003 (`@hedonatbali` is Daniel's
+//   personal travel account per SOSMED CLAUDE.md L14 — MUST NOT appear in
+//   Alpha Digital Organization JSON-LD `sameAs`; would contaminate Google
+//   Knowledge Graph entity.)
+// Better ship empty than ship guesses (per KURATOR v2, 2026-05-12).
+export const SITE_SOCIAL: { linkedin?: string; threads?: string } = {};

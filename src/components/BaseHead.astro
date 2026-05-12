@@ -54,7 +54,15 @@ const {
 const ogImageURL = new URL(image.src, Astro.url).toString();
 
 // --- Site-wide structured data ---
-const organizationLD = {
+// Build sameAs only from confirmed social URLs. Omit the field entirely
+// when none confirmed — empty/guessed URLs in Organization sameAs can
+// cause Knowledge Graph entity contamination (e.g. linking Alpha agency
+// to a personal account). Pending Daniel Decision Inbox D-002 / D-003.
+const sameAsList = [SITE_SOCIAL.linkedin, SITE_SOCIAL.threads].filter(
+	(u): u is string => typeof u === "string" && u.length > 0,
+);
+
+const organizationLD: Record<string, unknown> = {
 	"@context": "https://schema.org",
 	"@type": "Organization",
 	"@id": `${SITE_URL}/#organization`,
@@ -64,7 +72,6 @@ const organizationLD = {
 		"@type": "ImageObject",
 		url: SITE_LOGO,
 	},
-	sameAs: [SITE_SOCIAL.linkedin, SITE_SOCIAL.threads],
 	address: {
 		"@type": "PostalAddress",
 		addressLocality: "Denpasar",
@@ -73,6 +80,9 @@ const organizationLD = {
 	},
 	areaServed: { "@type": "Place", name: "Bali, Indonesia" },
 };
+if (sameAsList.length > 0) {
+	organizationLD.sameAs = sameAsList;
+}
 
 const websiteLD = {
 	"@context": "https://schema.org",
