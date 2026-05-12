@@ -1,5 +1,6 @@
 ---
 // Standalone landing page - no layout wrapper
+import "../styles/global.css";
 ---
 
 <!doctype html>
@@ -7,41 +8,16 @@
     <head>
         <meta charset="utf-8" />
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-        <title>Alpha Agency - Direct Booking Engine</title>
-        <script
-            is:inline
-            src="https://cdn.tailwindcss.com?plugins=forms,container-queries"
-        ></script>
+        <title>Direct Booking Engine — Alpha Digital Agency Indonesia</title>
+        <meta
+            name="description"
+            content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency."
+        />
+        <link rel="canonical" href="https://alphadigitalagency.id/booking-engine/" />
         <link
             href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
             rel="stylesheet"
         />
-        <script is:inline id="tailwind-config">
-            tailwind.config = {
-                darkMode: "class",
-                theme: {
-                    extend: {
-                        colors: {
-                            primary: "#13ec5b",
-                            "background-light": "#f6f8f6",
-                            "background-dark": "#102216",
-                            "emerald-dark": "#0d1b12",
-                            "emerald-mid": "#4c9a66",
-                        },
-                        fontFamily: {
-                            display: ["Manrope", "sans-serif"],
-                            serif: ["Playfair Display", "serif"],
-                        },
-                        borderRadius: {
-                            DEFAULT: "0.25rem",
-                            lg: "0.5rem",
-                            xl: "0.75rem",
-                            full: "9999px",
-                        },
-                    },
-                },
-            };
-        </script>
         <style is:inline>
             .dot-pattern {
                 background-image: radial-gradient(#cbd5e1 1px, transparent 1px);

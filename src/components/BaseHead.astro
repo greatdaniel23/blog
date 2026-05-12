@@ -5,15 +5,31 @@ import { AstroSeo as SEO } from "@astrolib/seo";
 import "../styles/global.css";
 import type { ImageMetadata } from "astro";
 import FallbackImage from "../assets/blog-placeholder-1.jpg";
-import { SITE_TITLE } from "../consts";
+import {
+	SITE_TITLE,
+	SITE_DESCRIPTION,
+	SITE_URL,
+	SITE_LOGO,
+	SITE_SOCIAL,
+} from "../consts";
 
 interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
+	article?: {
+		publishedTime?: string;
+		modifiedTime?: string;
+		author?: string;
+		section?: string;
+		tags?: string[];
+	};
+	breadcrumbs?: { name: string; url: string }[];
+	jsonLd?: object | object[];
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
+const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
 
 const { env } = Astro.locals.runtime;
 let gtmId = '';
@@ -26,7 +42,97 @@ try {
   // console.error(e);
 }
 
-const { title, description, image = FallbackImage } = Astro.props;
+const {
+	title,
+	description,
+	image = FallbackImage,
+	article,
+	breadcrumbs,
+	jsonLd,
+} = Astro.props;
+
+const ogImageURL = new URL(image.src, Astro.url).toString();
+
+// --- Site-wide structured data ---
+const organizationLD = {
+	"@context": "https://schema.org",
+	"@type": "Organization",
+	"@id": `${SITE_URL}/#organization`,
+	name: SITE_TITLE,
+	url: SITE_URL,
+	logo: {
+		"@type": "ImageObject",
+		url: SITE_LOGO,
+	},
+	sameAs: [SITE_SOCIAL.linkedin, SITE_SOCIAL.threads],
+	address: {
+		"@type": "PostalAddress",
+		addressLocality: "Denpasar",
+		addressRegion: "Bali",
+		addressCountry: "ID",
+	},
+	areaServed: { "@type": "Place", name: "Bali, Indonesia" },
+};
+
+const websiteLD = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	"@id": `${SITE_URL}/#website`,
+	url: SITE_URL,
+	name: SITE_TITLE,
+	description: SITE_DESCRIPTION,
+	publisher: { "@id": `${SITE_URL}/#organization` },
+	potentialAction: {
+		"@type": "SearchAction",
+		target: {
+			"@type": "EntryPoint",
+			urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+		},
+		"query-input": "required name=search_term_string",
+	},
+};
+
+const breadcrumbLD = breadcrumbs && breadcrumbs.length
+	? {
+			"@context": "https://schema.org",
+			"@type": "BreadcrumbList",
+			itemListElement: breadcrumbs.map((b, i) => ({
+				"@type": "ListItem",
+				position: i + 1,
+				name: b.name,
+				item: new URL(b.url, SITE_URL).toString(),
+			})),
+		}
+	: null;
+
+const articleLD = article
+	? {
+			"@context": "https://schema.org",
+			"@type": "BlogPosting",
+			headline: title,
+			description,
+			image: ogImageURL,
+			datePublished: article.publishedTime,
+			dateModified: article.modifiedTime ?? article.publishedTime,
+			author: {
+				"@type": "Person",
+				name: article.author ?? "Daniel",
+			},
+			publisher: { "@id": `${SITE_URL}/#organization` },
+			mainEntityOfPage: canonicalURL.href,
+			articleSection: article.section,
+			keywords: article.tags,
+		}
+	: null;
+
+const extraLD = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+const allLD = [
+	organizationLD,
+	websiteLD,
+	breadcrumbLD,
+	articleLD,
+	...extraLD,
+].filter(Boolean);
 ---
 
 <!-- Global Metadata -->
@@ -39,7 +145,7 @@ const { title, description, image = FallbackImage } = Astro.props;
 	rel="alternate"
 	type="application/rss+xml"
 	title={SITE_TITLE}
-	href={new URL("rss.xml", Astro.site)}
+	href={new URL("rss.xml", Astro.site ?? SITE_URL)}
 />
 <meta name="generator" content={Astro.generator} />
 
@@ -65,30 +171,33 @@ const { title, description, image = FallbackImage } = Astro.props;
 	description={description}
 	openGraph={{
 		title: title,
-		type: "website",
+		description: description,
+		type: article ? "article" : "website",
+		url: canonicalURL.href,
+		site_name: SITE_TITLE,
 		images: [
 			{
-				url: new URL(image.src, Astro.url).toString(),
+				url: ogImageURL,
 				alt: title,
 			},
 		],
 	}}
 	twitter={{
 		card: "summary_large_image",
-		site: "@site",
 		title: title,
-		image: new URL(image.src, Astro.url).toString(),
+		image: ogImageURL,
 		description: description,
 		imageAlt: title,
 	}}
 	extend={{
-		// keeping existing canonical if SEO component handles it differently,
-		// but typically SEO handles canonical.
-		// checking astrolib/seo docs: it handles canonical via `canonical` prop.
 		link: [{ rel: "canonical", href: canonicalURL.href }],
 		meta: [],
 	}}
 />
+
+{allLD.map((ld) => (
+	<script type="application/ld+json" set:html={JSON.stringify(ld)} />
+))}
 
 {gtmId && (
 <script is:inline define:vars={{ gtmId }}>

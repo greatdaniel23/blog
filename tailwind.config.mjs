@@ -15,6 +15,9 @@ export default {
 				"background-light": "#f8fafc",
 				"background-dark": "#020617",
 				"emerald-dark": "#064e3b",
+				"emerald-mid": "#4c9a66",
+				// alias used by booking-engine page (kept for parity with prior inline config)
+				"booking-primary": "#13ec5b",
 			},
 			fontFamily: {
 				display: ["Manrope", "sans-serif"],

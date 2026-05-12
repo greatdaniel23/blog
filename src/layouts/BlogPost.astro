@@ -9,11 +9,29 @@ import Header from '../components/Header.astro';
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+
+const breadcrumbs = [
+	{ name: "Home", url: "/" },
+	{ name: "Blog", url: "/blog/" },
+	{ name: title, url: Astro.url.pathname },
+];
+const article = {
+	publishedTime: pubDate ? new Date(pubDate).toISOString() : undefined,
+	modifiedTime: updatedDate ? new Date(updatedDate).toISOString() : undefined,
+	author: "Daniel",
+	section: "Blog",
+};
 ---
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead
+			title={title}
+			description={description}
+			image={heroImage}
+			article={article}
+			breadcrumbs={breadcrumbs}
+		/>
 		<style>
 			main {
 				width: calc(100% - 2em);

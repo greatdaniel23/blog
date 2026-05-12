@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /pembantu/
+Disallow: /pembantu/*
+Disallow: /api/
+
+Sitemap: https://alphadigitalagency.id/sitemap-index.xml
