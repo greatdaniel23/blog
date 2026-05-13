@@ -26,4 +26,12 @@ export default defineConfig({
 		},
 	}),
 	output: 'server',
+	vite: {
+		resolve: {
+			// Use react-dom edge build for CF Workers (avoids MessageChannel ReferenceError)
+			alias: import.meta.env.PROD
+				? { 'react-dom/server': 'react-dom/server.edge' }
+				: undefined,
+		},
+	},
 });

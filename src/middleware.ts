@@ -1,7 +1,13 @@
 import { defineMiddleware } from 'astro:middleware';
 
 export const onRequest = defineMiddleware(async (context, next) => {
-    const { url, cookies, locals } = context;
+    const { url, cookies, locals, request } = context;
+
+    // ── pages.dev noindex ────────────────────────────────────────────────────
+    // The blogtemplate.pages.dev preview domain must never be indexed.
+    // Inject noindex on every response if the Host header is *.pages.dev.
+    const host = request.headers.get('host') ?? '';
+    const isPagesDevHost = host.endsWith('.pages.dev');
 
     // Defines protected routes (starts with these)
     const protectedRoutes = ['/pembantu', '/api/pembantu'];
@@ -64,5 +70,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
         }
     }
 
-    return next();
+    const response = await next();
+
+    // Attach noindex headers for pages.dev preview domain
+    if (isPagesDevHost) {
+        response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    }
+
+    return response;
 });

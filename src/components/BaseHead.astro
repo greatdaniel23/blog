@@ -31,15 +31,28 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
 const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
 
-const { env } = Astro.locals.runtime;
+// Prevent pages.dev preview subdomain from being indexed.
+// Only available in SSR context; prerendered pages rely on the middleware
+// X-Robots-Tag header instead (set in src/middleware.ts).
+let isPagesDevHost = false;
+try {
+  const requestHost = Astro.request.headers.get('host') ?? '';
+  isPagesDevHost = requestHost.endsWith('.pages.dev');
+} catch {
+  // headers not available in prerender context — middleware handles it
+}
+
+// Safe runtime access — gracefully handles prerendered (static) pages where
+// Cloudflare bindings are not available at build time.
 let gtmId = '';
 try {
+  const env = Astro.locals.runtime?.env;
   if (env?.DB) {
      const res = await env.DB.prepare('SELECT gtm_id FROM gtm_settings WHERE id = 1').first();
-     gtmId = res?.gtm_id;
+     gtmId = res?.gtm_id ?? '';
   }
 } catch (e) {
-  // console.error(e);
+  // Silently skip GTM in static build or if DB unavailable
 }
 
 const {
@@ -148,6 +161,7 @@ const allLD = [
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+{isPagesDevHost && <meta name="robots" content="noindex, nofollow" />}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />
 <link rel="sitemap" href="/sitemap-index.xml" />

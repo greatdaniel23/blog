@@ -1,4 +1,8 @@
 ---
+// Static page — prerender at build time for best LCP/TTFB performance.
+// No dynamic runtime data needed on homepage.
+export const prerender = true;
+
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
@@ -15,7 +19,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 			Alpha<span class="text-primary">.</span>
 		</div>
 		<nav
-			class="hidden md:flex gap-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400"
+			class="hidden md:flex gap-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600 dark:text-slate-400"
 		>
 			<a class="text-primary border-b-2 border-primary pb-1" href="/"
 				>Home</a
@@ -231,33 +235,33 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 				>
 				</div>
 				<div
-					class="flex animate-marquee-left whitespace-nowrap opacity-60 hover:opacity-100 transition-opacity duration-300"
+					class="flex animate-marquee-left whitespace-nowrap transition-opacity duration-300"
 				>
 					<div
 						class="flex items-center gap-16 md:gap-20 px-8 md:px-10"
 					>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Luxury Hospitality</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Direct Booking</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Revenue Growth</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Data Science</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Conversion Rate</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Brand Equity</span
 						>
 					</div>
@@ -265,27 +269,27 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 						class="flex items-center gap-16 md:gap-20 px-8 md:px-10"
 					>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Luxury Hospitality</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Direct Booking</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Revenue Growth</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Data Science</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Conversion Rate</span
 						>
 						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400"
+							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
 							>Brand Equity</span
 						>
 					</div>
@@ -299,7 +303,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 		<div class="h-12 w-[1px] bg-slate-300 dark:bg-slate-700 mx-auto mb-2">
 		</div>
 		<p
-			class="text-[9px] font-bold uppercase tracking-[0.3em] text-slate-400 rotate-180"
+			class="text-[9px] font-bold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400 rotate-180"
 			style="writing-mode: vertical-rl;"
 		>
 			Bali · ID
@@ -309,15 +313,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 		class="fixed bottom-20 right-6 md:right-12 z-30 hidden xl:flex flex-col gap-6"
 	>
 		<a
-			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-primary transition-colors"
+			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
 			href="#">IG</a
 		>
 		<a
-			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-primary transition-colors"
+			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
 			href="#">LI</a
 		>
 		<a
-			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-primary transition-colors"
+			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
 			href="#">TW</a
 		>
 	</div>
