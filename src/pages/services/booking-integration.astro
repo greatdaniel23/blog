@@ -5,11 +5,16 @@ import SwissLayout from "../../components/SwissLayout.astro";
 const serviceLD = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "Booking Engine Integration — Install &amp; Kelola untuk Vila dan Hotel Bali",
+  "name": "Booking Engine Integration — Install & Kelola untuk Vila dan Hotel Bali",
   "provider": {
     "@type": "Organization",
     "name": "Alpha Digital Agency",
     "url": "https://alphadigitalagency.id"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Daniel Santoso",
+    "url": "https://alphadigitalagency.id/about/#daniel"
   },
   "areaServed": "Bali, Indonesia",
   "description": "Kami install dan kelola booking engine untuk properti hospitality Bali — platform apa pun, tanpa lock-in vendor, tanpa biaya lisensi tambahan. Anda tetap pegang kontrol.",
@@ -102,6 +107,21 @@ const breadcrumbLD = {
     <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
       <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">
         Booking engine kami bisa dipakai di properti mana pun — tidak terikat platform, tidak ada biaya lisensi bulanan, dan Anda tetap pegang kontrol penuh atas data reservasi Anda.
+      </p>
+    </div>
+  </section>
+
+  <!-- OTA Shift thesis — why booking engine matters -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+        Mengapa Platform-Agnostic Penting?
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Setiap booking via OTA berarti 15–25% komisi keluar dari pendapatan kamar villa Anda. Tujuan integrasi booking engine yang kami install bukan sekadar "punya tombol pesan" — melainkan menggeser 15–30% reservasi dari OTA ke direct booking dalam 90 hari pertama. Setiap pergeseran itu adalah margin recovery permanen: komisi yang sebelumnya keluar, kini tetap di kantong properti Anda.
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+        Stack booking engine yang kami deploy adalah milik Anda — bukan milik vendor. Data konversi mengalir bersih kembali ke GA4 Analytics: readable, evaluable, optimizable. Ini yang membuat kampanye Google Ads bisa dioptimasikan terhadap reservasi aktual, bukan sekadar klik.
       </p>
     </div>
   </section>
@@ -218,6 +238,13 @@ const breadcrumbLD = {
         <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Semua channel, multi-properti</p>
       </a>
     </div>
+  </section>
+
+  <!-- Author byline -->
+  <section class="max-w-4xl mx-auto mb-4 px-6 md:px-12">
+    <p class="text-xs text-slate-500 dark:text-slate-400">
+      Ditulis oleh <a href="/about/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
+    </p>
   </section>
 
   <!-- Final CTA -->
