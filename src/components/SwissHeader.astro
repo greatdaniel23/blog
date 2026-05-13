@@ -30,16 +30,18 @@ const navItems = [
 
     <!-- Desktop Navigation -->
     <nav
-        class="hidden md:flex gap-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600 dark:text-slate-400"
+        class="hidden md:flex gap-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-700 dark:text-slate-300"
+        aria-label="Main navigation"
     >
         {
             navItems.map((item) => (
                 <a
                     href={item.href}
+                    aria-current={currentPage === item.key ? "page" : undefined}
                     class:list={[
-                        "transition-colors",
+                        "transition-colors py-1 text-slate-700 dark:text-slate-300",
                         currentPage === item.key
-                            ? "text-primary border-b-2 border-primary pb-1"
+                            ? "text-primary border-b-2 border-primary"
                             : "hover:text-primary",
                     ]}
                 >
@@ -49,13 +51,15 @@ const navItems = [
         }
     </nav>
 
-    <!-- Mobile Menu Button -->
+    <!-- Mobile Menu Button — min 44×44px touch target per WCAG 2.5.5 -->
     <button
         id="mobile-menu-btn"
-        class="md:hidden p-2 text-charcoal dark:text-white"
+        class="md:hidden flex items-center justify-center w-11 h-11 text-charcoal dark:text-white -mr-2"
         aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
     >
-        <span class="material-symbols-outlined">menu</span>
+        <span class="material-symbols-outlined text-[24px]">menu</span>
     </button>
 </header>
 
@@ -63,16 +67,30 @@ const navItems = [
 <div
     id="mobile-menu"
     class="fixed inset-0 z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm hidden md:hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Navigation menu"
 >
+    <!-- Close button — top-right, 44×44px -->
+    <button
+        id="mobile-menu-close"
+        class="absolute top-4 right-4 flex items-center justify-center w-11 h-11 text-charcoal dark:text-white"
+        aria-label="Close menu"
+    >
+        <span class="material-symbols-outlined text-[24px]">close</span>
+    </button>
     <nav
-        class="flex flex-col items-center justify-center h-full gap-8 text-lg font-bold uppercase tracking-widest"
+        class="flex flex-col items-center justify-center h-full gap-2"
+        aria-label="Mobile navigation"
     >
         {
             navItems.map((item) => (
                 <a
                     href={item.href}
+                    aria-current={currentPage === item.key ? "page" : undefined}
                     class:list={[
-                        "transition-colors",
+                        /* each link gets a generous tap area — min 44px height */
+                        "flex items-center justify-center px-8 py-3 text-lg font-bold uppercase tracking-widest transition-colors",
                         currentPage === item.key
                             ? "text-primary"
                             : "text-charcoal dark:text-white hover:text-primary",
@@ -82,22 +100,54 @@ const navItems = [
                 </a>
             ))
         }
+        <!-- Mobile-only WhatsApp CTA inside nav -->
+        <a
+            href="https://wa.me/628814802249"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-6 flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-white font-bold text-sm uppercase tracking-widest border-2 border-charcoal"
+        >
+            <span class="material-symbols-outlined text-[18px]">chat</span>
+            WhatsApp Us
+        </a>
     </nav>
 </div>
 
 <script is:inline>
     const menuBtn = document.getElementById("mobile-menu-btn");
+    const menuClose = document.getElementById("mobile-menu-close");
     const mobileMenu = document.getElementById("mobile-menu");
 
-    if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener("click", () => {
-            mobileMenu.classList.toggle("hidden");
-            const icon = menuBtn.querySelector("span");
-            if (icon) {
-                icon.textContent = mobileMenu.classList.contains("hidden")
-                    ? "menu"
-                    : "close";
-            }
+    function openMenu() {
+        if (!mobileMenu || !menuBtn) return;
+        mobileMenu.classList.remove("hidden");
+        menuBtn.setAttribute("aria-expanded", "true");
+        // Trap focus in overlay
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeMenu() {
+        if (!mobileMenu || !menuBtn) return;
+        mobileMenu.classList.add("hidden");
+        menuBtn.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+    }
+
+    if (menuBtn) menuBtn.addEventListener("click", openMenu);
+    if (menuClose) menuClose.addEventListener("click", closeMenu);
+
+    // Close on Escape key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mobileMenu && !mobileMenu.classList.contains("hidden")) {
+            closeMenu();
+            menuBtn?.focus();
+        }
+    });
+
+    // Close when a nav link is tapped (SPA-style navigation)
+    if (mobileMenu) {
+        mobileMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", closeMenu);
         });
     }
 </script>

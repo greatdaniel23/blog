@@ -3,49 +3,27 @@
 // No dynamic runtime data needed on homepage.
 export const prerender = true;
 
-import BaseLayout from "../layouts/BaseLayout.astro";
+import SwissLayout from "../components/SwissLayout.astro";
 ---
 
-<BaseLayout
+<SwissLayout
 	title="Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality"
-	description="First Bali agency openly using AI/LLM end-to-end. Google Ads, booking engine, AI agent, SEO & data tracking for villas, hotels, and restaurants."
+	description="First Bali agency openly using AI/LLM end-to-end. Google Ads, booking engine, AI agent, SEO & data tracking for villas, hotels, and restaurants in Bali."
+	currentPage="home"
 >
-	<header
-		class="fixed top-0 w-full z-50 px-6 py-4 md:px-12 md:py-5 flex justify-between items-center bg-gradient-to-b from-background-light/90 to-transparent dark:from-background-dark/90 backdrop-blur-[1px]"
-	>
-		<div
-			class="font-display font-extrabold text-xl md:text-2xl tracking-tighter uppercase relative z-10"
-		>
-			Alpha<span class="text-primary">.</span>
-		</div>
-		<nav
-			class="hidden md:flex gap-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600 dark:text-slate-400"
-		>
-			<a class="text-primary border-b-2 border-primary pb-1" href="/"
-				>Home</a
-			>
-			<a
-				class="hover:text-primary transition-colors"
-				href="/booking-engine/">Booking Engine</a
-			>
-<a class="hover:text-primary transition-colors" href="/ai-agent/"
-				>AI Agent</a
-			>
-			<a class="hover:text-primary transition-colors" href="/about/"
-				>About</a
-			>
-		</nav>
-	</header>
-	<main
-		class="relative flex-1 flex flex-col items-center justify-center h-full w-full px-4 z-10 pt-16 pb-12"
+	<!-- ── Hero ── -->
+	<section
+		class="relative flex-1 flex flex-col items-center justify-center min-h-[calc(100svh-80px)] w-full px-4 pb-24 md:pb-12"
 	>
 		<div
 			class="absolute inset-0 bg-radial-gradient from-emerald-500/5 to-transparent blur-[100px] pointer-events-none z-0"
 		>
 		</div>
+
 		<div
-			class="relative z-20 flex flex-col items-center justify-center max-w-[1400px] w-full text-center h-full max-h-[85vh] gap-3 lg:gap-4"
+			class="relative z-10 flex flex-col items-center justify-center max-w-[1400px] w-full text-center gap-3 lg:gap-4"
 		>
+			<!-- Headline -->
 			<div class="flex-none mb-3 md:mb-4">
 				<h1
 					class="flex flex-col items-center font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest mix-blend-hard-light dark:mix-blend-normal"
@@ -75,6 +53,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 					hotels and luxury brands.
 				</p>
 			</div>
+
 			<!-- Mobile (< 768px): flat chip row — zero compositor cost, instant paint -->
 			<div class="flex-none w-full flex items-center justify-center gap-2 flex-wrap px-4 my-2 md:hidden">
 				<span class="text-[9px] font-mono font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-full bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-700/50 whitespace-nowrap">GTM Strategy</span>
@@ -98,14 +77,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
 							style="animation-delay: 0s;"
 						>
-							<div
-								class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-glow"
-							>
-							</div>
-							<span
-								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
-								>GTM Strategy</span
-							>
+							<div class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-glow"></div>
+							<span class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap">GTM Strategy</span>
 						</div>
 					</div>
 					<div
@@ -116,14 +89,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
 							style="animation-delay: -20s;"
 						>
-							<div
-								class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-glow"
-							>
-							</div>
-							<span
-								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
-								>GA4 Analytics</span
-							>
+							<div class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-glow"></div>
+							<span class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap">GA4 Analytics</span>
 						</div>
 					</div>
 					<div
@@ -134,14 +101,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
 							style="animation-delay: -16s;"
 						>
-							<div
-								class="w-1.5 h-1.5 rounded-full bg-emerald-600 shadow-glow"
-							>
-							</div>
-							<span
-								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
-								>BigQuery</span
-							>
+							<div class="w-1.5 h-1.5 rounded-full bg-emerald-600 shadow-glow"></div>
+							<span class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap">BigQuery</span>
 						</div>
 					</div>
 					<div
@@ -152,14 +113,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
 							style="animation-delay: -12s;"
 						>
-							<div
-								class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-glow"
-							>
-							</div>
-							<span
-								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
-								>Looker Studio</span
-							>
+							<div class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-glow"></div>
+							<span class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap">Looker Studio</span>
 						</div>
 					</div>
 					<div
@@ -170,14 +125,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
 							style="animation-delay: -8s;"
 						>
-							<div
-								class="w-1.5 h-1.5 rounded-full bg-emerald-300 shadow-glow"
-							>
-							</div>
-							<span
-								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
-								>AI Agents</span
-							>
+							<div class="w-1.5 h-1.5 rounded-full bg-emerald-300 shadow-glow"></div>
+							<span class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap">AI Agents</span>
 						</div>
 					</div>
 					<div
@@ -188,23 +137,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 							class="orbit-content flex items-center gap-2 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 transition-colors"
 							style="animation-delay: -4s;"
 						>
-							<div
-								class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-glow"
-							>
-							</div>
-							<span
-								class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap"
-								>Google Ads</span
-							>
+							<div class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-glow"></div>
+							<span class="text-[10px] md:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 uppercase tracking-[0.15em] whitespace-nowrap">Google Ads</span>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<!-- CTA Buttons -->
 			<div
 				class="flex-none flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto px-8 sm:px-0 pt-2 pb-2 md:pb-0 z-40"
 			>
 				<a
-					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-3.5 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white text-charcoal dark:text-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
+					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white text-charcoal dark:text-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
 					href="tel:08814802249"
 				>
 					<span
@@ -218,7 +163,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 				</a>
 				<a
 					id="email-cta"
-					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
+					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
 					href="#"
 					data-e="daniel"
 					data-d="alphadigitalagency.id"
@@ -244,6 +189,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 				</script>
 			</div>
 		</div>
+
+		<!-- Marquee ticker at bottom of hero -->
 		<div
 			class="absolute bottom-0 w-full py-3 md:py-4 border-t border-slate-200 dark:border-slate-800 bg-background-light/50 dark:bg-background-dark/50 backdrop-blur-sm z-20"
 		>
@@ -262,89 +209,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 					<div
 						class="flex items-center gap-16 md:gap-20 px-8 md:px-10"
 					>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Luxury Hospitality</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Direct Booking</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Revenue Growth</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Data Science</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Conversion Rate</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Brand Equity</span
-						>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Luxury Hospitality</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Direct Booking</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Revenue Growth</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Data Science</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Conversion Rate</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Brand Equity</span>
 					</div>
 					<div
 						class="flex items-center gap-16 md:gap-20 px-8 md:px-10"
 					>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Luxury Hospitality</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Direct Booking</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Revenue Growth</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Data Science</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Conversion Rate</span
-						>
-						<span
-							class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400"
-							>Brand Equity</span
-						>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Luxury Hospitality</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Direct Booking</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Revenue Growth</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Data Science</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Conversion Rate</span>
+						<span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 dark:text-slate-400">Brand Equity</span>
 					</div>
 				</div>
 			</div>
 		</div>
-	</main>
-	<div
-		class="fixed bottom-20 left-6 md:left-12 z-30 hidden xl:flex flex-col gap-1"
-	>
-		<div class="h-12 w-[1px] bg-slate-300 dark:bg-slate-700 mx-auto mb-2">
-		</div>
-		<p
-			class="text-[9px] font-bold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400 rotate-180"
-			style="writing-mode: vertical-rl;"
-		>
-			Bali · ID
-		</p>
-	</div>
-	<div
-		class="fixed bottom-20 right-6 md:right-12 z-30 hidden xl:flex flex-col gap-6"
-	>
-		<a
-			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
-			href="#">IG</a
-		>
-		<a
-			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
-			href="#">LI</a
-		>
-		<a
-			class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
-			href="#">TW</a
-		>
-	</div>
-</BaseLayout>
+	</section>
+</SwissLayout>

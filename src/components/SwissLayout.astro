@@ -2,13 +2,17 @@
 import SwissHeader from "./SwissHeader.astro";
 import SwissFooter from "./SwissFooter.astro";
 import "../styles/global.css";
+import { SITE_URL, SITE_TITLE } from "../consts";
 
 interface Props {
     title: string;
+    description?: string;
     currentPage?: string;
 }
 
-const { title, currentPage = "" } = Astro.props;
+const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "" } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
 ---
 
 <!doctype html>
@@ -16,10 +20,22 @@ const { title, currentPage = "" } = Astro.props;
     <head>
         <meta charset="utf-8" />
         <meta
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            content="width=device-width, initial-scale=1"
             name="viewport"
         />
         <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalURL.href} />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonicalURL.href} />
+        <meta property="og:site_name" content={SITE_TITLE} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
         <!-- Self-hosted Manrope — eliminates Google Fonts round-trip latency -->
         <link
             rel="preload"
@@ -29,17 +45,23 @@ const { title, currentPage = "" } = Astro.props;
             crossorigin
         />
         <style is:inline>
+            /* font-display:optional — eliminates font-swap reflow that causes LCP regression.
+               Font renders immediately from cache (preload ensures it's cached); if not
+               cached, system fallback is used with no layout shift. Matches BaseLayout.astro. */
             @font-face {
                 font-family: 'Manrope';
                 font-style: normal;
                 font-weight: 300 800;
-                font-display: swap;
+                font-display: optional;
                 src: url('/fonts/manrope-latin.woff2') format('woff2');
                 unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC,
                     U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
                     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
                     U+2215, U+FEFF, U+FFFD;
             }
+            /* Earliest possible background color — prevents white flash on load */
+            html.light body { background-color: #f8fafc; }
+            html.dark body { background-color: #020617; color: #fff; }
         </style>
         <!-- Material Symbols: non-blocking async load (icon font, not LCP-critical) -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -136,10 +158,53 @@ const { title, currentPage = "" } = Astro.props;
 
         <SwissHeader currentPage={currentPage} />
 
-        <main class="relative flex-1 z-10 pt-24 md:pt-32">
+        <main class="relative flex-1 z-10 pt-24 md:pt-32 pb-20 md:pb-0">
             <slot />
         </main>
 
         <SwissFooter />
+
+        <!-- Mobile sticky CTA bar — thumb zone, bottom of screen, hidden on md+ -->
+        <!-- pb-20 on main ensures content is not obscured by this bar -->
+        <div
+            class="fixed bottom-0 left-0 right-0 z-50 md:hidden border-t border-slate-200 dark:border-slate-700 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm flex"
+        >
+            <a
+                href="tel:08814802249"
+                class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 text-charcoal dark:text-white hover:text-primary transition-colors min-h-[52px]"
+                aria-label="Call us"
+            >
+                <span class="material-symbols-outlined text-[22px]">call</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider">Call</span>
+            </a>
+            <div class="w-px bg-slate-200 dark:bg-slate-700 my-2"></div>
+            <a
+                href="https://wa.me/628814802249"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 bg-primary text-white hover:bg-primary-dark transition-colors min-h-[52px]"
+                aria-label="WhatsApp us"
+            >
+                <span class="material-symbols-outlined text-[22px]">chat</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider">WhatsApp</span>
+            </a>
+            <div class="w-px bg-slate-200 dark:bg-slate-700 my-2"></div>
+            <a
+                id="mobile-cta-email"
+                href="#"
+                data-e="daniel"
+                data-d="alphadigitalagency.id"
+                class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 text-charcoal dark:text-white hover:text-primary transition-colors min-h-[52px]"
+                aria-label="Email us"
+            >
+                <span class="material-symbols-outlined text-[22px]">mail</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider">Email</span>
+            </a>
+        </div>
+        <script is:inline>
+            // Build mailto at runtime — bypass Cloudflare email obfuscation
+            var me = document.getElementById('mobile-cta-email');
+            if (me) me.href = 'mailto:' + me.dataset.e + '@' + me.dataset.d;
+        </script>
     </body>
 </html>
