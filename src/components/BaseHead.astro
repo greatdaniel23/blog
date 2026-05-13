@@ -173,21 +173,10 @@ const allLD = [
 />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
-<link
-	rel="preload"
-	href="/fonts/atkinson-regular.woff"
-	as="font"
-	type="font/woff"
-	crossorigin
-/>
-<link
-	rel="preload"
-	href="/fonts/atkinson-bold.woff"
-	as="font"
-	type="font/woff"
-	crossorigin
-/>
+<!-- Atkinson font preloads REMOVED — site uses Manrope only (tailwind.config.mjs
+     fontFamily: display+body both set to Manrope). Preloading unused fonts wastes
+     bandwidth and preload scanner slots, contributing to render-blocking delay.
+     Manrope is preloaded in BaseLayout.astro where @font-face is declared. -->
 
 <!-- SEO Component -->
 <SEO

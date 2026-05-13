@@ -26,6 +26,34 @@
     }
 }
 
+/* ── Mobile LCP optimization ───────────────────────────────────────────────
+   Multiple compositor-layer-triggering properties cause forced reflow and
+   delay LCP paint on mobile. Strip the expensive ones on < 768px:
+   - blur-[100px] on bg overlay: massive GPU cost on mobile
+   - mix-blend-hard-light on H1: requires bg paint before H1 can composite
+   - drop-shadow-sm on H1 spans: filter creates compositor layer
+   - backdrop-blur on header: not needed on mobile
+   Desktop keeps all visual effects. */
+@media (max-width: 767px) {
+    /* Disable 100px CSS blur on full-screen background overlay */
+    .blur-\[100px\] {
+        filter: none;
+    }
+    /* Remove blend mode so H1 paints immediately without waiting for bg composite */
+    .mix-blend-hard-light {
+        mix-blend-mode: normal;
+    }
+    /* Remove drop-shadow compositor layer on H1 span */
+    h1 .drop-shadow-sm {
+        filter: none;
+    }
+    /* Remove backdrop-blur from header */
+    .backdrop-blur-\[1px\] {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+}
+
 .bg-dot-grid {
     background-size: 50px 50px;
     background-image: radial-gradient(
@@ -50,98 +78,116 @@
     transform: translate(2px, 2px);
     box-shadow: none !important;
 }
-@keyframes orbit-rotate {
-    0% {
-        transform: rotateY(0deg);
-    }
-    100% {
-        transform: rotateY(-360deg);
-    }
+/* ── ORBIT: mobile-first flat layout, 3D only on md+ ──────────────────────
+   On mobile: orbit container is hidden (zero height, no compositor layer).
+   On desktop (768px+): full 3D perspective + animation restored.
+   Eliminating perspective/preserve-3d on mobile removes forced compositor
+   layer that was blocking LCP paint on small screens. */
+
+/* Mobile: hide orbit entirely — flat layout, zero compositor cost */
+.orbit-mobile-hidden {
+    display: none;
 }
-@keyframes orbit-counter-rotate {
-    0% {
-        transform: rotateY(0deg);
+
+/* Desktop 768px+: restore 3D orbit */
+@media (min-width: 768px) {
+    .orbit-mobile-hidden {
+        display: flex;
     }
-    100% {
-        transform: rotateY(360deg);
+
+    @keyframes orbit-rotate {
+        0% {
+            transform: rotateY(0deg);
+        }
+        100% {
+            transform: rotateY(-360deg);
+        }
     }
-}
-@keyframes orbit-appearance {
-    0% {
-        opacity: 1;
-        transform: scale(1.1) translateZ(0);
-        border-color: rgba(52, 211, 153, 0.9);
-        box-shadow:
-            0 0 35px rgba(5, 150, 105, 0.6),
-            inset 0 0 10px rgba(5, 150, 105, 0.1);
-        filter: blur(0px);
-        z-index: 50;
+    @keyframes orbit-counter-rotate {
+        0% {
+            transform: rotateY(0deg);
+        }
+        100% {
+            transform: rotateY(360deg);
+        }
     }
-    15% {
-        opacity: 0.9;
-        transform: scale(0.95);
-        border-color: rgba(148, 163, 184, 0.3);
-        box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
-        filter: blur(0px);
-        z-index: 40;
+    @keyframes orbit-appearance {
+        0% {
+            opacity: 1;
+            transform: scale(1.1) translateZ(0);
+            border-color: rgba(52, 211, 153, 0.9);
+            box-shadow:
+                0 0 35px rgba(5, 150, 105, 0.6),
+                inset 0 0 10px rgba(5, 150, 105, 0.1);
+            filter: blur(0px);
+            z-index: 50;
+        }
+        15% {
+            opacity: 0.9;
+            transform: scale(0.95);
+            border-color: rgba(148, 163, 184, 0.3);
+            box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
+            filter: blur(0px);
+            z-index: 40;
+        }
+        40% {
+            opacity: 0.2;
+            transform: scale(0.65) translateZ(0);
+            border-color: rgba(148, 163, 184, 0.1);
+            box-shadow: none;
+            filter: blur(2px);
+            z-index: 0;
+        }
+        60% {
+            opacity: 0.2;
+            transform: scale(0.65) translateZ(0);
+            border-color: rgba(148, 163, 184, 0.1);
+            box-shadow: none;
+            filter: blur(2px);
+            z-index: 0;
+        }
+        85% {
+            opacity: 0.9;
+            transform: scale(0.95);
+            border-color: rgba(148, 163, 184, 0.3);
+            box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
+            filter: blur(0px);
+            z-index: 40;
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1.1) translateZ(0);
+            border-color: rgba(52, 211, 153, 0.9);
+            box-shadow:
+                0 0 35px rgba(5, 150, 105, 0.6),
+                inset 0 0 10px rgba(5, 150, 105, 0.1);
+            filter: blur(0px);
+            z-index: 50;
+        }
     }
-    40% {
-        opacity: 0.2;
-        transform: scale(0.65) translateZ(0);
-        border-color: rgba(148, 163, 184, 0.1);
-        box-shadow: none;
-        filter: blur(2px);
-        z-index: 0;
+    .perspective-container {
+        perspective: 2500px;
     }
-    60% {
-        opacity: 0.2;
-        transform: scale(0.65) translateZ(0);
-        border-color: rgba(148, 163, 184, 0.1);
-        box-shadow: none;
-        filter: blur(2px);
-        z-index: 0;
+    .orbit-axis {
+        transform-style: preserve-3d;
+        animation: orbit-rotate 24s linear infinite;
     }
-    85% {
-        opacity: 0.9;
-        transform: scale(0.95);
-        border-color: rgba(148, 163, 184, 0.3);
-        box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
-        filter: blur(0px);
-        z-index: 40;
+    .orbit-item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform-style: preserve-3d;
+        margin-top: -18px;
+        margin-left: -70px;
     }
-    100% {
-        opacity: 1;
-        transform: scale(1.1) translateZ(0);
-        border-color: rgba(52, 211, 153, 0.9);
-        box-shadow:
-            0 0 35px rgba(5, 150, 105, 0.6),
-            inset 0 0 10px rgba(5, 150, 105, 0.1);
-        filter: blur(0px);
-        z-index: 50;
+    .orbit-content {
+        backface-visibility: hidden;
+        animation:
+            orbit-counter-rotate 24s linear infinite,
+            orbit-appearance 24s linear infinite;
     }
-}
-.perspective-container {
-    perspective: 2500px;
-}
-.orbit-axis {
-    transform-style: preserve-3d;
-    animation: orbit-rotate 24s linear infinite;
-}
-.orbit-item {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-style: preserve-3d;
-    margin-top: -18px;
-    margin-left: -70px;
-}
-.orbit-content {
-    backface-visibility: hidden;
-    animation:
-        orbit-counter-rotate 24s linear infinite,
-        orbit-appearance 24s linear infinite;
-}
-.perspective-container:hover .orbit-axis,
-.perspective-container:hover .orbit-content {
-    animation-play-state: paused;
+    .perspective-container:hover .orbit-axis,
+    .perspective-container:hover .orbit-content {
+        animation-play-state: paused;
+    }
 }

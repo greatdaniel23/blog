@@ -8,9 +8,8 @@ const { title, description, image } = Astro.props;
 <html class="light" lang="en">
     <head>
         <BaseHead title={title} description={description} image={image} />
-        <!-- Self-hosted Manrope — eliminates Google Fonts round-trip latency.
-             Latin subset variable font (300-800 wght) from fonts.gstatic.com v20.
-             Preload ensures font is fetched before first paint (LCP fix). -->
+        <!-- Self-hosted Manrope: preload + @font-face inline ensures font renders
+             immediately without network dependency on Google Fonts. -->
         <link
             rel="preload"
             href="/fonts/manrope-latin.woff2"
@@ -19,157 +18,22 @@ const { title, description, image } = Astro.props;
             crossorigin
         />
         <style>
-            @font-face {
-                font-family: 'Manrope';
-                font-style: normal;
-                font-weight: 300 800;
-                font-display: swap;
-                src: url('/fonts/manrope-latin.woff2') format('woff2');
-                unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC,
-                    U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-                    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
-                    U+2215, U+FEFF, U+FFFD;
+            /* Inline @font-face: eliminates CSS-parse dependency for font matching.
+               This @font-face is also in the global.css bundle but inlining it here
+               means the browser can match the font-family declaration before the
+               external CSS file arrives — prevents font swap reflow. */
+            @font-face{
+                font-family:'Manrope';font-style:normal;font-weight:300 800;
+                font-display:optional;
+                src:url('/fonts/manrope-latin.woff2') format('woff2');
+                unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
             }
+            /* Earliest possible background color — prevents white flash in dark mode
+               and sets correct bg before CSS bundle arrives. */
+            html.light body{background-color:#f8fafc}
+            html.dark body{background-color:#020617;color:#fff}
         </style>
         <!-- Material Symbols: non-blocking async load (icon font, not LCP-critical) -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-            rel="stylesheet"
-            media="print"
-            onload="this.media='all'"
-        />
-        <noscript>
-            <link
-                href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-                rel="stylesheet"
-            />
-        </noscript>
-        <style>
-            /* Animation + orbit styles unique to BaseLayout.
-               Global tailwind utilities + base layer live in src/styles/global.css
-               (loaded via BaseHead). */
-            .bg-dot-grid {
-                background-size: 50px 50px;
-                background-image: radial-gradient(
-                    circle,
-                    #cbd5e1 1px,
-                    transparent 1px
-                );
-            }
-            .dark .bg-dot-grid {
-                background-image: radial-gradient(
-                    circle,
-                    #1e293b 1px,
-                    transparent 1px
-                );
-            }
-            .btn-swiss {
-                transition:
-                    transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
-                    box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            .btn-swiss:active {
-                transform: translate(2px, 2px);
-                box-shadow: none !important;
-            }
-            @keyframes orbit-rotate {
-                0% {
-                    transform: rotateY(0deg);
-                }
-                100% {
-                    transform: rotateY(-360deg);
-                }
-            }
-            @keyframes orbit-counter-rotate {
-                0% {
-                    transform: rotateY(0deg);
-                }
-                100% {
-                    transform: rotateY(360deg);
-                }
-            }
-            @keyframes orbit-appearance {
-                0% {
-                    opacity: 1;
-                    transform: scale(1.1) translateZ(0);
-                    border-color: rgba(52, 211, 153, 0.9);
-                    box-shadow:
-                        0 0 35px rgba(5, 150, 105, 0.6),
-                        inset 0 0 10px rgba(5, 150, 105, 0.1);
-                    filter: blur(0px);
-                    z-index: 50;
-                }
-                15% {
-                    opacity: 0.9;
-                    transform: scale(0.95);
-                    border-color: rgba(148, 163, 184, 0.3);
-                    box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
-                    filter: blur(0px);
-                    z-index: 40;
-                }
-                40% {
-                    opacity: 0.2;
-                    transform: scale(0.65) translateZ(0);
-                    border-color: rgba(148, 163, 184, 0.1);
-                    box-shadow: none;
-                    filter: blur(2px);
-                    z-index: 0;
-                }
-                60% {
-                    opacity: 0.2;
-                    transform: scale(0.65) translateZ(0);
-                    border-color: rgba(148, 163, 184, 0.1);
-                    box-shadow: none;
-                    filter: blur(2px);
-                    z-index: 0;
-                }
-                85% {
-                    opacity: 0.9;
-                    transform: scale(0.95);
-                    border-color: rgba(148, 163, 184, 0.3);
-                    box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
-                    filter: blur(0px);
-                    z-index: 40;
-                }
-                100% {
-                    opacity: 1;
-                    transform: scale(1.1) translateZ(0);
-                    border-color: rgba(52, 211, 153, 0.9);
-                    box-shadow:
-                        0 0 35px rgba(5, 150, 105, 0.6),
-                        inset 0 0 10px rgba(5, 150, 105, 0.1);
-                    filter: blur(0px);
-                    z-index: 50;
-                }
-            }
-            .perspective-container {
-                perspective: 2500px;
-            }
-            .orbit-axis {
-                transform-style: preserve-3d;
-                animation: orbit-rotate 24s linear infinite;
-            }
-            .orbit-item {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform-style: preserve-3d;
-                margin-top: -18px;
-                margin-left: -70px;
-            }
-            .orbit-content {
-                backface-visibility: hidden;
-                animation:
-                    orbit-counter-rotate 24s linear infinite,
-                    orbit-appearance 24s linear infinite;
-            }
-            .perspective-container:hover .orbit-axis,
-            .perspective-container:hover .orbit-content {
-                animation-play-state: paused;
-            }
-        </style>
     </head>
     <body
         class="bg-background-light dark:bg-background-dark text-charcoal dark:text-white overflow-hidden h-screen flex flex-col font-body selection:bg-primary selection:text-white transition-colors duration-500"

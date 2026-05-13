@@ -75,8 +75,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 					hotels and luxury brands.
 				</p>
 			</div>
+			<!-- Mobile (< 768px): flat chip row — zero compositor cost, instant paint -->
+			<div class="flex-none w-full flex items-center justify-center gap-2 flex-wrap px-4 my-2 md:hidden">
+				<span class="text-[9px] font-mono font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-full bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-700/50 whitespace-nowrap">GTM Strategy</span>
+				<span class="text-[9px] font-mono font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-full bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-700/50 whitespace-nowrap">GA4 Analytics</span>
+				<span class="text-[9px] font-mono font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-full bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-700/50 whitespace-nowrap">Google Ads</span>
+				<span class="text-[9px] font-mono font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-full bg-white/70 dark:bg-slate-900/70 border border-slate-200/50 dark:border-slate-700/50 whitespace-nowrap">AI Agents</span>
+			</div>
+
+			<!-- Desktop (768px+): 3D orbit animation — compositor layer OK on larger screens -->
 			<div
-				class="flex-none w-full flex items-center justify-center relative perspective-container z-30 group cursor-default orbit-container-height my-0 md:my-1"
+				class="orbit-mobile-hidden flex-none w-full items-center justify-center relative perspective-container z-30 group cursor-default orbit-container-height my-0 md:my-1"
 			>
 				<div
 					class="orbit-axis w-0 h-0 relative scale-[0.6] sm:scale-[0.7] md:scale-[0.85] lg:scale-[1.0] xl:scale-100 origin-center transition-transform duration-500"
