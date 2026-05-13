@@ -1,0 +1,39 @@
+# Cloudflare Pages _headers — edge caching for marketing pages
+# Marketing pages: SSR but content changes rarely → cache at edge for 5min, CDN for 1hr
+/
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/about/
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/ai-agent/
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/booking-engine/
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/gallery/
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/privacy-policy/
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+/blog/
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+
+# Static assets: long-lived (Astro content-hashes filenames)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=86400, s-maxage=604800
+
+# Admin: no cache ever
+/pembantu/*
+  Cache-Control: no-store, no-cache
+
+/api/*
+  Cache-Control: no-store, no-cache

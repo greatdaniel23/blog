@@ -8,14 +8,34 @@ const { title, description, image } = Astro.props;
 <html class="light" lang="en">
     <head>
         <BaseHead title={title} description={description} image={image} />
+        <!-- preconnect → eliminates DNS + TLS round-trip from render path -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <!-- media="print" + onload swap = non-render-blocking font load (Google Fonts best practice) -->
         <link
             href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
             rel="stylesheet"
+            media="print"
+            onload="this.media='all'"
         />
+        <noscript>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+                rel="stylesheet"
+            />
+        </noscript>
         <link
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
             rel="stylesheet"
+            media="print"
+            onload="this.media='all'"
         />
+        <noscript>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+                rel="stylesheet"
+            />
+        </noscript>
         <style>
             /* Animation + orbit styles unique to BaseLayout.
                Global tailwind utilities + base layer live in src/styles/global.css
