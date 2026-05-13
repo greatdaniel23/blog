@@ -166,8 +166,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
 
         <!-- Mobile sticky CTA bar — thumb zone, bottom of screen, hidden on md+ -->
         <!-- pb-20 on main ensures content is not obscured by this bar -->
+        <!-- backdrop-blur-sm removed: creates compositor layer on mobile, blocks FCP/LCP -->
+        <!-- Using solid bg instead — same visual effect, zero compositor cost -->
         <div
-            class="fixed bottom-0 left-0 right-0 z-50 md:hidden border-t border-slate-200 dark:border-slate-700 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm flex"
+            class="fixed bottom-0 left-0 right-0 z-50 md:hidden border-t border-slate-200 dark:border-slate-700 bg-background-light dark:bg-background-dark flex"
         >
             <a
                 href="tel:08814802249"

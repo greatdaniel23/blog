@@ -191,8 +191,9 @@ import SwissLayout from "../components/SwissLayout.astro";
 		</div>
 
 		<!-- Marquee ticker at bottom of hero -->
+		<!-- backdrop-blur-sm removed: compositor layer on mobile blocks FCP/LCP (Sprint 5.5 fix) -->
 		<div
-			class="absolute bottom-0 w-full py-3 md:py-4 border-t border-slate-200 dark:border-slate-800 bg-background-light/50 dark:bg-background-dark/50 backdrop-blur-sm z-20"
+			class="absolute bottom-0 w-full py-3 md:py-4 border-t border-slate-200 dark:border-slate-800 bg-background-light/80 dark:bg-background-dark/80 z-20"
 		>
 			<div class="flex w-full overflow-hidden relative">
 				<div

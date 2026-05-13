@@ -52,6 +52,21 @@
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
     }
+    /* Remove backdrop-blur-sm: creates compositor layer that delays FCP/LCP on mobile.
+       Applies to: marquee ticker (index.astro), mobile menu overlay (SwissHeader),
+       and any other element with this class. Visual difference is imperceptible at
+       this blur radius (4px) on mobile screens. */
+    .backdrop-blur-sm {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+    /* Remove backdrop-blur-md: orbit chip cards use this class on desktop only.
+       Mobile: orbit is hidden (orbit-mobile-hidden display:none), but if CSS loads
+       before DOM parses, this strips compositor cost defensively. */
+    .backdrop-blur-md {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
 }
 
 .bg-dot-grid {
