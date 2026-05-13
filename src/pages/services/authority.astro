@@ -1,0 +1,236 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+
+const serviceLD = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Authority — Full-Funnel Marketing untuk Multi-Properti Bali",
+  "provider": {
+    "@type": "Organization",
+    "name": "Alpha Digital Agency",
+    "url": "https://alphadigitalagency.id"
+  },
+  "areaServed": "Bali, Indonesia",
+  "description": "Semua channel terhubung, brand Anda terlindungi di SERP, dan properti multi-lokasi dikoordinasikan dari satu laporan. Untuk vila dan hotel group di Bali.",
+  "serviceType": "Full-Funnel Digital Marketing",
+  "url": "https://alphadigitalagency.id/services/authority/"
+};
+
+const faqItems = [
+  {
+    q: "Apa yang dimaksud dengan 'brand-SERP defense'?",
+    a: "Ketika tamu mengetik nama properti Anda di Google, halaman pertama idealnya dikuasai oleh website Anda sendiri — bukan OTA atau kompetitor. Brand-SERP defense adalah proses memastikan ini terjadi: melalui SEO, Google Ads branded campaign, dan GBP optimization."
+  },
+  {
+    q: "Apakah Authority cocok untuk properti tunggal?",
+    a: "Authority dirancang untuk properti yang sudah memiliki Google Ads berjalan dan ingin naik ke level berikutnya: semua channel terhubung, multi-properti atau multi-brand terkoordinasi. Untuk single property yang baru mulai, Growth biasanya lebih efisien dulu."
+  },
+  {
+    q: "Bagaimana cara kerja koordinasi multi-properti?",
+    a: "Kami kelola campaign Ads, SEO, dan data tracking untuk masing-masing properti secara independen — tapi laporan konsolidasi memperlihatkan performa semua properti dalam satu tampilan. Keputusan budget bisa dibuat di level grup."
+  },
+  {
+    q: "Kami pernah kehilangan branded traffic ke OTA. Bagaimana Authority mengatasi ini?",
+    a: "Ini adalah salah satu temuan yang paling umum di properti Bali. Kami deteksi query branded yang diarahkan ke OTA, bangun branded campaign Google Ads, dan optimalkan GBP + website untuk merebut kembali slot tersebut."
+  },
+  {
+    q: "Apa perbedaan Authority dari Growth?",
+    a: "Growth fokus pada satu properti: Google Ads + booking funnel audit. Authority adalah level koordinasi: semua channel (Ads + organik + Maps + booking) terhubung, brand-SERP terlindungi, dan multi-properti dikelola dalam satu ekosistem laporan."
+  }
+];
+
+const faqLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
+
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
+    { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://alphadigitalagency.id/services/" },
+    { "@type": "ListItem", "position": 3, "name": "Authority", "item": "https://alphadigitalagency.id/services/authority/" }
+  ]
+};
+---
+
+<SwissLayout
+  title="Authority — Full-Funnel Marketing untuk Multi-Properti Bali | Alpha Digital Agency"
+  description="Semua channel terhubung, brand Anda terlindungi di SERP Google, dan multi-properti dikoordinasikan dari satu laporan. Untuk vila group dan hotel boutique di Bali."
+  currentPage="services"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(serviceLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+  </Fragment>
+
+  <!-- Hero -->
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
+    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">Tier 3 — Authority</p>
+    <h1
+      class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6"
+    >
+      Satu Channel Tidak Cukup Lagi<span class="text-primary">.</span>
+    </h1>
+    <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+      Semua channel terhubung, brand Anda terlindungi di Google search, dan properti multi-lokasi dikoordinasikan dari satu laporan bulanan.
+    </p>
+    <div class="mt-8">
+      <a
+        href="mailto:daniel@alphadigitalagency.id"
+        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+      >
+        <span class="material-symbols-outlined">mail</span>
+        Minta Penawaran
+      </a>
+    </div>
+  </section>
+
+  <!-- Outcome statement -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
+      <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+        Kami deteksi ketika nama brand Anda sendiri di Google malah mengarahkan tamu ke situs kompetitor atau OTA — lalu kami rebuild funnel booking langsungnya.
+      </p>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        Yang Anda Dapatkan
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex gap-4 items-start">
+          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+          <div>
+            <h3 class="font-bold text-charcoal dark:text-white mb-1">Data Ads + Organik + Maps dalam Satu Laporan</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Kami hubungkan Google Ads, Search Console, dan Analytics dalam satu sistem — supaya iklan berbayar dan pencarian organik tidak saling makan budget, tapi saling mendukung reservasi.</p>
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+          <div>
+            <h3 class="font-bold text-charcoal dark:text-white mb-1">Brand-SERP Defense: Cegah OTA Ambil Slot Brand Anda</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Branded query yang diarahkan ke OTA = revenue yang bocor setiap hari. Kami identifikasi, bangun defense, dan monitor setiap bulan.</p>
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+          <div>
+            <h3 class="font-bold text-charcoal dark:text-white mb-1">Koordinasi Multi-Properti atau Multi-Brand</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Budget Ads, keyword strategy, dan laporan performa untuk semua properti dikelola secara terkoordinasi — bukan silo-silo yang tidak bicara satu sama lain.</p>
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+          <div>
+            <h3 class="font-bold text-charcoal dark:text-white mb-1">Audit Lintas Channel Setiap Bulan + Rekomendasi Aksi</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Monthly review: di mana budget paling efisien bulan ini, channel mana yang underperform, dan satu perubahan prioritas untuk bulan berikutnya.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Second outcome statement -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+        AI Agent — Terintegrasi dengan Authority
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Kami pasang asisten digital di website properti Anda — yang bisa jawab pertanyaan tamu 24 jam, bantu proses reservasi, dan terintegrasi langsung dengan booking engine Anda.
+      </p>
+      <a href="/ai-agent" class="text-primary font-bold text-sm hover:underline">Pelajari lebih lanjut tentang AI Agent →</a>
+    </div>
+  </section>
+
+  <!-- Proof anchor -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+        Hasil yang Bisa Diukur
+      </h2>
+      <blockquote class="border-l-4 border-primary pl-6 py-2">
+        <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">
+          "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads."
+        </p>
+        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">
+          — Verified client data. Name withheld per client policy.
+        </cite>
+      </blockquote>
+      <p class="text-slate-500 dark:text-slate-400 text-xs mt-4">Case Study #1 — full breakdown coming soon.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        Pertanyaan tentang Authority
+      </h2>
+      <div class="space-y-6">
+        {faqItems.map((item) => (
+          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
+            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Internal links -->
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
+    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">Perlu booking engine? Lihat juga:</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <a href="/services/foundation" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 1</p>
+        <p class="font-bold text-charcoal dark:text-white">Foundation →</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Tracking &amp; analytics setup</p>
+      </a>
+      <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 2</p>
+        <p class="font-bold text-charcoal dark:text-white">Growth →</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Google Ads untuk satu properti</p>
+      </a>
+      <a href="/services/booking-integration" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 4</p>
+        <p class="font-bold text-charcoal dark:text-white">Booking Engine →</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Install tanpa lock-in vendor</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
+        Siap ke Level Authority?
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
+        Ceritakan situasi properti Anda sekarang. Kami audit dan jelaskan gap yang paling berdampak pertama.
+      </p>
+      <a
+        href="mailto:daniel@alphadigitalagency.id"
+        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+      >
+        <span class="material-symbols-outlined">mail</span>
+        Minta Penawaran
+      </a>
+    </div>
+  </section>
+</SwissLayout>

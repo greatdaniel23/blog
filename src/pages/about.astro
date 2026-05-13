@@ -1,120 +1,250 @@
 ---
 export const prerender = true;
 import SwissLayout from "../components/SwissLayout.astro";
+
+const personLD = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Daniel Santoso",
+  "jobTitle": "Founder & Google Ads Specialist",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Alpha Digital Agency",
+    "url": "https://alphadigitalagency.id"
+  },
+  "knowsAbout": [
+    "Google Ads",
+    "GA4",
+    "Google Search Console",
+    "GTM",
+    "Booking Engine Integration",
+    "Hospitality Digital Marketing",
+    "Direct Booking Strategy",
+    "SEO for Hotels",
+    "AI Agent for Hospitality"
+  ],
+  "description": "9 tahun spesialisasi Google Ads untuk properti hospitality di Bali. Founder Alpha Digital Agency — praktik marketing yang menggabungkan Ads, SEO, dan booking engine dalam satu sistem data.",
+  "url": "https://alphadigitalagency.id/about/"
+};
+
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
+    { "@type": "ListItem", "position": 2, "name": "About", "item": "https://alphadigitalagency.id/about/" }
+  ]
+};
+
+const aboutFaqItems = [
+  {
+    q: "Siapa di balik Alpha Digital Agency?",
+    a: "Daniel Santoso — 9 tahun spesialisasi Google Ads untuk properti hospitality di Bali. Alpha Digital bukan konglomerat besar; kami praktik yang tight, pakai data nyata, dan bertanggung jawab langsung ke Anda."
+  },
+  {
+    q: "Mengapa Alpha Digital fokus hanya pada hospitality Bali?",
+    a: "Karena spesialisasi menghasilkan hasil lebih baik dari generalisasi. Kami tahu behavior tamu Bali, dinamika OTA di pasar ini, dan struktur kampanye Google Ads yang efektif untuk vila dan hotel boutique."
+  },
+  {
+    q: "Apakah Alpha Digital menggunakan AI dalam operasional?",
+    a: "Ya — Alpha Digital adalah praktik pertama di Bali yang secara terbuka menggunakan AI end-to-end dalam operasional: dari riset, analisis data, hingga pembuatan konten. Tapi keputusan strategis dan review klien tetap di tangan manusia."
+  },
+  {
+    q: "Bagaimana cara Alpha Digital melaporkan hasil ke klien?",
+    a: "Kami kirim laporan bulanan yang menggabungkan data Google Ads, Search Console, dan Analytics dalam satu tampilan. Tidak ada laporan 50 halaman yang tidak bisa dibaca — hanya angka yang penting dan rekomendasi aksi nyata."
+  }
+];
+
+const aboutFaqLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": aboutFaqItems.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
 ---
 
-<SwissLayout title="About | Alpha Digital Agency" currentPage="about">
-	<!-- Hero Section -->
-	<section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
-		<h1
-			class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-center"
-		>
-			<span
-				class="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] block"
-			>
-				About<span class="text-primary">.</span>
-			</span>
-		</h1>
-		<p
-			class="mt-4 md:mt-6 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto text-center leading-relaxed tracking-wide"
-		>
-			Digital marketing expertise for hotels and luxury hospitality in
-			Bali.
-		</p>
-	</section>
+<SwissLayout
+  title="Tentang Alpha Digital Agency — Google Ads Specialist Bali, 9 Tahun Pengalaman"
+  description="Alpha Digital Agency adalah praktik marketing hospitality Bali — spesialisasi Google Ads, data tracking lintas channel, dan integrasi booking engine langsung untuk vila dan hotel."
+  currentPage="about"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(personLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(aboutFaqLD)} />
+  </Fragment>
 
-	<!-- About Content -->
-	<section class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
-		<div
-			class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"
-		>
-			<div class="prose prose-lg max-w-none">
-				<h2
-					class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6"
-				>
-					Who We Are
-				</h2>
-				<p
-					class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6"
-				>
-					Alpha Digital Agency is a boutique digital marketing agency
-					specializing in the hospitality industry. Based in Bali,
-					Indonesia, we help hotels, resorts, and luxury
-					accommodations increase their direct bookings and build
-					lasting guest relationships.
-				</p>
+  <!-- Hero Section -->
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
+    <h1
+      class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-center"
+    >
+      <span class="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] block">
+        About<span class="text-primary">.</span>
+      </span>
+    </h1>
+    <p
+      class="mt-4 md:mt-6 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto text-center leading-relaxed tracking-wide"
+    >
+      9 tahun Google Ads untuk hospitality Bali — satu sistem, satu laporan, satu tujuan.
+    </p>
+  </section>
 
-				<h2
-					class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6 mt-12"
-				>
-					Our Expertise
-				</h2>
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-					<div class="border-l-4 border-primary pl-4">
-						<h3
-							class="font-bold text-charcoal dark:text-white mb-2"
-						>
-							Google Ecosystem
-						</h3>
-						<p class="text-slate-600 dark:text-slate-400 text-sm">
-							Google Ads, Analytics, Hotel Center, and My Business
-							optimization.
-						</p>
-					</div>
-					<div class="border-l-4 border-primary pl-4">
-						<h3
-							class="font-bold text-charcoal dark:text-white mb-2"
-						>
-							AI Solutions
-						</h3>
-						<p class="text-slate-600 dark:text-slate-400 text-sm">
-							AI-powered chatbots, automated responses, and smart
-							marketing.
-						</p>
-					</div>
-					<div class="border-l-4 border-primary pl-4">
-						<h3
-							class="font-bold text-charcoal dark:text-white mb-2"
-						>
-							Revenue Management
-						</h3>
-						<p class="text-slate-600 dark:text-slate-400 text-sm">
-							Data-driven pricing strategies and occupancy
-							optimization.
-						</p>
-					</div>
-					<div class="border-l-4 border-primary pl-4">
-						<h3
-							class="font-bold text-charcoal dark:text-white mb-2"
-						>
-							Content & Social
-						</h3>
-						<p class="text-slate-600 dark:text-slate-400 text-sm">
-							Compelling visual storytelling across digital
-							platforms.
-						</p>
-					</div>
-				</div>
+  <!-- About Content -->
+  <section class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
+    <div
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
+    >
+      <div class="prose prose-lg max-w-none">
+        <h2
+          class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6"
+        >
+          Siapa Kami
+        </h2>
+        <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+          Alpha Digital Agency adalah praktik marketing hospitality Bali — spesialisasi Google Ads, data tracking lintas channel, dan integrasi booking engine langsung untuk vila dan hotel.
+        </p>
+        <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+          Kami tidak menjual tech. Tidak menjual platform. Kami memastikan digital marketing dapat diimplementasikan dengan benar dan tepat — sehingga pemilik properti punya gambaran jelas tentang channel mana yang benar-benar menghasilkan reservasi.
+        </p>
+        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+          Kami gabungkan Google Ads, Search Console, dan Analytics dalam satu sistem laporan — supaya iklan berbayar dan pencarian organik tidak saling makan budget, tapi saling mendukung reservasi langsung.
+        </p>
+      </div>
+    </div>
 
-				<h2
-					class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6 mt-12"
-				>
-					Let's Connect
-				</h2>
-				<p
-					class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6"
-				>
-					Ready to transform your digital presence? We'd love to hear
-					from you.
-				</p>
-				<a
-					href="mailto:daniel@alphadigitalagency.id"
-					class="btn-swiss inline-flex items-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-				>
-					<span class="material-symbols-outlined">mail</span>
-					Get in Touch
-				</a>
-			</div>
-		</div>
-	</section>
+    <!-- Expertise grid -->
+    <div
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
+    >
+      <h2
+        class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8"
+      >
+        Keahlian Kami
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-2">
+            Google Ads — 9 Tahun
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            Spesialisasi kampanye Google Ads untuk vila dan hotel boutique di Bali. Keyword research, bid strategy, creative optimization — berbasis data, bukan asumsi.
+          </p>
+        </div>
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-2">
+            Data Tracking &amp; Analytics
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            Setup GA4, GTM, dan Google Search Console yang benar. Laporan bulanan yang menggabungkan data Ads + organik + booking dalam satu tampilan.
+          </p>
+        </div>
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-2">
+            Booking Engine Integration
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            Install dan kelola booking engine — platform apa pun, tanpa lock-in vendor. Reservasi langsung terhubung ke laporan Ads Anda.
+          </p>
+        </div>
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-2">
+            AI Agent untuk Properti
+          </h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            Asisten digital 24/7 di website properti Anda — jawab pertanyaan tamu, bantu proses reservasi, terintegrasi dengan booking engine.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proof block — anonymized -->
+    <div
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
+    >
+      <h2
+        class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6"
+      >
+        Hasil Nyata
+      </h2>
+      <blockquote class="border-l-4 border-primary pl-6 py-2">
+        <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">
+          "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads."
+        </p>
+        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">
+          — Verified client data. Name withheld per client policy.
+        </cite>
+      </blockquote>
+      <p class="text-slate-500 dark:text-slate-400 text-xs mt-6">
+        Case Study #1 — full breakdown coming soon. <a href="mailto:daniel@alphadigitalagency.id" class="text-primary underline">Hubungi kami</a> untuk melihat methodology secara detail.
+      </p>
+    </div>
+
+    <!-- FAQ -->
+    <div
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
+    >
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        Pertanyaan Umum
+      </h2>
+      <div class="space-y-6">
+        {aboutFaqItems.map((item) => (
+          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
+            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Internal links to services -->
+    <div class="grid grid-cols-2 gap-4 mb-8">
+      <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Layanan Utama</p>
+        <p class="font-bold text-charcoal dark:text-white text-sm">Growth — Google Ads →</p>
+      </a>
+      <a href="/services/authority" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Full-Funnel</p>
+        <p class="font-bold text-charcoal dark:text-white text-sm">Authority Tier →</p>
+      </a>
+    </div>
+
+    <!-- CTA -->
+    <div
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center"
+    >
+      <h2
+        class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4"
+      >
+        Mulai dari Mana?
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
+        Kirim email atau WhatsApp. Kami mulai dengan audit cepat situasi digital properti Anda — gratis, tanpa komitmen.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="mailto:daniel@alphadigitalagency.id"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+          <span class="material-symbols-outlined">mail</span>
+          Minta Penawaran
+        </a>
+        <a
+          href="https://wa.me/628814802249"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+          <span class="material-symbols-outlined">chat</span>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
 </SwissLayout>

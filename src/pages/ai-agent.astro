@@ -1,9 +1,76 @@
 ---
 export const prerender = true;
 import SwissLayout from "../components/SwissLayout.astro";
+
+const faqItems = [
+  {
+    q: "What is an AI Agent for a hotel or villa?",
+    a: "An AI Agent is a smart chat assistant embedded on your property website. It's trained on your villa details, policies, and services — so it answers guest questions instantly, 24 hours a day, and guides them toward direct booking."
+  },
+  {
+    q: "Does the AI Agent replace my front desk team?",
+    a: "No. The AI Agent handles repetitive questions (availability, rates, policies, local recommendations) outside office hours. Your team focuses on high-value guest interactions and in-person service."
+  },
+  {
+    q: "Which languages does the AI Agent support?",
+    a: "The agent responds in the guest's language automatically — English, Indonesian, Mandarin, Japanese, and more. No manual setup needed per language."
+  },
+  {
+    q: "Can the AI Agent connect to our booking engine?",
+    a: "Yes. We integrate the agent directly with your booking engine so guests can check availability and be guided to book directly — without OTA involvement."
+  },
+  {
+    q: "How long does setup take?",
+    a: "Typically 2–4 weeks depending on your property's data and systems. We handle training, integration, and testing before go-live."
+  }
+];
+
+const serviceLD = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI Agent for Hotels and Villas — Bali",
+  "provider": {
+    "@type": "Organization",
+    "name": "Alpha Digital Agency",
+    "url": "https://alphadigitalagency.id"
+  },
+  "areaServed": "Bali, Indonesia",
+  "description": "AI-powered chat assistant trained on your property — answers guest questions 24/7, guides direct bookings, integrates with your booking engine."
+};
+
+const faqLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
+
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
+    { "@type": "ListItem", "position": 2, "name": "AI Agent", "item": "https://alphadigitalagency.id/ai-agent/" }
+  ]
+};
 ---
 
-<SwissLayout title="AI Agent | Alpha Digital Agency" currentPage="ai-agent">
+<SwissLayout
+  title="AI Agent for Hotels & Villas Bali | Alpha Digital Agency"
+  description="Install a 24/7 AI chat assistant on your Bali property website — trained on your villa, answers guest questions, and guides direct bookings. No OTA commission."
+  currentPage="ai-agent"
+>
+    <Fragment slot="head">
+        <script type="application/ld+json" set:html={JSON.stringify(serviceLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+    </Fragment>
     <!-- Hero -->
     <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center">
         <h1
@@ -21,13 +88,11 @@ import SwissLayout from "../components/SwissLayout.astro";
         <!-- Live Chat Preview -->
         <div class="mt-10 flex justify-center">
             <a
-                href="https://sayanhouse.pages.dev"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="mailto:daniel@alphadigitalagency.id"
                 class="btn-swiss inline-flex items-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
             >
                 <span class="material-symbols-outlined">chat</span>
-                Try the Live Chat
+                Request a Demo
             </a>
         </div>
     </section>
@@ -124,7 +189,7 @@ import SwissLayout from "../components/SwissLayout.astro";
         </div>
 
         <!-- CTA -->
-        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center">
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center mb-8">
             <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
                 Want an AI Agent for your property?
             </h2>
@@ -138,7 +203,7 @@ import SwissLayout from "../components/SwissLayout.astro";
                     class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
                 >
                     <span class="material-symbols-outlined">mail</span>
-                    Email Us
+                    Request Quote
                 </a>
                 <a
                     href="https://wa.me/628814802249"
@@ -150,6 +215,35 @@ import SwissLayout from "../components/SwissLayout.astro";
                     WhatsApp
                 </a>
             </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+            <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+                Frequently Asked Questions
+            </h2>
+            <div class="space-y-6">
+                {faqItems.map((item) => (
+                    <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
+                        <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        <!-- Internal links to service pages -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <a href="/services/authority" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block">
+                <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Full-Funnel Service</p>
+                <p class="font-bold text-charcoal dark:text-white">Authority Tier →</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">All channels connected, including AI agent integration.</p>
+            </a>
+            <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block">
+                <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Google Ads Service</p>
+                <p class="font-bold text-charcoal dark:text-white">Growth Tier →</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Google Ads management + booking funnel optimization.</p>
+            </a>
         </div>
     </section>
 </SwissLayout>

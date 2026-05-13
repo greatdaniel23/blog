@@ -1,0 +1,225 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+
+const serviceLD = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Foundation — Data Tracking & Analytics untuk Vila dan Hotel di Bali",
+  "provider": {
+    "@type": "Organization",
+    "name": "Alpha Digital Agency",
+    "url": "https://alphadigitalagency.id"
+  },
+  "areaServed": "Bali, Indonesia",
+  "description": "Setup GA4, GTM, dan Google Search Console yang benar sebelum Anda scale budget iklan. Laporan bulanan lintas channel untuk properti hospitality di Bali.",
+  "serviceType": "Digital Marketing",
+  "url": "https://alphadigitalagency.id/services/foundation/"
+};
+
+const faqItems = [
+  {
+    q: "Mengapa tracking harus benar sebelum saya jalankan Google Ads?",
+    a: "Tanpa tracking yang benar, Anda tidak tahu konversi mana yang berasal dari iklan, organik, atau langsung. Budget Ads bisa terbuang ke keyword yang salah selama berbulan-bulan tanpa terdeteksi."
+  },
+  {
+    q: "Apa saja yang termasuk dalam setup GA4 untuk hotel?",
+    a: "Setup GA4 untuk properti hospitality mencakup: event tracking (begin_checkout, purchase, form_submit), conversion goal konfigurasi, channel grouping yang benar, dan integrasi dengan Google Ads dan Search Console."
+  },
+  {
+    q: "Apa bedanya Foundation dengan layanan Growth?",
+    a: "Foundation adalah pondasi — setup tracking, laporan baseline, dan satu area fokus. Growth adalah execution layer: Google Ads management aktif + audit funnel booking dua minggu sekali. Foundation biasanya diambil dulu sebelum Growth."
+  },
+  {
+    q: "Apakah saya perlu tech background untuk menggunakan laporan Foundation?",
+    a: "Tidak. Laporan kami dirancang untuk pemilik properti dan GM — bukan untuk developer. Kami sederhanakan data menjadi insight yang bisa langsung diambil tindakan."
+  },
+  {
+    q: "Berapa lama setup Foundation selesai?",
+    a: "Biasanya 2–3 minggu untuk setup lengkap: audit tracking yang ada, perbaikan, setup baru, dan verifikasi data. Laporan pertama dikirim di akhir bulan pertama."
+  }
+];
+
+const faqLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
+
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
+    { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://alphadigitalagency.id/services/" },
+    { "@type": "ListItem", "position": 3, "name": "Foundation", "item": "https://alphadigitalagency.id/services/foundation/" }
+  ]
+};
+---
+
+<SwissLayout
+  title="Foundation — Data Tracking &amp; Analytics untuk Hotel Bali | Alpha Digital Agency"
+  description="Pastikan data Anda benar dulu sebelum bakar budget iklan. Setup GA4, GTM, Search Console untuk vila dan hotel di Bali. Laporan bulanan lintas channel."
+  currentPage="services"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(serviceLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+  </Fragment>
+
+  <!-- Hero -->
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
+    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">Tier 1 — Foundation</p>
+    <h1
+      class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6"
+    >
+      Start With Clean Data<span class="text-primary">.</span>
+    </h1>
+    <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+      Tracking yang benar, laporan bulanan lintas channel, dan satu area fokus pertama — pondasi sebelum Anda scale.
+    </p>
+    <div class="mt-8">
+      <a
+        href="mailto:daniel@alphadigitalagency.id"
+        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+      >
+        <span class="material-symbols-outlined">mail</span>
+        Minta Penawaran
+      </a>
+    </div>
+  </section>
+
+  <!-- Outcome statement -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
+      <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+        Kami gabungkan data Maps, iklan Google, dan pencarian organik dalam satu laporan — jadi Anda tahu persis channel mana yang paling banyak drive reservasi langsung bulan ini.
+      </p>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        Yang Anda Dapatkan
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex gap-4 items-start">
+          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+          <div>
+            <h3 class="font-bold text-charcoal dark:text-white mb-1">Setup GA4 &amp; Search Console yang Benar</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Event tracking hospitality-specific: booking inquiry, form submit, phone click. Bukan setup default yang kehilangan 60% data konversi.</p>
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+          <div>
+            <h3 class="font-bold text-charcoal dark:text-white mb-1">Laporan Bulanan: Iklan + Organik + Booking</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Satu laporan yang menggabungkan Google Ads, Search Console, dan data booking — bukan tiga tab Excel terpisah.</p>
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+          <div>
+            <h3 class="font-bold text-charcoal dark:text-white mb-1">Audit Google Business Profile &amp; Maps</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Visibilitas di Google Maps berdampak langsung pada reservasi langsung. Kami audit dan optimalkan profil properti Anda.</p>
+          </div>
+        </div>
+        <div class="flex gap-4 items-start">
+          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+          <div>
+            <h3 class="font-bold text-charcoal dark:text-white mb-1">Satu Area Fokus: Ads, SEO, atau Konten</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Berdasarkan audit data awal, kami rekomendasikan satu area yang paling berdampak untuk properti Anda — bukan coba semua sekaligus.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proof anchor -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+        Hasil yang Bisa Diukur
+      </h2>
+      <blockquote class="border-l-4 border-primary pl-6 py-2">
+        <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">
+          "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads."
+        </p>
+        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">
+          — Verified client data. Name withheld per client policy.
+        </cite>
+      </blockquote>
+      <p class="text-slate-500 dark:text-slate-400 text-xs mt-4">
+        Case Study #1 — full breakdown coming soon.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        Pertanyaan tentang Foundation
+      </h2>
+      <div class="space-y-6">
+        {faqItems.map((item) => (
+          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
+            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Internal links to other tiers -->
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
+    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">Sudah tracking? Upgrade ke layanan berikutnya:</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 2</p>
+        <p class="font-bold text-charcoal dark:text-white">Growth →</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Google Ads + audit funnel booking</p>
+      </a>
+      <a href="/services/authority" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 3</p>
+        <p class="font-bold text-charcoal dark:text-white">Authority →</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Semua channel, satu laporan</p>
+      </a>
+      <a href="/services/booking-integration" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 4</p>
+        <p class="font-bold text-charcoal dark:text-white">Booking Engine →</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Install &amp; kelola, tanpa lock-in</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
+        Mulai dengan Foundation
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
+        Kirim email ke kami. Kami audit situasi tracking properti Anda sekarang — gratis, tanpa komitmen.
+      </p>
+      <a
+        href="mailto:daniel@alphadigitalagency.id"
+        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+      >
+        <span class="material-symbols-outlined">mail</span>
+        Minta Penawaran
+      </a>
+    </div>
+  </section>
+</SwissLayout>

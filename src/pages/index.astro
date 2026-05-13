@@ -4,13 +4,77 @@
 export const prerender = true;
 
 import SwissLayout from "../components/SwissLayout.astro";
+
+const homeFaqItems = [
+  {
+    q: "Apa yang membedakan Alpha Digital dari agency lain di Bali?",
+    a: "Alpha Digital menggabungkan Google Ads, SEO organik, dan booking engine langsung dalam satu sistem laporan. Bukan tiga vendor terpisah — satu tim, satu data, satu tujuan: reservasi langsung lebih banyak."
+  },
+  {
+    q: "Apakah Alpha Digital hanya melayani vila dan hotel di Bali?",
+    a: "Spesialisasi kami adalah hospitality Bali — vila, hotel boutique, dan restoran. Kami tidak melayani semua industri karena fokus adalah kunci hasil terbaik."
+  },
+  {
+    q: "Berapa lama sebelum saya melihat hasil dari Google Ads?",
+    a: "Kampanye Google Ads biasanya mulai menghasilkan data bermakna dalam 2–4 minggu pertama. Optimasi dilakukan dua minggu sekali berdasarkan data nyata, bukan asumsi."
+  },
+  {
+    q: "Apakah saya perlu sudah punya website untuk mulai?",
+    a: "Tidak harus. Kami bisa audit website yang sudah ada, atau bantu dari awal. Yang paling penting adalah tracking yang benar sebelum budget iklan dibakar."
+  },
+  {
+    q: "Bagaimana cara memulai dengan Alpha Digital?",
+    a: "Kirim email ke daniel@alphadigitalagency.id atau WhatsApp ke 0881 480 2249. Kami mulai dengan audit cepat situasi digital properti Anda — gratis, tanpa komitmen."
+  }
+];
+
+const localBusinessLD = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "ProfessionalService"],
+  "name": "Alpha Digital Agency",
+  "url": "https://alphadigitalagency.id",
+  "description": "Spesialis Google Ads, SEO, dan booking engine untuk vila dan hotel di Bali. Gabungkan data iklan, pencarian organik, dan reservasi langsung dalam satu sistem laporan.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Denpasar",
+    "addressRegion": "Bali",
+    "addressCountry": "ID"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -8.6705,
+    "longitude": 115.2126
+  },
+  "areaServed": { "@type": "Place", "name": "Bali, Indonesia" },
+  "priceRange": "$$",
+  "telephone": "+6208814802249",
+  "email": "daniel@alphadigitalagency.id",
+  "knowsAbout": ["Google Ads", "SEO", "GA4", "Booking Engine", "Digital Marketing", "Hospitality Marketing", "Bali"]
+};
+
+const homeFaqLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": homeFaqItems.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
 ---
 
 <SwissLayout
-	title="Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality"
-	description="First Bali agency openly using AI/LLM end-to-end. Google Ads, booking engine, AI agent, SEO & data tracking for villas, hotels, and restaurants in Bali."
+	title="Alpha Digital Agency — Google Ads, SEO & Booking Engine untuk Vila &amp; Hotel di Bali"
+	description="Gabungkan Google Ads, SEO, dan booking engine langsung dalam satu sistem. Kurangi ketergantungan OTA. Spesialis hospitality Bali — 9 tahun pengalaman Google Ads."
 	currentPage="home"
 >
+    <Fragment slot="head">
+        <script type="application/ld+json" set:html={JSON.stringify(localBusinessLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(homeFaqLD)} />
+    </Fragment>
 	<!-- ── Hero ── -->
 	<section
 		class="relative flex-1 flex flex-col items-center justify-center min-h-[calc(100svh-80px)] w-full px-4 pb-24 md:pb-12"
@@ -26,31 +90,18 @@ import SwissLayout from "../components/SwissLayout.astro";
 			<!-- Headline -->
 			<div class="flex-none mb-3 md:mb-4">
 				<h1
-					class="flex flex-col items-center font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest mix-blend-hard-light dark:mix-blend-normal"
+					class="flex flex-col items-center font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest"
 				>
 					<span
-						class="text-[2.5rem] sm:text-[3.5rem] md:text-5xl lg:text-[4.5rem] xl:text-[6.5rem] 2xl:text-[7.5rem] drop-shadow-sm transition-all duration-300"
+						class="text-[2rem] sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4rem] xl:text-[5rem] 2xl:text-[6rem] drop-shadow-sm transition-all duration-300 text-center max-w-4xl"
 					>
-						Digital Marketing
-					</span>
-					<span
-						class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[3.5rem] 2xl:text-[4.5rem] mt-2 md:mt-2 text-slate-600 dark:text-slate-400 font-bold tracking-tight"
-					>
-						&amp; <span
-							class="text-primary dark:text-emerald-400 relative inline-block"
-						>
-							AI
-							<span
-								class="absolute bottom-1.5 left-0 w-full h-[0.05em] bg-primary/30 dark:bg-emerald-400/30 rounded-full"
-							></span>
-						</span> in Bali
+						Google Ads, SEO, dan booking engine yang bekerja sebagai satu sistem.
 					</span>
 				</h1>
 				<p
-					class="mt-3 md:mt-4 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-[90%] md:max-w-xl mx-auto leading-relaxed tracking-wide"
+					class="mt-3 md:mt-4 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-[90%] md:max-w-2xl mx-auto leading-relaxed tracking-wide text-center"
 				>
-					Specialists in the Google Ecosystem &amp; AI Solutions for
-					hotels and luxury brands.
+					Kami gabungkan data iklan, pencarian organik, dan reservasi langsung — supaya setiap rupiah marketing yang Anda keluarkan kelihatan hasilnya. Untuk vila dan hotel di Bali yang ingin kurangi ketergantungan OTA.
 				</p>
 			</div>
 
@@ -149,19 +200,6 @@ import SwissLayout from "../components/SwissLayout.astro";
 				class="flex-none flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto px-8 sm:px-0 pt-2 pb-2 md:pb-0 z-40"
 			>
 				<a
-					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white text-charcoal dark:text-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
-					href="tel:08814802249"
-				>
-					<span
-						class="material-symbols-outlined text-[18px] md:text-[20px] group-hover:text-primary transition-colors"
-						>call</span
-					>
-					<span
-						class="font-bold text-[11px] md:text-[13px] uppercase tracking-widest"
-						>0881 480 2249</span
-					>
-				</a>
-				<a
 					id="email-cta"
 					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
 					href="#"
@@ -174,7 +212,20 @@ import SwissLayout from "../components/SwissLayout.astro";
 					>
 					<span
 						class="font-bold text-[11px] md:text-[13px] uppercase tracking-widest"
-						>Email Us</span
+						>Minta Penawaran</span
+					>
+				</a>
+				<a
+					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white text-charcoal dark:text-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
+					href="tel:08814802249"
+				>
+					<span
+						class="material-symbols-outlined text-[18px] md:text-[20px] group-hover:text-primary transition-colors"
+						>call</span
+					>
+					<span
+						class="font-bold text-[11px] md:text-[13px] uppercase tracking-widest"
+						>0881 480 2249</span
 					>
 				</a>
 				<script is:inline>
@@ -188,6 +239,31 @@ import SwissLayout from "../components/SwissLayout.astro";
 					})();
 				</script>
 			</div>
+		</div>
+
+		<!-- Services quick-links — below hero orbit, above marquee -->
+		<!-- No backdrop-blur, no drop-shadow on mobile — compositor-cost pre-flight passed -->
+		<div class="relative z-10 w-full max-w-[1400px] px-4 mt-8 mb-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+			<a href="/services/foundation" class="bg-white/80 dark:bg-slate-900/80 border-2 border-charcoal dark:border-white p-4 card-swiss block text-left">
+				<p class="text-[10px] font-mono uppercase tracking-widest text-primary mb-1">Tier 1</p>
+				<p class="font-bold text-charcoal dark:text-white text-sm">Foundation</p>
+				<p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">Tracking benar sebelum scale iklan.</p>
+			</a>
+			<a href="/services/growth" class="bg-white/80 dark:bg-slate-900/80 border-2 border-charcoal dark:border-white p-4 card-swiss block text-left">
+				<p class="text-[10px] font-mono uppercase tracking-widest text-primary mb-1">Tier 2</p>
+				<p class="font-bold text-charcoal dark:text-white text-sm">Growth</p>
+				<p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">Google Ads + audit funnel booking.</p>
+			</a>
+			<a href="/services/authority" class="bg-white/80 dark:bg-slate-900/80 border-2 border-charcoal dark:border-white p-4 card-swiss block text-left">
+				<p class="text-[10px] font-mono uppercase tracking-widest text-primary mb-1">Tier 3</p>
+				<p class="font-bold text-charcoal dark:text-white text-sm">Authority</p>
+				<p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">Semua channel, satu laporan.</p>
+			</a>
+			<a href="/services/booking-integration" class="bg-white/80 dark:bg-slate-900/80 border-2 border-charcoal dark:border-white p-4 card-swiss block text-left">
+				<p class="text-[10px] font-mono uppercase tracking-widest text-primary mb-1">Tier 4</p>
+				<p class="font-bold text-charcoal dark:text-white text-sm">Booking Engine</p>
+				<p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">Install &amp; kelola, tanpa lock-in.</p>
+			</a>
 		</div>
 
 		<!-- Marquee ticker at bottom of hero -->
@@ -229,6 +305,32 @@ import SwissLayout from "../components/SwissLayout.astro";
 					</div>
 				</div>
 			</div>
+		</div>
+	</section>
+
+	<!-- FAQ Section — homepage -->
+	<section class="max-w-4xl mx-auto py-16 px-6 md:px-12">
+		<h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8 text-center">
+			Pertanyaan yang Sering Kami Terima
+		</h2>
+		<div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+			<div class="space-y-6">
+				{homeFaqItems.map((item) => (
+					<div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
+						<h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
+						<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+					</div>
+				))}
+			</div>
+		</div>
+		<div class="mt-8 text-center">
+			<a
+				href="mailto:daniel@alphadigitalagency.id"
+				class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+			>
+				<span class="material-symbols-outlined">mail</span>
+				Minta Penawaran
+			</a>
 		</div>
 	</section>
 </SwissLayout>
