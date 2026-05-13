@@ -168,6 +168,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
         <!-- pb-20 on main ensures content is not obscured by this bar -->
         <!-- backdrop-blur-sm removed: creates compositor layer on mobile, blocks FCP/LCP -->
         <!-- Using solid bg instead — same visual effect, zero compositor cost -->
+        <!-- Icons: inline SVG instead of Material Symbols — eliminates async font LCP blocker.
+             Material Symbols loads via media="print" onload (async), making icon spans
+             LCP candidates that don't resolve until font arrives (~7s on throttled mobile).
+             Inline SVGs render at parse time, zero font dependency, same visual. -->
         <div
             class="fixed bottom-0 left-0 right-0 z-50 md:hidden border-t border-slate-200 dark:border-slate-700 bg-background-light dark:bg-background-dark flex"
         >
@@ -176,7 +180,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
                 class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 text-charcoal dark:text-white hover:text-primary transition-colors min-h-[52px]"
                 aria-label="Call us"
             >
-                <span class="material-symbols-outlined text-[22px]">call</span>
+                <!-- Phone SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                 <span class="text-[9px] font-bold uppercase tracking-wider">Call</span>
             </a>
             <div class="w-px bg-slate-200 dark:bg-slate-700 my-2"></div>
@@ -187,7 +192,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
                 class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 bg-primary text-white hover:bg-primary-dark transition-colors min-h-[52px]"
                 aria-label="WhatsApp us"
             >
-                <span class="material-symbols-outlined text-[22px]">chat</span>
+                <!-- Chat/WhatsApp SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
                 <span class="text-[9px] font-bold uppercase tracking-wider">WhatsApp</span>
             </a>
             <div class="w-px bg-slate-200 dark:bg-slate-700 my-2"></div>
@@ -199,7 +205,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
                 class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 text-charcoal dark:text-white hover:text-primary transition-colors min-h-[52px]"
                 aria-label="Email us"
             >
-                <span class="material-symbols-outlined text-[22px]">mail</span>
+                <!-- Mail SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                 <span class="text-[9px] font-bold uppercase tracking-wider">Email</span>
             </a>
         </div>
