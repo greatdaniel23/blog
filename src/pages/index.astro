@@ -56,7 +56,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 						Digital Marketing
 					</span>
 					<span
-						class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[3.5rem] 2xl:text-[4.5rem] mt-2 md:mt-2 text-slate-500 dark:text-slate-400 font-bold tracking-tight"
+						class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[3.5rem] 2xl:text-[4.5rem] mt-2 md:mt-2 text-slate-600 dark:text-slate-400 font-bold tracking-tight"
 					>
 						&amp; <span
 							class="text-primary dark:text-emerald-400 relative inline-block"
@@ -208,8 +208,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 					>
 				</a>
 				<a
+					id="email-cta"
 					class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3 md:px-8 md:py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover"
-					href="mailto:daniel@alphadigitalagency.id"
+					href="#"
+					data-e="daniel"
+					data-d="alphadigitalagency.id"
 				>
 					<span
 						class="material-symbols-outlined text-[18px] md:text-[20px]"
@@ -220,6 +223,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 						>Email Us</span
 					>
 				</a>
+				<script is:inline>
+					// Build mailto link at runtime — avoids Cloudflare email obfuscation
+					// which injects a synchronous render-blocking script (email-decode.min.js)
+					(function() {
+						var el = document.getElementById('email-cta');
+						if (el) {
+							el.href = 'mailto:' + el.dataset.e + '@' + el.dataset.d;
+						}
+					})();
+				</script>
 			</div>
 		</div>
 		<div
