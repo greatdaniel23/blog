@@ -1,5 +1,33 @@
 ---
+import { SOCIAL_LINKS } from "../consts";
+
 const today = new Date();
+
+// Social icon row. Monochrome inline SVGs that inherit footer text color.
+// Only links whose URL is set (not a "TODO…" placeholder) are rendered, so a
+// placeholder never ships as a live/broken href. ALPHA fills the verified URLs
+// in src/consts.ts → SOCIAL_LINKS before deploy.
+const socialIcons: Record<string, string> = {
+    linkedin: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>`,
+    instagram: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38C1.35 2.67.93 3.34.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.8.72 1.47 1.38 2.13.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.8-.3 1.47-.72 2.13-1.38.66-.66 1.08-1.33 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.8-.72-1.47-1.38-2.13a5.9 5.9 0 0 0-2.13-1.38c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.41-10.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>`,
+    threads: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.3 11.2c-.1-.05-.2-.1-.3-.14-.18-3.27-1.97-5.15-4.97-5.17h-.04c-1.8 0-3.3.77-4.22 2.17l1.65 1.14c.69-1.04 1.76-1.26 2.57-1.26h.03c1 .01 1.76.3 2.25.87.36.41.6.99.72 1.71-.9-.15-1.86-.2-2.9-.13-2.9.16-4.77 1.86-4.65 4.21.07 1.2.66 2.22 1.69 2.88.86.56 1.97.83 3.13.77 1.53-.08 2.73-.67 3.57-1.74.64-.81 1.04-1.87 1.22-3.2.72.44 1.26 1.01 1.55 1.7.5 1.18.53 3.1-1.04 4.67-1.38 1.37-3.03 1.97-5.52 1.99-2.77-.02-4.86-.91-6.22-2.64C3.16 17.1 2.5 14.84 2.48 12c.02-2.84.68-5.1 1.96-6.71C5.8 3.56 7.9 2.67 10.66 2.65c2.78.02 4.91.91 6.33 2.65.7.85 1.22 1.93 1.57 3.18l1.94-.52c-.42-1.54-1.08-2.87-1.98-3.97C16.74 1.85 14.1.69 10.67.67h-.01C7.24.69 4.63 1.85 2.92 4.13 1.4 6.17.62 8.99.6 12v.01c.02 3.01.8 5.83 2.32 7.87 1.71 2.28 4.32 3.44 7.74 3.46h.01c3.04-.02 5.18-.82 6.95-2.58 2.31-2.3 2.24-5.19 1.48-6.97-.55-1.28-1.6-2.32-3.04-3.01-.25-.12-.48-.21-.66-.28v.78zm-5.16 5.3c-1.28.07-2.61-.5-2.68-1.76-.05-.93.66-1.97 2.76-2.09.24-.01.48-.02.71-.02.76 0 1.47.07 2.12.21-.24 3.03-1.66 3.59-2.91 3.66z"/></svg>`,
+};
+
+const socialLabels: Record<string, string> = {
+    linkedin: "Alpha Digital on LinkedIn",
+    instagram: "Alpha Digital on Instagram",
+    threads: "Alpha Digital on Threads",
+};
+
+const socialRow = (
+    Object.entries(SOCIAL_LINKS) as [keyof typeof SOCIAL_LINKS, string][]
+)
+    .filter(([, url]) => url && !url.startsWith("TODO"))
+    .map(([key, url]) => ({
+        url,
+        label: socialLabels[key],
+        icon: socialIcons[key],
+    }));
 
 const businessInfo = {
     name: "Alpha Digital Agency Indonesia",
@@ -19,11 +47,14 @@ const services = [
     { name: "Digital Marketing", href: "/" },
 ];
 
+// LocalBusiness node — @id-linked to the sitewide Organization (#organization)
+// so Google treats them as one entity (P2). Empty image/sameAs omitted rather
+// than emitted (no fabricated social URLs).
 const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
+    "@id": `${businessInfo.website}/#localbusiness`,
     name: businessInfo.name,
-    image: "",
     telephone: businessInfo.phone,
     email: businessInfo.email,
     address: {
@@ -33,7 +64,7 @@ const jsonLd = {
         addressCountry: businessInfo.country,
     },
     url: businessInfo.website,
-    sameAs: [],
+    parentOrganization: { "@id": `${businessInfo.website}/#organization` },
 };
 ---
 
@@ -126,6 +157,28 @@ const jsonLd = {
             </div>
         </div>
 
+        <!-- Partner Badges Trust Strip -->
+        <div class="pt-6 mb-6 border-t border-slate-200 dark:border-slate-800">
+            <p class="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-3">Partners</p>
+            <div class="flex flex-wrap items-center gap-4">
+                <a
+                    href="https://www.siteminder.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="SiteMinder Partner"
+                >
+                    <img
+                        src="/partners/siteminder-partner.png"
+                        alt="SiteMinder Partner"
+                        width="100"
+                        height="110"
+                        loading="lazy"
+                        class="h-[80px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                    />
+                </a>
+            </div>
+        </div>
+
         <!-- Bottom Bar -->
         <div
             class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4"
@@ -134,31 +187,41 @@ const jsonLd = {
                 © {today.getFullYear()}
                 {businessInfo.name}
             </div>
-            <div
-                class="flex gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-700 dark:text-slate-300"
-            >
-                <a
-                    href="/privacy-policy/"
-                    class="hover:text-primary transition-colors"
+            <div class="flex items-center gap-6">
+                {
+                    socialRow.length > 0 && (
+                        <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+                            {socialRow.map((s) => (
+                                <a
+                                    href={s.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={s.label}
+                                    class="hover:text-primary transition-colors"
+                                    set:html={s.icon}
+                                />
+                            ))}
+                        </div>
+                    )
+                }
+                <div
+                    class="flex gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-700 dark:text-slate-300"
                 >
-                    Privacy Policy
-                </a>
-                <a
-                    href="https://instagram.com/alphadigitalagency"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="hover:text-primary transition-colors"
-                >
-                    Instagram
-                </a>
-                <a
-                    href="https://wa.me/628814802249"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="hover:text-primary transition-colors"
-                >
-                    WhatsApp
-                </a>
+                    <a
+                        href="/privacy-policy/"
+                        class="hover:text-primary transition-colors"
+                    >
+                        Privacy Policy
+                    </a>
+                    <a
+                        href="https://wa.me/628814802249"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hover:text-primary transition-colors"
+                    >
+                        WhatsApp
+                    </a>
+                </div>
             </div>
         </div>
     </div>

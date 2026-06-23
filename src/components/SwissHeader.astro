@@ -8,6 +8,7 @@ const { currentPage = "" } = Astro.props;
 const navItems = [
     { href: "/", label: "Home", key: "home" },
     { href: "/services/growth/", label: "Services", key: "services" },
+    { href: "/ekosistem/", label: "Ekosistem", key: "ekosistem" },
     { href: "/ai-agent/", label: "AI Agent", key: "ai-agent" },
     { href: "/about/", label: "About", key: "about" },
 ];
@@ -65,12 +66,17 @@ const navItems = [
 </header>
 
 <!-- Mobile Navigation Overlay -->
+<!-- aria-hidden="true" on initial load — toggled by JS when menu opens.
+     This prevents crawlers from reading the duplicated nav text block as
+     page content. Without it, Google/Gemini scraped "Home Services AI Agent
+     About… WhatsApp Us" as the representative body snippet (dual nav DOM). -->
 <div
     id="mobile-menu"
     class="fixed inset-0 z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm hidden md:hidden"
     role="dialog"
     aria-modal="true"
     aria-label="Navigation menu"
+    aria-hidden="true"
 >
     <!-- Close button — top-right, 44×44px -->
     <button
@@ -123,6 +129,7 @@ const navItems = [
     function openMenu() {
         if (!mobileMenu || !menuBtn) return;
         mobileMenu.classList.remove("hidden");
+        mobileMenu.removeAttribute("aria-hidden");
         menuBtn.setAttribute("aria-expanded", "true");
         // Trap focus in overlay
         document.body.style.overflow = "hidden";
@@ -131,6 +138,7 @@ const navItems = [
     function closeMenu() {
         if (!mobileMenu || !menuBtn) return;
         mobileMenu.classList.add("hidden");
+        mobileMenu.setAttribute("aria-hidden", "true");
         menuBtn.setAttribute("aria-expanded", "false");
         document.body.style.overflow = "";
     }

@@ -1,0 +1,50 @@
+-- Migration: 0002_post_structured_schema.sql
+-- Date: 2026-05-15
+-- Author: MASON (NEXUS brief — P2 JSON-LD prereq)
+-- Purpose: Add `faq` and `howto_steps` nullable TEXT columns to `posts` table
+--   so blog posts can carry structured-content data for JSON-LD generation
+--   (FAQPage and HowTo schema types). Both columns store JSON strings.
+--
+-- JSON CONTRACT (CANVAS needs this):
+--
+--   faq: JSON array of FAQ pairs
+--     Shape: Array<{ question: string; answer: string }>
+--     Example:
+--       [
+--         { "question": "What is the check-in time?", "answer": "3:00 PM" },
+--         { "question": "Is breakfast included?",     "answer": "Yes, for suite guests." }
+--       ]
+--     JSON-LD consumer: FAQPage mainEntity — each item maps to Question + acceptedAnswer.
+--
+--   howto_steps: JSON object for a HowTo block
+--     Shape: { name?: string; steps: Array<{ name: string; text: string }> }
+--     Example:
+--       {
+--         "name": "How to Book a Private Villa Dinner",
+--         "steps": [
+--           { "name": "Choose a date",    "text": "Contact the concierge at least 48 hours in advance." },
+--           { "name": "Select your menu", "text": "Pick from the seasonal tasting menu or go à la carte." }
+--         ]
+--       }
+--     JSON-LD consumer: HowTo with HowToStep array.
+--
+-- Both columns are NULLABLE with DEFAULT NULL.
+--   - Existing INSERT/UPDATE statements that omit these columns will continue
+--     working without modification — D1 / SQLite fills NULL automatically.
+--   - SELECT * consumers will receive NULL for both columns on old rows.
+--   - No existing post data is affected.
+--
+-- Safe to run once: ALTER TABLE fails if column already exists.
+-- This migration is NOT idempotent by default on SQLite/D1 (no IF NOT EXISTS
+-- for ALTER TABLE ADD COLUMN). Run exactly once per environment.
+--
+-- To apply (from D:\multiple-agentic\repos\blog\):
+--   wrangler d1 execute blogdatabase --local --file=migrations/0002_post_structured_schema.sql
+--   wrangler d1 execute blogdatabase --remote --file=migrations/0002_post_structured_schema.sql
+--
+-- To verify after apply:
+--   wrangler d1 execute blogdatabase --local --command "PRAGMA table_info(posts);"
+--   wrangler d1 execute blogdatabase --local --command "SELECT id, slug, faq, howto_steps FROM posts LIMIT 5;"
+
+ALTER TABLE posts ADD COLUMN faq TEXT DEFAULT NULL;
+ALTER TABLE posts ADD COLUMN howto_steps TEXT DEFAULT NULL;

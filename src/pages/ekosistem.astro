@@ -1,0 +1,243 @@
+---
+export const prerender = true;
+import SwissLayout from "../components/SwissLayout.astro";
+
+// Unique build marker for post-deploy verification (per feedback_verify_deploy_target).
+// Grep for this string on production after deploy.
+const BUILD_MARKER = "EKOSISTEM-PITCH-2026-05-16-NEXUS";
+
+const serviceLD = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Ekosistem Digital Hospitality Bali — Stack Terintegrasi Alpha Digital",
+    "provider": {
+        "@type": "Organization",
+        "name": "Alpha Digital Agency",
+        "url": "https://alphadigitalagency.id"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Daniel Santoso",
+        "url": "https://alphadigitalagency.id/daniel-santoso/#person"
+    },
+    "areaServed": "Bali, Indonesia",
+    "description": "Stack ekosistem digital end-to-end untuk vila dan hotel Bali: Google Ads → Website → AI Agent → Booking Engine → GA4 → MCP. Satu pipeline, satu data, satu tujuan: geser 15–30% reservasi OTA ke direct booking.",
+    "serviceType": "Integrated Hospitality Digital Stack",
+    "url": "https://alphadigitalagency.id/ekosistem/"
+};
+
+const faqItems = [
+    {
+        q: "Apa yang dimaksud 'ekosistem' digital Alpha Digital?",
+        a: "Lima lapisan yang dirancang sebagai satu sistem terintegrasi: Google Ads sebagai sumber traffic berbayar, website sebagai landing, AI Agent sebagai konsultan 24 jam, booking engine sebagai mesin reservasi langsung milik properti, dan GA4 + MCP sebagai lapisan data yang menyatukan semuanya menjadi laporan readable dan optimizable."
+    },
+    {
+        q: "Apa bedanya dengan beli komponen ini dari vendor terpisah?",
+        a: "Setiap komponen sendiri-sendiri adalah komoditas. Yang langka adalah desain ujung-ke-ujung di mana data konversi dari booking engine mengalir kembali ke Google Ads dengan benar — sehingga keyword yang menghasilkan reservasi aktual bisa diidentifikasi, bukan sekadar klik. Multi-vendor biasanya gagal di sambungan; satu tim mengurangi blind spot."
+    },
+    {
+        q: "Apakah saya bisa pakai sebagian saja dari ekosistem?",
+        a: "Bisa. Banyak klien mulai dari Google Ads + GA4 tracking, lalu menambahkan booking engine, lalu AI Agent. Urutan dan komposisi disesuaikan kondisi properti — bukan paket all-or-nothing."
+    },
+    {
+        q: "Apa yang Alpha Digital miliki yang vendor lain tidak?",
+        a: "Booking engine milik kami sendiri (open source, tanpa biaya lisensi bulanan), AI Agent yang dilatih dari Google Place ID dan database properti Anda, dan 9 tahun pengalaman Google Ads di sisi praktisi — bukan dari side project. Kombinasi ini memungkinkan kami merekomendasikan opsi yang tidak terikat satu vendor mana pun."
+    },
+    {
+        q: "Berapa lama setup ekosistem lengkap?",
+        a: "Implementasi bertahap: GA4 + tracking foundation (2 minggu), Google Ads aktif (2–4 minggu), booking engine integration (3–6 minggu), AI Agent training dan deploy (2–4 minggu). Properti yang sudah punya sebagian komponen bisa lebih cepat."
+    }
+];
+
+const faqLD = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+    }))
+};
+
+const breadcrumbLD = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
+        { "@type": "ListItem", "position": 2, "name": "Ekosistem", "item": "https://alphadigitalagency.id/ekosistem/" }
+    ]
+};
+
+const layers = [
+    {
+        n: "01",
+        name: "Google Ads",
+        role: "Sumber Traffic Bertarget",
+        body: "Kampanye Search, Performance Max, dan Hotel Ads dijalankan dengan keyword yang dipilih berdasarkan intent reservasi — bukan brand awareness umum. 9 tahun pengalaman di sisi praktisi.",
+        link: { href: "/services/growth/", label: "Detail Layanan Growth" }
+    },
+    {
+        n: "02",
+        name: "Website",
+        role: "Landing dan Konversi",
+        body: "Halaman properti yang cepat (Core Web Vitals optimized), schema markup hospitality, dan jalur konversi yang lurus dari iklan ke booking — tanpa pop-up agresif yang merusak pengalaman tamu luxury.",
+        link: { href: "/services/authority/", label: "Detail Layanan Authority" }
+    },
+    {
+        n: "03",
+        name: "AI Agent",
+        role: "Konsultan 24 Jam",
+        body: "Chatbot yang dilatih dari Google Place ID dan database properti Anda — menjawab pertanyaan ketersediaan, tarif, lokasi, dan kebijakan secara akurat dalam bahasa tamu. Mengarahkan tamu langsung ke booking engine.",
+        link: { href: "/ai-agent/", label: "Detail AI Agent" }
+    },
+    {
+        n: "04",
+        name: "Booking Engine",
+        role: "Mesin Reservasi Langsung Milik Anda",
+        body: "Booking engine open-source milik Alpha (tanpa biaya lisensi bulanan) atau integrasi Cloudbeds / SiteMinder / Little Hotelier — pilihan Anda. Data reservasi tetap di properti, tidak terkunci vendor.",
+        link: { href: "/booking-engine/", label: "Detail Booking Engine" }
+    },
+    {
+        n: "05",
+        name: "GA4 + MCP",
+        role: "Lapisan Data dan Laporan",
+        body: "Konversi booking engine masuk kembali ke Google Ads dan GA4 dengan atribusi yang benar. MCP server menggabungkan GA4 + Search Console + Google Ads + GBP dalam satu analisis cross-channel — pondasi laporan bulanan.",
+        link: { href: "/blog/", label: "Insight dan Studi Kasus" }
+    }
+];
+---
+
+<SwissLayout
+    title="Hospitality Digital Stack Bali | Alpha Digital"
+    description="Integrated digital stack for Bali hotels and villas: Google Ads, website, AI agent, booking engine, GA4, and reporting in one implementation pipeline."
+    currentPage="ekosistem"
+>
+    <Fragment slot="head">
+        <script type="application/ld+json" set:html={JSON.stringify(serviceLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+        <meta name="build-marker" content={BUILD_MARKER} />
+    </Fragment>
+
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center pt-24">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">Ekosistem — Stack Terintegrasi</p>
+        <h1
+            class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6"
+        >
+            Lima Lapisan. Satu Pipeline<span class="text-primary">.</span>
+        </h1>
+        <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            Google Ads, website, AI Agent, booking engine, dan GA4 + MCP — dirancang sebagai satu sistem terintegrasi. Bukan lima vendor terpisah dengan sambungan yang bocor.
+        </p>
+        <div class="mt-8">
+            <a
+                href="mailto:daniel@alphadigitalagency.id"
+                class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+            >
+                <span class="material-symbols-outlined">mail</span>
+                Diskusi Implementasi
+            </a>
+        </div>
+    </section>
+
+    <!-- Thesis statement -->
+    <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
+        <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
+            <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                Tujuan akhir bukan "punya lima alat digital". Tujuannya adalah <strong>menggeser 15–30% reservasi dari OTA ke direct booking dalam 90 hari pertama</strong> — sehingga komisi 15–25% yang biasanya keluar ke Booking.com atau Agoda tetap di kantong properti Anda. Setiap lapisan di ekosistem ini diukur kontribusinya terhadap angka itu.
+            </p>
+        </div>
+    </section>
+
+    <!-- Diagram: linear flow -->
+    <section class="max-w-5xl mx-auto mb-16 px-6 md:px-12">
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+            <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-2">
+                Alur Data End-to-End
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mb-8">Dari klik iklan sampai laporan bulanan — satu pipeline.</p>
+
+            <div class="flex flex-col md:flex-row gap-4 items-stretch text-sm">
+                {layers.map((l) => (
+                    <div class="flex-1 border-2 border-charcoal/10 dark:border-white/10 p-4">
+                        <p class="text-[10px] font-mono text-primary mb-1">{l.n}</p>
+                        <p class="font-bold text-charcoal dark:text-white text-sm mb-1">{l.name}</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">{l.role}</p>
+                    </div>
+                ))}
+            </div>
+
+            <div class="mt-6 text-xs font-mono text-slate-500 dark:text-slate-400 text-center">
+                ↓ Konversi booking → atribusi balik ke Ads → optimasi keyword berdasarkan reservasi aktual ↑
+            </div>
+        </div>
+    </section>
+
+    <!-- Layer detail -->
+    <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 space-y-6">
+        {layers.map((l) => (
+            <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10">
+                <div class="flex items-baseline gap-4 mb-3">
+                    <span class="text-xs font-mono text-primary">{l.n}</span>
+                    <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white">
+                        {l.name} — <span class="text-slate-500 dark:text-slate-400 font-normal">{l.role}</span>
+                    </h2>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{l.body}</p>
+                <a href={l.link.href} class="text-xs font-mono uppercase tracking-widest text-primary hover:underline">
+                    {l.link.label} →
+                </a>
+            </div>
+        ))}
+    </section>
+
+    <!-- Why integration matters -->
+    <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+            <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+                Mengapa Integrasi yang Membedakan
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                Banyak vila Bali sudah punya website, beberapa punya booking engine, sebagian kecil punya chatbot. Yang langka adalah <strong>data konversi yang mengalir bersih</strong> dari booking engine kembali ke Google Ads — dengan atribusi yang benar, dengan tagging yang konsisten, dengan laporan yang readable.
+            </p>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                Tanpa integrasi itu, Google Ads dioptimasi terhadap klik atau form-fill, bukan reservasi aktual. Vendor terpisah biasanya gagal di sambungan: tracking event tidak konsisten, conversion mismatch antara GA4 dan Ads, atau revenue tidak terkirim balik sebagai conversion value.
+            </p>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                Alpha Digital mendesain stack ini sebagai satu sistem dari awal — sehingga sambungan tidak bocor, dan keputusan optimasi iklan berbasis revenue, bukan proxy metric. Inilah alasan kami memposisikan Alpha sebagai <a href="/" class="text-primary font-semibold hover:underline">digital marketing agency in Bali for hospitality</a>, bukan vendor lepas untuk satu channel.
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+            <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+                Pertanyaan yang Sering Ditanya
+            </h2>
+            <div class="space-y-6">
+                {faqItems.map((item) => (
+                    <div>
+                        <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto mb-20 px-6 md:px-12 text-center">
+        <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg mb-6">
+            Mau lihat ekosistem ini diterapkan ke properti Anda?
+        </p>
+        <a
+            href="mailto:daniel@alphadigitalagency.id"
+            class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+            <span class="material-symbols-outlined">mail</span>
+            Mulai Diskusi
+        </a>
+    </section>
+</SwissLayout>

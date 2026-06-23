@@ -36,6 +36,10 @@ export const PUT: APIRoute = async ({ locals, cookies, params, request }) => {
         const body = await request.json();
         const { title, slug, content, description, hero_image, is_published } = body;
 
+        if (!title || !slug || !content || !hero_image || typeof hero_image !== 'string' || !hero_image.trim()) {
+            return new Response(JSON.stringify({ error: 'Title, Slug, Content, and Hero Image are required' }), { status: 400 });
+        }
+
         await env.DB.prepare(
             `UPDATE posts SET title = ?, slug = ?, content = ?, description = ?, hero_image = ?, is_published = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`
         ).bind(

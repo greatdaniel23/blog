@@ -120,6 +120,7 @@ export default function PostForm({ initialData, isEditing = false, onSubmit, api
                             onChange={handleChange}
                             placeholder="https://..."
                             style={{ flex: 1 }}
+                            required
                         />
                         <button
                             type="button"

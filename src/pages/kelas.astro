@@ -1,0 +1,324 @@
+---
+export const prerender = true;
+import SwissLayout from "../components/SwissLayout.astro";
+import { WA_KELAS, KELAS_HARGA_JADWAL } from "../lib/linkbio";
+
+// Unique build string for post-deploy curl-grep verification (raw HTTP, not WebFetch)
+const BUILD_TAG = "kelas-dedicated-v6-2026-06-02";
+
+const microTrust = "9 tahun di Google Ads · praktisi agensi aktif · Denpasar, Bali";
+
+const untukSiapa = [
+  {
+    who: "Owner / pebisnis",
+    pain: "Udah keluar budget iklan tapi nggak yakin balik modal. Mau ngerti sendiri, nggak cuma nurut agensi.",
+    icon: "storefront",
+  },
+  {
+    who: "Pemula",
+    pain: "Mulai dari nol, bingung harus belajar dari mana — takut salah jalan ke materi teori basi.",
+    icon: "school",
+  },
+  {
+    who: "Calon freelancer / switch karier",
+    pain: "Mau skill digital marketing yang beneran kepakai & dibayar, bukan sekadar sertifikat.",
+    icon: "trending_up",
+  },
+];
+
+// Materi INTI — 6 track (5 dikunci Daniel 1 Juni 2026; +track 6 "AI untuk Orang Tua" plain, 2 Juni 2026)
+const silabus = [
+  {
+    no: "1",
+    track: "Digital Marketing Fundamental",
+    href: "/kelas/digital-marketing-fundamental/",
+    desc: "Fondasi digital marketing dari nol — cara mikir, kanal, dan strategi dasar; pas buat owner bisnis & pemula biar nggak salah jalan.",
+  },
+  {
+    no: "2",
+    track: "Google Ads",
+    href: "/kelas/google-ads/",
+    desc: "Bikin & optimasi iklan Google yang terukur — struktur, bidding, baca data — diajar praktisi 9 tahun yang ngerjain akun beneran.",
+  },
+  {
+    no: "3",
+    track: "AI untuk Produktivitas Karyawan",
+    href: "/kelas/ai-produktivitas-karyawan/",
+    desc: "Pakai AI buat bantu kerja harian tim — nulis, riset, rapikan tugas — biar kerjaan lebih cepat & ringan.",
+  },
+  {
+    no: "4",
+    track: "SEO & Google Analytics (GA4)",
+    href: "/kelas/seo-google-analytics/",
+    desc: "Dasar SEO + baca GA4: tahu dari mana pengunjung datang & mana yang menghasilkan, biar keputusan marketing berbasis data.",
+  },
+  {
+    no: "5",
+    track: "AI Agent / Chatbot untuk Bisnis",
+    href: "/kelas/ai-agent-chatbot/",
+    desc: "Cara kerja chatbot/agent AI buat bisnis — jawab calon pelanggan & bantu konversi.",
+  },
+  {
+    no: "6",
+    track: "AI untuk Orang Tua (untuk orang tua & keluarga)",
+    href: "/kelas/ai-untuk-orang-tua/",
+    desc: "Cara bikin LKS (Lembar Kerja Siswa) sendiri pakai AI biar anak bisa latihan terus di rumah — gampang, tanpa perlu jago teknologi.",
+  },
+];
+
+const format = [
+  {
+    title: "Privat / kelas kecil",
+    desc: "Perhatian personal, bisa nanya sepuasnya, materi nyetel ke kebutuhan kamu.",
+    icon: "groups",
+  },
+  {
+    title: "Offline di Bali",
+    desc: "Tatap muka, langsung praktek bareng — bukan webinar massal lewat layar.",
+    icon: "location_on",
+  },
+  {
+    title: "Jadwal fleksibel",
+    desc: "Atur sesuai slot yang cocok (detail saat japri).",
+    icon: "schedule",
+  },
+];
+
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://alphadigitalagency.id/" },
+    { "@type": "ListItem", position: 2, name: "Kelas Digital Marketing", item: "https://alphadigitalagency.id/kelas/" },
+  ],
+};
+
+const courseLD = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: "Kelas Digital Marketing — Privat & Offline di Bali",
+  description:
+    "Kelas privat & offline digital marketing di Bali, diajar langsung oleh praktisi agensi aktif. Materi: digital marketing fundamental, Google Ads, AI untuk produktivitas, SEO & GA4, dan AI agent untuk bisnis.",
+  provider: {
+    "@type": "Organization",
+    name: "Alpha Digital Agency",
+    url: "https://alphadigitalagency.id",
+  },
+};
+---
+
+<SwissLayout
+  title="Kelas Digital Marketing Bali | Alpha Digital"
+  description="Kelas digital marketing privat di Bali: Google Ads, SEO, GA4, dan AI, diajar praktisi agensi aktif. Daftar via WhatsApp."
+  currentPage="kelas"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(courseLD)} />
+    <!-- build:{BUILD_TAG} -->
+  </Fragment>
+
+  <!-- pb so the sticky bar never covers the footer CTA on mobile -->
+  <div class="pb-24 md:pb-0" data-build={BUILD_TAG}>
+
+    <!-- ===================== 1. HERO — lead dengan KELAS ===================== -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-14 text-center">
+      <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">
+        Kelas Digital Marketing · Bali
+      </p>
+      <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[1.9rem] sm:text-[2.5rem] md:text-[3rem]">
+        Kelas Digital Marketing<span class="text-primary">.</span>
+      </h1>
+      <h2 class="mt-2 font-display font-bold text-base md:text-lg text-charcoal dark:text-white">
+        Privat &amp; Offline di Bali
+      </h2>
+      <p class="mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-lg mx-auto">
+        Belajar langsung dari praktisi yang ngerjain akun klien tiap hari. Kelas kecil,
+        tatap muka, fokus hasil — bukan teori.
+      </p>
+      <div class="mt-7 flex justify-center">
+        <a
+          href={WA_KELAS}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+          <span class="material-symbols-outlined">chat</span>
+          Daftar via WhatsApp
+        </a>
+      </div>
+      <p class="mt-4 text-xs text-slate-500 dark:text-slate-400">{microTrust}</p>
+    </section>
+
+    <!-- ===================== 2. UNTUK SIAPA ===================== -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">
+        Kelas ini buat kamu yang…
+      </h2>
+      <div class="space-y-4">
+        {untukSiapa.map((u) => (
+          <div class="flex items-start gap-4 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 md:p-6">
+            <span class="material-symbols-outlined text-primary text-[26px] shrink-0 mt-0.5">{u.icon}</span>
+            <div>
+              <h3 class="font-bold text-charcoal dark:text-white text-sm md:text-base mb-1">{u.who}</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">"{u.pain}"</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="mt-5 text-center text-sm text-slate-600 dark:text-slate-400 italic">
+        Kalau salah satunya kamu banget — kita ngobrol di kelas.
+      </p>
+    </section>
+
+    <!-- ===================== 3. SILABUS — 5 materi ===================== -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-2 text-center">
+        Yang Kamu Pelajari
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-7 text-center">
+        Praktek langsung, bukan cuma slide. Enam materi inti:
+      </p>
+      <div class="space-y-4">
+        {silabus.map((s) => (
+          <a href={s.href} class="btn-swiss group flex items-start gap-4 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 md:p-6">
+            <span class="font-display font-extrabold text-primary text-2xl md:text-3xl leading-none shrink-0 w-8 text-center">{s.no}</span>
+            <div>
+              <h3 class="font-bold text-charcoal dark:text-white text-sm md:text-base mb-1">{s.track}</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p class="mt-5 text-center text-xs text-slate-500 dark:text-slate-400">
+        Materi disesuaikan level kamu — pemula dibimbing dari dasar, yang udah jalan kita percepat.
+      </p>
+      <!-- CTA repeat after Silabus -->
+      <div class="mt-7 flex justify-center">
+        <a
+          href={WA_KELAS}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+          <span class="material-symbols-outlined">chat</span>
+          Tanya / Daftar Kelas
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== 4. FORMAT ===================== -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">
+        Format Kelas
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {format.map((f) => (
+          <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 md:p-6">
+            <span class="material-symbols-outlined text-primary text-[28px]">{f.icon}</span>
+            <h3 class="font-bold text-charcoal dark:text-white text-sm mt-3 mb-1">{f.title}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-5 text-center text-sm text-slate-600 dark:text-slate-400 italic">
+        Sengaja kecil — biar tiap orang kebagian, bukan jadi nomor di webinar 500 peserta.
+      </p>
+      <p class="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
+        *Khusus kelas "AI untuk Orang Tua" diadakan ONLINE (kelas kecil, maks 5 orang). Track lainnya offline di Bali.
+      </p>
+    </section>
+
+    <!-- ===================== 5. PENGAJAR ===================== -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+        <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+          Diajar Langsung oleh Daniel
+        </h2>
+        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">
+          9 tahun di Google Ads, dan sampai sekarang masih ngerjain akun klien lewat agensinya,
+          Alpha Digital.
+        </p>
+        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+          Artinya: yang kamu pelajari = yang beneran dipakai di lapangan hari ini, bukan teori
+          daur ulang. Agensinya jalan = bukti ilmunya kepakai, bukan cuma bisa ngajar.
+        </p>
+      </div>
+      <!-- CTA repeat after Pengajar -->
+      <div class="mt-7 flex justify-center">
+        <a
+          href={WA_KELAS}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+          <span class="material-symbols-outlined">chat</span>
+          Daftar via WhatsApp
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== 6. BUKTI / HASIL ===================== -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">
+        Bukti &amp; Hasil
+      </h2>
+      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+        <blockquote class="border-l-4 border-primary pl-5 py-1">
+          <p class="text-slate-700 dark:text-slate-300 text-sm md:text-base leading-relaxed italic mb-2">
+            "Akun iklan yang tadinya boncos jadi terukur &amp; profitable setelah dibenahi struktur &amp; trackingnya."
+          </p>
+          <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">
+            — Hasil kerja agensi. Nama klien dirahasiakan demi privasi.
+          </cite>
+        </blockquote>
+        <p class="text-slate-500 dark:text-slate-400 text-xs mt-5">
+          Hasil tiap orang beda-beda. Testimoni murid menyusul — kami nggak ngarang angka.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== 7. HARGA / SLOT ===================== -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9 text-center">
+        <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-3">
+          Biaya &amp; Slot
+        </h2>
+        <p class="text-slate-700 dark:text-slate-300 text-sm md:text-base leading-relaxed">
+          {KELAS_HARGA_JADWAL ?? "Japri dulu via WhatsApp — kita bahas yang pas buat kamu."}
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== 8. CTA PENUTUP ===================== -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-4 text-center">
+      <h2 class="font-display font-bold text-lg md:text-xl text-charcoal dark:text-white mb-3 max-w-md mx-auto leading-snug">
+        Slot kelas kecil, terbatas. Daftar sekarang — ngobrol dulu nggak apa-apa.
+      </h2>
+      <div class="mt-5 flex justify-center">
+        <a
+          href={WA_KELAS}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+          <span class="material-symbols-outlined">chat</span>
+          Daftar via WhatsApp
+        </a>
+      </div>
+      <p class="mt-4 text-xs text-slate-500 dark:text-slate-400">Denpasar, Bali · dibalas langsung.</p>
+    </section>
+  </div>
+
+  <!-- ===================== STICKY WHATSAPP CTA (mobile only) ===================== -->
+  <a
+    href={WA_KELAS}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-center gap-2 py-4 min-h-[56px] bg-primary text-white border-t-2 border-charcoal font-bold text-sm uppercase tracking-widest"
+    aria-label="Daftar kelas via WhatsApp"
+  >
+    <span class="material-symbols-outlined">chat</span>
+    Daftar Kelas via WhatsApp
+  </a>
+</SwissLayout>

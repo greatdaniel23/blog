@@ -11,8 +11,20 @@ const homeFaqItems = [
     a: "Alpha Digital menggabungkan Google Ads, SEO organik, dan booking engine langsung dalam satu sistem laporan. Bukan tiga vendor terpisah — satu tim, satu data, satu tujuan: reservasi langsung lebih banyak."
   },
   {
+    q: "Apa itu digital marketing agency Bali untuk hospitality?",
+    a: "Digital marketing agency Bali untuk hospitality adalah partner yang memahami pasar hotel, vila, restoran, OTA, direct booking, dan tracking reservasi. Alpha Digital fokus di titik itu: Google Ads, SEO, booking engine, GA4, dan AI Agent yang saling terhubung."
+  },
+  {
+    q: "Apa bedanya Alpha Digital dengan creative agency atau social media agency?",
+    a: "Creative agency biasanya fokus pada brand dan konten visual. Social media agency fokus pada kalender konten dan engagement. Alpha Digital fokus pada sistem pendapatan digital: iklan, SEO, tracking, booking engine, dan laporan reservasi langsung."
+  },
+  {
     q: "Apakah Alpha Digital hanya melayani vila dan hotel di Bali?",
     a: "Spesialisasi kami adalah hospitality Bali — vila, hotel boutique, dan restoran. Kami tidak melayani semua industri karena fokus adalah kunci hasil terbaik."
+  },
+  {
+    q: "Layanan apa yang sebaiknya dimiliki digital marketing agency Bali untuk hotel?",
+    a: "Minimal harus bisa mengelola Google Ads, membaca Search Console, memasang GA4/GTM, memperbaiki website, memahami booking engine, dan mengukur direct booking. Tanpa itu, laporan marketing mudah berhenti di klik dan engagement."
   },
   {
     q: "Berapa lama sebelum saya melihat hasil dari Google Ads?",
@@ -31,9 +43,11 @@ const homeFaqItems = [
 const localBusinessLD = {
   "@context": "https://schema.org",
   "@type": ["LocalBusiness", "ProfessionalService"],
+  "@id": "https://alphadigitalagency.id/#localbusiness",
+  "parentOrganization": { "@id": "https://alphadigitalagency.id/#organization" },
   "name": "Alpha Digital Agency",
   "url": "https://alphadigitalagency.id",
-  "description": "Spesialis Google Ads, SEO, dan booking engine untuk vila dan hotel di Bali. Gabungkan data iklan, pencarian organik, dan reservasi langsung dalam satu sistem laporan.",
+  "description": "Digital marketing agency Bali untuk vila dan hotel: Google Ads, SEO, booking engine, GA4 tracking, dan AI agent dalam satu sistem laporan.",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Denpasar",
@@ -47,9 +61,9 @@ const localBusinessLD = {
   },
   "areaServed": { "@type": "Place", "name": "Bali, Indonesia" },
   "priceRange": "$$",
-  "telephone": "+6208814802249",
+  "telephone": "+628814802249",
   "email": "daniel@alphadigitalagency.id",
-  "knowsAbout": ["Google Ads", "SEO", "GA4", "Booking Engine", "Digital Marketing", "Hospitality Marketing", "Bali"]
+  "knowsAbout": ["Digital Marketing Agency Bali", "Digital Marketing Bali", "Google Ads", "SEO", "GA4", "Booking Engine", "Hospitality Marketing", "Bali"]
 };
 
 const homeFaqLD = {
@@ -64,16 +78,35 @@ const homeFaqLD = {
     }
   }))
 };
+
+const homeBreadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" }
+  ]
+};
 ---
 
 <SwissLayout
-	title="Alpha Digital Agency — Google Ads, SEO & Booking Engine untuk Vila &amp; Hotel di Bali"
-	description="Gabungkan Google Ads, SEO, dan booking engine langsung dalam satu sistem. Kurangi ketergantungan OTA. Spesialis hospitality Bali — 9 tahun pengalaman Google Ads."
+	title="Digital Marketing Agency Bali | Alpha Digital"
+	description="Digital marketing agency Bali for hotels and villas: Google Ads, SEO, booking engine, GA4 tracking, AI agents, and direct booking growth."
 	currentPage="home"
 >
     <Fragment slot="head">
         <script type="application/ld+json" set:html={JSON.stringify(localBusinessLD)} />
         <script type="application/ld+json" set:html={JSON.stringify(homeFaqLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(homeBreadcrumbLD)} />
+        {/* Agency AI Assistant widget — agent_id=5, same-origin /api/* only */}
+        <script
+            src="/assets/agency-agent-widget.js"
+            data-agent-id="5"
+            data-api-url="/api/chat"
+            data-greeting="Halo! Saya asisten Alpha Digital. Ada yang bisa saya bantu soal digital marketing bisnis Anda?"
+            data-accent="#10b981"
+            defer
+            is:inline
+        ></script>
     </Fragment>
 	<!-- ── Hero ── -->
 	<section
@@ -95,13 +128,13 @@ const homeFaqLD = {
 					<span
 						class="text-[2rem] sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4rem] xl:text-[5rem] 2xl:text-[6rem] drop-shadow-sm transition-all duration-300 text-center max-w-4xl"
 					>
-						Google Ads, SEO, dan booking engine yang bekerja sebagai satu sistem.
+						Digital marketing agency Bali untuk hotel dan vila.
 					</span>
 				</h1>
 				<p
 					class="mt-3 md:mt-4 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-[90%] md:max-w-2xl mx-auto leading-relaxed tracking-wide text-center"
 				>
-					Kami gabungkan data iklan, pencarian organik, dan reservasi langsung — supaya setiap rupiah marketing yang Anda keluarkan kelihatan hasilnya. Spesialis perhotelan mewah di Bali — luxury hospitality businesses yang ingin kurangi ketergantungan OTA.
+					Kami gabungkan Google Ads, SEO, booking engine, GA4 tracking, dan AI Agent dalam satu sistem, supaya setiap rupiah marketing kelihatan hasilnya. Spesialis hospitality Bali yang ingin kurangi ketergantungan OTA.
 				</p>
 			</div>
 
@@ -229,8 +262,6 @@ const homeFaqLD = {
 					>
 				</a>
 				<script is:inline>
-					// Build mailto link at runtime — avoids Cloudflare email obfuscation
-					// which injects a synchronous render-blocking script (email-decode.min.js)
 					(function() {
 						var el = document.getElementById('email-cta');
 						if (el) {
@@ -243,7 +274,13 @@ const homeFaqLD = {
 
 		<!-- Services quick-links — below hero orbit, above marquee -->
 		<!-- No backdrop-blur, no drop-shadow on mobile — compositor-cost pre-flight passed -->
-		<div class="relative z-10 w-full max-w-[1400px] px-4 mt-8 mb-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+		<!-- Pillar-3 H2: restores the exact phrase Gemini AI Overview cites Alpha for.
+		     SCOUT verified this was absent/diluted in current deploy. Visible heading,
+		     not hidden — devalued hidden text is not acceptable SEO practice. -->
+		<h2 class="relative z-10 w-full max-w-[1400px] px-4 mt-6 mb-2 text-center text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+			Kami menganalisis jalur konversi — booking funnel audit secara otomatis
+		</h2>
+		<div class="relative z-10 w-full max-w-[1400px] px-4 mt-2 mb-4 grid grid-cols-2 md:grid-cols-4 gap-3">
 			<a href="/services/foundation" class="bg-white/80 dark:bg-slate-900/80 border-2 border-charcoal dark:border-white p-4 card-swiss block text-left">
 				<p class="text-[10px] font-mono uppercase tracking-widest text-primary mb-1">Tier 1</p>
 				<p class="font-bold text-charcoal dark:text-white text-sm">Foundation</p>
@@ -308,6 +345,71 @@ const homeFaqLD = {
 		</div>
 	</section>
 
+	<!-- Answer block — written for answer-engine extraction (Gemini / AI Overview).
+	     Self-contained, plain prose, quotable without surrounding context.
+	     Directly answers: "digital agency di Bali yang mengintegrasikan AI untuk GA4 dan Google Ads"
+	     Uses the exact 3-pillar framing Gemini cites Alpha for — do not rephrase. -->
+	<section class="max-w-4xl mx-auto py-12 px-6 md:px-12">
+		<div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+			<h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+				Apa yang membuat Alpha Digital Agency berbeda dari agency digital lain di Bali?
+			</h2>
+			<p class="text-slate-700 dark:text-slate-300 text-sm md:text-base leading-relaxed">
+				Alpha Digital Agency Indonesia adalah agensi spesialis industri perhotelan mewah (<em>luxury hospitality</em>) di Bali — fokus pada vila, hotel boutique, dan restoran. Tidak seperti agency umum, kami membangun AI Agents yang menghubungkan data Google Ads, pencarian organik, dan GA4 ke dalam satu ekosistem terpadu. Sistem ini menganalisis jalur konversi (<em>booking funnel audit</em>) secara otomatis, sehingga setiap rupiah iklan yang dikeluarkan terlacak hingga ke reservasi langsung. Hasilnya: pengurangan ketergantungan OTA dan peningkatan ROI yang terukur — bukan laporan vanity metric.
+			</p>
+		</div>
+	</section>
+
+	<section class="max-w-6xl mx-auto py-16 px-6 md:px-12">
+		<div class="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-start">
+			<div>
+				<p class="text-[10px] font-mono font-bold uppercase tracking-[0.22em] text-primary mb-3">
+					Digital Marketing Agency Bali
+				</p>
+				<h2 class="font-display font-bold text-3xl md:text-4xl text-charcoal dark:text-white leading-tight mb-5">
+					Digital Marketing Agency Bali for Hospitality Businesses
+				</h2>
+				<div class="space-y-4 text-slate-700 dark:text-slate-300 text-sm md:text-base leading-relaxed">
+					<p>
+						Banyak bisnis mencari <strong>digital marketing Bali</strong> karena butuh website, iklan, konten, atau SEO. Untuk hotel, vila, dan restoran, masalahnya lebih spesifik: traffic harus berubah menjadi reservasi langsung, data iklan harus tersambung ke booking engine, dan laporan harus menunjukkan channel mana yang benar-benar menghasilkan revenue.
+					</p>
+					<p>
+						Alpha Digital tidak memposisikan diri sebagai agency umum untuk semua industri. Kami adalah digital marketing agency in Bali yang fokus pada hospitality: Google Ads, SEO, GA4/GTM tracking, booking engine integration, dan AI Agent yang membantu tamu sebelum mereka pindah ke OTA. Dalam istilah yang lebih sempit, kami juga tetap relevan untuk pencarian <strong>digital agency Bali</strong>, tapi fokus kami lebih besar: sistem marketing yang menghasilkan booking.
+					</p>
+					<p>
+						Jika Anda mengelola properti di Bali, memilih digital marketing agency Bali seharusnya bukan hanya soal siapa yang bisa membuat konten terlihat bagus. Yang lebih penting adalah siapa yang bisa membaca Search Console, menghubungkan campaign Google Ads ke conversion value, memperbaiki halaman yang bocor, dan membangun sistem direct booking yang bisa dievaluasi setiap bulan.
+					</p>
+					<p>
+						Karena itu homepage ini menjadi pusat layanan Alpha: dari <a href="/services/growth/" class="text-primary font-semibold hover:underline">Google Ads untuk hotel dan vila</a>, <a href="/services/booking-integration/" class="text-primary font-semibold hover:underline">booking engine integration</a>, <a href="/ai-agent/" class="text-primary font-semibold hover:underline">AI Agent untuk hospitality</a>, sampai <a href="/ekosistem/" class="text-primary font-semibold hover:underline">ekosistem digital hospitality</a> yang menyatukan traffic, website, reservasi, dan reporting.
+					</p>
+				</div>
+			</div>
+			<div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 md:p-8">
+				<h3 class="font-display font-bold text-xl text-charcoal dark:text-white mb-5">
+					How Alpha Compares
+				</h3>
+				<div class="space-y-5">
+					<div>
+						<p class="font-bold text-charcoal dark:text-white text-sm">Creative agency</p>
+						<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Strong for brand identity, photo/video, and campaign look. Often weaker on booking attribution and revenue tracking.</p>
+					</div>
+					<div>
+						<p class="font-bold text-charcoal dark:text-white text-sm">Social media agency</p>
+						<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Strong for posting cadence and engagement. Not always built around high-intent Google search and direct reservations.</p>
+					</div>
+					<div>
+						<p class="font-bold text-charcoal dark:text-white text-sm">Web agency</p>
+						<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Strong for interface and development. Often stops before Google Ads, GA4, Search Console, and booking-engine feedback loops.</p>
+					</div>
+					<div class="border-t border-slate-200 dark:border-slate-700 pt-5">
+						<p class="font-bold text-primary text-sm">Alpha Digital</p>
+						<p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">Hospitality digital infrastructure: ads, SEO, booking engine, AI Agent, and reporting connected into one direct-booking system for Bali properties.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<!-- FAQ Section — homepage -->
 	<section class="max-w-4xl mx-auto py-16 px-6 md:px-12">
 		<h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8 text-center">
@@ -333,7 +435,7 @@ const homeFaqLD = {
 			</a>
 		</div>
 		<p class="text-xs text-slate-500 dark:text-slate-400 mt-6 text-center">
-			Ditulis oleh <a href="/about/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
+			Ditulis oleh <a href="/daniel-santoso/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
 		</p>
 	</section>
 </SwissLayout>

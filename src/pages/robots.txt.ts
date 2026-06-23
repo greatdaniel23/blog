@@ -35,7 +35,7 @@ Disallow: /
 User-agent: meta-externalagent
 Disallow: /
 
-Sitemap: https://alphadigitalagency.id/sitemap-index.xml
+Sitemap: https://alphadigitalagency.id/sitemap.xml
 `;
 
 	return new Response(content, {

@@ -19,3 +19,8 @@ preview_id = "471b088473d445e1ac4bf33aded07b68"
 
 [observability]
 enabled = true
+
+[vars]
+AI_AGENT_UPSTREAM = "https://aiforvilla-samudra.danielsantosomarketing2017.workers.dev"
+BOOKING_UPSTREAM = "https://booking-frontend-4mt-4ae.pages.dev"
+PUBLIC_GA4_ID = "G-GY773BC009"

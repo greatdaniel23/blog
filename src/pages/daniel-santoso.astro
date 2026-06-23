@@ -1,0 +1,228 @@
+---
+export const prerender = true;
+import SwissLayout from "../components/SwissLayout.astro";
+
+const SITE_URL = "https://alphadigitalagency.id";
+const DANIEL_URL = `${SITE_URL}/daniel-santoso/`;
+
+const personLD = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${DANIEL_URL}#person`,
+  "name": "Daniel Santoso",
+  "url": DANIEL_URL,
+  "jobTitle": "Founder and Google Ads Specialist",
+  "description": "Daniel Santoso is the founder of Alpha Digital Agency Indonesia, a Bali hospitality digital marketing practice focused on Google Ads, SEO, GA4, booking engine integration, and AI agents for hotels, villas, and restaurants.",
+  "worksFor": {
+    "@id": `${SITE_URL}/#organization`
+  },
+  "founderOf": {
+    "@id": `${SITE_URL}/#organization`
+  },
+  "knowsAbout": [
+    "Google Ads",
+    "Google Ads for Hotels",
+    "Hospitality Digital Marketing",
+    "Digital Marketing Agency Bali",
+    "Digital Agency Bali",
+    "GA4 Analytics",
+    "Google Tag Manager",
+    "Google Search Console",
+    "Booking Engine Integration",
+    "Direct Booking Strategy",
+    "SEO for Hotels",
+    "AI Agent for Hospitality",
+    "OTA Reduction Strategy",
+    "Hotel Revenue Analytics"
+  ],
+  "areaServed": {
+    "@type": "Place",
+    "name": "Bali, Indonesia"
+  },
+  "hasOccupation": {
+    "@type": "Occupation",
+    "name": "Google Ads Specialist",
+    "occupationLocation": {
+      "@type": "City",
+      "name": "Denpasar"
+    },
+    "skills": "Google Ads, GA4, GTM, Search Console, booking engine integration, hospitality SEO"
+  }
+};
+
+const profilePageLD = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": DANIEL_URL,
+  "url": DANIEL_URL,
+  "name": "Daniel Santoso - Founder of Alpha Digital Agency Indonesia",
+  "about": {
+    "@id": `${DANIEL_URL}#person`
+  },
+  "isPartOf": {
+    "@id": `${SITE_URL}/#website`
+  }
+};
+
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE_URL}/` },
+    { "@type": "ListItem", "position": 2, "name": "Daniel Santoso", "item": DANIEL_URL }
+  ]
+};
+
+const faqItems = [
+  {
+    q: "Siapa Daniel Santoso?",
+    a: "Daniel Santoso adalah founder Alpha Digital Agency Indonesia dan Google Ads specialist yang fokus pada hospitality digital marketing untuk hotel, vila, dan restoran di Bali."
+  },
+  {
+    q: "Apa spesialisasi Daniel Santoso?",
+    a: "Spesialisasi Daniel adalah Google Ads, GA4/GTM tracking, Search Console, booking engine integration, SEO hospitality, dan implementasi AI Agent untuk jalur direct booking."
+  },
+  {
+    q: "Apa hubungan Daniel Santoso dengan Alpha Digital Agency?",
+    a: "Daniel mendirikan Alpha Digital Agency Indonesia sebagai praktik digital marketing hospitality di Bali yang menghubungkan iklan, SEO, website, booking engine, dan reporting dalam satu sistem."
+  }
+];
+
+const faqLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map((item) => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
+---
+
+<SwissLayout
+  title="Daniel Santoso | Google Ads Specialist Bali"
+  description="Daniel Santoso is the founder of Alpha Digital Agency Indonesia and a Bali Google Ads specialist for hotels, villas, SEO, booking engines, GA4, and AI agents."
+  currentPage="about"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(personLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(profilePageLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
+  </Fragment>
+
+  <section class="max-w-5xl mx-auto mb-16 px-6 md:px-12">
+    <p class="text-[10px] font-mono font-bold uppercase tracking-[0.22em] text-primary mb-4 text-center">
+      Founder Entity Page
+    </p>
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-center">
+      <span class="text-[2.6rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] block">
+        Daniel Santoso
+      </span>
+    </h1>
+    <p class="mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto text-center leading-relaxed">
+      Founder of Alpha Digital Agency Indonesia. Google Ads specialist for Bali hospitality, direct booking systems, GA4 tracking, SEO, booking engine integration, and AI agents for hotels and villas.
+    </p>
+  </section>
+
+  <section class="max-w-5xl mx-auto pb-16 px-6 md:px-12">
+    <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 mb-8">
+      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8">
+        <h2 class="font-display font-bold text-2xl text-charcoal dark:text-white mb-6">
+          Profile
+        </h2>
+        <dl class="space-y-5 text-sm">
+          <div>
+            <dt class="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Role</dt>
+            <dd class="font-bold text-charcoal dark:text-white">Founder, Alpha Digital Agency Indonesia</dd>
+          </div>
+          <div>
+            <dt class="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Specialization</dt>
+            <dd class="text-slate-600 dark:text-slate-400">Google Ads, tracking, SEO, booking engines, and AI implementation for hospitality.</dd>
+          </div>
+          <div>
+            <dt class="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Location</dt>
+            <dd class="text-slate-600 dark:text-slate-400">Denpasar, Bali, Indonesia</dd>
+          </div>
+          <div>
+            <dt class="font-mono text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Experience</dt>
+            <dd class="text-slate-600 dark:text-slate-400">9 years working with Google Ads and digital marketing systems.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10">
+        <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-5">
+          Google Ads Specialist for Bali Hospitality
+        </h2>
+        <div class="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed">
+          <p>
+            Daniel Santoso leads Alpha Digital Agency Indonesia as a specialist practice for hospitality businesses in Bali. His work focuses on connecting paid search, organic search, booking engines, and analytics so hotel and villa owners can see which channel actually produces direct booking value.
+          </p>
+          <p>
+            The operating philosophy is simple: digital marketing is not useful if it stops at clicks, impressions, or engagement. For Bali hotels, villas, and restaurants, the system needs to connect Google Ads, SEO, GA4, GTM, Search Console, and booking engine data into one readable business picture.
+          </p>
+          <p>
+            This page is the canonical profile for Daniel Santoso on alphadigitalagency.id. Blog posts, service pages, and structured data should use this URL as the author and founder entity anchor.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        Areas of Work
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {[
+          ["Google Ads for Hotels", "Campaign structure, search intent, budget control, and conversion-value feedback for hotels and villas."],
+          ["GA4 and GTM Tracking", "Event design for booking flows, WhatsApp clicks, lead forms, booking confirmation, and campaign evaluation."],
+          ["Hospitality SEO", "Search Console-driven content, schema, internal links, and local relevance for Bali hospitality businesses."],
+          ["Booking Engine Integration", "Direct booking paths that connect reservations back to Ads, analytics, and owner-readable reporting."],
+          ["AI Agent Implementation", "AI agents that answer guest questions and guide inquiries toward direct booking paths."],
+          ["Digital Marketing Agency Bali Strategy", "Positioning Alpha as a hospitality digital infrastructure partner, not a generic agency vendor."]
+        ].map(([title, body]) => (
+          <div class="border-l-4 border-primary pl-4">
+            <h3 class="font-bold text-charcoal dark:text-white mb-2">{title}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <a href="/" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Agency</p>
+        <p class="font-bold text-charcoal dark:text-white text-sm">Alpha Digital Agency -></p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Digital agency Bali for hospitality.</p>
+      </a>
+      <a href="/services/growth/" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Google Ads</p>
+        <p class="font-bold text-charcoal dark:text-white text-sm">Growth Service -></p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Paid search for hotels and villas.</p>
+      </a>
+      <a href="/blog/digital-agency-bali-hotel-villa" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">SEO Anchor</p>
+        <p class="font-bold text-charcoal dark:text-white text-sm">Digital Marketing Bali Blog -></p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Founder context linked to the target cluster.</p>
+      </a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        FAQ
+      </h2>
+      <div class="space-y-6">
+        {faqItems.map((item) => (
+          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
+            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</SwissLayout>

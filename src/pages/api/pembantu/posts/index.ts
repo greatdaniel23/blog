@@ -37,8 +37,8 @@ export const POST: APIRoute = async ({ locals, cookies, request }) => {
         const { title, slug, content, description, hero_image, is_published } = body;
 
         // Basic validation
-        if (!title || !slug) {
-            return new Response(JSON.stringify({ error: 'Title and Slug are required' }), { status: 400 });
+        if (!title || !slug || !content || !hero_image || typeof hero_image !== 'string' || !hero_image.trim()) {
+            return new Response(JSON.stringify({ error: 'Title, Slug, Content, and Hero Image are required' }), { status: 400 });
         }
 
         const result = await env.DB.prepare(
@@ -47,9 +47,9 @@ export const POST: APIRoute = async ({ locals, cookies, request }) => {
         ).bind(
             title,
             slug,
-            content || '',
+            content,
             description || '',
-            hero_image || null,
+            hero_image,
             is_published ? 1 : 0,
             user.name || 'Admin'
         ).run();

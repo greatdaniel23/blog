@@ -1,6 +1,85 @@
 ---
-// Standalone landing page - no layout wrapper
+// Landing page using site header + footer for nav consistency
 import "../styles/global.css";
+import SwissHeader from "../components/SwissHeader.astro";
+import SwissFooter from "../components/SwissFooter.astro";
+
+const SITE_URL = "https://alphadigitalagency.id";
+const DEFAULT_IMAGE = `${SITE_URL}/images/og-alpha-default.png`;
+
+const organizationLD = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    "name": "Alpha Digital Agency Indonesia",
+    "url": SITE_URL,
+    "logo": DEFAULT_IMAGE,
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "sales",
+        "areaServed": "ID",
+        "availableLanguage": ["Indonesian", "English"]
+    },
+    "founder": {
+        "@type": "Person",
+        "name": "Daniel Santoso",
+        "url": `${SITE_URL}/daniel-santoso/`
+    }
+};
+
+const webSiteLD = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    "url": SITE_URL,
+    "name": "Alpha Digital Agency Indonesia",
+    "publisher": { "@id": `${SITE_URL}/#organization` }
+};
+
+const professionalServiceLD = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#professional-service`,
+    "name": "Alpha Digital Agency Indonesia",
+    "url": SITE_URL,
+    "image": DEFAULT_IMAGE,
+    "areaServed": "Bali, Indonesia",
+    "serviceType": [
+        "Booking Engine Integration",
+        "Google Ads Management",
+        "SEO and Data Tracking",
+        "AI Agent Implementation"
+    ]
+};
+
+const bookingEngineLD = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Direct Booking Engine untuk Vila dan Hotel di Bali",
+    "provider": {
+        "@type": "Organization",
+        "name": "Alpha Digital Agency",
+        "url": "https://alphadigitalagency.id"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Daniel Santoso",
+        "url": "https://alphadigitalagency.id/daniel-santoso/"
+    },
+    "areaServed": "Bali, Indonesia",
+    "description": "Direct booking engine untuk vila dan hotel Bali — edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Kurangi ketergantungan OTA.",
+    "serviceType": "Booking Engine Integration",
+    "url": "https://alphadigitalagency.id/booking-engine"
+};
+
+const breadcrumbLD = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
+        { "@type": "ListItem", "position": 2, "name": "Booking Engine", "item": "https://alphadigitalagency.id/booking-engine" }
+    ]
+};
 ---
 
 <!doctype html>
@@ -13,7 +92,25 @@ import "../styles/global.css";
             name="description"
             content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency."
         />
-        <link rel="canonical" href="https://alphadigitalagency.id/booking-engine/" />
+        <meta name="build-marker" content="SEO-FIX-2026-06-14-ALPHA" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://alphadigitalagency.id/booking-engine" />
+        <link rel="sitemap" href="/sitemap.xml" />
+        <meta property="og:title" content="Direct Booking Engine — Alpha Digital Agency Indonesia" />
+        <meta property="og:description" content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency." />
+        <meta property="og:url" content="https://alphadigitalagency.id/booking-engine" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Alpha Digital Agency Indonesia" />
+        <meta property="og:image" content={DEFAULT_IMAGE} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Direct Booking Engine — Alpha Digital Agency Indonesia" />
+        <meta name="twitter:description" content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency." />
+        <meta name="twitter:image" content={DEFAULT_IMAGE} />
+        <script type="application/ld+json" set:html={JSON.stringify(organizationLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(webSiteLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(professionalServiceLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(bookingEngineLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
         <link
             href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
             rel="stylesheet"
@@ -34,19 +131,9 @@ import "../styles/global.css";
     <body
         class="bg-background-light dark:bg-background-dark font-display text-emerald-dark dark:text-gray-100 overflow-x-hidden"
     >
-        <!-- Header Logo -->
-        <div class="absolute top-6 left-6 z-50 flex items-center gap-2">
-            <span
-                class="material-symbols-outlined text-emerald-dark dark:text-white"
-                style="font-size: 28px;">grid_view</span
-            >
-            <span
-                class="text-emerald-dark dark:text-white text-xl font-black tracking-[-0.03em]"
-                >ALPHA.</span
-            >
-        </div>
+        <SwissHeader currentPage="services" />
 
-        <div class="relative w-full min-h-screen flex flex-col lg:flex-row">
+        <div class="relative w-full min-h-screen flex flex-col lg:flex-row pt-20">
             <div
                 class="absolute inset-0 dot-pattern opacity-40 pointer-events-none z-0"
             >
@@ -556,5 +643,7 @@ import "../styles/global.css";
                 </div>
             </div>
         </div>
+
+        <SwissFooter />
     </body>
 </html>

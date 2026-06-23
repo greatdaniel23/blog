@@ -1,5 +1,6 @@
 import forms from '@tailwindcss/forms';
 import containerQueries from '@tailwindcss/container-queries';
+import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -52,10 +53,62 @@ export default {
 			backgroundImage: {
 				"noise-pattern": "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.7%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%221%22/%3E%3C/svg%3E')",
 			},
+			// Typography (@tailwindcss/typography) — article `prose` rendering.
+			// Two deliberate overrides on top of the default prose theme:
+			//  1. Images get markedly MORE vertical breathing room than the
+			//     paragraph rhythm, so an image reads as its own block.
+			//  2. Code blocks render as an obvious dark code-box (padding,
+			//     rounded corners, border, monospace, horizontal scroll).
+			typography: () => ({
+				DEFAULT: {
+					css: {
+						// (1) Image spacing — distinct from paragraph rhythm.
+						// Default prose img margin is ~2em; bump to 3.5em top/bottom
+						// (paragraph spacing is ~1.25em) for clear separation.
+						img: {
+							marginTop: "3.5em",
+							marginBottom: "3.5em",
+						},
+						figure: {
+							marginTop: "3.5em",
+							marginBottom: "3.5em",
+						},
+						// (2) Code-box — distinct dark block, not flat body text.
+						// NOTE: this project redefines `slate` as a FLAT color, so
+						// theme("colors.slate.900") is undefined — use hex literals.
+						pre: {
+							backgroundColor: "#0f172a",
+							color: "#e2e8f0",
+							padding: "1.25em 1.5em",
+							borderRadius: "0.5rem",
+							border: "1px solid #334155",
+							overflowX: "auto",
+							fontSize: "0.875em",
+							lineHeight: "1.7",
+							fontFamily:
+								"ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+							marginTop: "2em",
+							marginBottom: "2em",
+						},
+						"pre code": {
+							backgroundColor: "transparent",
+							color: "inherit",
+							padding: "0",
+							borderRadius: "0",
+							fontWeight: "400",
+							fontSize: "inherit",
+						},
+						// Inline code (not inside <pre>) — tinted chip.
+						"code::before": { content: '""' },
+						"code::after": { content: '""' },
+					},
+				},
+			}),
 		},
 	},
 	plugins: [
 		forms,
 		containerQueries,
+		typography,
 	],
 }

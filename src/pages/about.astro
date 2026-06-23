@@ -5,6 +5,7 @@ import SwissLayout from "../components/SwissLayout.astro";
 const personLD = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://alphadigitalagency.id/daniel-santoso/#person",
   "name": "Daniel Santoso",
   "jobTitle": "Founder & Google Ads Specialist",
   "worksFor": {
@@ -21,10 +22,18 @@ const personLD = {
     "Hospitality Digital Marketing",
     "Direct Booking Strategy",
     "SEO for Hotels",
-    "AI Agent for Hospitality"
+    "AI Agent for Hospitality",
+    "Google Ads for Hotels Bali",
+    "OTA Reduction Strategy",
+    "Hotel Revenue Analytics"
   ],
   "description": "9 tahun spesialisasi Google Ads untuk properti hospitality di Bali. Founder Alpha Digital Agency — praktik marketing yang menggabungkan Ads, SEO, dan booking engine dalam satu sistem data.",
-  "url": "https://alphadigitalagency.id/about/"
+  "url": "https://alphadigitalagency.id/daniel-santoso/",
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "name": "Google Ads Specialist",
+    "credentialCategory": "professional experience"
+  }
 };
 
 const breadcrumbLD = {
@@ -70,8 +79,8 @@ const aboutFaqLD = {
 ---
 
 <SwissLayout
-  title="Tentang Alpha Digital Agency — Google Ads Specialist Bali, 9 Tahun Pengalaman"
-  description="Alpha Digital Agency adalah praktik marketing hospitality Bali — spesialisasi Google Ads, data tracking lintas channel, dan integrasi booking engine langsung untuk vila dan hotel."
+  title="About Alpha Digital Agency Bali | Daniel Santoso"
+  description="Hospitality digital marketing practice in Bali led by Daniel Santoso: Google Ads, tracking, SEO, and booking engine implementation for hotels and villas."
   currentPage="about"
 >
   <Fragment slot="head">
@@ -89,8 +98,13 @@ const aboutFaqLD = {
         About<span class="text-primary">.</span>
       </span>
     </h1>
+    <h2
+      class="mt-3 font-display font-bold text-lg md:text-xl text-charcoal dark:text-white text-center"
+    >
+      Daniel Santoso — Google Ads Specialist Bali, 9 Tahun Pengalaman untuk Vila &amp; Hotel
+    </h2>
     <p
-      class="mt-4 md:mt-6 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto text-center leading-relaxed tracking-wide"
+      class="mt-3 md:mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto text-center leading-relaxed tracking-wide"
     >
       9 tahun Google Ads untuk hospitality Bali — satu sistem, satu laporan, satu tujuan.
     </p>
@@ -108,7 +122,7 @@ const aboutFaqLD = {
           Siapa Kami
         </h2>
         <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-          Alpha Digital Agency adalah praktik marketing hospitality Bali — spesialisasi Google Ads, data tracking lintas channel, dan integrasi booking engine langsung untuk vila dan hotel. Fokus kami adalah perhotelan mewah di Bali — luxury hospitality properties yang membutuhkan hasil terukur, bukan sekadar laporan.
+          Alpha Digital Agency adalah praktik marketing hospitality Bali — spesialisasi Google Ads, data tracking lintas channel, dan integrasi booking engine langsung untuk vila dan hotel. Fokus kami adalah perhotelan mewah di Bali — 9 active hospitality clients across Bali yang membutuhkan hasil terukur, bukan sekadar laporan.
         </p>
         <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
           Daniel Santoso, founder Alpha Digital, membawa 9 tahun kedalaman Google Ads untuk properti hospitality — dilengkapi dengan praktik Data Science modern: GA4 Analytics, BigQuery untuk analisis data skala enterprise, dan AI Agents yang bekerja 24/7 di website properti Anda.
@@ -208,11 +222,16 @@ const aboutFaqLD = {
 
     <!-- Author byline -->
     <p class="text-xs text-slate-500 dark:text-slate-400 mb-8">
-      Ditulis oleh <a href="/about/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
+      Ditulis oleh <a href="/daniel-santoso/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
     </p>
 
     <!-- Internal links to services -->
-    <div class="grid grid-cols-2 gap-4 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <a href="/" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Agency</p>
+        <p class="font-bold text-charcoal dark:text-white text-sm">Digital Marketing Agency Bali →</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Hospitality, direct booking, Ads, SEO, AI.</p>
+      </a>
       <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
         <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Layanan Utama</p>
         <p class="font-bold text-charcoal dark:text-white text-sm">Growth — Google Ads →</p>

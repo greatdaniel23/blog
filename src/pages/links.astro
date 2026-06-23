@@ -1,0 +1,100 @@
+---
+export const prerender = true;
+import SwissLayout from "../components/SwissLayout.astro";
+import { WA_JASA } from "../lib/linkbio";
+
+// Unique build string for post-deploy curl-grep verification (raw HTTP, not WebFetch)
+const BUILD_TAG = "links-hub-v1-2026-06-02";
+
+// HUB buttons (locked by ALPHA: 4 buttons, /hasil folded into /layanan).
+// Each button = link to its OWN URL (NOT an anchor). Order per spec A4.0.
+const buttons = [
+  {
+    label: "Kelas Digital Marketing",
+    sub: "Privat & offline di Bali",
+    href: "/kelas/",
+    icon: "school",
+    external: false,
+  },
+  {
+    label: "Jasa / Layanan Agency",
+    sub: "Google Ads, tracking & konversi",
+    href: "/layanan/",
+    icon: "campaign",
+    external: false,
+  },
+  {
+    label: "Baca Blog",
+    sub: "Ilmu digital marketing & Google Ads",
+    href: "https://alphadigitalagency.id/blog",
+    icon: "article",
+    external: true,
+  },
+  {
+    label: "WhatsApp / Kontak",
+    sub: "Chat langsung",
+    href: WA_JASA,
+    icon: "chat",
+    external: true,
+  },
+];
+
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://alphadigitalagency.id/" },
+    { "@type": "ListItem", position: 2, name: "Links", item: "https://alphadigitalagency.id/links/" },
+  ],
+};
+---
+
+<SwissLayout
+  title="Alpha Digital — Digital Marketing Agency, Bali"
+  description="Pilih yang kamu cari: kelas digital marketing, jasa agensi, blog, atau hubungi kami via WhatsApp. Alpha Digital, agensi digital marketing di Bali."
+  currentPage="links"
+  robots="noindex, follow"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+    <!-- build:{BUILD_TAG} -->
+  </Fragment>
+
+  <!-- ===================== HERO (ringkas) ===================== -->
+  <section class="max-w-xl mx-auto px-6 md:px-12 mb-9 md:mb-10 text-center" data-build={BUILD_TAG}>
+    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">
+      Denpasar · Bali
+    </p>
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[1.9rem] sm:text-[2.5rem]">
+      Alpha Digital<span class="text-primary">.</span>
+    </h1>
+    <h2 class="mt-2 font-display font-bold text-sm md:text-base text-charcoal dark:text-white">
+      Digital Marketing Agency, Bali
+    </h2>
+    <p class="mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+      Mau apa hari ini? Pilih yang kamu cari 👇
+    </p>
+  </section>
+
+  <!-- ===================== TOMBOL HORIZONTAL → URL terpisah ===================== -->
+  <!-- Mobile-first: full-width stack di HP, target sentuh >48px. -->
+  <!-- HARD GATE: NO per-card accent tab/bar/dot; shadow-premium = down-right directional. -->
+  <section class="max-w-xl mx-auto px-6 md:px-12 mb-10">
+    <div class="space-y-4">
+      {buttons.map((b) => (
+        <a
+          href={b.href}
+          {...(b.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          class="btn-swiss group flex items-center gap-4 min-h-[60px] w-full bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark px-5 py-4"
+        >
+          <span class="material-symbols-outlined text-primary text-[27px] shrink-0">{b.icon}</span>
+          <span class="flex flex-col text-left">
+            <span class="font-bold text-sm md:text-base text-charcoal dark:text-white leading-tight">{b.label}</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{b.sub}</span>
+          </span>
+          <span class="material-symbols-outlined ml-auto text-charcoal dark:text-white text-[20px] shrink-0 transition-transform group-hover:translate-x-0.5">chevron_right</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</SwissLayout>

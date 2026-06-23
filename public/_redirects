@@ -1,0 +1,8 @@
+# Cloudflare Pages redirects
+# NOTE: the /blog/*/ -> /blog/:splat 301 rule was removed during the 2026-06-09
+# recovery (paired with the trailingSlash:'never' revert that broke SSR routing).
+# No-trailing-slash canonicalization is enforced via <link rel="canonical"> for now;
+# NEXUS to re-introduce a tested redirect rule in a follow-up.
+/sitemap-static.xml /sitemap.xml 301
+/blog/dua-dunia-dalam-pencarian-hotel-ubud-bali/ /blog/esensi-digital-marketing-dan-strategi-distribusi-informasi 301
+/blog/dua-dunia-dalam-pencarian-hotel-ubud-bali /blog/esensi-digital-marketing-dan-strategi-distribusi-informasi 301

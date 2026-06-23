@@ -28,7 +28,13 @@ interface Props {
 	jsonLd?: object | object[];
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
+// Canonical is ALWAYS the no-trailing-slash form (root "/" excepted) — matches
+// the middleware 301, the no-slash sitemap, and prevents prerendered pages
+// (built as /foo/index.html → pathname "/foo/") emitting a trailing-slash canonical.
+// Force a single leading slash so a "//evil.com/" pathname can't produce a
+// cross-origin canonical (WARDEN hard-fail 2026-06-09).
+const canonicalPath = "/" + Astro.url.pathname.replace(/^[/\\]+/, "");
+const canonicalURL = new URL(canonicalPath, Astro.site ?? SITE_URL);
 const isHome = Astro.url.pathname === "/" || Astro.url.pathname === "";
 
 // Prevent pages.dev preview subdomain from being indexed.
@@ -42,18 +48,14 @@ try {
   // headers not available in prerender context — middleware handles it
 }
 
-// Safe runtime access — gracefully handles prerendered (static) pages where
-// Cloudflare bindings are not available at build time.
-let gtmId = '';
-try {
-  const env = Astro.locals.runtime?.env;
-  if (env?.DB) {
-     const res = await env.DB.prepare('SELECT gtm_id FROM gtm_settings WHERE id = 1').first();
-     gtmId = res?.gtm_id ?? '';
-  }
-} catch (e) {
-  // Silently skip GTM in static build or if DB unavailable
-}
+// GA4 Measurement ID — public by design, safe to hardcode in static HTML.
+// import.meta.env.PUBLIC_GA4_ID feeds this at build time when the env var is set
+// (CF Pages build environment or local .env); hardcoded fallback ensures the snippet
+// is never absent from prerendered HTML even when the env var is not explicitly set.
+// Replaces the previous runtime D1 gtm_settings read which could never fire on
+// prerender=true pages (no Cloudflare bindings at build time). The gtm_settings
+// table and /pembantu settings UI are left intact.
+const ga4Id: string = (import.meta.env.PUBLIC_GA4_ID as string | undefined) || 'G-GY773BC009';
 
 const {
 	title,
@@ -91,7 +93,33 @@ const organizationLD: Record<string, unknown> = {
 		addressRegion: "Bali",
 		addressCountry: "ID",
 	},
+	contactPoint: {
+		"@type": "ContactPoint",
+		telephone: "+628814802249",
+		email: "daniel@alphadigitalagency.id",
+		contactType: "sales",
+		areaServed: "ID",
+		availableLanguage: ["id", "en"],
+	},
 	areaServed: { "@type": "Place", name: "Bali, Indonesia" },
+	founder: {
+		"@type": "Person",
+		name: "Daniel Santoso",
+		url: `${SITE_URL}/daniel-santoso/`,
+	},
+	knowsAbout: [
+		"Digital Marketing Agency Bali",
+		"Digital Marketing Bali",
+		"Google Ads for Hotels",
+		"GA4 Analytics for Hospitality",
+		"Direct Booking Strategy",
+		"OTA Reduction Strategy",
+		"Booking Engine Integration",
+		"Bali Villa Digital Marketing",
+		"Hotel Revenue Management",
+		"Google Tag Manager",
+		"Search Console Optimization",
+	],
 };
 if (sameAsList.length > 0) {
 	organizationLD.sameAs = sameAsList;
@@ -161,10 +189,10 @@ const allLD = [
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-{isPagesDevHost && <meta name="robots" content="noindex, nofollow" />}
+<meta name="robots" content={isPagesDevHost ? "noindex, nofollow" : "index, follow"} />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="sitemap" href="/sitemap.xml" />
 <link
 	rel="alternate"
 	type="application/rss+xml"
@@ -212,12 +240,14 @@ const allLD = [
 	<script type="application/ld+json" set:html={JSON.stringify(ld)} />
 ))}
 
-{gtmId && (
-<script is:inline define:vars={{ gtmId }}>
-  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer', gtmId);
-</script>
+{ga4Id && (
+    <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+        <script is:inline define:vars={{ ga4Id }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', ga4Id);
+        </script>
+    </>
 )}

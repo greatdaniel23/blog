@@ -1,0 +1,424 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
+    { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": "https://alphadigitalagency.id/privacy-policy/" }
+  ]
+};
+
+const effectiveDate = "27 Mei 2026";
+const effectiveDateEN = "May 27, 2026";
+---
+
+<SwissLayout
+  title="Kebijakan Privasi — Alpha Digital Agency Indonesia"
+  description="Kebijakan privasi Alpha Digital Agency Indonesia: data yang dikumpulkan, tujuan penggunaan, hak pengguna per UU PDP, dan cara menghubungi kami."
+  currentPage="privacy-policy"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+  </Fragment>
+
+  <!-- Hero -->
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
+    <h1
+      class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-center"
+    >
+      <span class="text-[2.5rem] sm:text-[4rem] md:text-[5rem] block">
+        Privacy<span class="text-primary">.</span>
+      </span>
+    </h1>
+    <h2
+      class="mt-3 font-display font-bold text-lg md:text-xl text-charcoal dark:text-white text-center"
+    >
+      Kebijakan Privasi — Alpha Digital Agency Indonesia
+    </h2>
+    <p
+      class="mt-3 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto text-center leading-relaxed tracking-wide"
+    >
+      Berlaku efektif: {effectiveDate} &nbsp;·&nbsp; <span lang="en">Effective: {effectiveDateEN}</span>
+    </p>
+  </section>
+
+  <!-- Content -->
+  <section class="max-w-4xl mx-auto pb-16 px-6 md:px-12 space-y-6">
+
+    <!-- 1. Pengantar -->
+    <article
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10"
+      aria-labelledby="section-pengantar"
+    >
+      <h2
+        id="section-pengantar"
+        class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4 border-b-2 border-primary pb-2"
+      >
+        1. Pengantar / <span lang="en">Introduction</span>
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Alpha Digital Agency Indonesia adalah agensi digital marketing yang berdomisili di Denpasar, Bali, Indonesia — spesialisasi Google Ads, SEO, booking engine integration, dan AI untuk industri perhotelan Bali.
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Kami berkomitmen untuk melindungi privasi setiap pengguna yang mengunjungi situs kami di <strong>alphadigitalagency.id</strong>. Kebijakan ini menjelaskan data apa yang kami kumpulkan, bagaimana data tersebut digunakan, dan hak-hak Anda sebagai pengguna.
+      </p>
+      <p class="text-slate-500 dark:text-slate-500 text-sm leading-relaxed italic" lang="en">
+        Alpha Digital Agency Indonesia is a digital marketing agency based in Denpasar, Bali, Indonesia — specializing in Google Ads, SEO, booking engine integration, and AI for Bali hospitality. This policy explains what data we collect at alphadigitalagency.id, how it is used, and your rights as a user.
+      </p>
+    </article>
+
+    <!-- 2. Data yang Dikumpulkan -->
+    <article
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10"
+      aria-labelledby="section-data"
+    >
+      <h2
+        id="section-data"
+        class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4 border-b-2 border-primary pb-2"
+      >
+        2. Data yang Dikumpulkan / <span lang="en">Data Collected</span>
+      </h2>
+
+      <h3 class="font-bold text-charcoal dark:text-white mb-2 mt-6">Analytics &amp; Tracking</h3>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+        Kami menggunakan layanan analitik berikut untuk memahami penggunaan situs secara agregat (anonim, tanpa mengidentifikasi individu):
+      </p>
+      <ul class="list-none space-y-2 mb-4">
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span><strong class="text-charcoal dark:text-white">Google Analytics 4 (GA4)</strong> — data sesi, sumber traffic, halaman yang dikunjungi (anonim)</span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span><strong class="text-charcoal dark:text-white">Google Tag Manager (GTM)</strong> — pengelola tag analitik dan konversi</span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span><strong class="text-charcoal dark:text-white">Google Search Console (GSC)</strong> — data kinerja pencarian (tidak ada data pengguna individual)</span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span><strong class="text-charcoal dark:text-white">Microsoft Clarity</strong> — rekaman sesi anonim dan peta panas (heatmap) untuk analisis UX</span>
+        </li>
+      </ul>
+
+      <h3 class="font-bold text-charcoal dark:text-white mb-2 mt-6">Formulir Kontak / <span lang="en">Contact Form</span></h3>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+        Ketika Anda mengisi formulir kontak atau menghubungi kami, kami mengumpulkan:
+      </p>
+      <ul class="list-none space-y-2 mb-4">
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Nama</span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Alamat email</span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Nomor WhatsApp (opsional)</span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Pesan / pertanyaan</span>
+        </li>
+      </ul>
+
+      <h3 class="font-bold text-charcoal dark:text-white mb-2 mt-6">Cookies</h3>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Situs ini menggunakan cookies fungsional (untuk kebutuhan teknis dasar) dan cookies analitik (GA4, Clarity). Lihat Bagian 5 untuk detail dan cara opt-out.
+      </p>
+
+      <h3 class="font-bold text-charcoal dark:text-white mb-2 mt-6">Data yang <em>Tidak</em> Kami Kumpulkan</h3>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+        Kami tidak mengumpulkan data finansial, nomor identitas nasional (NIK/KTP), data biometrik, atau data sensitif lain yang tidak relevan dengan layanan kami.
+      </p>
+    </article>
+
+    <!-- 3. Tujuan Penggunaan -->
+    <article
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10"
+      aria-labelledby="section-tujuan"
+    >
+      <h2
+        id="section-tujuan"
+        class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4 border-b-2 border-primary pb-2"
+      >
+        3. Tujuan Penggunaan / <span lang="en">Purpose of Use</span>
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Data yang kami kumpulkan digunakan untuk:
+      </p>
+      <ul class="list-none space-y-3 mb-4">
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Meningkatkan kualitas dan pengalaman situs (<span lang="en">service improvement</span>)</span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Merespons pertanyaan dan permintaan melalui formulir kontak</span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Analisis performa marketing dan SEO (<span lang="en">analytics</span>)</span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400 text-sm">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Mengukur efektivitas kampanye Google Ads</span>
+        </li>
+      </ul>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+        Kami <strong>tidak menjual, menyewakan, atau membagikan data pribadi Anda kepada pihak ketiga</strong> untuk tujuan periklanan komersial.
+      </p>
+      <p class="text-slate-500 dark:text-slate-500 text-sm leading-relaxed italic mt-3" lang="en">
+        We do not sell, rent, or share your personal data to third parties for advertising purposes.
+      </p>
+    </article>
+
+    <!-- 4. Pihak Ketiga -->
+    <article
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10"
+      aria-labelledby="section-pihak-ketiga"
+    >
+      <h2
+        id="section-pihak-ketiga"
+        class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4 border-b-2 border-primary pb-2"
+      >
+        4. Pihak Ketiga / <span lang="en">Third Parties</span>
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Layanan pihak ketiga yang beroperasi di situs ini atau terkait dengan operasional kami:
+      </p>
+      <div class="space-y-4">
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-1 text-sm">Google (GA4, Google Ads, GTM, Search Console)</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            Digunakan untuk analitik situs, pengukuran konversi iklan, dan pemantauan performa pencarian. Kebijakan privasi Google berlaku: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-primary underline" lang="en">policies.google.com/privacy</a>.
+          </p>
+        </div>
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-1 text-sm">Microsoft (Clarity)</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            Digunakan untuk analisis UX anonim (heatmap, rekaman sesi). Kebijakan privasi Microsoft berlaku: <a href="https://privacy.microsoft.com" target="_blank" rel="noopener noreferrer" class="text-primary underline" lang="en">privacy.microsoft.com</a>.
+          </p>
+        </div>
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-1 text-sm">SiteMinder</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            Alpha Digital adalah mitra resmi SiteMinder. Integrasi SiteMinder kami diterapkan pada sistem klien hotel/vila — bukan pada data pengunjung situs alphadigitalagency.id.
+          </p>
+        </div>
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-1 text-sm">LinkedIn &amp; Threads</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            Tautan media sosial di situs ini mengarah ke platform LinkedIn dan Threads. Jika Anda mengklik tautan tersebut, kebijakan privasi platform masing-masing yang berlaku.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 5. Cookies -->
+    <article
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10"
+      aria-labelledby="section-cookies"
+    >
+      <h2
+        id="section-cookies"
+        class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4 border-b-2 border-primary pb-2"
+      >
+        5. Cookies
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Situs ini menggunakan beberapa jenis cookie:
+      </p>
+      <div class="overflow-x-auto mb-4">
+        <table class="w-full text-sm text-left border-collapse">
+          <thead>
+            <tr class="border-b-2 border-charcoal dark:border-white">
+              <th class="py-2 pr-4 font-bold text-charcoal dark:text-white">Jenis</th>
+              <th class="py-2 pr-4 font-bold text-charcoal dark:text-white">Tujuan</th>
+              <th class="py-2 font-bold text-charcoal dark:text-white">Wajib?</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-600 dark:text-slate-400">
+            <tr class="border-b border-slate-200 dark:border-slate-700">
+              <td class="py-2 pr-4 font-medium text-charcoal dark:text-white">Fungsional</td>
+              <td class="py-2 pr-4">Kebutuhan teknis dasar situs</td>
+              <td class="py-2">Ya</td>
+            </tr>
+            <tr class="border-b border-slate-200 dark:border-slate-700">
+              <td class="py-2 pr-4 font-medium text-charcoal dark:text-white">Analitik</td>
+              <td class="py-2 pr-4">GA4, Microsoft Clarity — data penggunaan anonim</td>
+              <td class="py-2">Tidak</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-medium text-charcoal dark:text-white">Marketing</td>
+              <td class="py-2 pr-4">Google Ads remarketing (opsional)</td>
+              <td class="py-2">Tidak</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="font-bold text-charcoal dark:text-white mb-2 text-sm mt-4">Cara Opt-Out / <span lang="en">How to Opt-Out</span></h3>
+      <ul class="list-none space-y-2 text-slate-600 dark:text-slate-400 text-sm">
+        <li class="flex gap-3">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Nonaktifkan cookies melalui pengaturan browser Anda</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Google Analytics opt-out: <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-primary underline" lang="en">tools.google.com/dlpage/gaoptout</a></span>
+        </li>
+        <li class="flex gap-3">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>Microsoft Clarity opt-out: <a href="https://clarity.microsoft.com/optout" target="_blank" rel="noopener noreferrer" class="text-primary underline" lang="en">clarity.microsoft.com/optout</a></span>
+        </li>
+      </ul>
+    </article>
+
+    <!-- 6. Hak Pengguna -->
+    <article
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10"
+      aria-labelledby="section-hak"
+    >
+      <h2
+        id="section-hak"
+        class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4 border-b-2 border-primary pb-2"
+      >
+        6. Hak Pengguna / <span lang="en">User Rights</span>
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Berdasarkan <strong>Undang-Undang Perlindungan Data Pribadi Indonesia (UU No. 27 Tahun 2022)</strong>, Anda memiliki hak-hak berikut terhadap data pribadi Anda:
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-1 text-sm">Hak Akses</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm">Mengetahui data pribadi apa yang kami simpan tentang Anda.</p>
+        </div>
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-1 text-sm">Hak Koreksi</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm">Meminta koreksi atas data yang tidak akurat atau tidak lengkap.</p>
+        </div>
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-1 text-sm">Hak Penghapusan</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm">Meminta penghapusan data pribadi Anda dari sistem kami.</p>
+        </div>
+        <div class="border-l-4 border-primary pl-4">
+          <h3 class="font-bold text-charcoal dark:text-white mb-1 text-sm">Hak Penarikan Persetujuan</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm">Menarik kembali persetujuan pemrosesan data kapan saja.</p>
+        </div>
+      </div>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+        Untuk menggunakan hak-hak di atas, hubungi kami melalui email yang tercantum di Bagian 8. Kami akan merespons dalam waktu yang wajar sesuai ketentuan UU PDP.
+      </p>
+      <p class="text-slate-500 dark:text-slate-500 text-sm leading-relaxed italic mt-3" lang="en">
+        Under Indonesia's Personal Data Protection Law (UU 27/2022), you have the right to access, correct, delete, and withdraw consent for your personal data. Contact us at the email in Section 8.
+      </p>
+    </article>
+
+    <!-- 7. Penyimpanan & Keamanan -->
+    <article
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10"
+      aria-labelledby="section-keamanan"
+    >
+      <h2
+        id="section-keamanan"
+        class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4 border-b-2 border-primary pb-2"
+      >
+        7. Penyimpanan &amp; Keamanan / <span lang="en">Storage &amp; Security</span>
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Data yang kami kumpulkan disimpan selama diperlukan untuk memenuhi tujuan yang dijelaskan dalam kebijakan ini, atau selama diwajibkan oleh hukum yang berlaku.
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+        Kami menerapkan enkripsi standar industri dan melakukan audit keamanan berkala untuk melindungi data Anda dari akses tidak sah, kehilangan, atau penyalahgunaan.
+      </p>
+      <p class="text-slate-500 dark:text-slate-500 text-sm leading-relaxed italic mt-3" lang="en">
+        We apply industry-standard encryption and conduct regular security audits to protect your data from unauthorized access, loss, or misuse.
+      </p>
+    </article>
+
+    <!-- 8. Kontak -->
+    <article
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10"
+      aria-labelledby="section-kontak"
+    >
+      <h2
+        id="section-kontak"
+        class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4 border-b-2 border-primary pb-2"
+      >
+        8. Kontak / <span lang="en">Contact</span>
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Untuk pertanyaan seputar kebijakan privasi ini atau untuk menggunakan hak-hak Anda:
+      </p>
+      <ul class="list-none space-y-3">
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>
+            <strong class="text-charcoal dark:text-white">Email:</strong>{" "}
+            <a href="mailto:danielsantosomarketing2017@gmail.com" class="text-primary underline hover:no-underline">
+              danielsantosomarketing2017@gmail.com
+            </a>
+          </span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>
+            <strong class="text-charcoal dark:text-white">WhatsApp:</strong>{" "}
+            <a href="https://wa.me/628814802249" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:no-underline">
+              +62 881-4802-249
+            </a>
+          </span>
+        </li>
+        <li class="flex gap-3 text-slate-600 dark:text-slate-400">
+          <span class="text-primary font-bold mt-0.5">—</span>
+          <span>
+            <strong class="text-charcoal dark:text-white">Alamat:</strong> Denpasar, Bali, Indonesia
+          </span>
+        </li>
+      </ul>
+    </article>
+
+    <!-- 9 & 10. Tanggal Efektif & Perubahan -->
+    <article
+      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10"
+      aria-labelledby="section-efektif"
+    >
+      <h2
+        id="section-efektif"
+        class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4 border-b-2 border-primary pb-2"
+      >
+        9–10. Tanggal Efektif &amp; Perubahan / <span lang="en">Effective Date &amp; Updates</span>
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Kebijakan ini berlaku efektif sejak <strong>{effectiveDate}</strong>.
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Kami dapat memperbarui kebijakan ini sewaktu-waktu. Setiap perubahan akan dipublikasikan di halaman ini dengan tanggal pembaruan terbaru. Penggunaan situs setelah tanggal pembaruan dianggap sebagai persetujuan terhadap perubahan tersebut.
+      </p>
+      <p class="text-slate-500 dark:text-slate-500 text-sm leading-relaxed italic" lang="en">
+        This policy is effective as of {effectiveDateEN}. We may update it at any time; changes will be published on this page with a revised date. Continued use of the site after the update date constitutes acceptance.
+      </p>
+
+      <p class="text-xs font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500 mt-6">
+        Terakhir diperbarui / <span lang="en">Last updated</span>: {effectiveDate}
+      </p>
+    </article>
+
+    <!-- Back link -->
+    <div class="text-center pt-2">
+      <a
+        href="/"
+        class="text-sm font-bold uppercase tracking-widest text-primary hover:underline"
+      >
+        ← Kembali ke Beranda
+      </a>
+    </div>
+
+  </section>
+</SwissLayout>

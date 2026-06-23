@@ -1,0 +1,162 @@
+---
+// Uniform layout for all 6 per-track curriculum pages (child of /kelas).
+// Identical structure for every track — only the content (props) differs.
+// Sections: (1) Judul+hook (2) Cocok buat (3) Kurikulum (4) Hasil (5) Format (6) CTA WA.
+import SwissLayout from "./SwissLayout.astro";
+import { waLink } from "../lib/linkbio";
+
+interface Props {
+  no: string;          // track number, e.g. "1"
+  title: string;       // track name, e.g. "Digital Marketing Fundamental"
+  hook: string;        // 1-sentence hook
+  cocok: string;       // "Cocok buat" line
+  kurikulum: string[]; // 3-5 modules
+  hasil: string;       // outcome after completing
+  buildTag: string;    // unique post-deploy verify string
+  slug: string;        // e.g. "digital-marketing-fundamental"
+  metaTitle: string;
+  metaDesc: string;
+  // Optional per-track FORMAT override. Default = privat·offline·Bali (tracks 1-5 untouched).
+  format?: { title: string; desc: string; icon: string }[];
+  formatNote?: string;
+}
+
+const { no, title, hook, cocok, kurikulum, hasil, buildTag, slug, metaTitle, metaDesc, format: formatProp, formatNote } = Astro.props;
+
+const WA = waLink(`Halo, saya mau tanya soal kelas ${title}`);
+
+// Format default — identik untuk track 1-5 (privat·offline·Bali). Track 6 mengoper override.
+const format = formatProp ?? [
+  { title: "Privat / kelas kecil", desc: "Perhatian personal, materi nyetel ke kebutuhan kamu.", icon: "groups" },
+  { title: "Offline di Bali", desc: "Tatap muka, langsung praktek bareng — bukan webinar massal.", icon: "location_on" },
+  { title: "Jadwal fleksibel", desc: "Atur sesuai slot yang cocok (detail saat japri).", icon: "schedule" },
+];
+
+const breadcrumbLD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://alphadigitalagency.id/" },
+    { "@type": "ListItem", position: 2, name: "Kelas Digital Marketing", item: "https://alphadigitalagency.id/kelas/" },
+    { "@type": "ListItem", position: 3, name: title, item: `https://alphadigitalagency.id/kelas/${slug}/` },
+  ],
+};
+
+const courseLD = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: `${title} — Kelas Digital Marketing Alpha Digital`,
+  description: metaDesc,
+  provider: { "@type": "Organization", name: "Alpha Digital Agency", url: "https://alphadigitalagency.id" },
+};
+---
+
+<SwissLayout title={metaTitle} description={metaDesc} currentPage="kelas">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(courseLD)} />
+    <!-- build:{buildTag} -->
+  </Fragment>
+
+  <div class="pb-24 md:pb-0" data-build={buildTag}>
+
+    <!-- 1. HERO — judul + hook -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12 text-center">
+      <a href="/kelas/" class="inline-flex items-center gap-1 text-xs font-mono uppercase tracking-widest text-primary mb-5 hover:underline">
+        <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+        Semua Materi Kelas
+      </a>
+      <p class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">
+        Materi {no} · Kelas Digital Marketing
+      </p>
+      <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[1.7rem] sm:text-[2.25rem] md:text-[2.75rem]">
+        {title}<span class="text-primary">.</span>
+      </h1>
+      <p class="mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-lg mx-auto">
+        {hook}
+      </p>
+      <div class="mt-7 flex justify-center">
+        <a href={WA} target="_blank" rel="noopener noreferrer"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest">
+          <span class="material-symbols-outlined">chat</span>
+          Daftar / Tanya via WhatsApp
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. COCOK BUAT -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-10">
+      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 md:p-7">
+        <h2 class="font-display font-bold text-lg md:text-xl text-charcoal dark:text-white mb-2">Cocok Buat</h2>
+        <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">{cocok}</p>
+      </div>
+    </section>
+
+    <!-- 3. KURIKULUM -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-10">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">
+        Kurikulum Singkat
+      </h2>
+      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 md:p-8">
+        <ul class="space-y-4">
+          {kurikulum.map((k, i) => (
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">check_circle</span>
+              <span class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">{k}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4. HASIL -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-10">
+      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 md:p-7">
+        <h2 class="font-display font-bold text-lg md:text-xl text-charcoal dark:text-white mb-2">Hasil Setelah Selesai</h2>
+        <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">{hasil}</p>
+      </div>
+    </section>
+
+    <!-- 5. FORMAT -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-10">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">Format Kelas</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {format.map((f) => (
+          <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 md:p-6">
+            <span class="material-symbols-outlined text-primary text-[28px]">{f.icon}</span>
+            <h3 class="font-bold text-charcoal dark:text-white text-sm mt-3 mb-1">{f.title}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+      {formatNote && (
+        <p class="mt-5 text-center text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{formatNote}</p>
+      )}
+    </section>
+
+    <!-- 6. CTA PENUTUP -->
+    <section class="max-w-2xl mx-auto px-6 md:px-12 mb-4 text-center">
+      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+        <h2 class="font-display font-bold text-lg md:text-xl text-charcoal dark:text-white mb-3 max-w-md mx-auto leading-snug">
+          Tertarik materi ini? Ngobrol dulu nggak apa-apa.
+        </h2>
+        <div class="mt-5 flex justify-center">
+          <a href={WA} target="_blank" rel="noopener noreferrer"
+            class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest">
+            <span class="material-symbols-outlined">chat</span>
+            Daftar / Tanya via WhatsApp
+          </a>
+        </div>
+        <p class="mt-4 text-xs text-slate-500 dark:text-slate-400">Denpasar, Bali · dibalas langsung.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Sticky WhatsApp CTA (mobile only) — identik dengan /kelas -->
+  <a href={WA} target="_blank" rel="noopener noreferrer"
+    class="md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-center gap-2 py-4 min-h-[56px] bg-primary text-white border-t-2 border-charcoal font-bold text-sm uppercase tracking-widest"
+    aria-label="Daftar kelas via WhatsApp">
+    <span class="material-symbols-outlined">chat</span>
+    Daftar via WhatsApp
+  </a>
+</SwissLayout>

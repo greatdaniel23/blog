@@ -1,0 +1,479 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+
+const BUILD_MARKER = "AI-AGENT-DEMO-2026-05-20-MASON-SAMUDRA";
+
+const breadcrumbLD = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
+        { "@type": "ListItem", "position": 2, "name": "AI Agent", "item": "https://alphadigitalagency.id/ai-agent/" },
+        { "@type": "ListItem", "position": 3, "name": "Demo", "item": "https://alphadigitalagency.id/ai-agent/demo/" }
+    ]
+};
+
+const softwareApplicationLD = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AI Agent Villa — Alpha Digital Agency",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "AI Agent percakapan yang dirancang khusus untuk villa boutique di Bali. Menjawab pertanyaan tamu dalam berbagai bahasa, 24 jam, terintegrasi dengan booking engine dan laporan digital.",
+    "provider": {
+        "@type": "Organization",
+        "name": "Alpha Digital Agency Indonesia",
+        "url": "https://alphadigitalagency.id/",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Denpasar",
+            "addressRegion": "Bali",
+            "addressCountry": "ID"
+        }
+    },
+    "url": "https://alphadigitalagency.id/ai-agent/demo/",
+    "inLanguage": ["id", "en"]
+};
+
+const faqPageLD = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        { "@type": "Question", "name": "Apakah demo ini menggunakan data villa nyata?", "acceptedAnswer": { "@type": "Answer", "text": "Ya — demo ini menjalankan AI Agent yang kami setup untuk Samudra Villa, vila boutique di Bali. Data yang dijawab agent berasal dari informasi properti tersebut, bukan contoh rekayasa." } },
+        { "@type": "Question", "name": "Apakah percakapan saya di demo ini disimpan?", "acceptedAnswer": { "@type": "Answer", "text": "Percakapan di halaman demo ini tidak dikaitkan dengan identitas Anda. Kami mencatat data agregat untuk evaluasi kualitas agent — tidak ada nama, email, atau data personal yang tersimpan dari sesi demo publik ini." } },
+        { "@type": "Question", "name": "Bisakah saya minta agent dengan persona berbeda untuk villa saya?", "acceptedAnswer": { "@type": "Answer", "text": "Ya. Setiap AI Agent yang kami setup punya nama, gaya bicara, dan pengetahuan yang disesuaikan dengan properti Anda. Dari bahasa yang diutamakan sampai cara agent memperkenalkan diri — semua bisa dikustomisasi." } },
+        { "@type": "Question", "name": "Apakah ada demo untuk jenis properti villa lain?", "acceptedAnswer": { "@type": "Answer", "text": "Demo ini menampilkan Samudra Villa. Untuk properti lain yang kami tangani, demo tidak kami publikasikan secara terbuka — tapi dalam diskusi setup kami bisa tunjukkan contoh agent lain yang berjalan untuk konteks berbeda." } }
+    ]
+};
+---
+
+<SwissLayout
+    title="Demo AI Agent Villa Bali — Coba Langsung | Alpha Digital"
+    description="Coba langsung AI Agent villa Bali yang kami bangun — jawab pertanyaan tamu dalam bahasa mereka, 24 jam. Siap disetup untuk properti Anda. Diskusi gratis."
+    currentPage="ai-agent"
+>
+    <Fragment slot="head">
+        <!-- noindex (ALPHA decision 2026-06-09): interactive demo shell, excluded from sitemap too. -->
+        <meta name="robots" content="noindex, follow" />
+        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(softwareApplicationLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(faqPageLD)} />
+        <meta name="build-marker" content={BUILD_MARKER} />
+    </Fragment>
+
+    <!-- Hero -->
+    <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12 text-center pt-24">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">Demo Langsung — AI Agent Villa</p>
+        <h1
+            class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[2.5rem] md:text-[3.5rem] mb-4"
+        >
+            Coba Sendiri<span class="text-primary">.</span>
+        </h1>
+        <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            Chatbot di bawah ini melayani Samudra Villa — vila boutique di Bali. Tanya tentang kamar, paket, fasilitas, atau reservasi. Agent menjawab dalam bahasa Anda, real-time, 24 jam.
+        </p>
+    </section>
+
+    <!-- How to try -->
+    <section class="max-w-4xl mx-auto mb-6 px-6 md:px-12">
+        <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-4 md:p-5">
+            <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Coba tanyakan ini</p>
+            <div class="flex flex-wrap gap-2" id="suggestion-chips">
+                <button data-q="Berapa harga kamar suite untuk 2 malam?" class="suggestion-chip text-xs px-3 py-2 border-2 border-charcoal/20 dark:border-white/20 hover:border-primary hover:text-primary transition">Harga kamar suite 2 malam?</button>
+                <button data-q="Apa saja paket honeymoon untuk pasangan?" class="suggestion-chip text-xs px-3 py-2 border-2 border-charcoal/20 dark:border-white/20 hover:border-primary hover:text-primary transition">Paket honeymoon untuk pasangan?</button>
+                <button data-q="Is airport transfer included and how long from the airport?" class="suggestion-chip text-xs px-3 py-2 border-2 border-charcoal/20 dark:border-white/20 hover:border-primary hover:text-primary transition">Airport transfer + waktu tempuh?</button>
+                <button data-q="Apa saja fasilitas dan apa yang ada di sekitar villa?" class="suggestion-chip text-xs px-3 py-2 border-2 border-charcoal/20 dark:border-white/20 hover:border-primary hover:text-primary transition">Fasilitas + sekitar villa?</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat interface -->
+    <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark flex flex-col" style="height: 60vh; min-height: 500px;">
+            <!-- Header bar -->
+            <div class="border-b-2 border-charcoal/10 dark:border-white/10 px-5 py-4 flex items-center gap-3 flex-shrink-0">
+                <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse" aria-hidden="true"></div>
+                <div class="flex-1">
+                    <p class="font-bold text-charcoal dark:text-white text-sm" id="agent-name">Samudra Concierge</p>
+                    <p class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest">Live · Menjawab dalam bahasa Anda</p>
+                </div>
+                <button id="reset-chat" class="text-xs font-mono uppercase tracking-widest text-slate-500 hover:text-primary transition">Reset</button>
+            </div>
+
+            <!-- Transcript -->
+            <div id="chat-transcript" class="flex-1 overflow-y-auto px-5 py-5 space-y-4">
+                <div class="chat-msg-agent">
+                    <p class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1">Samudra Villa Concierge</p>
+                    <div class="bg-slate-100 dark:bg-slate-800 border-2 border-charcoal/10 dark:border-white/10 p-4 max-w-[85%]">
+                        <p class="text-sm text-charcoal dark:text-white leading-relaxed">
+                            Selamat datang di Samudra — vila boutique premium di Bali. Saya bisa bantu jelaskan kamar, harga, fasilitas, lokasi, atau kebijakan reservasi. Silakan tanya apa pun, atau pilih salah satu contoh di atas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <form id="chat-form" class="border-t-2 border-charcoal/10 dark:border-white/10 px-5 py-4 flex gap-3 flex-shrink-0">
+                <input
+                    id="chat-input"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Ketik pertanyaan Anda di sini..."
+                    class="flex-1 px-4 py-3 border-2 border-charcoal/20 dark:border-white/20 bg-white dark:bg-slate-900 text-sm text-charcoal dark:text-white focus:outline-none focus:border-primary"
+                    aria-label="Pertanyaan untuk AI Agent"
+                />
+                <button
+                    type="submit"
+                    id="chat-send"
+                    class="btn-swiss inline-flex items-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-xs uppercase tracking-widest"
+                >
+                    <span class="material-symbols-outlined" style="font-size: 18px;">send</span>
+                    Kirim
+                </button>
+            </form>
+        </div>
+
+    </section>
+
+    <!-- Section D — Yang Baru Saja Anda Alami (3 Pillars) -->
+    <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10">
+            <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6">
+                Yang Baru Saja Anda Alami
+            </h2>
+
+            <div class="space-y-6">
+                <!-- Pillar 1 -->
+                <div>
+                    <h3 class="font-display font-bold text-base md:text-lg text-charcoal dark:text-white mb-2">
+                        Nyata, bukan mockup.
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                        <strong class="text-charcoal dark:text-white">Ini bukan demonstrasi rekayasa.</strong> Pertanyaan yang baru Anda ketik benar-benar diproses dan dijawab berdasarkan data properti Samudra Villa — bukan script yang disiapkan. Agent membaca konteks villa, memahami pertanyaan Anda dalam bahasa apapun yang Anda gunakan, dan merespons seperti staf resepsionis yang paham propertinya. Tidak ada penundaan manual. Tidak ada jam tutup.
+                    </p>
+                </div>
+
+                <!-- Pillar 2 (future/capability-tense default per ATELIER 4.5b) -->
+                <div>
+                    <h3 class="font-display font-bold text-base md:text-lg text-charcoal dark:text-white mb-2">
+                        Terhubung ke proses booking.
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                        <strong class="text-charcoal dark:text-white">Bukan chatbot yang berdiri sendiri.</strong> Ketika tamu menanyakan harga atau ketersediaan, agent tidak hanya memberi informasi — ia memandu tamu ke langkah reservasi. Setiap interaksi seperti ini bisa kami pipe ke laporan Anda: pertanyaan apa yang paling sering ditanyakan, dari mana tamu berasal, dan berapa banyak yang melanjutkan ke booking — semua dalam satu dashboard yang menyatu dengan data iklan dan website Anda.
+                    </p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div>
+                    <h3 class="font-display font-bold text-base md:text-lg text-charcoal dark:text-white mb-2">
+                        Disesuaikan untuk villa Anda.
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                        <strong class="text-charcoal dark:text-white">Dilatih dari data properti Anda, bukan template umum.</strong> Agent ini memahami Samudra Villa karena ia dilatih dari data spesifik properti ini — paket, lokasi, kebijakan, persona tamu. Untuk villa Anda, kami lakukan hal yang sama: agent akan memahami properti, tarif, dan tamu Anda. Multi-bahasa otomatis — tamu dari Eropa, Australia, atau Jakarta mendapat respons dalam bahasa mereka, tanpa pengaturan tambahan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section E — Trust block (HERALD-patched v2) -->
+    <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10">
+            <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6">
+                Bukan Chatbot Generik. Bagian dari Sistem.
+            </h2>
+
+            <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed mb-4">
+                AI Agent yang Anda coba tadi adalah satu lapisan dari <a href="/ekosistem/" class="text-primary hover:underline font-medium">ekosistem</a> yang kami bangun khusus untuk villa boutique di Bali — bukan produk lepas yang dibeli dari marketplace.
+            </p>
+
+            <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed mb-4">
+                Alpha Digital mengoperasikan sistem terintegrasi: Google Ads yang menghasilkan trafik, website yang mengkonversi, AI Agent yang melayani tamu 24 jam, booking engine yang menangkap reservasi langsung, dan laporan terpadu yang menunjukkan hasilnya. Saat tamu sudah siap booking, agent meneruskan mereka langsung ke booking engine — tanpa redirect ke OTA, tanpa kehilangan konteks percakapan. Semua dirancang untuk satu tujuan: menggeser ketergantungan villa Anda dari OTA ke direct booking, dengan target 15-30% dalam 90 hari pertama.
+            </p>
+
+            <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                Kami saat ini bekerja dengan sembilan properti villa dan F&amp;B aktif di Bali, semua dengan spesialisasi hospitality boutique. Tidak ada nama klien yang kami cantumkan tanpa izin — tapi hasil yang mereka rasakan mendorong keputusan di sini: booking langsung lebih banyak, komisi OTA lebih sedikit.
+            </p>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
+        <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto mb-6 leading-relaxed">
+            Kalau ini terlihat seperti yang villa Anda butuhkan, langkah pertama adalah diskusi singkat — tidak ada commitment, tidak ada pitch deck. Hanya percakapan tentang properti Anda.
+        </p>
+        <a
+            href="https://wa.me/628814802249?text=Halo%20Alpha%20Digital%2C%20saya%20ingin%20diskusi%20setup%20AI%20Agent%20untuk%20villa%20saya"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+            <span class="material-symbols-outlined">chat</span>
+            Diskusi via WhatsApp
+        </a>
+        <p class="mt-6">
+            <a href="/ekosistem/" class="text-xs font-mono uppercase tracking-widest text-slate-600 dark:text-slate-400 hover:text-primary transition">
+                Lihat Ekosistem Lengkap &rarr;
+            </a>
+        </p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="max-w-4xl mx-auto mb-20 px-6 md:px-12">
+        <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">
+            Pertanyaan Tentang Demo Ini
+        </h2>
+        <div class="space-y-4">
+            <details class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 md:p-6">
+                <summary class="font-bold text-charcoal dark:text-white text-sm md:text-base cursor-pointer">
+                    Apakah demo ini menggunakan data villa nyata?
+                </summary>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mt-3">
+                    Ya — demo ini menjalankan AI Agent yang kami setup untuk Samudra Villa, vila boutique di Bali. Data yang dijawab agent berasal dari informasi properti tersebut, bukan contoh rekayasa.
+                </p>
+            </details>
+            <details class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 md:p-6">
+                <summary class="font-bold text-charcoal dark:text-white text-sm md:text-base cursor-pointer">
+                    Apakah percakapan saya di demo ini disimpan?
+                </summary>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mt-3">
+                    Percakapan di halaman demo ini tidak dikaitkan dengan identitas Anda. Kami mencatat data agregat untuk evaluasi kualitas agent — tidak ada nama, email, atau data personal yang tersimpan dari sesi demo publik ini.
+                </p>
+            </details>
+            <details class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 md:p-6">
+                <summary class="font-bold text-charcoal dark:text-white text-sm md:text-base cursor-pointer">
+                    Bisakah saya minta agent dengan persona berbeda untuk villa saya?
+                </summary>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mt-3">
+                    Ya. Setiap AI Agent yang kami setup punya nama, gaya bicara, dan pengetahuan yang disesuaikan dengan properti Anda. Dari bahasa yang diutamakan sampai cara agent memperkenalkan diri — semua bisa dikustomisasi.
+                </p>
+            </details>
+            <details class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 md:p-6">
+                <summary class="font-bold text-charcoal dark:text-white text-sm md:text-base cursor-pointer">
+                    Apakah ada demo untuk jenis properti villa lain?
+                </summary>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mt-3">
+                    Demo ini menampilkan Samudra Villa (Bali). Untuk properti lain yang kami tangani, demo tidak kami publikasikan secara terbuka — tapi dalam diskusi setup kami bisa tunjukkan contoh agent lain yang berjalan untuk konteks berbeda.
+                </p>
+            </details>
+        </div>
+    </section>
+
+    <script is:inline>
+        (function () {
+            const API_URL = "/api/chat";
+            const AGENT_ID = 4;
+            // Booking links on the demo page must be absolute — this is alphadigitalagency.id,
+            // NOT villa.alphadigitalagency.id. Relative paths would resolve to the wrong host.
+            const VILLA_SITE = 'https://villa.alphadigitalagency.id';
+            const customerId = "samudra-demo-" + Math.random().toString(36).slice(2, 10);
+
+            function resolvePackageUrl(rawUrl) {
+                if (!rawUrl) return '';
+                const s = String(rawUrl);
+                if (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('mailto:') || s.startsWith('tel:')) return s;
+                // Force absolute villa URL — /booking prefix is deprecated, strip if present.
+                if (s.startsWith('/booking/')) return VILLA_SITE + s.replace(/^\/booking/, '');
+                if (s.startsWith('/')) return VILLA_SITE + s;
+                return VILLA_SITE + '/' + s;
+            }
+
+            const transcript = document.getElementById("chat-transcript");
+            const form = document.getElementById("chat-form");
+            const input = document.getElementById("chat-input");
+            const sendBtn = document.getElementById("chat-send");
+            const resetBtn = document.getElementById("reset-chat");
+            const agentNameEl = document.getElementById("agent-name");
+            const chips = document.querySelectorAll(".suggestion-chip");
+
+            function escapeHtml(s) {
+                return String(s)
+                    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            }
+
+            function appendUserMsg(text) {
+                const div = document.createElement("div");
+                div.className = "chat-msg-user flex justify-end";
+                div.innerHTML = `
+                    <div class="max-w-[85%]">
+                        <p class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1 text-right">Anda</p>
+                        <div class="bg-primary text-white border-2 border-charcoal p-4">
+                            <p class="text-sm leading-relaxed">${escapeHtml(text)}</p>
+                        </div>
+                    </div>
+                `;
+                transcript.appendChild(div);
+                transcript.scrollTop = transcript.scrollHeight;
+            }
+
+            function formatPrice(p) {
+                if (p === null || p === undefined || p === '') return '';
+                const n = Number(String(p).replace(/[^0-9.]/g, ''));
+                if (!isFinite(n) || n === 0) return '';
+                return 'Rp ' + n.toLocaleString('id-ID');
+            }
+
+            function renderPackageCards(packages) {
+                if (!packages || !packages.length) return '';
+                const cards = packages.map(function (p) {
+                    const price = formatPrice(p.price_bundle);
+                    const guests = p.max_guest ? p.max_guest + ' tamu' : '';
+                    const img = p.image_url
+                        ? '<div class="aspect-[16/10] bg-slate-200 dark:bg-slate-700 overflow-hidden border-b-2 border-charcoal/10 dark:border-white/10"><img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.title || '') + '" loading="lazy" class="w-full h-full object-cover" /></div>'
+                        : '';
+                    const resolvedUrl = resolvePackageUrl(p.package_url);
+                    const cta = resolvedUrl
+                        ? '<a href="' + escapeHtml(resolvedUrl) + '" target="_blank" rel="noopener" class="block mt-3 text-center text-[11px] font-bold uppercase tracking-widest px-3 py-2 bg-primary text-white border-2 border-charcoal hover:translate-x-[1px] hover:translate-y-[1px] transition">Reservasi</a>'
+                        : '';
+                    return (
+                        '<div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark flex flex-col">' +
+                            img +
+                            '<div class="p-4 flex-1 flex flex-col">' +
+                                '<h4 class="font-bold text-charcoal dark:text-white text-sm mb-1">' + escapeHtml(p.title || 'Paket') + '</h4>' +
+                                '<p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3 flex-1">' + escapeHtml(p.description || '') + '</p>' +
+                                (price || guests
+                                    ? '<div class="flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 border-t-2 border-charcoal/10 dark:border-white/10 pt-2">' +
+                                        (price ? '<span class="text-primary font-bold">' + price + '</span>' : '<span></span>') +
+                                        (guests ? '<span>' + escapeHtml(guests) + '</span>' : '') +
+                                      '</div>'
+                                    : '') +
+                                cta +
+                            '</div>' +
+                        '</div>'
+                    );
+                }).join('');
+                return (
+                    '<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[95%]">' +
+                        cards +
+                    '</div>'
+                );
+            }
+
+            function selectPackages(focusAreas, rawText) {
+                if (!focusAreas || !focusAreas.length) return [];
+                const text = String(rawText || '');
+                // [SHOW_PACKAGE:N] — single package
+                const singleMatch = text.match(/\[SHOW_PACKAGE:(\d+)\]/);
+                if (singleMatch) {
+                    const id = parseInt(singleMatch[1], 10);
+                    return focusAreas.filter(function (p) { return p.id === id; });
+                }
+                // [SHOW_PACKAGES:N1,N2,...] — multi specific
+                const multiMatch = text.match(/\[SHOW_PACKAGES:([\d,]+)\]/);
+                if (multiMatch) {
+                    const ids = multiMatch[1].split(',').map(function (s) { return parseInt(s.trim(), 10); });
+                    return focusAreas.filter(function (p) { return ids.indexOf(p.id) !== -1; });
+                }
+                // [SHOW_PACKAGES] — all
+                if (/\[SHOW_PACKAGES\]/.test(text)) {
+                    return focusAreas;
+                }
+                return [];
+            }
+
+            function appendAgentMsg(text, agentName, focusAreas) {
+                const div = document.createElement("div");
+                div.className = "chat-msg-agent";
+                const raw = String(text || "");
+                // Determine which packages to render BEFORE stripping tokens
+                const pkgsToShow = selectPackages(focusAreas, raw);
+                // Strip all bracketed UI hint tokens for display
+                const cleaned = raw.replace(/\[SHOW_PACKAGES?(?::[\d,]+)?\]/g, "").replace(/\[[A-Z_]+\]/g, "").trim();
+                const cardsHtml = renderPackageCards(pkgsToShow);
+                div.innerHTML = `
+                    <p class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1">${escapeHtml(agentName || "Villa Assistant")}</p>
+                    <div class="bg-slate-100 dark:bg-slate-800 border-2 border-charcoal/10 dark:border-white/10 p-4 max-w-[85%]">
+                        <p class="text-sm text-charcoal dark:text-white leading-relaxed" style="white-space: pre-wrap;">${escapeHtml(cleaned)}</p>
+                    </div>
+                    ${cardsHtml}
+                `;
+                transcript.appendChild(div);
+                transcript.scrollTop = transcript.scrollHeight;
+            }
+
+            function appendTyping() {
+                const div = document.createElement("div");
+                div.className = "chat-msg-typing";
+                div.id = "typing-indicator";
+                div.innerHTML = `
+                    <p class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1">Villa Assistant</p>
+                    <div class="bg-slate-100 dark:bg-slate-800 border-2 border-charcoal/10 dark:border-white/10 p-4 max-w-[85%] inline-flex gap-1">
+                        <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 0ms;"></span>
+                        <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 150ms;"></span>
+                        <span class="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 300ms;"></span>
+                    </div>
+                `;
+                transcript.appendChild(div);
+                transcript.scrollTop = transcript.scrollHeight;
+            }
+
+            function removeTyping() {
+                const t = document.getElementById("typing-indicator");
+                if (t) t.remove();
+            }
+
+            function appendError(msg) {
+                const div = document.createElement("div");
+                div.className = "chat-msg-error";
+                div.innerHTML = `
+                    <div class="bg-red-50 dark:bg-red-900/20 border-2 border-red-400 p-3 max-w-[85%]">
+                        <p class="text-xs text-red-700 dark:text-red-300 font-mono">${escapeHtml(msg)}</p>
+                    </div>
+                `;
+                transcript.appendChild(div);
+                transcript.scrollTop = transcript.scrollHeight;
+            }
+
+            async function sendMessage(text) {
+                if (!text || !text.trim()) return;
+                const userText = text.trim();
+                input.value = "";
+                sendBtn.disabled = true;
+                input.disabled = true;
+                appendUserMsg(userText);
+                appendTyping();
+                try {
+                    const res = await fetch(API_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ customer_id: customerId, agent_id: AGENT_ID, message: userText })
+                    });
+                    removeTyping();
+                    if (!res.ok) {
+                        appendError("Server error " + res.status + ". Coba ulang dalam beberapa detik.");
+                        return;
+                    }
+                    const data = await res.json();
+                    if (data && data.agent_name) agentNameEl.textContent = data.agent_name;
+                    appendAgentMsg(data.response || "(no response)", data.agent_name, data.focus_areas);
+                } catch (err) {
+                    removeTyping();
+                    appendError("Tidak bisa menghubungi AI Agent: " + (err && err.message ? err.message : "network error"));
+                } finally {
+                    sendBtn.disabled = false;
+                    input.disabled = false;
+                    input.focus();
+                }
+            }
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                sendMessage(input.value);
+            });
+
+            chips.forEach(function (chip) {
+                chip.addEventListener("click", function () {
+                    sendMessage(chip.getAttribute("data-q"));
+                });
+            });
+
+            resetBtn.addEventListener("click", function () {
+                while (transcript.children.length > 1) {
+                    transcript.removeChild(transcript.lastChild);
+                }
+            });
+        })();
+    </script>
+</SwissLayout>

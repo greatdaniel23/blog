@@ -11,6 +11,7 @@ dist/
 !package.json
 !package-lock.json
 !tsconfig.json
+!public/_routes.json
 
 # Client secrets
 client_secret*.json

@@ -1,0 +1,906 @@
+---
+import SwissLayout from "../../components/SwissLayout.astro";
+
+// Daniel's Stitch design — "Alpha Digital Agency — Layered Hero"
+// Project: 13655752129484564400 | Screen: ba51a0ce41524f0081d30542a929283d
+// Title from Stitch: "Alpha Digital Agency — Layered Hero" (780x5602 mobile)
+// Design System: Island Professionalism (assets/4b273bf39a5941fb96005d84100b6d52)
+// Typography: Syne (headlines, display) + Inter (body, labels) — NO Playfair Display
+// Palette: Primary #00261b / #0b3d2e, Secondary #a04100, Accent #D97706 (amber)
+// Mobile-first: 20px mobile margins, 8px unit
+// Sections: Top bar → Hero(bg+gradient overlay) → Services(3 cards) → Gallery(bento) → Footer(primary bg) → Bottom tab bar
+// Canonical HTML: https://contribution.usercontent.google.com/download?... (Stitch export)
+---
+
+<SwissLayout
+    title="Alpha Digital Agency — Layered Hero"
+    description="Digital marketing crafted for Bali's finest villas and hotels. Alpha Digital Agency — Digital Transformation, Google Ads, AI Integration for Bali Hospitality."
+    currentPage="layered-hero"
+>
+
+<!-- Syne + Inter: the Stitch "Island Professionalism" font stack. Loaded here
+     because SwissLayout only self-hosts Manrope. Google Fonts works fine in body;
+     the link fetches before first paint on all modern browsers. -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+/>
+
+<style>
+    /* ── Design Tokens (from Stitch "Island Professionalism" DS) ── */
+    :root {
+        --scroll-offset: 0px;
+        --mouse-x: 0px;
+        --mouse-y: 0px;
+
+        /* Core palette */
+        --primary: #00261b;
+        --primary-dark: #001a12;
+        --primary-container: #0b3d2e;
+        --on-primary: #ffffff;
+        --on-primary-container: #79a894;
+        --on-primary-fixed-variant: #214f3f;
+        --primary-fixed: #bcedd7;
+        --primary-fixed-dim: #a0d1bc;
+
+        --secondary: #a04100;
+        --secondary-accent: #D97706;
+        --secondary-container: #fc7c34;
+        --secondary-fixed: #ffdbcc;
+        --secondary-fixed-dim: #ffb693;
+        --on-secondary: #ffffff;
+        --on-secondary-fixed: #351000;
+        --on-secondary-fixed-variant: #7a3000;
+
+        --tertiary: #222117;
+        --tertiary-fixed: #e7e2d4;
+        --tertiary-fixed-dim: #cbc6b8;
+
+        --surface: #f9f9f9;
+        --surface-dim: #dadada;
+        --surface-bright: #f9f9f9;
+        --surface-container-lowest: #ffffff;
+        --surface-container-low: #f3f3f4;
+        --surface-container: #eeeeee;
+        --surface-container-high: #e8e8e8;
+        --surface-container-highest: #e2e2e2;
+        --on-surface: #1a1c1c;
+        --on-surface-variant: #414944;
+
+        --outline: #717974;
+        --outline-variant: #c0c8c3;
+        --background: #f9f9f9;
+        --on-background: #1a1c1c;
+
+        /* Typography */
+        --font-display: "Syne", system-ui, sans-serif;
+        --font-heading: "Syne", system-ui, sans-serif;
+        --font-body: "Inter", system-ui, sans-serif;
+
+        /* Spacing tokens from Stitch config */
+        --margin-mobile: 20px;
+        --margin-desktop: 64px;
+        --gutter: 24px;
+        --stack-sm: 12px;
+        --stack-md: 24px;
+        --stack-lg: 48px;
+        --container-max: 1280px;
+        --unit: 8px;
+
+        /* Roundness */
+        --radius: 8px;
+        --radius-lg: 12px;
+        --radius-xl: 24px;
+        --radius-full: 9999px;
+    }
+
+    /* ── Ambient shadow (from Stitch) ── */
+    .ambient-shadow {
+        box-shadow: 0 12px 40px rgba(11, 61, 46, 0.08);
+    }
+
+    /* ── Parallax Hero ── */
+    .parallax-container {
+        position: relative;
+        height: 90vh;
+        min-height: 600px;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        background: var(--primary-dark);
+    }
+
+    .parallax-layer {
+        position: absolute;
+        inset: -10% 0 -10% 0;
+        will-change: transform;
+    }
+
+    /* Layer 1: Background image (from Stitch) */
+    .layer-1 {
+        z-index: 1;
+        background-image: url("https://lh3.googleusercontent.com/aida/AP1WRLumnlz0GUcMNioTbhI1n8yE9Rp0CvYEVzrdERmtThmkkNGAtxV8IeRqTl6MF6d5k770Lg95Qlxc03p4cs3aKNDE1VHBw99SVtS4SbrskybtVD9KLFgRx9NcRp2wLSk-tqwpDvTcjzKl2FO_9UAzGmGw-Eo58CxtTxfX7Unrpvlu29R7SxgY7iFNhYMdobTNVVmzvthBqWc0dqm0cmXtLrijKJi__t-jAj2fu5wkL-IGk5CZGDiJucwzBwIj");
+        background-size: cover;
+        background-position: center;
+        transform: translate3d(0, calc(var(--scroll-offset) * 0.08), 0);
+    }
+
+    /* Layer 2: Dark color overlay (watermark/ambient depth) */
+    .layer-2 {
+        z-index: 2;
+        background: linear-gradient(
+            180deg,
+            rgba(0, 38, 27, 0.6) 0%,
+            rgba(11, 61, 46, 0.3) 50%,
+            rgba(0, 38, 27, 0.4) 100%
+        );
+        transform: translate3d(0, calc(var(--scroll-offset) * 0.15), 0);
+    }
+
+    /* Layer 3: Mid-ground abstract foliage silhouettes */
+    .layer-3 {
+        z-index: 3;
+        background: transparent;
+        transform: translate3d(0, calc(var(--scroll-offset) * 0.3), 0);
+        pointer-events: none;
+    }
+    .foliage-blob {
+        position: absolute;
+        border-radius: 50%;
+    }
+    .foliage-1 {
+        top: 15%;
+        left: -10%;
+        width: 250px;
+        height: 230px;
+        background:
+            radial-gradient(ellipse at 45% 55%, rgba(13, 90, 62, 0.4) 0%, rgba(10, 64, 46, 0.2) 50%, transparent 70%);
+        opacity: 0.5;
+    }
+    .foliage-2 {
+        top: 20%;
+        right: -15%;
+        width: 280px;
+        height: 240px;
+        background:
+            radial-gradient(ellipse at 50% 45%, rgba(13, 90, 62, 0.35) 0%, rgba(10, 64, 46, 0.15) 50%, transparent 70%);
+        opacity: 0.4;
+    }
+
+    /* Layer 4: Tropical gradient overlay (from Stitch: from-primary/90 via-primary/40 to-transparent) */
+    .layer-4 {
+        z-index: 4;
+        background: linear-gradient(
+            to top,
+            rgba(0, 38, 27, 0.9) 0%,
+            rgba(11, 61, 46, 0.4) 40%,
+            transparent 70%
+        );
+        transform: translate3d(0, calc(var(--scroll-offset) * -0.05), 0);
+    }
+
+    /* Layer 5: Hero Content */
+    .layer-5 {
+        z-index: 5;
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        pointer-events: none;
+        padding: 0 var(--margin-mobile);
+        padding-bottom: var(--stack-lg);
+    }
+    .hero-title {
+        font-family: var(--font-heading);
+        font-size: 48px;
+        font-weight: 700;
+        color: var(--on-primary);
+        line-height: 1.1;
+        max-width: 320px;
+        margin-bottom: var(--stack-sm);
+        text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        opacity: calc(1 - (var(--scroll-offset) / 400));
+        transform: translateY(calc(var(--scroll-offset) * -0.12));
+    }
+    .hero-subtitle {
+        font-family: var(--font-body);
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 28px;
+        color: var(--on-primary);
+        opacity: 0.9;
+        max-width: 320px;
+        margin-bottom: var(--stack-md);
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+        opacity: calc(0.9 - (var(--scroll-offset) / 350) * 0.9);
+        transform: translateY(calc(var(--scroll-offset) * -0.08));
+    }
+    .hero-cta {
+        pointer-events: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        height: 48px;
+        padding: 0 2rem;
+        background: var(--secondary-accent);
+        color: #ffffff;
+        font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        letter-spacing: 0.02em;
+        border: none;
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        text-decoration: none;
+        width: max-content;
+        box-shadow: 0 4px 16px rgba(11, 61, 46, 0.2);
+        transition: all 0.3s ease;
+        opacity: calc(1 - (var(--scroll-offset) / 300));
+        transform: translateY(calc(var(--scroll-offset) * -0.05));
+    }
+    .hero-cta:hover {
+        background: #e07b00;
+        box-shadow: 0 8px 28px rgba(217, 118, 6, 0.35);
+        transform: translateY(-2px) !important;
+    }
+    .hero-cta:active {
+        transform: scale(0.95) !important;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+        position: absolute;
+        bottom: 5rem;
+        left: var(--margin-mobile);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-family: var(--font-body);
+        font-size: 0.7rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+    }
+    .scroll-indicator::after {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent);
+        margin-top: 0.25rem;
+        animation: scrollPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+        0%, 100% { opacity: 0.4; transform: scaleY(1); }
+        50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
+    /* ── Content Sections ── */
+    .content-section {
+        padding: 0 var(--margin-mobile);
+        margin-top: var(--stack-lg);
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .content-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .section-inner {
+        max-width: var(--container-max);
+        margin: 0 auto;
+    }
+
+    /* Section label (Stitch: #D97706, label-lg, tracking-widest, uppercase) */
+    .section-label {
+        font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        letter-spacing: 0.15em;
+        color: var(--secondary-accent);
+        text-transform: uppercase;
+    }
+
+    /* Section title (Stitch: headline-lg-mobile, serif, primary) */
+    .section-title {
+        font-family: var(--font-heading);
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 40px;
+        color: var(--primary-dark);
+        margin-top: 4px;
+        margin-bottom: var(--stack-md);
+    }
+
+    /* ── Services Section ── */
+    .section-services {
+        background: var(--surface);
+    }
+    .services-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--gutter);
+    }
+    .service-card {
+        background: var(--surface-container-lowest);
+        padding: var(--stack-md);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(192, 200, 195, 0.3);
+        transition: all 0.3s ease;
+    }
+    .service-card:hover {
+        box-shadow: 0 16px 48px rgba(11, 61, 46, 0.1);
+        transform: translateY(-4px);
+    }
+    .service-card:active {
+        transform: scale(0.98);
+    }
+    .service-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: var(--stack-sm);
+        overflow: hidden;
+    }
+    .service-icon img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+    .icon-vision { background: var(--primary-fixed); }
+    .icon-integration { background: var(--secondary-fixed-dim); }
+    .icon-results { background: var(--tertiary-fixed); }
+
+    .service-card h3 {
+        font-family: var(--font-heading);
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 40px;
+        color: var(--primary-dark);
+        margin-bottom: 4px;
+    }
+    .service-card p {
+        font-family: var(--font-body);
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        color: var(--on-surface-variant);
+    }
+
+    /* ── Gallery Section (Bento) ── */
+    .section-gallery {
+        background: var(--surface);
+    }
+    .gallery-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: var(--stack-md);
+    }
+    .gallery-view-all {
+        font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--primary-dark);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    .gallery-item {
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    .gallery-item:hover {
+        transform: scale(1.02);
+    }
+    .gallery-item:active {
+        transform: scale(0.99);
+    }
+    .gallery-featured {
+        grid-column: 1 / -1;
+        height: 16rem;
+        position: relative;
+    }
+    .gallery-featured .gallery-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+    }
+    .gallery-featured .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 38, 27, 0.6), transparent);
+    }
+    .gallery-featured .gallery-caption {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+    }
+    .gallery-tag {
+        display: inline-block;
+        background: var(--secondary-accent);
+        color: #ffffff;
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--radius-full);
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 16px;
+    }
+    .gallery-featured .gallery-title {
+        font-family: var(--font-heading);
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 40px;
+        color: var(--on-primary);
+        margin-top: 0.5rem;
+    }
+    .gallery-secondary {
+        height: 10rem;
+        position: relative;
+    }
+    .gallery-secondary .gallery-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+    }
+    .gallery-secondary .gallery-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.2);
+    }
+    .gallery-secondary img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* ── Footer (Stitch: primary bg, serif brand) ── */
+    .section-footer {
+        background: var(--primary);
+        color: var(--on-primary);
+        text-align: center;
+        margin-top: var(--stack-lg);
+        padding: var(--stack-md) var(--margin-mobile);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .footer-brand {
+        font-family: var(--font-heading);
+        font-size: 32px;
+        font-weight: 600;
+        color: var(--on-primary);
+        letter-spacing: -0.02em;
+    }
+    .footer-tagline {
+        font-family: var(--font-body);
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        color: var(--on-primary);
+        opacity: 0.8;
+    }
+    .footer-social {
+        display: flex;
+        gap: 1.5rem;
+        margin: 1rem 0;
+    }
+    .footer-social span {
+        color: rgba(255, 255, 255, 0.8);
+        cursor: pointer;
+        transition: color 0.2s ease;
+        font-size: 1.5rem;
+    }
+    .footer-social span:hover {
+        color: var(--secondary-accent);
+    }
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    .footer-links a {
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 16px;
+        color: var(--on-primary-fixed-variant);
+        opacity: 0.8;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    .footer-links a:hover {
+        color: var(--secondary-accent);
+    }
+    .footer-copyright {
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 16px;
+        color: var(--on-primary-fixed-variant);
+        opacity: 0.6;
+        margin-top: 1rem;
+    }
+
+    /* ── Bottom Tab Bar (Stitch mobile design) ── */
+    .bottom-tab-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: var(--surface-container-lowest);
+        box-shadow: 0 -4px 20px rgba(11, 61, 46, 0.08);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 80px;
+        padding: 0 1rem 0.5rem;
+        z-index: 50;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .tab-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--on-surface-variant);
+        transition: all 0.2s ease;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        border: none;
+        background: none;
+        padding: 0.25rem;
+        border-radius: var(--radius-full);
+    }
+    .tab-item:active {
+        transform: scale(0.9);
+    }
+    .tab-item.active {
+        background: var(--primary-container);
+        color: var(--on-primary-container);
+        padding: 0.25rem 1rem;
+        border-radius: var(--radius-full);
+    }
+    .tab-item .material-icon {
+        font-size: 1.5rem;
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .tab-item.active .material-icon {
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+        .parallax-layer {
+            transform: none !important;
+        }
+        .hero-title,
+        .hero-subtitle,
+        .hero-cta {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+        .content-section {
+            opacity: 1;
+            transform: none;
+        }
+        .scroll-indicator {
+            display: none;
+        }
+        .service-card:hover {
+            transform: none;
+        }
+        .gallery-item:hover {
+            transform: none;
+        }
+    }
+
+    /* ── Mobile optimizations ── */
+    @media (max-width: 767px) {
+        .foliage-2 {
+            display: none;
+        }
+        .foliage-1 {
+            width: 160px;
+            height: 150px;
+            top: 10%;
+            left: -15%;
+        }
+        .parallax-container {
+            min-height: 500px;
+            height: 85vh;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .hero-title {
+            max-width: 500px;
+            font-size: 64px;
+        }
+        .hero-subtitle {
+            max-width: 450px;
+        }
+        .services-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .gallery-grid {
+            gap: var(--stack-md);
+        }
+    }
+</style>
+
+<!-- ── Parallax Hero ── -->
+<section class="parallax-container" id="parallaxHero">
+    <!-- Layer 1: Background image (Stitch asset) -->
+    <div class="parallax-layer layer-1"></div>
+
+    <!-- Layer 2: Dark color overlay for depth -->
+    <div class="parallax-layer layer-2"></div>
+
+    <!-- Layer 3: Abstract foliage silhouettes -->
+    <div class="parallax-layer layer-3">
+        <div class="foliage-blob foliage-1"></div>
+        <div class="foliage-blob foliage-2"></div>
+    </div>
+
+    <!-- Layer 4: Tropical gradient overlay (from-primary/90 via-primary/40 to-transparent) -->
+    <div class="parallax-layer layer-4"></div>
+
+    <!-- Layer 5: Hero Content -->
+    <div class="layer-5">
+        <h1 class="hero-title">Experience<br>The Layers</h1>
+        <p class="hero-subtitle">Digital marketing crafted for Bali's finest villas and hotels.</p>
+        <a href="#services" class="hero-cta">
+            Discover
+            <span class="material-symbols-outlined" style="font-size: 18px; font-variation-settings: 'FILL' 0, 'wght' 400;">arrow_forward</span>
+        </a>
+        <div class="scroll-indicator">Scroll</div>
+    </div>
+</section>
+
+<!-- ── Services Section ── -->
+<section id="services" class="content-section section-services">
+    <div class="section-inner">
+        <div class="section-label">Our Expertise</div>
+        <h2 class="section-title">Services Crafted for Luxury</h2>
+        <div class="services-grid">
+            <!-- Card 1: Strategic Vision (primary-fixed icon bg) -->
+            <div class="service-card">
+                <div class="service-icon icon-vision">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida/AP1WRLucYyrHh7d6NL8KOteynkxkbakw-snzBF15Xq0TvAXrKxixA-1Q69cyaTi9GJsfVvK92L1c7eDyHJU4wkXpWIX6BK_Y06S0voHo1m5sirw8a6X5Au6Fn7xln-0-2UH7Fnf18eVUVNl7wF1LRe0yM24YlUNo43m3yhgZfKgHCAccoyGmQVgBOB3zjhIDicjS1QNRE9rm3tVjU2bSb7eDOfP3yxf2W34yaUoGULrzIiSHUgeNQnXwr-GtgDh9"
+                        alt="Strategic Vision Icon"
+                        loading="lazy"
+                    />
+                </div>
+                <h3>Strategic Vision</h3>
+                <p>Focus on long-term growth and brand positioning for luxury properties.</p>
+            </div>
+
+            <!-- Card 2: Seamless Integration (secondary-fixed-dim icon bg) -->
+            <div class="service-card">
+                <div class="service-icon icon-integration">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida/AP1WRLttF_pZBh-XUrvGVhv9LO1A0X_eCpYukH-lDp4oIHMv2qOQ86gaC-yXzcplIkkRr6usPQPhaY4cokTJLpOf2F8z7WuGwGIt12EtWC2hYSOapjJqQuCRJP5hRro69i90BOvuMXcXK3wG1vh_-iFKRmKTg-Si0PEIRRPG_Ch5r81XtzwjnPEHnyhGguixBLEC7Er6NyQgX7_WHVWmngZASHQTnZHPCn_JCs_W8vDFLFX0_cPPXvmauSFoDwY"
+                        alt="Seamless Integration Icon"
+                        loading="lazy"
+                    />
+                </div>
+                <h3>Seamless Integration</h3>
+                <p>Blending marketing tech with tropical hospitality for effortless guest journeys.</p>
+            </div>
+
+            <!-- Card 3: Proven Results (tertiary-fixed icon bg) -->
+            <div class="service-card">
+                <div class="service-icon icon-results">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida/AP1WRLv7pPvSvjCRjWzjTHzDoWww42cRSYyxOA99BYcaJy4Z0OnKIgZ554RNzvI-snd7HjERUOU4QoQPVva166DKswjx03_Q6LqASxMZ7mR7IFTMQrS3YrGiNhnNba40Luc_39MVouraJsgCuvdtuSG5YitYfDyHDvut3WsokduhAf9bC7Vxnjr0gvydOXHJw9rTX74UaQ884pm_P1p-6kVmYgX3tWUx862Esg02ST5SyouhqpKwQ_osyoYlWXsN"
+                        alt="Proven Results Icon"
+                        loading="lazy"
+                    />
+                </div>
+                <h3>Proven Results</h3>
+                <p>Data-driven success engineered for high occupancy rates and premium bookings.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Gallery Section (Bento) ── -->
+<section class="content-section section-gallery">
+    <div class="section-inner">
+        <div class="gallery-header">
+            <div>
+                <div class="section-label">The Portfolio</div>
+                <h2 class="section-title">Curated Excellence</h2>
+            </div>
+            <a href="/gallery/" class="gallery-view-all">View All</a>
+        </div>
+        <div class="gallery-grid">
+            <!-- Featured Item (full width — Stitch bento layout) -->
+            <div class="gallery-item gallery-featured">
+                <div class="gallery-bg" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLueIJzutA-JEvTw8ouv6u6Nvh3Opu4S2i4ngcLBvzohzJaZR2ruFBpGXufRkXcbXDyuKR0Q2NhxbvyUt6AGpwfpO6XrjvD9716SiEnEuXI_snH7sVM7E_UHS1YbRSGQ2iyOpMbGGuDeSAwhvidixWEJ-StgAAq8jJbGjeZNNb6la_B1n4ULOTxyQ4c7maO4KKrii4N_Yy7K4DuIlfAz1uVqA6XpyXq0ZJI2kBa2m3jXkwxeMP_g45V3M6NM');"></div>
+                <div class="gallery-overlay"></div>
+                <div class="gallery-caption">
+                    <span class="gallery-tag">Hospitality</span>
+                    <h4 class="gallery-title">Luxury Villa Collection</h4>
+                </div>
+            </div>
+
+            <!-- Secondary Item 1 -->
+            <div class="gallery-item gallery-secondary">
+                <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB80Z702ZDvda32DoC4FwVK3irpnAg6emiqniYQsOKgZ2SpGyeQnKfPSxqPZrXg73zRf74GaSzdmWUboRJ5xFp1o6aX_9oQk8xEbDlxjc7ycFdBPY0mKbk_CEk3zN5IwV2U-oZoZ9g_VzV_akZNJ1ZiB9xC_fUpbbWk7LZ_-2IL06envO-vqLNUUiLHYL2F1ZJq7QHTbepy_D5Wv25yUBkABAP185sVlyAvkIF53Nqx3fbD0_JyypAag3_Gky_xyJERureRfTYBJcJm"
+                    alt="Tropical garden at sunset with high-end furniture"
+                    loading="lazy"
+                />
+                <div class="gallery-overlay"></div>
+            </div>
+
+            <!-- Secondary Item 2 -->
+            <div class="gallery-item gallery-secondary">
+                <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBukAXCwmm4Jo8FRO7fTlD7u4-bhkCHHD2Y6UzMAZdXGMoglozVeuPYCkDgXGo9NRzYJuWHWvwm5xdxjyjyPjixlokyYWWM2dNmD5G1bw28ZuH0qiwTK386-DRn3TzNGM9CP0LVSA4Gx1Y_j0OoHZacXain3_DlkIh9nOQW_Qz-N_1ASktf4AUm2eakyw3GcsIUlWz4vADj875lsjz7U5Mhp7pEm1JGaLMBZ84sQWIDnc2HPUJSbLGts_3CE10EbjUXbuf6PGby6DYT"
+                    alt="Premium tech device on teak wood table in Balinese villa"
+                    loading="lazy"
+                />
+                <div class="gallery-overlay"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Footer (Stitch: primary bg, serif brand) ── -->
+<section class="section-footer">
+    <div class="footer-brand">Alpha</div>
+    <p class="footer-tagline">Alpha Digital Agency — Bali &middot; Digital Transformation &middot; Hospitality</p>
+    <div class="footer-social">
+        <a href="https://alphadigitalagency.id" target="_blank" rel="noopener noreferrer" aria-label="Website">
+            <span class="material-symbols-outlined">language</span>
+        </a>
+        <a href="https://www.linkedin.com/company/alpha-digital-agency-indonesia/" target="_blank" rel="noopener noreferrer" aria-label="Share">
+            <span class="material-symbols-outlined">share</span>
+        </a>
+        <a href="mailto:daniel@alphadigitalagency.id" aria-label="Email">
+            <span class="material-symbols-outlined">mail</span>
+        </a>
+    </div>
+    <div class="footer-links">
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/layanan/">Terms of Service</a>
+        <a href="/about/">Careers</a>
+    </div>
+    <p class="footer-copyright">&copy; {new Date().getFullYear()} Alpha Digital Agency. Curated Excellence.</p>
+</section>
+
+<!-- ── Bottom Tab Bar (Stitch mobile design) ── -->
+<nav class="bottom-tab-bar md:hidden" aria-label="Bottom navigation">
+    <a href="/" class="tab-item active">
+        <span class="material-symbols-outlined material-icon">home</span>
+        <span>Home</span>
+    </a>
+    <a href="/layanan/" class="tab-item">
+        <span class="material-symbols-outlined material-icon">settings_input_component</span>
+        <span>Services</span>
+    </a>
+    <a href="/gallery/" class="tab-item">
+        <span class="material-symbols-outlined material-icon">gallery_thumbnail</span>
+        <span>Work</span>
+    </a>
+    <a href="mailto:daniel@alphadigitalagency.id" class="tab-item">
+        <span class="material-symbols-outlined material-icon">mail</span>
+        <span>Contact</span>
+    </a>
+</nav>
+
+<script>
+    // ── RAF-based parallax scroll ──
+    const root = document.documentElement;
+    const hero = document.getElementById("parallaxHero");
+    let ticking = false;
+
+    function updateScroll() {
+        const scrollY = window.scrollY;
+        root.style.setProperty("--scroll-offset", `${scrollY}px`);
+        ticking = false;
+    }
+
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            requestAnimationFrame(updateScroll);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    // ── Mouse parallax on desktop ──
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!isMobile && !prefersReduced && hero) {
+        hero.addEventListener("mousemove", (e) => {
+            const rect = hero.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+            const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+            root.style.setProperty("--mouse-x", `${x * 20}px`);
+            root.style.setProperty("--mouse-y", `${y * 10}px`);
+
+            const layers = hero.querySelectorAll(".parallax-layer");
+            const speeds = [0.08, 0.15, 0.3, -0.05];
+            layers.forEach((layer, i) => {
+                if (i < 4) {
+                    const offsetX = x * 20 * (i + 1) * 0.25;
+                    const currentScroll = parseFloat(root.style.getPropertyValue("--scroll-offset")) || 0;
+                    layer.style.transform = `translate3d(${offsetX}px, calc(${currentScroll}px * ${speeds[i]}), 0)`;
+                }
+            });
+        });
+
+        hero.addEventListener("mouseleave", () => {
+            const layers = hero.querySelectorAll(".parallax-layer");
+            const currentScroll = parseFloat(root.style.getPropertyValue("--scroll-offset")) || 0;
+            const speeds = [0.08, 0.15, 0.3, -0.05];
+            layers.forEach((layer, i) => {
+                if (i < 4) {
+                    layer.style.transform = `translate3d(0, calc(${currentScroll}px * ${speeds[i]}), 0)`;
+                }
+            });
+        });
+    }
+
+    // ── Scroll-triggered section fade-in ──
+    const sections = document.querySelectorAll(".content-section");
+    const observerOptions = {
+        root: null,
+        rootMargin: "0px 0px -50px 0px",
+        threshold: 0.15,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach((section) => observer.observe(section));
+
+    // ── Header shadow on scroll (from Stitch micro-interactions) ──
+    const header = document.querySelector("header");
+    window.addEventListener("scroll", () => {
+        if (header) {
+            if (window.scrollY > 20) {
+                header.classList.add("shadow-md");
+            } else {
+                header.classList.remove("shadow-md");
+            }
+        }
+    });
+</script>
+
+</SwissLayout>

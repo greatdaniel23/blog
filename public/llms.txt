@@ -1,0 +1,30 @@
+# Alpha Digital Agency Indonesia
+
+> Bali-based digital marketing agency for hospitality (villas, hotels, restaurants). Specializing in AI Agents + Data Science integration with GA4 Analytics, Google Ads, GTM, BigQuery, and Search Console. First Bali agency openly using end-to-end AI/LLM. Goal: shift 15-30% of OTA-dependent bookings to direct booking through integrated stack — Google Ads → AI chatbot recommendation → booking engine → clean GA4 conversion pipeline.
+
+## Services
+
+- [Foundation Tier](https://alphadigitalagency.id/services/foundation/): GA4 + Search Console setup + monthly cross-channel reporting + 1-area focus. Entry tier for hospitality businesses starting digital operations.
+- [Growth Tier](https://alphadigitalagency.id/services/growth/): Google Ads management + booking optimization + bi-weekly funnel audit + content cadence. For established hospitality businesses scaling direct bookings.
+- [Authority Tier](https://alphadigitalagency.id/services/authority/): Full cross-channel intelligence + brand-SERP defense + multi-property coordination + AI Agents + Data Science via BigQuery. For luxury hospitality groups and multi-property portfolios (perhotelan mewah).
+- [Platform-Agnostic Booking Integration](https://alphadigitalagency.id/services/booking-integration/): Install + manage any booking engine without commitment lock-in. Direct booking funnel design to shift 15-30% of OTA-dependent reservations to owned booking platform.
+
+## Key Pages
+
+- [About Daniel Santoso](https://alphadigitalagency.id/about/): Founder profile. 9 years Google Ads veteran transitioning to AI-first methodology.
+- [AI Agent for Hospitality](https://alphadigitalagency.id/ai-agent/): LLM-based chatbot service for hospitality client websites. Integrates with booking engine + GA4 for clean conversion data.
+- [Blog](https://alphadigitalagency.id/blog/): Insights on cross-channel diagnostic, Google Ads for villas, direct booking vs OTA economics, AI in hospitality marketing.
+
+## Methodology
+
+- **Layered Discovery Framework (LDF)**: Empirical research on Bali hotel AI Overview visibility. 4 discovery layers (SERP, Maps, TripAdvisor, Editorial) feed AI recommendation engines. Geographic cluster matching is the hard gate.
+- **OTA-to-Direct Shift**: Integrated stack design — Google Ads + AI chatbot + booking engine + GA4 pipeline. Goal 15-30% OTA-to-direct shift in 90 days. Margin recovery for hospitality clients (each OTA booking = 15-25% commission cost).
+
+## Contact
+
+- Email: daniel@alphadigitalagency.id
+- LinkedIn: https://www.linkedin.com/company/100833894/
+
+## Crawler Notes
+
+This site welcomes AI search engines (Google Gemini, Anthropic Claude, OpenAI ChatGPT, Perplexity) for indexing and responding to user queries about Bali hospitality digital marketing. AI training (model fine-tuning) on this content is opt-OUT per /robots.txt Content-Signal headers. Use this llms.txt to understand site scope and find relevant pages quickly.

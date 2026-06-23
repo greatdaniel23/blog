@@ -14,7 +14,7 @@ const serviceLD = {
   "author": {
     "@type": "Person",
     "name": "Daniel Santoso",
-    "url": "https://alphadigitalagency.id/about/#daniel"
+    "url": "https://alphadigitalagency.id/daniel-santoso/#person"
   },
   "areaServed": "Bali, Indonesia",
   "description": "Google Ads management + audit funnel booking langsung dua minggu sekali. Untuk vila dan hotel di Bali yang ingin kurangi ketergantungan OTA.",
@@ -70,8 +70,8 @@ const breadcrumbLD = {
 ---
 
 <SwissLayout
-  title="Growth — Google Ads untuk Vila &amp; Hotel Bali | Alpha Digital Agency"
-  description="Google Ads management + audit funnel booking dua minggu sekali. Kami lihat query mana yang sudah dapat klik organik gratis — supaya Anda tidak bayar dua kali. Bali hospitality specialist."
+  title="Google Ads for Bali Hotels | Alpha Digital"
+  description="Google Ads management for Bali hotels and villas, connected to booking funnel audits, Search Console data, and direct reservation tracking."
   currentPage="services"
 >
   <Fragment slot="head">
@@ -168,6 +168,56 @@ const breadcrumbLD = {
     </div>
   </section>
 
+  <!-- Google Ads vs SEO section (P1-10 new H2) -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+        Google Ads vs. SEO: Kenapa Anda Butuh Keduanya
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Banyak pemilik properti bertanya: "Kalau sudah ada organic traffic, kenapa perlu Ads?" Atau sebaliknya: "Kalau Ads sudah jalan, kenapa masih perlu SEO?"
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Jawabannya adalah keduanya mengisi peran berbeda dalam funnel booking Anda. <strong class="text-charcoal dark:text-white">Google Ads</strong> menangkap traffic high-intent secara instan — tamu yang sekarang mengetik "vila Bali available" dan siap booking. <strong class="text-charcoal dark:text-white">SEO</strong> membangun proteksi jangka panjang — brand Anda tidak bisa diambil OTA di slot organik.
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        Untuk properti vila di Bali, kedua channel bekerja bersama: branded queries terlindungi oleh SEO, high-intent availability queries ditangkap oleh Ads. Kami lihat keduanya dalam satu laporan — supaya budget tidak dibuang dua kali untuk pengunjung yang sama.
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+        Baca lebih lanjut: <a href="/services/foundation/" class="text-primary underline hover:no-underline">Foundation — Setup Tracking yang Benar</a> dan <a href="/services/authority/" class="text-primary underline hover:no-underline">Authority — Semua Channel Terhubung</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Yang Kami Manage Setiap Bulan checklist (P1-10 new H2) -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+        Yang Kami Manage Setiap Bulan
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+        Transparansi adalah bagian dari layanan. Ini yang dikerjakan setiap bulan dalam manajemen Growth:
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {[
+          "Review keyword — identifikasi peluang baru dan term yang buang budget",
+          "Bid adjustment berbasis data konversi aktual",
+          "Negative keyword audit — hentikan klik yang tidak relevan",
+          "Quality Score monitoring per ad group",
+          "Review landing page conversion rate",
+          "Audit funnel booking dua minggu sekali",
+          "Cross-channel review: Ads + organik + booking dalam satu tampilan",
+          "Laporan bulanan dengan rekomendasi aksi prioritas",
+        ].map(item => (
+          <div class="flex items-start gap-3">
+            <div class="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
@@ -187,7 +237,9 @@ const breadcrumbLD = {
 
   <!-- Internal links -->
   <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
-    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">Kelola beberapa properti? Lihat layanan berikutnya:</p>
+    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
+      Growth adalah bagian dari sistem <a href="/" class="text-primary font-semibold hover:underline">digital marketing agency Bali untuk hospitality</a>: Google Ads, SEO, booking engine, dan tracking bekerja sebagai satu funnel.
+    </p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <a href="/services/foundation" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
         <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 1</p>
@@ -210,7 +262,7 @@ const breadcrumbLD = {
   <!-- Author byline -->
   <section class="max-w-4xl mx-auto mb-4 px-6 md:px-12">
     <p class="text-xs text-slate-500 dark:text-slate-400">
-      Ditulis oleh <a href="/about/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
+      Ditulis oleh <a href="/daniel-santoso/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
     </p>
   </section>
 

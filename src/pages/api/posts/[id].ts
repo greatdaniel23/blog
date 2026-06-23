@@ -1,8 +1,9 @@
 import type { APIRoute } from 'astro';
+import { requireMcpToken } from '@/lib/mcp-auth';
 
 export const prerender = false;
 
-// GET /api/posts/[id] - Get single post
+// GET /api/posts/[id] - Get single post (public read)
 export const GET: APIRoute = async ({ params, locals }) => {
     try {
         const db = locals.runtime.env.DB;
@@ -31,21 +32,39 @@ export const GET: APIRoute = async ({ params, locals }) => {
     }
 };
 
-// PUT /api/posts/[id] - Update post
+// PUT /api/posts/[id] - Update post (BEARER-GATED, MCP surface)
 export const PUT: APIRoute = async ({ params, request, locals }) => {
+    const authFail = requireMcpToken(request, locals.runtime.env);
+    if (authFail) return authFail;
+
     try {
         const db = locals.runtime.env.DB;
         const { id } = params;
         const body = await request.json();
 
-        const { title, slug, description, content, hero_image, author, is_published } = body;
+        const { title, slug, description, content, hero_image, author, is_published, pub_date } = body;
+
+        if (!title || !slug || !content || !hero_image || typeof hero_image !== 'string' || !hero_image.trim()) {
+            return new Response(JSON.stringify({ error: 'Missing or invalid required fields: title, slug, content, and hero_image are required.' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        // pub_date is authorable and NON-DESTRUCTIVE:
+        //  - value supplied  → set it (correct/backdate the publish date)
+        //  - omitted/blank   → COALESCE(?, pub_date) keeps the EXISTING value,
+        //                      never silently resetting it to now.
+        // updated_at always moves.
+        const hasPubDate = pub_date !== undefined && pub_date !== null && pub_date !== '';
 
         await db.prepare(`
-      UPDATE posts 
-      SET title = ?, slug = ?, description = ?, content = ?, 
-          hero_image = ?, author = ?, is_published = ?, updated_at = CURRENT_TIMESTAMP
+      UPDATE posts
+      SET title = ?, slug = ?, description = ?, content = ?,
+          hero_image = ?, author = ?, is_published = ?,
+          pub_date = COALESCE(?, pub_date), updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
-    `).bind(title, slug, description, content, hero_image, author, is_published ? 1 : 0, id).run();
+    `).bind(title, slug, description, content, hero_image, author, is_published ? 1 : 0, hasPubDate ? pub_date : null, id).run();
 
         return new Response(JSON.stringify({ success: true }), {
             status: 200,
@@ -59,8 +78,11 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
     }
 };
 
-// DELETE /api/posts/[id] - Delete post
-export const DELETE: APIRoute = async ({ params, locals }) => {
+// DELETE /api/posts/[id] - Delete post (BEARER-GATED, MCP surface)
+export const DELETE: APIRoute = async ({ params, request, locals }) => {
+    const authFail = requireMcpToken(request, locals.runtime.env);
+    if (authFail) return authFail;
+
     try {
         const db = locals.runtime.env.DB;
         const { id } = params;

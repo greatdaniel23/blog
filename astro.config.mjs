@@ -1,7 +1,6 @@
 // @ts-check
 
 import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
@@ -64,11 +63,18 @@ function addCSSPreloadHints() {
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://alphadigitalagency.id',
+	// trailingSlash kept at Astro's default ('ignore') — flipping to 'never' broke SSR
+	// dynamic-route param resolution on the CF adapter (all /blog/<slug> 404'd, 2026-06-09).
+	// No-trailing-slash canonicalization is handled via the <link rel="canonical"> tag
+	// instead (NEXUS to re-implement the redirect safely + test before next deploy).
+	trailingSlash: 'ignore',
 	integrations: [
 		mdx(),
-		sitemap({
-			filter: (page) => !/\/pembantu(\/|$)/.test(page),
-		}),
+		// NOTE: @astrojs/sitemap removed 2026-06-09 (NEXUS). It is a BUILD-TIME
+		// integration and could not see the SSR (prerender=false) blog posts, so
+		// it emitted a competing, blog-less, all-trailing-slash sitemap-index.xml
+		// + sitemap-0.xml alongside the authoritative SSR /sitemap.xml. The single
+		// source of truth is now src/pages/sitemap.xml.ts (queries D1 directly).
 		react(),
 		tailwind({
 			applyBaseStyles: false,
@@ -76,6 +82,11 @@ export default defineConfig({
 		addCSSPreloadHints(),
 	],
 	adapter: cloudflare({
+		// Custom worker entrypoint enforces canonical-host redirects before Astro
+		// or static/prerendered content is served.
+		workerEntryPoint: {
+			path: 'src/worker.ts',
+		},
 		platformProxy: {
 			enabled: true,
 		},

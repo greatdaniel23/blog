@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import { marked } from "marked";
 import SwissLayout from "../../components/SwissLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
+import { SITE_URL } from "../../consts";
 
 const { slug } = Astro.params;
 const { env } = Astro.locals.runtime;
@@ -16,6 +17,8 @@ interface Post {
 	pub_date: string;
 	hero_image: string;
 	updated_at: string;
+	faq?: string | null;
+	howto_steps?: string | null;
 }
 
 const post = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
@@ -28,19 +31,218 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 if (!post) {
-	return Astro.redirect("/404");
+	// Real 404 (not a soft-302 redirect): set the wire status to 404 and render
+	// the not-found view. CF Pages / crawlers see HTTP 404, preserving crawl budget.
+	Astro.response.status = 404;
 }
 
-const content = marked.parse(post.content);
+// Convert D1 timestamps ("YYYY-MM-DD HH:MM:SS") to ISO 8601 with the Bali offset.
+// Idempotent: already-ISO input (has 'T' or an offset) is returned unchanged.
+function toISO(d: string | null | undefined): string | undefined {
+	if (!d) return undefined;
+	const s = d.trim();
+	if (s === "") return undefined;
+	if (s.includes("T") || /[+\-]\d{2}:\d{2}$/.test(s) || s.endsWith("Z")) return s;
+	return s.replace(" ", "T") + "+08:00";
+}
+
+// Strip any embedded scripts from the post body. Post markdown must never carry
+// <script> — an embedded application/ld+json Article block was producing a second,
+// future-dated Article entity on 2 posts (P0a). Belt-and-suspenders: even after the
+// D1 content is cleaned, the template refuses to render body scripts.
+const rawContent = post ? String(marked.parse(post.content)) : "";
+const content = rawContent
+	.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
+	.replace(/<h1(\s[^>]*)?>/gi, "<h2$1>")
+	.replace(/<\/h1>/gi, "</h2>");
+
+const seoTitleBySlug: Record<string, string> = {
+	"digital-marketing-agency-bali-hospitality": "Cara Memilih Digital Marketing Agency Bali untuk Hotel",
+	"google-ads-agency-bali-hotel-villa": "Google Ads Agency Bali for Hotels | Alpha Digital",
+	"seo-untuk-hotel-villa-bali": "SEO untuk Hotel dan Vila Bali | Alpha Digital",
+	"digital-agency-bali-hotel-villa": "Digital Marketing Bali untuk Hotel | Alpha Digital",
+	"booking-engine-adalah": "Booking Engine Adalah untuk Hotel Bali | Alpha Digital",
+	"google-tag-manager-adalah": "Google Tag Manager untuk Hotel | Alpha Digital",
+	"google-analytics-4-adalah": "Google Analytics 4 untuk Hotel | Alpha Digital",
+	"cara-tracking-konversi-booking-villa-bali": "Tracking Konversi Booking Villa Bali | Alpha Digital",
+	"direct-booking-vs-ota-cost-math-villa-bali": "Direct Booking vs OTA Villa Bali | Alpha Digital",
+	"era-baru-google-ads-mengapa-alpha-digital-agency-memilih-integrasi-llm-anthropic-di-2026": "Google Ads + LLM untuk Hotel | Alpha Digital",
+	"esensi-digital-marketing-dan-strategi-distribusi-informasi": "Strategi Digital Marketing Hotel | Alpha Digital",
+	"revolusi-reservasi-hotel-ai-agent-booking-engine": "AI Agent + Booking Engine Hotel | Alpha Digital",
+	"cara-meningkatkan-direct-booking-dari-website-sampai-tracking": "Cara Meningkatkan Direct Booking Hotel | Alpha Digital",
+};
+
+function compactTitle(title: string, slug: string): string {
+	if (seoTitleBySlug[slug]) return seoTitleBySlug[slug];
+	const suffix = " | Alpha Digital";
+	if (title.length + suffix.length <= 60) return `${title}${suffix}`;
+	return `${title.slice(0, 60 - suffix.length - 3).trim()}...${suffix}`;
+}
+
+function compactDescription(description: string): string {
+	if (description.length <= 160) return description;
+	return `${description.slice(0, 157).replace(/\s+\S*$/, "").trim()}...`;
+}
+
+// Resolve hero image URL for structured data — use absolute URL if possible.
+const isPublicHero = post?.hero_image?.startsWith("/images/");
+const heroImageSrc = isPublicHero
+	? post?.hero_image
+	: post?.hero_image
+		? images[post.hero_image.replace("../../", "/src/")]?.default?.src
+		: undefined;
+const heroImageAbsolute = heroImageSrc
+	? new URL(heroImageSrc, SITE_URL).toString()
+	: undefined;
+const schemaImageAbsolute = heroImageAbsolute ?? `${SITE_URL}/images/og-alpha-default.png`;
+
+// Canonical post URL — NO trailing slash (ALPHA decision: no-slash is the standard;
+// matches sitemap + page canonical). mainEntityOfPage + breadcrumb must agree.
+const postURL = post ? `${SITE_URL}/blog/${post.slug}` : "";
+
+// ISO-8601 dates with +08:00 offset (P1c) — used in schema AND article:* meta.
+const publishedISO = toISO(post?.pub_date);
+const modifiedISO = post && post.updated_at && post.updated_at !== post.pub_date
+	? toISO(post.updated_at)
+	: publishedISO;
+
+const seoTitle = post ? compactTitle(post.title, post.slug) : "";
+const seoDescription = post ? compactDescription(post.description ?? "") : "";
+
+const relatedSEOLinks = [
+	{
+		href: "/",
+		label: "Digital Marketing Agency Bali",
+		desc: "Pillar utama Alpha untuk hotel, vila, dan bisnis hospitality di Bali.",
+	},
+	{
+		href: "/services/growth/",
+		label: "Google Ads for Bali Hotels",
+		desc: "Google Ads, demand capture, dan optimasi direct booking.",
+	},
+	{
+		href: "/services/foundation/",
+		label: "GA4, GTM & Search Console Setup",
+		desc: "Fondasi data agar iklan, SEO, dan booking bisa diukur.",
+	},
+	{
+		href: "/services/booking-integration/",
+		label: "Booking Engine Integration",
+		desc: "Hubungkan website, tracking, dan direct reservation flow.",
+	},
+	{
+		href: "/ai-agent/",
+		label: "AI Agent for Hotels",
+		desc: "Asisten AI untuk menjawab calon tamu dan menjaga inquiry tetap bergerak.",
+	},
+];
+
+const blogPostingLD = post ? {
+	"@context": "https://schema.org",
+	"@type": ["BlogPosting", "Article"],
+	headline: post.title,
+	description: post.description ?? "",
+	datePublished: publishedISO,
+	dateModified: modifiedISO,
+	author: {
+		"@type": "Person",
+		name: "Daniel Santoso",
+		url: `${SITE_URL}/daniel-santoso/`,
+	},
+	publisher: {
+		"@id": `${SITE_URL}/#organization`,
+	},
+	mainEntityOfPage: {
+		"@type": "WebPage",
+		"@id": postURL,
+	},
+	image: {
+		"@type": "ImageObject",
+		url: schemaImageAbsolute,
+	},
+} : null;
+
+const breadcrumbLD = post ? {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{ "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+		{ "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog/` },
+		{ "@type": "ListItem", position: 3, name: post.title, item: postURL },
+	],
+} : null;
+
+// FAQPage schema — only emitted when post.faq is a non-empty JSON string
+let faqLD: object | null = null;
+if (post?.faq && post.faq.trim() !== "") {
+	try {
+		const faqItems: Array<{ question: string; answer: string }> = JSON.parse(post.faq);
+		if (Array.isArray(faqItems) && faqItems.length > 0) {
+			faqLD = {
+				"@context": "https://schema.org",
+				"@type": "FAQPage",
+				mainEntity: faqItems.map((item) => ({
+					"@type": "Question",
+					name: item.question,
+					acceptedAnswer: { "@type": "Answer", text: item.answer },
+				})),
+			};
+		}
+	} catch {
+		// parse failure — skip silently
+	}
+}
+
+// HowTo schema — only emitted when post.howto_steps is a non-empty JSON string
+let howtoLD: object | null = null;
+if (post?.howto_steps && post.howto_steps.trim() !== "") {
+	try {
+		const howtoData: { name?: string; steps: Array<{ name: string; text: string }> } =
+			JSON.parse(post.howto_steps);
+		if (Array.isArray(howtoData.steps) && howtoData.steps.length > 0) {
+			howtoLD = {
+				"@context": "https://schema.org",
+				"@type": "HowTo",
+				name: howtoData.name ?? post.title,
+				step: howtoData.steps.map((s) => ({
+					"@type": "HowToStep",
+					name: s.name,
+					text: s.text,
+				})),
+			};
+		}
+	} catch {
+		// parse failure — skip silently
+	}
+}
 ---
 
-<SwissLayout title={`${post.title} | Alpha Digital Agency`} currentPage="blog">
+{post ? (
+<SwissLayout
+	title={seoTitle}
+	description={seoDescription}
+	currentPage="blog"
+	image={heroImageAbsolute}
+	article={{ publishedTime: publishedISO, modifiedTime: modifiedISO }}
+>
+	<Fragment slot="head">
+		{blogPostingLD && <script type="application/ld+json" set:html={JSON.stringify(blogPostingLD)} />}
+		{breadcrumbLD && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />}
+		{faqLD && <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />}
+		{howtoLD && <script type="application/ld+json" set:html={JSON.stringify(howtoLD)} />}
+	</Fragment>
 	<article class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
 		<!-- Hero Image -->
 		{
-			post.hero_image &&
-				images[post.hero_image.replace("../../", "/src/")] && (
-					<div class="mb-8 overflow-hidden border-2 border-charcoal shadow-premium">
+			post.hero_image && (isPublicHero || images[post.hero_image.replace("../../", "/src/")]) && (
+				<div class="mb-8 overflow-hidden border-2 border-charcoal shadow-premium">
+					{isPublicHero ? (
+						<img
+							src={post.hero_image}
+							alt={post.title}
+							class="w-full h-64 md:h-96 object-cover"
+						/>
+					) : (
 						<Image
 							width={1200}
 							height={600}
@@ -52,27 +254,29 @@ const content = marked.parse(post.content);
 							alt={post.title}
 							class="w-full h-64 md:h-96 object-cover"
 						/>
-					</div>
-				)
+					)}
+				</div>
+			)
 		}
 
 		<!-- Article Header -->
 		<header class="mb-8 text-center">
-			<p
-				class="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-[0.2em] mb-4"
-			>
+			<!-- E-E-A-T byline: author + publish date above the fold -->
+			<p class="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">
+				Ditulis oleh <a href="/daniel-santoso/" class="text-primary hover:underline">Daniel Santoso</a>
+				<span class="text-slate-400 mx-2">·</span>
 				<FormattedDate date={new Date(post.pub_date)} />
 				{
 					post.updated_at && post.updated_at !== post.pub_date && (
 						<span class="text-slate-400 ml-2">
-							· Updated{" "}
+							· Diperbarui{" "}
 							<FormattedDate date={new Date(post.updated_at)} />
 						</span>
 					)
 				}
 			</p>
 			<h1
-				class="font-display font-extrabold text-3xl md:text-4xl lg:text-5xl text-charcoal dark:text-white leading-tight mb-4"
+				class="font-display font-extrabold text-3xl md:text-4xl lg:text-5xl text-charcoal dark:text-white leading-tight mb-4 mt-4"
 			>
 				{post.title}
 			</h1>
@@ -92,8 +296,7 @@ const content = marked.parse(post.content);
 				prose-p:text-slate-600 dark:prose-p:text-slate-400 prose-p:leading-relaxed
 				prose-a:text-primary prose-a:no-underline hover:prose-a:underline
 				prose-strong:text-charcoal dark:prose-strong:text-white
-				prose-code:bg-slate-100 dark:prose-code:bg-slate-800 prose-code:px-1 prose-code:rounded
-				prose-pre:bg-slate-900 prose-pre:border-2 prose-pre:border-charcoal
+				prose-code:bg-slate-100 dark:prose-code:bg-slate-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal
 				prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic
 				prose-img:rounded prose-img:border-2 prose-img:border-charcoal prose-img:shadow-premium
 				prose-ul:text-slate-600 dark:prose-ul:text-slate-400
@@ -101,6 +304,27 @@ const content = marked.parse(post.content);
 				prose-li:marker:text-primary"
 			set:html={content}
 		/>
+
+		<section class="mt-12 border-2 border-charcoal dark:border-white bg-white dark:bg-slate-900 shadow-premium dark:shadow-premium-dark p-6 md:p-8">
+			<p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary mb-3">
+				Related Alpha Digital Pages
+			</p>
+			<h2 class="font-display font-bold text-2xl text-charcoal dark:text-white mb-5">
+				Lanjutkan ke fondasi digital marketing Bali
+			</h2>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				{relatedSEOLinks.map((link) => (
+					<a href={link.href} class="group border border-slate-200 dark:border-slate-700 p-4 hover:border-primary transition-colors">
+						<span class="font-bold text-charcoal dark:text-white group-hover:text-primary transition-colors">
+							{link.label}
+						</span>
+						<span class="block text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
+							{link.desc}
+						</span>
+					</a>
+				))}
+			</div>
+		</section>
 
 		<!-- Back to Blog -->
 		<div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
@@ -114,3 +338,18 @@ const content = marked.parse(post.content);
 		</div>
 	</article>
 </SwissLayout>
+) : (
+<SwissLayout title="Artikel Tidak Ditemukan | Alpha Digital Agency" currentPage="blog">
+	<section class="max-w-2xl mx-auto px-6 md:px-12 text-center py-16">
+		<div class="font-display font-extrabold text-[6rem] md:text-[9rem] leading-none text-primary mb-4">404</div>
+		<h1 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">Artikel Tidak Ditemukan</h1>
+		<p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-md mx-auto">
+			Artikel yang Anda cari mungkin telah dipindahkan, dihapus, atau tidak pernah ada.
+		</p>
+		<a href="/blog/" class="btn-swiss inline-flex items-center gap-2 px-6 py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest">
+			<span class="material-symbols-outlined">arrow_back</span>
+			Kembali ke Blog
+		</a>
+	</section>
+</SwissLayout>
+)}

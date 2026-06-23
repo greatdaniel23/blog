@@ -66,6 +66,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 						const imageModule = imagePath
 							? images[imagePath]
 							: null;
+						const isPublicImage = post.hero_image?.startsWith("/images/");
 						const isFeatured = index === 0;
 
 						return (
@@ -79,22 +80,36 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 									},
 								]}
 							>
-								{post.hero_image && imageModule && (
+								{post.hero_image && (imageModule || isPublicImage) && (
 									<div class="overflow-hidden">
-										<Image
-											width={isFeatured ? 1200 : 600}
-											height={isFeatured ? 500 : 300}
-											src={imageModule.default}
-											alt={post.title}
-											class:list={[
-												"w-full object-cover transition-transform duration-300 group-hover:scale-105",
-												{
-													"h-64 md:h-80 lg:h-96":
-														isFeatured,
-													"h-48 md:h-56": !isFeatured,
-												},
-											]}
-										/>
+										{isPublicImage ? (
+											<img
+												src={post.hero_image}
+												alt={post.title}
+												class:list={[
+													"w-full object-cover transition-transform duration-300 group-hover:scale-105",
+													{
+														"h-64 md:h-80 lg:h-96": isFeatured,
+														"h-48 md:h-56": !isFeatured,
+													},
+												]}
+											/>
+										) : (
+											<Image
+												width={isFeatured ? 1200 : 600}
+												height={isFeatured ? 500 : 300}
+												src={imageModule.default}
+												alt={post.title}
+												class:list={[
+													"w-full object-cover transition-transform duration-300 group-hover:scale-105",
+													{
+														"h-64 md:h-80 lg:h-96":
+															isFeatured,
+														"h-48 md:h-56": !isFeatured,
+													},
+												]}
+											/>
+										)}
 									</div>
 								)}
 								<div class="p-6 md:p-8">

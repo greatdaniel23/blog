@@ -3,6 +3,65 @@ import { defineMiddleware } from 'astro:middleware';
 export const onRequest = defineMiddleware(async (context, next) => {
     const { url, cookies, locals, request } = context;
 
+    // ── No-trailing-slash canonicalization (301) ─────────────────────────────
+    // SAFE re-implementation of no-slash canonicalization WITHOUT flipping the
+    // astro.config `trailingSlash` flag (which broke SSR dynamic-route param
+    // resolution and 404'd every /blog/<slug>, 2026-06-09 — see
+    // reference_astro_trailingslash_ssr_gotcha).
+    //
+    // Why this is safe vs the flag: the flag changed Astro's ROUTE-MATCHING /
+    // param resolution at build+request time. This middleware does NOT touch
+    // route matching — it only inspects the incoming pathname and, if a NON-root
+    // URL ends in "/", issues a 301 to the no-slash form. The request that
+    // actually renders the page (the no-slash one) is matched and resolved by
+    // Astro exactly as before. trailingSlash stays 'ignore'.
+    //
+    // Scope: this worker only runs for the `_routes.json` INCLUDE paths
+    // (/blog/*, /booking-engine, /api/*, …). Static EXCLUDE paths (/services/*,
+    // /about, …) are served by CF Pages' static-asset layer and never reach
+    // this code, so there is NO redirect-loop with CF's own static
+    // trailing-slash handling. For those static pages the no-slash canonical is
+    // enforced via the <link rel="canonical"> tag (normalized in
+    // BaseHead/SwissLayout) instead.
+    //
+    // Exclusions: root "/" (must keep its slash) and asset-ish paths (anything
+    // whose last segment contains a "." — e.g. dashboard.css, .js, .xml — and
+    // the Astro/_image internal namespaces) are passed through untouched so we
+    // never 301 a real file request. Query string + hash are preserved.
+    //
+    // CRITICAL — skip during PRERENDER. Middleware also runs at BUILD time while
+    // Astro prerenders static pages, where the simulated pathname is the
+    // directory form "/about/" (trailing slash). Without this guard the redirect
+    // fired during prerender and Astro serialized the 301 as a "Redirecting to:"
+    // stub HTML *in place of the real page content* — turning /about, all
+    // /services/*, /privacy-policy, /kelas/* into redirect stubs that then looped
+    // against CF's static no-slash→slash 308 (full page-render outage, 2026-06-09).
+    // At runtime static pages are served by CF static (this code never runs for
+    // them); only SSR routes (isPrerendered=false) need the canonicalization.
+    {
+        const { pathname, search } = url;
+        const lastSeg = pathname.slice(pathname.lastIndexOf('/') + 1);
+        const looksLikeFile = lastSeg.includes('.');
+        const isInternal =
+            pathname.startsWith('/_') ||      // /_astro, /_image, /_server-islands
+            pathname.startsWith('/api/');     // never redirect API calls
+        if (
+            !context.isPrerendered &&         // never redirect while prerendering at build
+            pathname !== '/' &&
+            pathname.endsWith('/') &&
+            !looksLikeFile &&
+            !isInternal
+        ) {
+            // Force a SINGLE leading slash so a "//evil.com/" (or "\evil.com/",
+            // which WHATWG folds to "//") pathname can't emit a protocol-relative
+            // Location and open-redirect cross-origin (WARDEN hard-fail 2026-06-09).
+            const noSlashPath = '/' + pathname.replace(/\/+$/, '').replace(/^[/\\]+/, '');
+            const target = noSlashPath + search;
+            // 301 permanent — consolidate the slash variant onto the no-slash URL.
+            return context.redirect(target || '/', 301);
+        }
+    }
+
     // ── pages.dev noindex ────────────────────────────────────────────────────
     // The blogtemplate.pages.dev preview domain must never be indexed.
     // Inject noindex on every response if the Host header is *.pages.dev.

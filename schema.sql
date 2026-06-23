@@ -35,7 +35,12 @@ CREATE TABLE IF NOT EXISTS posts (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_published BOOLEAN DEFAULT 0,
     view_count INTEGER DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -- Structured content for JSON-LD (added 0002_post_structured_schema.sql)
+    -- faq: Array<{ question: string; answer: string }> — FAQPage schema
+    -- howto_steps: { name?: string; steps: Array<{ name: string; text: string }> } — HowTo schema
+    faq TEXT DEFAULT NULL,
+    howto_steps TEXT DEFAULT NULL
 );
 
 -- Categories table

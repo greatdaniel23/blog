@@ -8,34 +8,153 @@ interface Props {
     title: string;
     description?: string;
     currentPage?: string;
+    robots?: "index, follow" | "noindex, follow" | "noindex, nofollow";
+    /** Absolute or root-relative OG/Twitter image. Falls back to the sitewide default. */
+    image?: string;
+    /** When present, the page is an Article: emits og:type=article + article:* meta. */
+    article?: {
+        publishedTime?: string;
+        modifiedTime?: string;
+    };
 }
 
-const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "" } = Astro.props;
+const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "", robots = "index, follow", image, article } = Astro.props;
+const BUILD_MARKER = "SEO-FIX-2026-06-14-ALPHA";
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
+// GA4 Measurement ID — public by design, safe to hardcode in static HTML.
+// import.meta.env.PUBLIC_GA4_ID feeds this at build time when the env var is set
+// (CF Pages build environment or local .env); hardcoded fallback ensures the snippet
+// is never absent from prerendered HTML even when the env var is not explicitly set.
+const ga4Id: string = (import.meta.env.PUBLIC_GA4_ID as string | undefined) || 'G-GY773BC009';
+
+// Canonical is ALWAYS the no-trailing-slash form (root "/" excepted). This makes
+// prerendered pages (built as /foo/index.html → Astro.url.pathname "/foo/") and
+// any edge-served trailing-slash variant emit the no-slash canonical, matching
+// the middleware 301 + the no-slash sitemap/site standard.
+// Force a single leading slash so a "//evil.com/" pathname can't produce a
+// cross-origin canonical/og:url (WARDEN hard-fail 2026-06-09, same root cause
+// as the middleware open-redirect).
+const canonicalPath = "/" + Astro.url.pathname.replace(/^[/\\]+/, "");
+const canonicalURL = new URL(canonicalPath, Astro.site ?? SITE_URL);
+
+let isPagesDevHost = false;
+try {
+    const requestHost = Astro.request.headers.get("host") ?? "";
+    isPagesDevHost = requestHost.endsWith(".pages.dev");
+} catch {
+    isPagesDevHost = false;
+}
+const robotsContent = isPagesDevHost ? "noindex, nofollow" : robots;
+
+// Sitewide default OG image. No dedicated 1200x630 brand OG asset exists yet
+// (DESIGN follow-up); use an existing on-domain hospitality image as the default.
+// Per-page hero (image prop) overrides this when supplied.
+const DEFAULT_OG = `${SITE_URL}/images/og-alpha-default.png`;
+const ogImage = new URL(image ?? DEFAULT_OG, SITE_URL).toString();
+const ogType = article ? "article" : "website";
+
+// Site-wide Organization schema — injected on every SwissLayout page.
+// founder + knowsAbout added 2026-05-14 for EEAT/Gemini citation signal (CANVAS Sprint 6 P1-3).
+const organizationLD = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    name: SITE_TITLE,
+    url: SITE_URL,
+    address: {
+        "@type": "PostalAddress",
+        addressLocality: "Denpasar",
+        addressRegion: "Bali",
+        addressCountry: "ID",
+    },
+    areaServed: { "@type": "Place", name: "Bali, Indonesia" },
+    contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+628814802249",
+        email: "daniel@alphadigitalagency.id",
+        contactType: "sales",
+        areaServed: "ID",
+        availableLanguage: ["id", "en"],
+    },
+    founder: {
+        "@type": "Person",
+        name: "Daniel Santoso",
+        url: `${SITE_URL}/daniel-santoso/`,
+    },
+    knowsAbout: [
+        "Digital Marketing Agency Bali",
+        "Digital Marketing Bali",
+        "Google Ads for Hotels",
+        "GA4 Analytics for Hospitality",
+        "Direct Booking Strategy",
+        "OTA Reduction Strategy",
+        "Booking Engine Integration",
+        "Bali Villa Digital Marketing",
+        "Hotel Revenue Management",
+        "Google Tag Manager",
+        "Search Console Optimization",
+    ],
+};
+
+const websiteLD = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: SITE_TITLE,
+    publisher: { "@id": `${SITE_URL}/#organization` },
+};
+
+const professionalServiceLD = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#professionalservice`,
+    name: SITE_TITLE,
+    url: SITE_URL,
+    parentOrganization: { "@id": `${SITE_URL}/#organization` },
+    areaServed: { "@type": "Place", name: "Bali, Indonesia" },
+    serviceType: [
+        "Google Ads Management",
+        "Hospitality SEO",
+        "Booking Engine Integration",
+        "AI Agent Implementation",
+        "GA4 and Search Console Tracking",
+    ],
+};
 ---
 
 <!doctype html>
-<html class="light" lang="en">
+<html class="light" lang="id">
     <head>
         <meta charset="utf-8" />
         <meta
             content="width=device-width, initial-scale=1"
             name="viewport"
         />
+        <meta name="build-marker" content={BUILD_MARKER} />
         <title>{title}</title>
         <meta name="description" content={description} />
+        <meta name="robots" content={robotsContent} />
         <link rel="canonical" href={canonicalURL.href} />
+        <link rel="sitemap" href="/sitemap.xml" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonicalURL.href} />
         <meta property="og:site_name" content={SITE_TITLE} />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content={ogType} />
+        <meta property="og:image" content={ogImage} />
+        {article?.publishedTime && (
+            <meta property="article:published_time" content={article.publishedTime} />
+        )}
+        {article?.modifiedTime && (
+            <meta property="article:modified_time" content={article.modifiedTime} />
+        )}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
         <!-- Self-hosted Manrope — eliminates Google Fonts round-trip latency -->
         <link
             rel="preload"
@@ -145,7 +264,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
                 transition: opacity 0.3s;
             }
         </style>
+        <!-- Site-wide entity schema -->
+        <script type="application/ld+json" set:html={JSON.stringify(organizationLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(websiteLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(professionalServiceLD)} />
         <slot name="head" />
+        {ga4Id && (
+            <>
+                <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+                <script is:inline define:vars={{ ga4Id }}>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', ga4Id);
+                </script>
+            </>
+        )}
     </head>
     <body
         class="bg-background-light dark:bg-background-dark text-charcoal dark:text-white min-h-screen flex flex-col font-body selection:bg-primary selection:text-white transition-colors duration-500"
@@ -211,9 +345,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE_URL);
             </a>
         </div>
         <script is:inline>
-            // Build mailto at runtime — bypass Cloudflare email obfuscation
             var me = document.getElementById('mobile-cta-email');
             if (me) me.href = 'mailto:' + me.dataset.e + '@' + me.dataset.d;
         </script>
+        <script src="https://starter.alphadigitalagency.id/widget.js" data-tenant="alpha" data-mode="floating" data-width="420" data-height="720"></script>
     </body>
 </html>

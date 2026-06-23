@@ -4,38 +4,49 @@ import SwissLayout from "../components/SwissLayout.astro";
 
 const faqItems = [
   {
-    q: "What is an AI Agent for a hotel or villa?",
-    a: "An AI Agent is a smart chat assistant embedded on your property website. It's trained on your villa details, policies, and services — so it answers guest questions instantly, 24 hours a day, and guides them toward direct booking."
+    q: "Apa yang dimaksud AI Agent untuk hotel atau vila?",
+    a: "AI Agent adalah asisten chat cerdas yang dipasang di website properti Anda. Dilatih dari data vila Anda sendiri — kebijakan, kamar, tarif, dan layanan — sehingga bisa menjawab pertanyaan tamu secara instan, 24 jam sehari, dan mengarahkan mereka ke direct booking."
   },
   {
-    q: "Does the AI Agent replace my front desk team?",
-    a: "No. The AI Agent handles repetitive questions (availability, rates, policies, local recommendations) outside office hours. Your team focuses on high-value guest interactions and in-person service."
+    q: "Apakah AI Agent menggantikan tim front desk?",
+    a: "Tidak. AI Agent menangani pertanyaan berulang (ketersediaan, tarif, kebijakan, rekomendasi lokal) di luar jam kerja. Tim Anda fokus pada interaksi tamu bernilai tinggi dan layanan langsung."
   },
   {
-    q: "Which languages does the AI Agent support?",
-    a: "The agent responds in the guest's language automatically — English, Indonesian, Mandarin, Japanese, and more. No manual setup needed per language."
+    q: "Bahasa apa yang didukung AI Agent?",
+    a: "Agent merespons secara otomatis dalam bahasa tamu — Bahasa Indonesia, Inggris, Mandarin, Jepang, dan lebih banyak lagi. Tidak perlu setup manual per bahasa."
   },
   {
-    q: "Can the AI Agent connect to our booking engine?",
-    a: "Yes. We integrate the agent directly with your booking engine so guests can check availability and be guided to book directly — without OTA involvement."
+    q: "Apakah AI Agent bisa terhubung ke booking engine kami?",
+    a: "Ya. Kami integrasikan agent langsung ke booking engine Anda sehingga tamu bisa cek ketersediaan dan diarahkan untuk booking langsung — tanpa keterlibatan OTA."
   },
   {
-    q: "How long does setup take?",
-    a: "Typically 2–4 weeks depending on your property's data and systems. We handle training, integration, and testing before go-live."
+    q: "Berapa lama proses setup?",
+    a: "Timeline disesuaikan dengan kompleksitas data dan sistem properti Anda. Kami menangani training, integrasi, testing, dan handover sebelum go-live — jadwal pasti dikonfirmasi setelah scope awal disepakati."
+  },
+  {
+    q: "Bagaimana AI Agent dilatih dengan data properti kami?",
+    a: "AI Agent kami dilatih dari Google Place ID dan database properti Anda — rekomendasi kamar berbasis ketersediaan nyata, bukan template generik. Tamu mendapat informasi akurat yang spesifik untuk properti Anda, bukan jawaban copy-paste dari agen lain."
   }
 ];
 
 const serviceLD = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "AI Agent for Hotels and Villas — Bali",
+  "name": "AI Agent untuk Hotel dan Vila Bali",
   "provider": {
     "@type": "Organization",
     "name": "Alpha Digital Agency",
     "url": "https://alphadigitalagency.id"
   },
+  "author": {
+    "@type": "Person",
+    "name": "Daniel Santoso",
+    "url": "https://alphadigitalagency.id/daniel-santoso/#person"
+  },
+  "serviceType": "AI Chatbot for Hospitality",
   "areaServed": "Bali, Indonesia",
-  "description": "AI-powered chat assistant trained on your property — answers guest questions 24/7, guides direct bookings, integrates with your booking engine."
+  "description": "AI Agent yang dilatih khusus untuk properti Anda — jawab pertanyaan tamu 24/7, rekomendasikan kamar dari booking engine, terintegrasi Google Analytics. Tersedia untuk vila dan hotel di Bali.",
+  "url": "https://alphadigitalagency.id/ai-agent/"
 };
 
 const faqLD = {
@@ -62,8 +73,8 @@ const breadcrumbLD = {
 ---
 
 <SwissLayout
-  title="AI Agent for Hotels & Villas Bali | Alpha Digital Agency"
-  description="Install a 24/7 AI chat assistant on your Bali property website — trained on your villa, answers guest questions, and guides direct bookings. No OTA commission."
+  title="AI Agent for Bali Hotels | Alpha Digital"
+  description="AI agent for Bali hotels and villas: answer guest questions 24/7, recommend rooms from property data, and connect inquiries to direct booking paths."
   currentPage="ai-agent"
 >
     <Fragment slot="head">
@@ -71,50 +82,57 @@ const breadcrumbLD = {
         <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
         <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
     </Fragment>
+
     <!-- Hero -->
-    <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center">
+    <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">AI Agent untuk Properti</p>
         <h1
             class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest"
         >
-            <span class="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] block">
-                AI Agent<span class="text-primary">.</span>
+            <span class="text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6 block">
+                AI Agent untuk Properti Anda — Aktif 24 Jam, Terintegrasi Booking Engine<span class="text-primary">.</span>
             </span>
         </h1>
-        <p class="mt-4 md:mt-6 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto leading-relaxed tracking-wide">
-            Meet your 24/7 virtual concierge — powered by AI, trained on
-            your property, always ready to assist your guests.
+        <p class="mt-4 md:mt-6 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed tracking-wide">
+            Asisten digital yang dilatih dari data properti Anda sendiri — menjawab pertanyaan tamu secara instan, mengarahkan ke reservasi langsung, dan bekerja saat tim Anda tidak ada.
         </p>
 
-        <!-- Live Chat Preview -->
-        <div class="mt-10 flex justify-center">
+        <!-- CTA -->
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
-                href="mailto:daniel@alphadigitalagency.id"
-                class="btn-swiss inline-flex items-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+                href="/ai-agent/demo/"
+                class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
             >
                 <span class="material-symbols-outlined">chat</span>
-                Request a Demo
+                Coba Live Demo
+            </a>
+            <a
+                href="https://wa.me/628814802249"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
+            >
+                <span class="material-symbols-outlined">chat</span>
+                WhatsApp
             </a>
         </div>
     </section>
 
-    <!-- What it does -->
     <section class="max-w-4xl mx-auto pb-10 px-6 md:px-12">
-        <div
-            class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
-        >
+
+        <!-- Apa yang Dilakukan AI Agent -->
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
             <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6">
-                What does the AI Agent do?
+                Apa yang Dilakukan AI Agent?
             </h2>
             <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                Our AI Agent is a smart chat assistant embedded directly on
-                your property website. It's trained on your villa details,
-                policies, and services — so it answers guest questions
-                instantly, accurately, and in a natural tone.
+                AI Agent kami adalah asisten chat yang dipasang langsung di website properti Anda. Dilatih dari data vila Anda — kamar, tarif, kebijakan, dan layanan — sehingga menjawab pertanyaan tamu secara akurat dan natural.
+            </p>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                Tidak ada lagi pertanyaan tamu yang tidak dijawab di luar jam kerja. Agent menangani segalanya — dari ketersediaan kamar dan harga hingga rekomendasi lokal dan panduan reservasi. Dibangun khusus untuk properti hospitality di Bali, terintegrasi dengan GA4 Analytics dan didukung data nyata properti Anda.
             </p>
             <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-                No more missed enquiries outside office hours. The agent handles
-                everything from room availability and pricing to local
-                recommendations and booking guidance. Built specifically for luxury hospitality properties in Bali — integrated with GA4 Analytics and backed by Data Science and BigQuery to track every guest interaction back to revenue.
+                Yang membedakan: AI Agent kami dilatih dari <strong class="text-charcoal dark:text-white">Google Place ID dan database properti Anda</strong> — rekomendasi kamar berbasis ketersediaan nyata, bukan template. Tamu mendapat informasi akurat yang benar-benar relevan untuk properti Anda.
             </p>
         </div>
 
@@ -123,59 +141,86 @@ const breadcrumbLD = {
             <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
                 <div class="flex items-center gap-3 mb-3">
                     <span class="material-symbols-outlined text-primary text-3xl">schedule</span>
-                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">24/7 Availability</h3>
+                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Aktif 24 Jam</h3>
                 </div>
                 <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                    Always on, even when your team is off. Guests get instant replies
-                    at 2am the same as midday.
+                    Selalu siap, bahkan saat tim Anda istirahat. Tamu mendapat respons instan pukul 2 pagi sama seperti pukul 12 siang.
                 </p>
             </div>
 
             <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
                 <div class="flex items-center gap-3 mb-3">
                     <span class="material-symbols-outlined text-primary text-3xl">hotel</span>
-                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Villa-Trained Knowledge</h3>
+                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Dilatih Data Properti Anda</h3>
                 </div>
                 <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                    Trained on your property's rooms, rates, amenities,
-                    and policies — not generic hotel data.
+                    Dilatih dari kamar, tarif, amenitas, dan kebijakan properti Anda sendiri — bukan data hotel generik.
                 </p>
             </div>
 
             <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
                 <div class="flex items-center gap-3 mb-3">
                     <span class="material-symbols-outlined text-primary text-3xl">translate</span>
-                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Multilingual</h3>
+                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Multibahasa Otomatis</h3>
                 </div>
                 <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                    Responds in the guest's language — English, Indonesian,
-                    Mandarin, Japanese, and more, automatically.
+                    Merespons dalam bahasa tamu — Indonesia, Inggris, Mandarin, Jepang, dan lebih banyak lagi, secara otomatis.
                 </p>
             </div>
 
             <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
                 <div class="flex items-center gap-3 mb-3">
                     <span class="material-symbols-outlined text-primary text-3xl">trending_up</span>
-                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Drives Direct Bookings</h3>
+                    <h3 class="font-display font-bold text-lg text-charcoal dark:text-white">Mendorong Direct Booking</h3>
                 </div>
                 <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                    Guides guests toward booking directly, reducing OTA
-                    commissions and increasing revenue.
+                    Mengarahkan tamu ke booking langsung, mengurangi komisi OTA, dan meningkatkan pendapatan per reservasi.
                 </p>
             </div>
         </div>
 
-        <!-- How it works -->
+        <!-- Bagaimana AI Agent Membantu Reservasi Langsung -->
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+            <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6">
+                Bagaimana AI Agent Membantu Reservasi Langsung
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                Tamu yang ragu tidak booking. Pertanyaan seperti "apakah kamarnya masih tersedia tanggal X?", "berapa rate untuk 3 malam?", atau "ada kolam renang privat tidak?" — kalau tidak dijawab cepat, tamu pergi ke OTA.
+            </p>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                AI Agent kami menangkap momen itu. Jawaban instan, akurat, dalam bahasa tamu — diikuti dengan tautan langsung ke booking engine Anda. Tidak ada OTA yang terlibat, tidak ada komisi yang keluar.
+            </p>
+            <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-4 mt-4">
+                <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                    Setiap percakapan tamu direkam dan terintegrasi ke GA4 Analytics — Anda bisa melihat pertanyaan apa yang paling sering ditanyakan, tamu dari mana yang paling banyak konversi, dan di titik mana mereka berhenti sebelum booking.
+                </p>
+            </div>
+        </div>
+
+        <!-- Terintegrasi dengan Booking Engine -->
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+            <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6">
+                Terintegrasi dengan Booking Engine Anda
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                AI Agent terhubung langsung ke sistem booking Anda — Cloudbeds, SiteMinder, Little Hotelier, STAAH, atau booking engine Alpha sendiri. Tamu bisa cek ketersediaan real-time dan langsung diarahkan untuk booking.
+            </p>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                Tidak ada lag, tidak ada informasi usang, tidak ada "hubungi kami untuk cek ketersediaan" yang membunuh konversi. Data kamar yang ditampilkan AI Agent adalah data ketersediaan nyata dari sistem Anda.
+            </p>
+        </div>
+
+        <!-- Cara Kerja (How it works) -->
         <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
             <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-                How it works
+                Setup dan Cara Kerja
             </h2>
             <div class="space-y-6">
                 {[
-                    { step: "01", title: "Guest opens the chat", desc: "The AI widget appears on your website. Guests click to start a conversation — no app download needed." },
-                    { step: "02", title: "AI responds instantly", desc: "The agent understands the question and replies with accurate, property-specific information in seconds." },
-                    { step: "03", title: "Guest books directly", desc: "The agent guides the guest to your booking page, capturing the reservation without OTA involvement." },
-                    { step: "04", title: "You review the logs", desc: "Every conversation is logged. Review what guests ask most, spot gaps, and improve over time." },
+                    { step: "01", title: "Training dari Data Properti Anda", desc: "Kami training AI Agent dari Google Place ID, database kamar, tarif, dan kebijakan properti Anda. Bukan template — data Anda yang mengajarkan." },
+                    { step: "02", title: "Integrasi ke Website dan Booking Engine", desc: "Agent dipasang di website properti Anda dan terhubung ke booking engine — tamu bisa cek ketersediaan dan booking langsung dari chat." },
+                    { step: "03", title: "Tamu Bertanya, Agent Menjawab", desc: "Widget chat muncul di website. Tamu klik, mulai percakapan, dan agent merespons akurat dalam bahasa mereka — dalam hitungan detik." },
+                    { step: "04", title: "Data Mengalir ke GA4", desc: "Setiap percakapan direkam. Anda review log, lihat pertanyaan tamu yang paling sering, dan optimalkan konten properti berdasarkan data nyata." },
                 ].map(({ step, title, desc }) => (
                     <div class="flex gap-6 items-start">
                         <div class="font-display font-extrabold text-3xl text-primary min-w-[3rem]">{step}</div>
@@ -188,14 +233,31 @@ const breadcrumbLD = {
             </div>
         </div>
 
-        <!-- CTA -->
+        <!-- Bahasa yang Didukung -->
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+            <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+                Bahasa yang Didukung
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                Tamu Bali datang dari seluruh dunia. AI Agent mendeteksi bahasa tamu secara otomatis dan merespons dalam bahasa yang sama — tanpa perlu konfigurasi per bahasa.
+            </p>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+                {["Bahasa Indonesia", "English", "Mandarin (中文)", "Japanese (日本語)", "German (Deutsch)", "French (Français)"].map(lang => (
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></div>
+                        <span class="text-slate-600 dark:text-slate-400 text-sm">{lang}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        <!-- CTA block -->
         <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center mb-8">
             <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
-                Want an AI Agent for your property?
+                Ingin AI Agent untuk Properti Anda?
             </h2>
             <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
-                We build and deploy custom AI agents for hotels and villas across Bali.
-                Get in touch to see what's possible.
+                Kami bangun dan deploy AI Agent khusus untuk hotel dan vila di Bali. Hubungi kami untuk lihat apa yang bisa dilakukan untuk properti Anda.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
@@ -203,7 +265,7 @@ const breadcrumbLD = {
                     class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
                 >
                     <span class="material-symbols-outlined">mail</span>
-                    Request Quote
+                    Minta Penawaran
                 </a>
                 <a
                     href="https://wa.me/628814802249"
@@ -217,10 +279,10 @@ const breadcrumbLD = {
             </div>
         </div>
 
-        <!-- FAQ Section -->
+        <!-- Pertanyaan tentang AI Agent (FAQ) -->
         <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
             <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-                Frequently Asked Questions
+                Pertanyaan tentang AI Agent
             </h2>
             <div class="space-y-6">
                 {faqItems.map((item) => (
@@ -233,17 +295,27 @@ const breadcrumbLD = {
         </div>
 
         <!-- Internal links to service pages -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <a href="/" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block">
+                <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Main System</p>
+                <p class="font-bold text-charcoal dark:text-white">Digital Marketing Agency Bali →</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">AI Agent sebagai bagian dari sistem direct booking hospitality.</p>
+            </a>
             <a href="/services/authority" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block">
                 <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Full-Funnel Service</p>
                 <p class="font-bold text-charcoal dark:text-white">Authority Tier →</p>
-                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">All channels connected, including AI agent integration.</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Semua channel terhubung, termasuk integrasi AI Agent.</p>
             </a>
-            <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block">
-                <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Google Ads Service</p>
-                <p class="font-bold text-charcoal dark:text-white">Growth Tier →</p>
-                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Google Ads management + booking funnel optimization.</p>
+            <a href="/services/booking-integration" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block">
+                <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Booking Engine</p>
+                <p class="font-bold text-charcoal dark:text-white">Booking Integration →</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Install booking engine yang terhubung langsung ke AI Agent Anda.</p>
             </a>
         </div>
+
+        <!-- Author byline -->
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-8">
+            Ditulis oleh <a href="/daniel-santoso/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
+        </p>
     </section>
 </SwissLayout>

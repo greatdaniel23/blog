@@ -11,6 +11,7 @@
 
 /booking-engine/
   Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+  Content-Type: text/html; charset=utf-8
 
 /gallery/
   Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
@@ -20,6 +21,11 @@
 
 /blog/
   Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+  Content-Type: text/html; charset=utf-8
+
+/blog/*
+  Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400
+  Content-Type: text/html; charset=utf-8
 
 # Static assets: long-lived (Astro content-hashes filenames)
 /_astro/*
@@ -38,3 +44,7 @@
 
 /api/*
   Cache-Control: no-store, no-cache
+
+# Force purge stale landing-test cache (page deleted 2026-06-18)
+/landing-test/*
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
