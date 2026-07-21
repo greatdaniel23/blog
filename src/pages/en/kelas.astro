@@ -1,0 +1,30 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+---
+
+<SwissLayout title="Digital Marketing Classes — Alpha Digital Agency" description="Alpha Digital classes and workshops. Learn Google Ads, SEO, AI for business, and digital marketing in Bali." currentPage="">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4 text-center">Learn <span class="text-primary">Digital Marketing</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 text-center mb-12">Practical workshops for Bali hospitality professionals and business owners.</p>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      {[
+        { icon: 'ads_click', title: 'Google Ads Fundamentals', desc: 'Campaign setup, keyword strategy, conversion tracking.', href: '/en/kelas/google-ads/' },
+        { icon: 'search', title: 'SEO & Google Analytics', desc: 'Technical SEO, GSC, GA4 setup and interpretation.', href: '/en/kelas/seo-google-analytics/' },
+        { icon: 'smart_toy', title: 'AI Agent Chatbot', desc: 'How AI agents work for hotels. Setup and training guide.', href: '/en/kelas/ai-agent-chatbot/' },
+        { icon: 'bolt', title: 'AI for Employee Productivity', desc: 'Practical AI tools for daily hospitality operations.', href: '/en/kelas/ai-produktivitas-karyawan/' },
+        { icon: 'family_restroom', title: 'AI for Parents', desc: 'Using AI to help with children\'s learning and activities.', href: '/en/kelas/ai-untuk-orang-tua/' },
+        { icon: 'school', title: 'Digital Marketing Fundamentals', desc: 'Complete introduction: SEO, Ads, analytics, strategy.', href: '/en/kelas/digital-marketing-fundamental/' },
+      ].map(k => (
+        <a href={k.href} class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2 hover:border-primary/30 transition-all group">
+          <span class="material-symbols-outlined text-primary text-3xl">{k.icon}</span>
+          <h3 class="font-bold text-sm text-emerald-dark dark:text-white group-hover:text-primary transition-colors">{k.title}</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">{k.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+</SwissLayout>

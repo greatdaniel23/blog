@@ -1,0 +1,28 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+---
+
+<SwissLayout title="Links — Alpha Digital Agency" description="Important links and resources from Alpha Digital Agency Indonesia." currentPage="">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-2xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-8 text-center"><span class="text-primary">Links</span></h1>
+
+    <div class="space-y-4">
+      {[
+        { label: 'Alpha Digital Agency', href: 'https://alphadigitalagency.id', desc: 'Main website' },
+        { label: 'Direct Booking Engine', href: 'https://villa.alphadigitalagency.id', desc: 'Live demo' },
+        { label: 'Client Dashboard', href: 'https://office.alphadigitalagency.id', desc: 'Client portal' },
+        { label: 'Instagram', href: 'https://instagram.com/alphadigital.id', desc: 'Follow us' },
+        { label: 'LinkedIn', href: 'https://linkedin.com/company/alpha-digital-agency', desc: 'Connect' },
+        { label: 'WhatsApp', href: 'https://wa.me/628814802249', desc: 'Chat with us' },
+      ].map(l => (
+        <a href={l.href} target="_blank" rel="noopener noreferrer" class="block border border-gray-200 dark:border-gray-800 rounded-lg p-5 hover:border-primary/30 transition-colors">
+          <strong class="text-emerald-dark dark:text-white">{l.label}</strong>
+          <span class="text-xs text-gray-400 ml-2">{l.desc}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+</SwissLayout>

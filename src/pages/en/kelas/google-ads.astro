@@ -1,0 +1,12 @@
+---
+export const prerender = true;
+import SwissLayout from "../../../components/SwissLayout.astro";
+const classes = [
+  { title: 'Google Ads', subtitle: 'Campaign setup, keyword strategy, conversion tracking for hospitality.', href: '/en/kelas/google-ads/' },
+  { title: 'SEO & Google Analytics', subtitle: 'Technical SEO, GSC, GA4 — from setup to actionable insights.', href: '/en/kelas/seo-google-analytics/' },
+  { title: 'AI Agent Chatbot', subtitle: 'How AI agents work for hotels and villas. Setup and training.', href: '/en/kelas/ai-agent-chatbot/' },
+  { title: 'AI Productivity', subtitle: 'Practical AI tools for daily hospitality operations.', href: '/en/kelas/ai-produktivitas-karyawan/' },
+  { title: 'AI for Parents', subtitle: 'Using AI to support children\'s learning and activities.', href: '/en/kelas/ai-untuk-orang-tua/' },
+  { title: 'Digital Marketing Fundamentals', subtitle: 'Complete introduction to digital marketing for business owners.', href: '/en/kelas/digital-marketing-fundamental/' },
+];
+const cls = classes.find(c => classes.indexOf(c) === 0) || classes[0];

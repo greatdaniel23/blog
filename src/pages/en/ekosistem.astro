@@ -1,0 +1,51 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+---
+
+<SwissLayout title="Alpha Digital Ecosystem — Bali Digital Marketing" description="Alpha Digital's integrated ecosystem: website, booking engine, AI agent, and client dashboard — all working together for your villa." currentPage="ekosistem">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-4xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-6 text-center">
+      The Alpha <span class="text-primary">Ecosystem</span>
+    </h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 text-center max-w-2xl mx-auto leading-relaxed mb-12">
+      Four integrated products working together to drive direct bookings for Bali villas and hotels.
+    </p>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-6 space-y-3">
+        <span class="material-symbols-outlined text-primary text-4xl">language</span>
+        <h2 class="font-bold text-xl text-emerald-dark dark:text-white">High-Performance Website</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Astro SSR on Cloudflare global network. Loads in under 1 second. Google-friendly, mobile-first. The foundation everything else plugs into.</p>
+        <a href="/en/services/growth/" class="text-primary text-sm font-bold hover:underline">Learn more →</a>
+      </div>
+
+      <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-6 space-y-3">
+        <span class="material-symbols-outlined text-primary text-4xl">calendar_month</span>
+        <h2 class="font-bold text-xl text-emerald-dark dark:text-white">Direct Booking Engine</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Real-time availability, zero OTA commission, Google Hotel Center integration. Guests book directly — you keep the margin and the guest data.</p>
+        <a href="/en/booking-engine/" class="text-primary text-sm font-bold hover:underline">Try the demo →</a>
+      </div>
+
+      <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-6 space-y-3">
+        <span class="material-symbols-outlined text-primary text-4xl">smart_toy</span>
+        <h2 class="font-bold text-xl text-emerald-dark dark:text-white">AI Agent Chatbot</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Trained on your property data. Answers guest questions 24/7 in any language. Routes conversations to your booking engine.</p>
+        <a href="/en/ai-agent/" class="text-primary text-sm font-bold hover:underline">See how it works →</a>
+      </div>
+
+      <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-6 space-y-3">
+        <span class="material-symbols-outlined text-primary text-4xl">dashboard</span>
+        <h2 class="font-bold text-xl text-emerald-dark dark:text-white">Client Dashboard</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Real-time analytics, booking data, and performance metrics. Everything you need to run your property — in one place.</p>
+        <p class="text-xs text-gray-400 italic">Available for clients</p>
+      </div>
+    </div>
+
+    <div class="text-center pt-12">
+      <a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Discuss Your Ecosystem →</a>
+    </div>
+  </section>
+
+</SwissLayout>

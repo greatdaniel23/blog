@@ -1,0 +1,59 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+
+const faqItems = [
+  { q: "What is an AI Agent for hotels or villas?", a: "An AI Agent is a smart chat assistant installed on your property's website. Trained on your own villa data — policies, rooms, rates, and services — it answers guest questions instantly, 24 hours a day, and directs them to direct booking." },
+  { q: "Does the AI Agent replace my staff?", a: "No. It handles repetitive questions (prices, availability, facilities, location) so your staff can focus on in-person guest experience. Think of it as your most reliable front desk agent — never sick, never tired." },
+  { q: "What languages does it support?", a: "Indonesian, English, Japanese, Mandarin, Korean, and more. The AI auto-detects the guest's language and responds in the same language." },
+  { q: "How is it trained? Can guests ask about promos or packages?", a: "Yes. We train it on your room catalog, rates, facilities, policies, FAQ, and promotions. It understands context — if a guest asks about a honeymoon package, it knows the details and can quote prices." },
+  { q: "How long does setup take?", a: "Typically 1-2 hours after we receive your property data. We handle the entire setup — you just provide the information." },
+];
+---
+
+<SwissLayout title="AI Agent for Hotels — Alpha Digital Agency" description="AI-powered chatbot for Bali villas and hotels. Answers guest questions 24/7 in multiple languages. Trained on your property data. Direct booking integration." currentPage="ai-agent">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 border border-purple-200 text-purple-800 text-xs font-bold uppercase tracking-wide mb-6">
+      <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+      AI-Powered
+    </div>
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-6">
+      AI Agent That <span class="text-purple-600 dark:text-purple-400">Sells Your Villa</span> 24/7
+    </h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 leading-relaxed mb-10">
+      An AI chatbot trained on your property — rooms, rates, facilities, location, promotions. Answers guest questions instantly in any language. Routes to direct booking. Never sleeps.
+    </p>
+
+    <div class="grid gap-4 sm:grid-cols-2 mb-10">
+      {[
+        { icon: 'chat', title: 'Instant Q&A', desc: 'Guests ask about availability, rates, facilities — AI answers in seconds.' },
+        { icon: 'translate', title: 'Auto Multi-Language', desc: 'Japanese, English, Indonesian, Mandarin — guests ask in their language, AI responds in kind.' },
+        { icon: 'psychology', title: 'Trained on Your Data', desc: 'Room catalog, rates, policies, FAQ, promotions — the AI knows your property inside out.' },
+        { icon: 'arrow_forward', title: 'Routes to Booking', desc: 'Every conversation ends with a booking link. Curious guests become paying guests.' },
+      ].map(f => (
+        <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2 hover:border-purple-300 transition-colors">
+          <span class="material-symbols-outlined text-purple-600 text-2xl">{f.icon}</span>
+          <h3 class="font-bold text-sm">{f.title}</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="space-y-4 mb-10">
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white">FAQ</h2>
+      {faqItems.map(item => (
+        <details class="group border border-gray-200 dark:border-gray-800 rounded-lg p-5 hover:border-purple-300/30 transition-colors">
+          <summary class="font-bold text-sm cursor-pointer text-emerald-dark dark:text-white">{item.q}</summary>
+          <p class="mt-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{item.a}</p>
+        </details>
+      ))}
+    </div>
+
+    <div class="text-center space-y-3">
+      <a href="/en/demo/ai-agent" class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-purple-500/20 inline-block">See AI Agent Demo →</a>
+      <p class="text-xs text-gray-400">or <a href="/en/contact/" class="text-primary hover:underline">contact us</a> for a live demo with your property data</p>
+    </div>
+  </section>
+
+</SwissLayout>

@@ -1,0 +1,47 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+
+const homeFaqItems = [
+  { q: "What sets Alpha Digital apart from other Bali agencies?", a: "We are the first agency in Bali to openly declare end-to-end AI/LLM usage. We don't just sell tech — we ensure your digital marketing technology is implemented correctly for clear, measurable villa business results." },
+  { q: "Do you only serve hotels and villas?", a: "Hospitality is our core specialization — villas, hotels, and restaurants in Bali. We also serve select luxury brands where our Google Ads + AI expertise transfers directly." },
+  { q: "What is a Direct Booking Engine and why do I need one?", a: "A direct booking engine lets guests book directly on your website with 0% OTA commission. It complements OTAs (which bring discovery) by capturing repeat and direct bookings — owning your guest relationship and data." },
+  { q: "How does the AI Agent work?", a: "Trained on your property data — rooms, rates, facilities, policies, FAQ. Answers guest questions 24/7 in multiple languages and routes them to your booking engine. Never sleeps, never takes a day off." },
+  { q: "How long until I see results from Google Ads?", a: "Typically 2-4 weeks for campaign stabilization and data collection. Real optimization begins after 30 days when we have enough conversion data. We focus on ROAS (Return on Ad Spend), not just clicks." },
+  { q: "Do you offer website development?", a: "Yes — focused on high-performance hospitality websites. Astro SSR on Cloudflare global network. Ultra-fast, mobile-first, SEO-optimized, with direct booking integration." },
+];
+---
+
+<SwissLayout title="Alpha Digital Agency — Bali Digital Agency for Google Ads & AI" description="Alpha Digital is the premier digital agency in Bali for hotels, villas, and restaurants. Google Ads, SEO, Direct Booking Engine, and AI Agent specialists." currentPage="home">
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto text-center">
+    <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] text-emerald-dark dark:text-white mb-6">
+      Digital Marketing That <span class="text-primary">Actually Works</span> for Bali Hospitality
+    </h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 max-w-2xl mx-auto leading-relaxed mb-8">
+      Bali digital agency for hotels, villas, and restaurants. Google Ads, SEO, Direct Booking Engine, and AI Agent — ensuring technology is implemented correctly for measurable results.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="/en/services/growth/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20">Our Services</a>
+      <a href="/en/contact/" class="bg-transparent border-2 border-emerald-dark dark:border-gray-200 text-emerald-dark dark:text-gray-200 hover:bg-emerald-dark hover:text-white dark:hover:bg-white dark:hover:text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors">Get in Touch</a>
+    </div>
+  </section>
+
+  <section class="px-6 pb-16 max-w-4xl mx-auto">
+    <h2 class="text-2xl font-bold text-center mb-10 text-emerald-dark dark:text-white">Frequently Asked Questions</h2>
+    <div class="space-y-4">
+      {homeFaqItems.map(item => (
+        <details class="group border border-gray-200 dark:border-gray-800 rounded-lg p-5 hover:border-primary/30 transition-colors">
+          <summary class="font-bold text-sm cursor-pointer text-emerald-dark dark:text-white">{item.q}</summary>
+          <p class="mt-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="text-center pb-20 px-6">
+    <a href="/en/demo/speed" class="inline-flex items-center gap-2 bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20">
+      ⚡ See Our Speed →
+    </a>
+    <p class="text-xs text-gray-400 mt-2">Websites that load in under 1 second. Because guests don't wait.</p>
+  </section>
+</SwissLayout>

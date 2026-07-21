@@ -1,0 +1,31 @@
+---
+export const prerender = true;
+import SwissLayout from "../../../components/SwissLayout.astro";
+---
+
+<SwissLayout title="Growth Package — Alpha Digital Agency" description="Alpha Digital Growth Package: Google Ads, advanced analytics, and conversion optimization for Bali hotels and villas." currentPage="services">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">Growth <span class="text-primary">Package</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">For villas and hotels ready to scale direct revenue.</p>
+
+    <div class="space-y-4 mb-10">
+      {[
+        { icon: 'ads_click', title: 'Google Ads Management', desc: 'LLM-enchanted campaigns. ROAS-focused. Conversion tracking with GA4 + GTM integration.' },
+        { icon: 'analytics', title: 'Advanced Analytics', desc: 'GA4, GTM, Looker Studio dashboards. Real conversion data, not vanity metrics.' },
+        { icon: 'trending_up', title: 'Conversion Optimization', desc: 'Booking flow analysis. A/B testing. Revenue tracking.' },
+        { icon: 'support', title: 'Monthly Reporting', desc: 'Clear reports: what was spent, what was earned, what to improve.' },
+      ].map(f => (
+        <div class="flex items-start gap-4 border border-gray-200 dark:border-gray-800 rounded-lg p-5">
+          <span class="material-symbols-outlined text-primary text-2xl shrink-0">{f.icon}</span>
+          <div><h3 class="font-bold text-sm text-emerald-dark dark:text-white">{f.title}</h3><p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center">
+      <a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Get Started →</a>
+    </div>
+  </section>
+
+</SwissLayout>

@@ -1,0 +1,33 @@
+---
+export const prerender = true;
+import SwissLayout from "../../components/SwissLayout.astro";
+---
+
+<SwissLayout title="Services — Alpha Digital Agency" description="Alpha Digital Agency services: Google Ads, Direct Booking Engine, AI Agent, SEO & Data Tracking for Bali hotels, villas, and restaurants." currentPage="services">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4 text-center">Our <span class="text-primary">Services</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 text-center mb-12">Everything your Bali property needs to grow direct revenue.</p>
+
+    <div class="space-y-6">
+      {[
+        { icon: 'ads_click', title: 'Google Ads — LLM-Enchanted', desc: 'Campaigns managed with AI assistance. ROAS-focused. Conversion tracking that actually works. Google Hotel Center integration.', href: '/en/services/growth/' },
+        { icon: 'calendar_month', title: 'Direct Booking Engine', desc: 'Edge-rendered on Cloudflare. Real-time availability. 0% OTA commission. Google Hotel Center ready. DOKU payment gateway.', href: '/en/booking-engine/' },
+        { icon: 'smart_toy', title: 'AI Agent for Business', desc: 'LLM chatbot on your website. Trained on your property data. 24/7 guest Q&A. Multi-language. Routes to direct booking.', href: '/en/ai-agent/' },
+        { icon: 'analytics', title: 'SEO & Data Tracking', desc: 'GTM, GSC, GA4, Microsoft Clarity — the fundamentals done right. Schema markup. Technical SEO audits.', href: '/en/services/foundation/' },
+        { icon: 'build', title: 'Website Development', desc: 'High-performance Astro websites on Cloudflare. Under 1 second load time. Mobile-first. SEO-optimized.', href: '/en/services/authority/' },
+      ].map(s => (
+        <a href={s.href} class="block border border-gray-200 dark:border-gray-800 rounded-lg p-6 hover:border-primary/30 transition-all group">
+          <div class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-primary text-3xl shrink-0">{s.icon}</span>
+            <div>
+              <h3 class="font-bold text-lg text-emerald-dark dark:text-white group-hover:text-primary transition-colors">{s.title}</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mt-1">{s.desc}</p>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+</SwissLayout>

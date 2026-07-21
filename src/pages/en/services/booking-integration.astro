@@ -1,0 +1,32 @@
+---
+export const prerender = true;
+import SwissLayout from "../../../components/SwissLayout.astro";
+---
+
+<SwissLayout title="Booking Integration — Alpha Digital Agency" description="Direct booking engine integration for Bali villas and hotels. Google Hotel Center, DOKU payment, real-time availability." currentPage="services">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">Booking <span class="text-primary">Integration</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">Seamless direct booking for your villa — integrated into your existing website or as a standalone solution.</p>
+
+    <div class="space-y-4 mb-10">
+      {[
+        { icon: 'sync_alt', title: 'Real-Time Availability', desc: 'Zero overbookings. Instant database queries for room availability.' },
+        { icon: 'payments', title: 'DOKU Payment Gateway', desc: 'Credit card, debit, QRIS, virtual account, retail outlets. PCI-DSS compliant.' },
+        { icon: 'hotel', title: 'Google Hotel Center', desc: 'List directly on Google Hotel Search. Ad-ready conversion tracking.' },
+        { icon: 'bolt', title: 'Edge Performance', desc: 'Hosted on Cloudflare global network. Low latency worldwide.' },
+      ].map(f => (
+        <div class="flex items-start gap-4 border border-gray-200 dark:border-gray-800 rounded-lg p-5">
+          <span class="material-symbols-outlined text-primary text-2xl shrink-0">{f.icon}</span>
+          <div><h3 class="font-bold text-sm text-emerald-dark dark:text-white">{f.title}</h3><p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center space-y-3">
+      <a href="/en/demo/booking-engine" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Try Live Demo →</a>
+      <p class="text-xs text-gray-400">or <a href="/en/contact/" class="text-primary hover:underline">request installation</a></p>
+    </div>
+  </section>
+
+</SwissLayout>

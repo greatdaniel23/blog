@@ -1,0 +1,31 @@
+---
+export const prerender = true;
+import SwissLayout from "../../../components/SwissLayout.astro";
+---
+
+<SwissLayout title="Foundation Package — Alpha Digital Agency" description="Alpha Digital Foundation Package: SEO, data tracking, and digital fundamentals for Bali hotels and villas." currentPage="services">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">Foundation <span class="text-primary">Package</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">Get the fundamentals right. Data-driven foundation for everything else.</p>
+
+    <div class="space-y-4 mb-10">
+      {[
+        { icon: 'search', title: 'Technical SEO', desc: 'Schema markup, canonical URLs, XML sitemaps, robots.txt, Core Web Vitals optimization.' },
+        { icon: 'tag', title: 'GTM & GA4 Setup', desc: 'Proper Google Tag Manager and GA4 configuration. Conversion tracking that actually records bookings.' },
+        { icon: 'visibility', title: 'Google Search Console', desc: 'Index coverage monitoring. Keyword performance tracking. Technical issue alerts.' },
+        { icon: 'speed', title: 'Performance Baseline', desc: 'Lighthouse audit, page speed optimization, mobile-first UX assessment.' },
+      ].map(f => (
+        <div class="flex items-start gap-4 border border-gray-200 dark:border-gray-800 rounded-lg p-5">
+          <span class="material-symbols-outlined text-primary text-2xl shrink-0">{f.icon}</span>
+          <div><h3 class="font-bold text-sm text-emerald-dark dark:text-white">{f.title}</h3><p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center">
+      <a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Start with Foundation →</a>
+    </div>
+  </section>
+
+</SwissLayout>

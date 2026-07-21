@@ -1,0 +1,31 @@
+---
+export const prerender = true;
+import SwissLayout from "../../../components/SwissLayout.astro";
+---
+
+<SwissLayout title="Authority Package — Alpha Digital Agency" description="Alpha Digital Authority Package: Full digital presence including website, booking engine, AI agent for Bali hotels." currentPage="services">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">Authority <span class="text-primary">Package</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">Complete digital presence. Everything included — website, booking engine, AI agent.</p>
+
+    <div class="space-y-4 mb-10">
+      {[
+        { icon: 'language', title: 'High-Performance Website', desc: 'Astro SSR on Cloudflare. Under 1s load. SEO-optimized. Swiss/brutalist design.' },
+        { icon: 'calendar_month', title: 'Direct Booking Engine', desc: 'Real-time availability. Google Hotel Center. DOKU payment. 0% OTA commission.' },
+        { icon: 'smart_toy', title: 'AI Agent Chatbot', desc: 'Trained on your property data. 24/7 guest Q&A. Multi-language. Booking integration.' },
+        { icon: 'all_inclusive', title: 'Everything in Growth + Foundation', desc: 'Google Ads, GA4 + GTM, SEO, analytics, monthly reporting. The full stack.' },
+      ].map(f => (
+        <div class="flex items-start gap-4 border border-gray-200 dark:border-gray-800 rounded-lg p-5">
+          <span class="material-symbols-outlined text-primary text-2xl shrink-0">{f.icon}</span>
+          <div><h3 class="font-bold text-sm text-emerald-dark dark:text-white">{f.title}</h3><p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center">
+      <a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Go Authority →</a>
+    </div>
+  </section>
+
+</SwissLayout>
