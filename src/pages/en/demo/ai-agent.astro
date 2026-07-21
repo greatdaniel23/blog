@@ -1,0 +1,128 @@
+---
+export const prerender = true;
+import "../../../styles/global.css";
+import SwissHeader from "../../../components/SwissHeader.astro";
+import SwissFooter from "../../../components/SwissFooter.astro";
+
+const SITE_URL = "https://alphadigitalagency.id";
+const DEFAULT_IMAGE = `${SITE_URL}/images/og-alpha-default.png`;
+
+const orgLD = { "@context":"https://schema.org","@type":"Organization","@id":`${SITE_URL}/#organization`,"name":"Alpha Digital Agency Indonesia","url":SITE_URL };
+const webLD = { "@context":"https://schema.org","@type":"WebSite","@id":`${SITE_URL}/#website`,"url":SITE_URL,"name":"Alpha Digital Agency Indonesia" };
+const breadLD = { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{ "@type":"ListItem","position":1,"name":"Home","item":`${SITE_URL}/en/` },{ "@type":"ListItem","position":2,"name":"Demo AI Agent","item":`${SITE_URL}/en/demo/ai-agent` }] };
+
+const chatMessages = [
+    { role: 'guest', text: 'Hi, any rooms available for August 20-22? For 2 people.', label: 'Guest' },
+    { role: 'ai', text: 'Hello! For August 20-22, 2026 we have available:\n\n🏡 One Bedroom Pool Villa — IDR 4,200,000/night\n🌿 Deluxe Suite — IDR 2,800,000/night\n\nBoth include breakfast for 2, private pool (Pool Villa), and complimentary airport pick-up. Want me to help you book?', label: 'AI Concierge' },
+    { role: 'guest', text: 'Nice! Can the Pool Villa fit an extra bed? I have a child.', label: 'Guest' },
+    { role: 'ai', text: 'Absolutely! Extra bed is IDR 500,000/night, including breakfast for the child. For 2 nights:\n\n🏡 Pool Villa: IDR 4,200,000 × 2 = IDR 8,400,000\n🛏️ Extra bed: IDR 500,000 × 2 = IDR 1,000,000\n\nTotal: IDR 9,400,000 (breakfast for 3 + airport pick-up)\n\nShall I proceed to booking? Pay later at the hotel.', label: 'AI Concierge' },
+];
+---
+
+<!doctype html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Demo AI Agent Chatbot — Alpha Digital Agency</title>
+    <meta name="description" content="See how an AI agent answers guest questions 24/7, multi-language, trained on hotel data." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://alphadigitalagency.id/en/demo/ai-agent" />
+    <link rel="alternate" hreflang="id" href="https://alphadigitalagency.id/demo/ai-agent" />
+    <link rel="alternate" hreflang="en" href="https://alphadigitalagency.id/en/demo/ai-agent" />
+    <meta property="og:title" content="Demo AI Agent Chatbot — Alpha Digital Agency" />
+    <meta property="og:description" content="An AI agent that knows your villa. Answers guest questions 24/7." />
+    <meta property="og:url" content="https://alphadigitalagency.id/en/demo/ai-agent" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Alpha Digital Agency Indonesia" />
+    <meta property="og:image" content={DEFAULT_IMAGE} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Demo AI Agent Chatbot — Alpha Digital Agency" />
+    <meta name="twitter:image" content={DEFAULT_IMAGE} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadLD)} />
+    <style is:inline>
+        body { min-height: max(884px, 100dvh); }
+        .chat-guest { background: #059669; color: #fff; border-radius: 12px 12px 2px 12px; }
+        .chat-ai { background: #f1f5f9; color: #1e293b; border-radius: 12px 12px 12px 2px; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-emerald-dark dark:text-gray-100 overflow-x-hidden">
+    <SwissHeader currentPage="services" />
+
+    <main class="flex-1 w-full px-6 pb-16 pt-28 md:pt-36">
+        <div class="max-w-5xl mx-auto space-y-16">
+
+            <header class="text-center max-w-2xl mx-auto space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 border border-purple-200 text-purple-800 text-xs font-bold uppercase tracking-wide">
+                    <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                    INTERACTIVE DEMO
+                </div>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white">
+                    AI That Sells Your Villa <span class="text-purple-600 dark:text-purple-400">24/7 Non-Stop</span>
+                </h1>
+                <p class="text-base text-emerald-mid dark:text-gray-400 leading-relaxed">An AI agent that knows your villa — room rates, facilities, location, promotions. Answers guest questions in English, Indonesian, Japanese, and more. Never sleeps, never needs a salary.</p>
+                <p class="text-xs text-gray-500">Trained on <strong>real property data</strong>. Not a generic chatbot.</p>
+            </header>
+
+            <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+                {[
+                    { icon: 'chat', title: 'Price & Availability Q&A', desc: '"Any rooms available July 15-17?" — AI checks real-time.' },
+                    { icon: 'explore', title: 'Location Recommendations', desc: '"Near the beach?" — AI knows distances, travel times, and spots.' },
+                    { icon: 'translate', title: 'Auto Multi-Language', desc: 'Japanese guest asks in Japanese — AI responds in Japanese.' },
+                    { icon: 'book_online', title: 'Direct to Booking', desc: '"Book now" — AI routes to booking engine. Close the sale.' },
+                ].map(c => (
+                    <div class="rounded-lg border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 backdrop-blur p-5 space-y-3 hover:border-purple-300 dark:hover:border-purple-700 transition-all">
+                        <span class="material-symbols-outlined text-purple-600 text-2xl">{c.icon}</span>
+                        <h3 class="font-bold text-sm">{c.title}</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{c.desc}</p>
+                    </div>
+                ))
+                }
+            </div>
+
+            <div class="space-y-6">
+                <p class="text-center text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Sample Conversation</p>
+                <div class="max-w-2xl mx-auto space-y-4">
+                    {chatMessages.map(msg => (
+                        <div class={`flex ${msg.role === 'guest' ? 'justify-end' : 'justify-start'}`}>
+                            <div class={`max-w-[80%] px-5 py-3.5 text-sm leading-relaxed ${msg.role === 'guest' ? 'chat-guest' : 'chat-ai'}`}>
+                                <div class="whitespace-pre-line">{msg.text}</div>
+                                <div class={`text-[10px] mt-2 font-bold uppercase tracking-wider ${msg.role === 'guest' ? 'text-emerald-200' : 'text-gray-400'}`}>{msg.label}</div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div class="max-w-3xl mx-auto space-y-6">
+                <p class="text-center text-xs font-bold uppercase tracking-[0.2em] text-gray-500">How It Works</p>
+                <div class="grid gap-4 grid-cols-1 sm:grid-cols-4">
+                    {[
+                        { step: '01', title: 'We train it on your data', desc: 'Upload villa info: rooms, rates, facilities, photos, FAQ.' },
+                        { step: '02', title: 'Widget on your site', desc: 'One line of script — chat bubble in bottom-right corner.' },
+                        { step: '03', title: 'AI answers 24/7', desc: 'Guests ask anytime. AI responds in their language.' },
+                        { step: '04', title: 'Bookings increase', desc: 'Every conversation ends with a booking link.' },
+                    ].map(s => (
+                        <div class="text-center space-y-2 p-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 flex items-center justify-center font-extrabold text-lg mx-auto">{s.step}</div>
+                            <h4 class="font-bold text-sm">{s.title}</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed">{s.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div class="text-center space-y-3 pb-8">
+                <a href="mailto:daniel@alphadigitalagency.id?subject=AI%20Agent%20Demo" class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-purple-500/20 inline-block">Want This for Your Villa?</a>
+                <p class="text-xs text-gray-400">Live demo available for clients. We can set up an AI agent with your property data within hours.</p>
+                <p class="text-xs text-gray-400 italic max-w-md mx-auto">💡 The chat above shows example conversations. For a live demo with your own property data, contact us.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <SwissFooter />
+</body>
+</html>
