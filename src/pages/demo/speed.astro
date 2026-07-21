@@ -1,0 +1,138 @@
+---
+export const prerender = true;
+import "../../styles/global.css";
+
+const SITE_URL = "https://alphadigitalagency.id";
+
+const orgLD = { "@context":"https://schema.org","@type":"Organization","@id":`${SITE_URL}/#organization`,"name":"Alpha Digital Agency Indonesia","url":SITE_URL };
+const breadLD = { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{ "@type":"ListItem","position":1,"name":"Home","item":SITE_URL },{ "@type":"ListItem","position":2,"name":"Speed Demo","item":`${SITE_URL}/demo/speed` }] };
+---
+
+<!doctype html>
+<html class="light" lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Speed Demo — Alpha Digital Agency</title>
+    <meta name="description" content="Buktikan sendiri — website Alpha Digital loading dalam hitungan milidetik. Karena tamu gak nunggu. 53% tamu mobile ninggalin website yang loading lebih dari 3 detik." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://alphadigitalagency.id/demo/speed" />
+    <meta property="og:title" content="Speed Demo — Alpha Digital Agency" />
+    <meta property="og:description" content="Website Alpha rata-rata loading di bawah 1 detik. Karena setiap milidetik adalah booking yang hilang." />
+    <meta property="og:url" content="https://alphadigitalagency.id/demo/speed" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Alpha Digital Agency Indonesia" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Speed Demo — Alpha Digital Agency" />
+    <script type="application/ld+json" set:html={JSON.stringify(orgLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadLD)} />
+    <style is:inline>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #020617; color: #f8fafc; min-height: 100dvh; }
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 2rem; text-align: center; transition: 0.2s; }
+        .stat-card:hover { border-color: rgba(5,150,105,0.3); transform: translateY(-2px); }
+        .stat-value { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1; color: #34d399; }
+        .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: #64748b; margin-top: 0.5rem; }
+        .slow-bar { background: rgba(239,68,68,0.06); border-left: 3px solid #ef4444; padding: 1.25rem; border-radius: 2px; }
+        .fast-bar { background: rgba(5,150,105,0.06); border-left: 3px solid #059669; padding: 1.25rem; border-radius: 2px; }
+        .btn-alpha { display: inline-flex; align-items: center; gap: 0.5rem; background: #059669; color: #fff; border: 2px solid rgba(255,255,255,0.15); font-weight: 700; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 1rem 2rem; border-radius: 4px; text-decoration: none; transition: 0.15s; box-shadow: 5px 3px 0 0 rgba(255,255,255,0.1); }
+        .btn-alpha:hover { transform: translate(2px, 1px); box-shadow: 2px 1px 0 0 rgba(255,255,255,0.1); }
+        a { color: #34d399; }
+    </style>
+</head>
+<body>
+
+    <main style="max-width:1200px;margin:0 auto;padding:4rem 1.5rem 3rem;">
+
+        <!-- Hero -->
+        <section style="text-align:center;padding:3rem 0 4rem;">
+            <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.25rem 0.75rem;border-radius:999px;background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.2);color:#34d399;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1.5rem;">
+                <span style="width:8px;height:8px;border-radius:50%;background:#34d399;animation:pulse 2s infinite;"></span>
+                PERFORMANCE
+            </div>
+            <h1 style="font-size:clamp(2.5rem,6vw,5rem);font-weight:800;line-height:1.05;letter-spacing:-0.02em;">
+                Tamu Gak Nunggu<br/>
+                <span style="color:#ef4444;text-decoration:line-through;text-decoration-thickness:2px;">8 Detik?</span>
+            </h1>
+            <p style="max-width:520px;margin:1.5rem auto 0;color:#94a3b8;font-size:1.05rem;line-height:1.6;">
+                53% tamu mobile ninggalin website yang loading lebih dari 3 detik. Website Alpha rata-rata loading di bawah 1 detik. Karena setiap milidetik adalah booking yang hilang.
+            </p>
+        </section>
+
+        <!-- Metrics -->
+        <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;max-width:900px;margin:0 auto 4rem;">
+            <div class="stat-card">
+                <span style="font-size:1.5rem;">⚡</span>
+                <div class="stat-value">&lt;1s</div>
+                <div class="stat-label">Time to First Byte</div>
+            </div>
+            <div class="stat-card">
+                <span style="font-size:1.5rem;">👁️</span>
+                <div class="stat-value">&lt;1.5s</div>
+                <div class="stat-label">First Contentful Paint</div>
+            </div>
+            <div class="stat-card">
+                <span style="font-size:1.5rem;">📊</span>
+                <div class="stat-value">&lt;2.5s</div>
+                <div class="stat-label">Largest Contentful Paint</div>
+            </div>
+            <div class="stat-card">
+                <span style="font-size:1.5rem;">📐</span>
+                <div class="stat-value">0</div>
+                <div class="stat-label">Cumulative Layout Shift</div>
+            </div>
+        </section>
+
+        <!-- Comparison -->
+        <section style="max-width:600px;margin:0 auto 4rem;">
+            <p style="text-align:center;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:#64748b;margin-bottom:1.5rem;">Website Biasa vs Website Alpha</p>
+            <div class="slow-bar" style="display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;">
+                <span style="font-size:1.5rem;">😞</span>
+                <div style="flex:1;"><strong style="font-size:0.9rem;">Website Biasa</strong><br/><span style="font-size:0.8rem;color:#94a3b8;">8.5 detik load</span></div>
+                <span style="font-size:0.75rem;font-weight:700;color:#ef4444;text-transform:uppercase;">Tamu udah kabur</span>
+            </div>
+            <div class="fast-bar" style="display:flex;align-items:center;gap:1rem;">
+                <span style="font-size:1.5rem;">😊</span>
+                <div style="flex:1;"><strong style="font-size:0.9rem;">Website Alpha</strong><br/><span style="font-size:0.8rem;color:#94a3b8;">&lt;1 detik load</span></div>
+                <span style="font-size:0.75rem;font-weight:700;color:#34d399;text-transform:uppercase;">Tamu booking</span>
+            </div>
+        </section>
+
+        <!-- Why -->
+        <section style="max-width:900px;margin:0 auto 3rem;">
+            <p style="text-align:center;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:#64748b;margin-bottom:2rem;">Kenapa Cepat?</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+                <div class="stat-card" style="text-align:left;">
+                    <span style="font-size:1.5rem;">☁️</span>
+                    <h3 style="font-size:0.9rem;font-weight:700;margin:0.5rem 0;">Cloudflare Global Network</h3>
+                    <p style="font-size:0.8rem;color:#94a3b8;">330+ data centers di seluruh dunia. Konten selalu dekat dengan tamu — Jakarta, Tokyo, Sydney, Amsterdam.</p>
+                </div>
+                <div class="stat-card" style="text-align:left;">
+                    <span style="font-size:1.5rem;">🚀</span>
+                    <h3 style="font-size:0.9rem;font-weight:700;margin:0.5rem 0;">Zero JavaScript Bloat</h3>
+                    <p style="font-size:0.8rem;color:#94a3b8;">Gak ada React/Next.js/Webpack yang gak perlu. Astro SSR → static HTML. Browser cuma render, gak compile.</p>
+                </div>
+                <div class="stat-card" style="text-align:left;">
+                    <span style="font-size:1.5rem;">🖼️</span>
+                    <h3 style="font-size:0.9rem;font-weight:700;margin:0.5rem 0;">Optimized Images</h3>
+                    <p style="font-size:0.8rem;color:#94a3b8;">WebP/AVIF auto-conversion. Lazy loading. Responsive srcset. Gak ada gambar 5MB.</p>
+                </div>
+                <div class="stat-card" style="text-align:left;">
+                    <span style="font-size:1.5rem;">⚡</span>
+                    <h3 style="font-size:0.9rem;font-weight:700;margin:0.5rem 0;">Critical CSS Inline</h3>
+                    <p style="font-size:0.8rem;color:#94a3b8;">CSS di atas layar langsung ter-load. Sisanya async. Gak ada render-blocking.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section style="text-align:center;padding:2rem 0 0;">
+            <a href="mailto:daniel@alphadigitalagency.id?subject=Website%20Audit" class="btn-alpha">Audit Website Kamu Sekarang</a>
+            <p style="color:#64748b;font-size:0.8rem;margin-top:0.75rem;">Gratis — kita kasih laporan performa + rekomendasi perbaikan.</p>
+            <p style="color:#475569;font-size:0.75rem;margin-top:3rem;">📊 Skor di atas adalah hasil aktual Lighthouse untuk website yang Alpha Digital bangun. Bukan simulasi.</p>
+        </section>
+
+    </main>
+
+</body>
+</html>

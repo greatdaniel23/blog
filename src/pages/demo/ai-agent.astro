@@ -1,0 +1,132 @@
+---
+export const prerender = true;
+import "../../styles/global.css";
+import SwissHeader from "../../components/SwissHeader.astro";
+import SwissFooter from "../../components/SwissFooter.astro";
+
+const SITE_URL = "https://alphadigitalagency.id";
+const DEFAULT_IMAGE = `${SITE_URL}/images/og-alpha-default.png`;
+
+const orgLD = { "@context":"https://schema.org","@type":"Organization","@id":`${SITE_URL}/#organization`,"name":"Alpha Digital Agency Indonesia","url":SITE_URL };
+const webLD = { "@context":"https://schema.org","@type":"WebSite","@id":`${SITE_URL}/#website`,"url":SITE_URL,"name":"Alpha Digital Agency Indonesia" };
+const breadLD = { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{ "@type":"ListItem","position":1,"name":"Home","item":SITE_URL },{ "@type":"ListItem","position":2,"name":"Demo AI Agent","item":`${SITE_URL}/demo/ai-agent` }] };
+
+const chatMessages = [
+    { role: 'guest', text: 'Halo, ada kamar available untuk 20-22 Agustus? Untuk 2 orang.', label: 'Tamu' },
+    { role: 'ai', text: 'Halo! Untuk tanggal 20-22 Agustus 2026 tersedia:\n\n🏡 One Bedroom Pool Villa — Rp 4.200.000/malam\n🌿 Deluxe Suite — Rp 2.800.000/malam\n\nKeduanya include breakfast untuk 2 orang, private pool (untuk Pool Villa), dan complimentary airport pick-up. Mau saya bantu booking?', label: 'AI Concierge' },
+    { role: 'guest', text: 'Wah menarik! Yang Pool Villa bisa extra bed? Sama anak 1.', label: 'Tamu' },
+    { role: 'ai', text: 'Bisa! Extra bed Rp 500.000/malam, sudah include breakfast untuk anak. Jadi total untuk 2 malam:\n\n🏡 One Bedroom Pool Villa: Rp 4.200.000 × 2 = Rp 8.400.000\n🛏️ Extra bed: Rp 500.000 × 2 = Rp 1.000.000\n\nTotal: Rp 9.400.000 (include breakfast 3 orang + airport pick-up)\n\nMau saya lanjutkan ke booking? Bisa bayar nanti di hotel.', label: 'AI Concierge' },
+];
+---
+
+<!doctype html>
+<html class="light" lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Demo AI Agent Chatbot — Alpha Digital Agency</title>
+    <meta name="description" content="Lihat bagaimana AI agent menjawab pertanyaan tamu 24/7, multi-bahasa, terlatih dengan data hotel." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://alphadigitalagency.id/demo/ai-agent" />
+    <meta property="og:title" content="Demo AI Agent Chatbot — Alpha Digital Agency" />
+    <meta property="og:description" content="AI agent yang ngerti villa kamu. Jawab pertanyaan tamu 24 jam non-stop." />
+    <meta property="og:url" content="https://alphadigitalagency.id/demo/ai-agent" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Alpha Digital Agency Indonesia" />
+    <meta property="og:image" content={DEFAULT_IMAGE} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Demo AI Agent Chatbot — Alpha Digital Agency" />
+    <meta name="twitter:description" content="AI agent yang ngerti villa kamu. Jawab pertanyaan tamu 24 jam non-stop." />
+    <meta name="twitter:image" content={DEFAULT_IMAGE} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webLD)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadLD)} />
+    <style is:inline>
+        body { min-height: max(884px, 100dvh); }
+        .chat-guest { background: #059669; color: #fff; border-radius: 12px 12px 2px 12px; }
+        .chat-ai { background: #f1f5f9; color: #1e293b; border-radius: 12px 12px 12px 2px; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-emerald-dark dark:text-gray-100 overflow-x-hidden">
+    <SwissHeader currentPage="services" />
+
+    <main class="flex-1 w-full px-6 pb-16 pt-28 md:pt-36">
+        <div class="max-w-5xl mx-auto space-y-16">
+
+            <!-- Hero -->
+            <header class="text-center max-w-2xl mx-auto space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 border border-purple-200 text-purple-800 text-xs font-bold uppercase tracking-wide">
+                    <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                    INTERACTIVE DEMO
+                </div>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white">
+                    AI yang Jualin Villa <span class="text-purple-600 dark:text-purple-400">24 Jam Non-Stop</span>
+                </h1>
+                <p class="text-base text-emerald-mid dark:text-gray-400 leading-relaxed">AI agent yang ngerti villa kamu — harga kamar, fasilitas, lokasi, promo. Jawab pertanyaan tamu dalam Bahasa Indonesia, Inggris, Jepang, dan banyak lagi. Gak perlu tidur, gak perlu gaji.</p>
+                <p class="text-xs text-gray-500">Terlatih dengan <strong>data properti real</strong>. Bukan chatbot generic.</p>
+            </header>
+
+            <!-- Capabilities -->
+            <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+                {[
+                    { icon: 'chat', title: 'Tanya Harga & Ketersediaan', desc: '"Ada kamar available 15-17 Juli?" — AI langsung cek real-time.' },
+                    { icon: 'explore', title: 'Rekomendasi Lokasi', desc: '"Dekat pantai gak?" — AI tau jarak, estimasi waktu, dan rekomendasi spot.' },
+                    { icon: 'translate', title: 'Multi-Bahasa Otomatis', desc: 'Tamu Jepang nanya dalam Jepang — AI jawab dalam Jepang. Gak perlu translator.' },
+                    { icon: 'book_online', title: 'Arahkan ke Booking', desc: '"Booking sekarang" — AI arahkan langsung ke booking engine. Close the sale.' },
+                ].map(c => (
+                    <div class="rounded-lg border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 backdrop-blur p-5 space-y-3 hover:border-purple-300 dark:hover:border-purple-700 transition-all">
+                        <span class="material-symbols-outlined text-purple-600 text-2xl">{c.icon}</span>
+                        <h3 class="font-bold text-sm">{c.title}</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{c.desc}</p>
+                    </div>
+                ))
+                }
+            </div>
+
+            <!-- Sample Chat -->
+            <div class="space-y-6">
+                <p class="text-center text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Contoh Percakapan</p>
+                <div class="max-w-2xl mx-auto space-y-4">
+                    {chatMessages.map(msg => (
+                        <div class={`flex ${msg.role === 'guest' ? 'justify-end' : 'justify-start'}`}>
+                            <div class={`max-w-[80%] px-5 py-3.5 text-sm leading-relaxed ${msg.role === 'guest' ? 'chat-guest' : 'chat-ai'}`}>
+                                <div class="whitespace-pre-line">{msg.text}</div>
+                                <div class={`text-[10px] mt-2 font-bold uppercase tracking-wider ${msg.role === 'guest' ? 'text-emerald-200' : 'text-gray-400'}`}>{msg.label}</div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <!-- How it works -->
+            <div class="max-w-3xl mx-auto space-y-6">
+                <p class="text-center text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Cara Kerja</p>
+                <div class="grid gap-4 grid-cols-1 sm:grid-cols-4">
+                    {[
+                        { step: '01', title: 'Kita latih dengan data kamu', desc: 'Upload informasi villa: tipe kamar, harga, fasilitas, foto, FAQ.' },
+                        { step: '02', title: 'Widget terpasang di website', desc: 'Satu baris script — muncul chat bubble di pojok kanan bawah.' },
+                        { step: '03', title: 'AI jawab otomatis 24/7', desc: 'Tamu nanya kapan aja. AI jawab dalam bahasa mereka.' },
+                        { step: '04', title: 'Booking meningkat', desc: 'Setiap percakapan berakhir dengan link booking.' },
+                    ].map(s => (
+                        <div class="text-center space-y-2 p-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 flex items-center justify-center font-extrabold text-lg mx-auto">{s.step}</div>
+                            <h4 class="font-bold text-sm">{s.title}</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed">{s.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center space-y-3 pb-8">
+                <a href="mailto:daniel@alphadigitalagency.id?subject=AI%20Agent%20Demo" class="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-purple-500/20 inline-block">Mau Pasang di Villa Kamu?</a>
+                <p class="text-xs text-gray-400">Live demo tersedia untuk klien. Kita bisa setup AI agent khusus dengan data properti kamu dalam hitungan jam.</p>
+                <p class="text-xs text-gray-400 italic max-w-md mx-auto">💡 Chat di atas adalah contoh percakapan real. Untuk live demo dengan data properti kamu sendiri, hubungi kami.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <SwissFooter />
+</body>
+</html>

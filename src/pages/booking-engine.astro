@@ -95,6 +95,9 @@ const breadcrumbLD = {
         <meta name="build-marker" content="SEO-FIX-2026-06-14-ALPHA" />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://alphadigitalagency.id/booking-engine" />
+        <link rel="alternate" hreflang="id" href="https://alphadigitalagency.id/booking-engine" />
+        <link rel="alternate" hreflang="en" href="https://alphadigitalagency.id/en/booking-engine" />
+        <link rel="alternate" hreflang="x-default" href="https://alphadigitalagency.id/booking-engine" />
         <link rel="sitemap" href="/sitemap.xml" />
         <meta property="og:title" content="Direct Booking Engine — Alpha Digital Agency Indonesia" />
         <meta property="og:description" content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency." />
@@ -111,10 +114,6 @@ const breadcrumbLD = {
         <script type="application/ld+json" set:html={JSON.stringify(professionalServiceLD)} />
         <script type="application/ld+json" set:html={JSON.stringify(bookingEngineLD)} />
         <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-            rel="stylesheet"
-        />
         <style is:inline>
             .dot-pattern {
                 background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
@@ -265,20 +264,22 @@ const breadcrumbLD = {
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-col gap-3">
+                        <a
+                            href="/demo/booking-engine"
+                            class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-10 py-4 transition-colors shadow-lg shadow-green-500/20 text-center text-lg"
+                        >
+                            🏨 Coba Booking Engine Langsung →
+                        </a>
+                        <p class="text-xs text-gray-400 text-center">Buka interactive demo — cari tanggal, pilih kamar, lihat harga real-time. Bukan screenshot.</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                         <a
                             href="mailto:daniel@alphadigitalagency.id?subject=request%20install"
-                            class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20"
-                        >
-                            Request to Use
-                        </a>
-                        <a
-                            href="https://bookingengine.alphadigitalagency.id/"
-                            target="_blank"
-                            rel="noopener noreferrer"
                             class="bg-transparent border-2 border-emerald-dark dark:border-gray-200 text-emerald-dark dark:text-gray-200 hover:bg-emerald-dark hover:text-white dark:hover:bg-white dark:hover:text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors"
                         >
-                            Check Demo
+                            Request to Use
                         </a>
                     </div>
 
