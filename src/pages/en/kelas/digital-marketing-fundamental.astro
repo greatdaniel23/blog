@@ -5,10 +5,40 @@ import SwissLayout from "../../../components/SwissLayout.astro";
 
 <SwissLayout title="Digital Marketing Fundamentals — Alpha Digital" description="Complete introduction to digital marketing: SEO, Google Ads, analytics, and strategy for business owners.">
 
-  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-2xl mx-auto">
-    <h1 class="text-4xl font-black tracking-tight text-emerald-dark dark:text-white mb-6">Digital Marketing <span class="text-primary">Fundamentals</span></h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Complete introduction: SEO, Google Ads, analytics, strategy. Everything a business owner needs to know.</p>
-    <div class="text-center"><a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Inquire →</a></div>
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">Digital Marketing <span class="text-primary">Fundamentals</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">Everything a business owner needs to know about digital marketing — in one workshop.</p>
+
+    <div class="prose prose-emerald dark:prose-invert max-w-none space-y-6 text-emerald-mid dark:text-gray-300 leading-relaxed mb-10">
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white">What You'll Learn</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {[
+          { icon: 'public', title: 'Digital Presence 101', desc: 'Website, Google Business Profile, social media — what actually matters for hospitality.' },
+          { icon: 'search', title: 'SEO Basics', desc: 'How search engines work. Keywords, content, technical foundations.' },
+          { icon: 'ads_click', title: 'Google Ads Intro', desc: 'How paid search works. Budget, targeting, measurement. Is it right for you?' },
+          { icon: 'analytics', title: 'Analytics Demystified', desc: 'GA4, GSC, and what the numbers actually mean for your business.' },
+          { icon: 'strategy', title: 'Building a Strategy', desc: 'Connecting the pieces: website → SEO → Ads → analytics → bookings.' },
+          { icon: 'trending_up', title: 'Measuring Success', desc: 'ROAS, conversion rate, cost per booking. Metrics that matter.' },
+        ].map(f => (
+          <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2">
+            <span class="material-symbols-outlined text-primary text-2xl">{f.icon}</span>
+            <h3 class="font-bold text-sm">{f.title}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white mt-8">Who This Is For</h2>
+      <ul>
+        <li>Business owners new to digital marketing</li>
+        <li>Anyone who wants to understand the full picture before investing</li>
+        <li>Teams building their first marketing strategy</li>
+      </ul>
+    </div>
+
+    <div class="text-center">
+      <a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Register Interest →</a>
+    </div>
   </section>
 
 </SwissLayout>

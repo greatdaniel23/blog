@@ -1,12 +1,45 @@
 ---
 export const prerender = true;
 import SwissLayout from "../../../components/SwissLayout.astro";
-const classes = [
-  { title: 'Google Ads', subtitle: 'Campaign setup, keyword strategy, conversion tracking for hospitality.', href: '/en/kelas/google-ads/' },
-  { title: 'SEO & Google Analytics', subtitle: 'Technical SEO, GSC, GA4 — from setup to actionable insights.', href: '/en/kelas/seo-google-analytics/' },
-  { title: 'AI Agent Chatbot', subtitle: 'How AI agents work for hotels and villas. Setup and training.', href: '/en/kelas/ai-agent-chatbot/' },
-  { title: 'AI Productivity', subtitle: 'Practical AI tools for daily hospitality operations.', href: '/en/kelas/ai-produktivitas-karyawan/' },
-  { title: 'AI for Parents', subtitle: 'Using AI to support children\'s learning and activities.', href: '/en/kelas/ai-untuk-orang-tua/' },
-  { title: 'Digital Marketing Fundamentals', subtitle: 'Complete introduction to digital marketing for business owners.', href: '/en/kelas/digital-marketing-fundamental/' },
-];
-const cls = classes.find(c => classes.indexOf(c) === 0) || classes[0];
+---
+
+<SwissLayout title="Google Ads Workshop — Alpha Digital" description="Learn Google Ads for Bali hospitality. Campaign setup, keyword strategy, conversion tracking, and ROAS optimization.">
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">Google Ads <span class="text-primary">Workshop</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">Practical Google Ads training for Bali hospitality professionals and business owners.</p>
+
+    <div class="prose prose-emerald dark:prose-invert max-w-none space-y-6 text-emerald-mid dark:text-gray-300 leading-relaxed mb-10">
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white">What You'll Learn</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {[
+          { icon: 'search', title: 'Keyword Strategy', desc: 'Find the right keywords for your villa or hotel. Match types, negative keywords, search intent.' },
+          { icon: 'campaign', title: 'Campaign Setup', desc: 'Search, Display, Performance Max. Budget structure, bidding strategies, ad copy.' },
+          { icon: 'analytics', title: 'Conversion Tracking', desc: 'GA4 + GTM integration. Track bookings, not just clicks. ROAS measurement.' },
+          { icon: 'trending_up', title: 'Optimization', desc: 'Read the data, adjust bids, test ads. Continuous improvement for better ROAS.' },
+        ].map(f => (
+          <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2">
+            <span class="material-symbols-outlined text-primary text-2xl">{f.icon}</span>
+            <h3 class="font-bold text-sm">{f.title}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white mt-8">Who This Is For</h2>
+      <ul>
+        <li>Villa and hotel owners managing their own marketing</li>
+        <li>Marketing staff at hospitality properties</li>
+        <li>Business owners wanting to understand Google Ads before hiring</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white mt-8">Format</h2>
+      <p>Hands-on workshop. Bring your laptop. We work with real campaigns and live data.</p>
+    </div>
+
+    <div class="text-center">
+      <a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Register Interest →</a>
+    </div>
+  </section>
+
+</SwissLayout>

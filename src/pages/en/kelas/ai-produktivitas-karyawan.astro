@@ -3,12 +3,40 @@ export const prerender = true;
 import SwissLayout from "../../../components/SwissLayout.astro";
 ---
 
-<SwissLayout title="AI for Employee Productivity — Alpha Digital" description="Practical AI tools for daily hospitality operations. Boost team productivity with AI.">
+<SwissLayout title="AI for Employee Productivity — Alpha Digital" description="Practical AI tools for daily hospitality operations. Help your team work smarter with AI.">
 
-  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-2xl mx-auto">
-    <h1 class="text-4xl font-black tracking-tight text-emerald-dark dark:text-white mb-6">AI for <span class="text-primary">Employee Productivity</span></h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Practical AI tools for daily hospitality operations. Help your team work smarter.</p>
-    <div class="text-center"><a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Inquire →</a></div>
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">AI for <span class="text-primary">Productivity</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">Practical AI tools your hospitality team can use today.</p>
+
+    <div class="prose prose-emerald dark:prose-invert max-w-none space-y-6 text-emerald-mid dark:text-gray-300 leading-relaxed mb-10">
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white">What You'll Learn</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {[
+          { icon: 'edit_note', title: 'AI for Writing', desc: 'Draft emails, guest responses, social media captions, and reports faster.' },
+          { icon: 'translate', title: 'AI for Translation', desc: 'Instantly translate guest communications, menus, and policies.' },
+          { icon: 'table', title: 'AI for Data', desc: 'Analyze spreadsheets, generate summaries, spot trends without Excel skills.' },
+          { icon: 'schedule', title: 'AI for Planning', desc: 'Staff scheduling, inventory lists, task prioritization — automated.' },
+        ].map(f => (
+          <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2">
+            <span class="material-symbols-outlined text-primary text-2xl">{f.icon}</span>
+            <h3 class="font-bold text-sm">{f.title}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white mt-8">Who This Is For</h2>
+      <ul>
+        <li>Hotel and villa operations teams</li>
+        <li>Front office, housekeeping, F&B managers</li>
+        <li>Anyone doing repetitive tasks that AI can handle</li>
+      </ul>
+    </div>
+
+    <div class="text-center">
+      <a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Register Interest →</a>
+    </div>
   </section>
 
 </SwissLayout>

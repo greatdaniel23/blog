@@ -3,12 +3,40 @@ export const prerender = true;
 import SwissLayout from "../../../components/SwissLayout.astro";
 ---
 
-<SwissLayout title="AI Agent Chatbot Workshop — Alpha Digital" description="Learn how AI agents work for hotels and villas. Setup, training, and integration guide.">
+<SwissLayout title="AI Agent Chatbot Workshop — Alpha Digital" description="Learn how AI agents work for hotels and villas. Setup, training, and integration for guest communication.">
 
-  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-2xl mx-auto">
-    <h1 class="text-4xl font-black tracking-tight text-emerald-dark dark:text-white mb-6">AI Agent <span class="text-primary">Chatbot</span> Workshop</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">How AI agents work for hotels — setup, training, and best practices for guest communication.</p>
-    <div class="text-center"><a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Inquire About This Class →</a></div>
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">AI Agent <span class="text-primary">Chatbot</span> Workshop</h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">How AI agents handle guest conversations — and how to set one up for your property.</p>
+
+    <div class="prose prose-emerald dark:prose-invert max-w-none space-y-6 text-emerald-mid dark:text-gray-300 leading-relaxed mb-10">
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white">What You'll Learn</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {[
+          { icon: 'psychology', title: 'How AI Agents Work', desc: 'LLM basics, training data, context windows. Understand the technology without the jargon.' },
+          { icon: 'dataset', title: 'Training Your Agent', desc: 'What data to provide: room catalog, rates, policies, FAQ, promotions.' },
+          { icon: 'chat', title: 'Conversation Design', desc: 'Writing prompts that work. Handling edge cases. Tone and personality.' },
+          { icon: 'integration_instructions', title: 'Website Integration', desc: 'One script tag. Chat bubble placement. Booking engine connection.' },
+        ].map(f => (
+          <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2">
+            <span class="material-symbols-outlined text-primary text-2xl">{f.icon}</span>
+            <h3 class="font-bold text-sm">{f.title}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white mt-8">Who This Is For</h2>
+      <ul>
+        <li>Villa and hotel owners exploring AI for guest service</li>
+        <li>Front office managers wanting to automate FAQ responses</li>
+        <li>Anyone curious about practical AI in hospitality</li>
+      </ul>
+    </div>
+
+    <div class="text-center">
+      <a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Register Interest →</a>
+    </div>
   </section>
 
 </SwissLayout>

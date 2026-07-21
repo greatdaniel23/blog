@@ -3,12 +3,40 @@ export const prerender = true;
 import SwissLayout from "../../../components/SwissLayout.astro";
 ---
 
-<SwissLayout title="AI for Parents — Alpha Digital" description="Using AI to support children's learning and activities. A practical guide for parents.">
+<SwissLayout title="AI for Parents — Alpha Digital" description="Using AI to support children's learning and activities. Practical tools for busy parents in Bali.">
 
-  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-2xl mx-auto">
-    <h1 class="text-4xl font-black tracking-tight text-emerald-dark dark:text-white mb-6">AI for <span class="text-primary">Parents</span></h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Using AI to support children's learning and activities. Practical tools for busy parents.</p>
-    <div class="text-center"><a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Inquire →</a></div>
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">AI for <span class="text-primary">Parents</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">Using AI to support your children's learning, creativity, and daily activities.</p>
+
+    <div class="prose prose-emerald dark:prose-invert max-w-none space-y-6 text-emerald-mid dark:text-gray-300 leading-relaxed mb-10">
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white">What You'll Learn</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {[
+          { icon: 'school', title: 'Homework Help', desc: 'Use AI to explain math, science, and language concepts in simple terms.' },
+          { icon: 'draw', title: 'Creative Projects', desc: 'Generate story ideas, art prompts, and learning games for kids of all ages.' },
+          { icon: 'language', title: 'Language Learning', desc: 'Practice English, Indonesian, or any language with AI conversation partners.' },
+          { icon: 'security', title: 'Safe AI Use', desc: 'Set boundaries, monitor usage, and teach kids to use AI responsibly.' },
+        ].map(f => (
+          <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2">
+            <span class="material-symbols-outlined text-primary text-2xl">{f.icon}</span>
+            <h3 class="font-bold text-sm">{f.title}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 class="text-xl font-bold text-emerald-dark dark:text-white mt-8">Who This Is For</h2>
+      <ul>
+        <li>Parents who want to use AI as a learning tool</li>
+        <li>Families curious about safe, productive screen time</li>
+        <li>Anyone raising kids in the AI era</li>
+      </ul>
+    </div>
+
+    <div class="text-center">
+      <a href="/en/contact/" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Register Interest →</a>
+    </div>
   </section>
 
 </SwissLayout>
