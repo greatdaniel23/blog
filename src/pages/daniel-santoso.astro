@@ -1,7 +1,9 @@
 ---
-export const prerender = true;
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../components/SwissLayout.astro";
 
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
 const SITE_URL = "https://alphadigitalagency.id";
 const DANIEL_URL = `${SITE_URL}/daniel-santoso/`;
 
@@ -73,7 +75,11 @@ const breadcrumbLD = {
   ]
 };
 
-const faqItems = [
+const faqItems = isEn ? [
+  { q: "Who is Daniel Santoso?", a: "Daniel Santoso is the founder of Alpha Digital Agency Indonesia and a Google Ads specialist focused on hospitality digital marketing for hotels, villas, and restaurants in Bali." },
+  { q: "What is Daniel Santoso's specialization?", a: "Daniel specializes in Google Ads, GA4/GTM tracking, Search Console, booking engine integration, hospitality SEO, and AI Agent implementation for direct booking pathways." },
+  { q: "What is Daniel Santoso's relationship with Alpha Digital Agency?", a: "Daniel founded Alpha Digital Agency Indonesia as a hospitality digital marketing practice in Bali that connects ads, SEO, website, booking engine, and reporting in one system." }
+] : [
   {
     q: "Siapa Daniel Santoso?",
     a: "Daniel Santoso adalah founder Alpha Digital Agency Indonesia dan Google Ads specialist yang fokus pada hospitality digital marketing untuk hotel, vila, dan restoran di Bali."
@@ -194,12 +200,12 @@ const faqLD = {
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <a href="/" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
+      <a href={isEn?"/en":"/"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
         <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Agency</p>
-        <p class="font-bold text-charcoal dark:text-white text-sm">Alpha Digital Agency -></p>
+        <p class="font-bold text-charcoal dark:text-white text-sm">Alpha Digital Agency →</p>
         <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Digital agency Bali for hospitality.</p>
       </a>
-      <a href="/services/growth/" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
+      <a href={isEn?"/en/services/growth":"/services/growth/"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
         <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Google Ads</p>
         <p class="font-bold text-charcoal dark:text-white text-sm">Growth Service -></p>
         <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Paid search for hotels and villas.</p>

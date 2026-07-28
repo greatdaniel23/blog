@@ -1,11 +1,111 @@
 ---
-export const prerender = true;
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
+
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
+
+const t = {
+  id: {
+    serviceName: "Booking Engine Integration — Install & Kelola untuk Vila dan Hotel Bali",
+    serviceDesc: "Kami install dan kelola booking engine untuk properti hospitality Bali — platform apa pun, tanpa lock-in vendor, tanpa biaya lisensi tambahan. Anda tetap pegang kontrol.",
+    tier: "Tier 4 — Booking Engine Integration",
+    heroLine: "Anda Yang Punya. Bukan Vendor",
+    heroPunctuation: ".",
+    heroDesc: "Kami install dan kelola booking engine — platform apa pun, tanpa lock-in vendor, tanpa biaya lisensi tambahan. Anda tetap pegang kontrol.",
+    ctaMail: "Minta Penawaran",
+    outcome: "Booking engine kami bisa dipakai di properti mana pun — tidak terikat platform, tidak ada biaya lisensi bulanan, dan Anda tetap pegang kontrol penuh atas data reservasi Anda.",
+    whyTitle: "Mengapa Platform-Agnostic Penting?",
+    whyP1: "Setiap booking via OTA berarti 15–25% komisi keluar dari pendapatan kamar villa Anda. Tujuan integrasi booking engine yang kami install bukan sekadar \"punya tombol pesan\" — melainkan menggeser 15–30% reservasi dari OTA ke direct booking dalam 90 hari pertama. Setiap pergeseran itu adalah margin recovery permanen: komisi yang sebelumnya keluar, kini tetap di kantong properti Anda.",
+    whyP2: "Stack booking engine yang kami deploy adalah milik Anda — bukan milik vendor. Data konversi mengalir bersih kembali ke GA4 Analytics: readable, evaluable, optimizable. Ini yang membuat kampanye Google Ads bisa dioptimasikan terhadap reservasi aktual, bukan sekadar klik.",
+    featuresTitle: "Yang Anda Dapatkan",
+    features: [
+      { title: "Install Booking Engine: Milik Alpha atau Pilihan Anda", desc: "Kami install Cloudbeds, SiteMinder, Little Hotelier, STAAH — atau booking engine kami sendiri tanpa biaya lisensi bulanan. Anda pilih, kami kelola.", sub: "Platform yang kami support: Cloudbeds, SiteMinder, Little Hotelier, STAAH, dan booking engine Alpha sendiri (open source, tanpa biaya lisensi)." },
+      { title: "Integrasi PMS dan Channel Manager yang Ada", desc: "Booking engine terhubung ke sistem manajemen properti dan channel manager yang sudah berjalan — tidak perlu buang sistem lama dari awal." },
+      { title: "Data Reservasi Langsung Masuk ke Laporan Ads & GA4", desc: "Setiap direct booking terekam sebagai konversi di Google Ads dan GA4 Analytics. Anda tahu persis keyword dan kampanye mana yang menghasilkan reservasi aktual — penting untuk properti luxury hospitality yang mengelola budget marketing besar." },
+      { title: "Anda Tetap Pegang Kontrol — Switch Kapan Saja", desc: "Data historis reservasi milik Anda. Kalau ingin ganti platform di kemudian hari, kami fasilitasi migrasi tanpa kehilangan data." }
+    ],
+    lockinTitle: "Mengapa \"Tanpa Lock-In\" Penting?",
+    lockinP1: "Banyak booking engine di pasar Bali adalah model proprietary: Anda bayar lisensi bulanan, data reservasi tersimpan di sistem mereka, dan keluar berarti mulai dari nol.",
+    lockinP2: "Alpha Digital mengambil posisi sebaliknya: platform-agnostic. Kami install yang terbaik untuk properti Anda saat ini, dan kalau kebutuhan berubah, Anda tidak terjebak.",
+    lockinP3: "Ini juga berarti direct booking data Anda — tamu, riwayat pemesanan, preferensi — tetap milik Anda sepenuhnya.",
+    proofTitle: "Hasil yang Bisa Diukur",
+    proofQuote: "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads dan integrasi booking engine.",
+    proofCite: "— Verified client data. Name withheld per client policy.",
+    proofNote: "Case Study #1 — full breakdown coming soon.",
+    faqTitle: "Pertanyaan tentang Booking Integration",
+    faq: [
+      { q: "Platform booking engine apa yang didukung?", a: "Kami platform-agnostic: kami install dan integrasi Cloudbeds, SiteMinder, Little Hotelier, STAAH, atau platform pilihan Anda. Kami juga punya opsi booking engine sendiri tanpa biaya lisensi bulanan. Anda tidak perlu terikat satu vendor." },
+      { q: "Apakah saya perlu ganti booking engine yang sudah ada?", a: "Tidak harus. Kalau sistem yang ada berfungsi tapi belum terhubung ke laporan Google Ads dan Analytics Anda — kami bisa integrasi tanpa mengganti platform. Kalau ada masalah fundamental, baru kami diskusikan opsi penggantian." },
+      { q: "Apa yang dimaksud 'tanpa lock-in vendor'?", a: "Anda bisa switch booking engine kapan saja tanpa kehilangan data historis reservasi atau harus mulai dari nol. Kontrak adalah dengan Alpha Digital sebagai implementor — bukan dengan satu platform booking engine tertentu." },
+      { q: "Apakah data reservasi langsung bisa masuk ke laporan Google Ads?", a: "Ya, ini salah satu manfaat utamanya. Kami integrasikan booking confirmation sebagai konversi di Google Ads — jadi Anda bisa lihat persis berapa revenue yang dihasilkan dari keyword dan kampanye mana." },
+      { q: "Berapa lama proses integrasi booking engine?", a: "Tergantung kompleksitas sistem yang ada. Integrasi standar (satu properti, satu platform) biasanya 3–6 minggu termasuk testing. Multi-properti atau integrasi PMS yang kompleks bisa lebih lama." }
+    ],
+    seoAnchor: "Booking engine adalah salah satu pembeda utama <a href=\"/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency Bali for hotels and villas</a>: traffic tidak berhenti di klik, tapi diarahkan ke reservasi langsung yang bisa diukur.",
+    tier1Label: "Tier 1", tier1Title: "Foundation →", tier1Desc: "Tracking yang benar untuk semua channel",
+    tier2Label: "Tier 2", tier2Title: "Growth →", tier2Desc: "Google Ads management aktif",
+    tier3Label: "Tier 3", tier3Title: "Authority →", tier3Desc: "Semua channel, multi-properti",
+    author: "Ditulis oleh <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026",
+    finalCtaTitle: "Siap Pasang Booking Engine?",
+    finalCtaDesc: "Ceritakan sistem yang ada sekarang. Kami jelaskan opsi integrasi terbaik untuk properti Anda — tanpa commitment awal.",
+    finalCtaButton: "Minta Penawaran",
+    pageUrl: "https://alphadigitalagency.id/services/booking-integration/",
+    breadcrumbServices: "Services"
+  },
+  en: {
+    serviceName: "Booking Engine Integration — Install & Manage for Bali Villas and Hotels",
+    serviceDesc: "We install and manage booking engines for Bali hospitality properties — any platform, no vendor lock-in, no additional license fees. You stay in control.",
+    tier: "Tier 4 — Booking Engine Integration",
+    heroLine: "Yours. Not the Vendor",
+    heroPunctuation: ".",
+    heroDesc: "We install and manage booking engines — any platform, no vendor lock-in, no additional license fees. You stay in control.",
+    ctaMail: "Request a Proposal",
+    outcome: "Our booking engine can be used on any property — not tied to any platform, no monthly license fees, and you retain full control over your reservation data.",
+    whyTitle: "Why Platform-Agnostic Matters",
+    whyP1: "Every booking via an OTA means 15–25% commission leaves your villa room revenue. The goal of the booking engine integration we install is not merely to \"have a book button\" — it is to shift 15–30% of reservations from OTAs to direct bookings within the first 90 days. Every shift is a permanent margin recovery: commission that previously left the property now stays in your pocket.",
+    whyP2: "The booking engine stack we deploy is yours — not the vendor's. Conversion data flows cleanly back into GA4 Analytics: readable, evaluable, optimizable. This is what makes Google Ads campaigns optimizable against actual reservations, not just clicks.",
+    featuresTitle: "What You Get",
+    features: [
+      { title: "Install a Booking Engine: Ours or Yours", desc: "We install Cloudbeds, SiteMinder, Little Hotelier, STAAH — or our own booking engine with no monthly license fee. You choose, we manage.", sub: "Platforms we support: Cloudbeds, SiteMinder, Little Hotelier, STAAH, and Alpha's own booking engine (open source, no license fee)." },
+      { title: "PMS & Channel Manager Integration", desc: "The booking engine connects to your existing property management system and channel manager — no need to scrap your current setup." },
+      { title: "Reservation Data Flows into Ads & GA4 Reports", desc: "Every direct booking is recorded as a conversion in Google Ads and GA4 Analytics. You know exactly which keywords and campaigns drive actual reservations — critical for luxury hospitality properties managing large marketing budgets." },
+      { title: "You Stay in Control — Switch Anytime", desc: "Historical reservation data is yours. If you want to switch platforms down the line, we facilitate migration without data loss." }
+    ],
+    lockinTitle: "Why \"No Lock-In\" Matters",
+    lockinP1: "Many booking engines in the Bali market follow a proprietary model: you pay a monthly license fee, reservation data lives in their system, and leaving means starting from zero.",
+    lockinP2: "Alpha Digital takes the opposite stance: platform-agnostic. We install the best solution for your property today, and when your needs change, you are not trapped.",
+    lockinP3: "This also means your direct booking data — guests, booking history, preferences — remains fully yours.",
+    proofTitle: "Measurable Results",
+    proofQuote: "A 4-unit Bali villa property — direct bookings up 34% within 90 days after funnel audit, Google Ads optimization, and booking engine integration.",
+    proofCite: "— Verified client data. Name withheld per client policy.",
+    proofNote: "Case Study #1 — full breakdown coming soon.",
+    faqTitle: "Questions About Booking Integration",
+    faq: [
+      { q: "Which booking engine platforms do you support?", a: "We are platform-agnostic: we install and integrate Cloudbeds, SiteMinder, Little Hotelier, STAAH, or your platform of choice. We also offer our own booking engine option with no monthly license fee. You are not tied to any single vendor." },
+      { q: "Do I need to replace my existing booking engine?", a: "Not necessarily. If your current system works but is not yet connected to your Google Ads and Analytics reports — we can integrate without replacing the platform. If there are fundamental issues, we will discuss replacement options." },
+      { q: "What does 'no vendor lock-in' mean?", a: "You can switch booking engines at any time without losing historical reservation data or starting from scratch. Your contract is with Alpha Digital as the implementer — not with any single booking engine platform." },
+      { q: "Can reservation data flow directly into Google Ads reports?", a: "Yes, this is one of the key benefits. We integrate booking confirmations as conversions in Google Ads — so you can see exactly how much revenue is generated from each keyword and campaign." },
+      { q: "How long does the booking engine integration process take?", a: "It depends on the complexity of your existing system. A standard integration (one property, one platform) typically takes 3–6 weeks including testing. Multi-property or complex PMS integrations can take longer." }
+    ],
+    seoAnchor: "A booking engine is one of the key differentiators of a <a href=\"/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency Bali for hotels and villas</a>: traffic does not stop at clicks, but flows into measurable direct reservations.",
+    tier1Label: "Tier 1", tier1Title: "Foundation →", tier1Desc: "Proper tracking across all channels",
+    tier2Label: "Tier 2", tier2Title: "Growth →", tier2Desc: "Active Google Ads management",
+    tier3Label: "Tier 3", tier3Title: "Authority →", tier3Desc: "All channels, multi-property",
+    author: "Written by <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Last updated: May 2026",
+    finalCtaTitle: "Ready to Install a Booking Engine?",
+    finalCtaDesc: "Tell us about your current system. We will explain the best integration options for your property — with no upfront commitment.",
+    finalCtaButton: "Request a Proposal",
+    pageUrl: "https://alphadigitalagency.id/en/services/booking-integration/",
+    breadcrumbServices: "Services"
+  }
+};
+
+const tx = t[locale] || t.id;
 
 const serviceLD = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "Booking Engine Integration — Install & Kelola untuk Vila dan Hotel Bali",
+  "name": tx.serviceName,
   "provider": {
     "@type": "Organization",
     "name": "Alpha Digital Agency",
@@ -17,33 +117,12 @@ const serviceLD = {
     "url": "https://alphadigitalagency.id/daniel-santoso/#person"
   },
   "areaServed": "Bali, Indonesia",
-  "description": "Kami install dan kelola booking engine untuk properti hospitality Bali — platform apa pun, tanpa lock-in vendor, tanpa biaya lisensi tambahan. Anda tetap pegang kontrol.",
+  "description": tx.serviceDesc,
   "serviceType": "Booking Engine Integration",
-  "url": "https://alphadigitalagency.id/services/booking-integration/"
+  "url": tx.pageUrl
 };
 
-const faqItems = [
-  {
-    q: "Platform booking engine apa yang didukung?",
-    a: "Kami platform-agnostic: kami install dan integrasi Cloudbeds, SiteMinder, Little Hotelier, STAAH, atau platform pilihan Anda. Kami juga punya opsi booking engine sendiri tanpa biaya lisensi bulanan. Anda tidak perlu terikat satu vendor."
-  },
-  {
-    q: "Apakah saya perlu ganti booking engine yang sudah ada?",
-    a: "Tidak harus. Kalau sistem yang ada berfungsi tapi belum terhubung ke laporan Google Ads dan Analytics Anda — kami bisa integrasi tanpa mengganti platform. Kalau ada masalah fundamental, baru kami diskusikan opsi penggantian."
-  },
-  {
-    q: "Apa yang dimaksud 'tanpa lock-in vendor'?",
-    a: "Anda bisa switch booking engine kapan saja tanpa kehilangan data historis reservasi atau harus mulai dari nol. Kontrak adalah dengan Alpha Digital sebagai implementor — bukan dengan satu platform booking engine tertentu."
-  },
-  {
-    q: "Apakah data reservasi langsung bisa masuk ke laporan Google Ads?",
-    a: "Ya, ini salah satu manfaat utamanya. Kami integrasikan booking confirmation sebagai konversi di Google Ads — jadi Anda bisa lihat persis berapa revenue yang dihasilkan dari keyword dan kampanye mana."
-  },
-  {
-    q: "Berapa lama proses integrasi booking engine?",
-    a: "Tergantung kompleksitas sistem yang ada. Integrasi standar (satu properti, satu platform) biasanya 3–6 minggu termasuk testing. Multi-properti atau integrasi PMS yang kompleks bisa lebih lama."
-  }
-];
+const faqItems = tx.faq;
 
 const faqLD = {
   "@context": "https://schema.org",
@@ -63,15 +142,20 @@ const breadcrumbLD = {
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
-    { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://alphadigitalagency.id/services/" },
-    { "@type": "ListItem", "position": 3, "name": "Booking Integration", "item": "https://alphadigitalagency.id/services/booking-integration/" }
+    { "@type": "ListItem", "position": 2, "name": tx.breadcrumbServices, "item": "https://alphadigitalagency.id/services/" },
+    { "@type": "ListItem", "position": 3, "name": "Booking Integration", "item": tx.pageUrl }
   ]
 };
+
+const metaTitle = isEn ? "Booking Engine Integration Bali | Alpha Digital" : "Booking Engine Integration Bali | Alpha Digital";
+const metaDesc = isEn
+  ? "Booking engine integration for Bali hotels and villas. We connect direct reservations, Google Ads tracking, and guest data without vendor lock-in."
+  : "Booking engine integration for Bali hotels and villas. We connect direct reservations, Google Ads tracking, and guest data without vendor lock-in.";
 ---
 
 <SwissLayout
-  title="Booking Engine Integration Bali | Alpha Digital"
-  description="Booking engine integration for Bali hotels and villas. We connect direct reservations, Google Ads tracking, and guest data without vendor lock-in."
+  title={metaTitle}
+  description={metaDesc}
   currentPage="services"
 >
   <Fragment slot="head">
@@ -82,14 +166,14 @@ const breadcrumbLD = {
 
   <!-- Hero -->
   <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
-    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">Tier 4 — Booking Engine Integration</p>
+    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.tier}</p>
     <h1
       class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6"
     >
-      Anda Yang Punya. Bukan Vendor<span class="text-primary">.</span>
+      {tx.heroLine}<span class="text-primary">{tx.heroPunctuation}</span>
     </h1>
     <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-      Kami install dan kelola booking engine — platform apa pun, tanpa lock-in vendor, tanpa biaya lisensi tambahan. Anda tetap pegang kontrol.
+      {tx.heroDesc}
     </p>
     <div class="mt-8">
       <a
@@ -97,7 +181,7 @@ const breadcrumbLD = {
         class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
       >
         <span class="material-symbols-outlined">mail</span>
-        Minta Penawaran
+        {tx.ctaMail}
       </a>
     </div>
   </section>
@@ -106,22 +190,22 @@ const breadcrumbLD = {
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
       <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">
-        Booking engine kami bisa dipakai di properti mana pun — tidak terikat platform, tidak ada biaya lisensi bulanan, dan Anda tetap pegang kontrol penuh atas data reservasi Anda.
+        {tx.outcome}
       </p>
     </div>
   </section>
 
-  <!-- OTA Shift thesis — why booking engine matters -->
+  <!-- OTA Shift thesis -->
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
       <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-        Mengapa Platform-Agnostic Penting?
+        {tx.whyTitle}
       </h2>
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-        Setiap booking via OTA berarti 15–25% komisi keluar dari pendapatan kamar villa Anda. Tujuan integrasi booking engine yang kami install bukan sekadar "punya tombol pesan" — melainkan menggeser 15–30% reservasi dari OTA ke direct booking dalam 90 hari pertama. Setiap pergeseran itu adalah margin recovery permanen: komisi yang sebelumnya keluar, kini tetap di kantong properti Anda.
+        {tx.whyP1}
       </p>
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-        Stack booking engine yang kami deploy adalah milik Anda — bukan milik vendor. Data konversi mengalir bersih kembali ke GA4 Analytics: readable, evaluable, optimizable. Ini yang membuat kampanye Google Ads bisa dioptimasikan terhadap reservasi aktual, bukan sekadar klik.
+        {tx.whyP2}
       </p>
     </div>
   </section>
@@ -130,40 +214,24 @@ const breadcrumbLD = {
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
       <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-        Yang Anda Dapatkan
+        {tx.featuresTitle}
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Install Booking Engine: Milik Alpha atau Pilihan Anda</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-2">Kami install Cloudbeds, SiteMinder, Little Hotelier, STAAH — atau booking engine kami sendiri tanpa biaya lisensi bulanan. Anda pilih, kami kelola.</p>
-            <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-              <span class="font-medium text-charcoal dark:text-white">Platform yang kami support:</span> Cloudbeds, SiteMinder, Little Hotelier, STAAH, dan booking engine Alpha sendiri (open source, tanpa biaya lisensi).
-            </p>
+        {tx.features.map(f => (
+          <div class="flex gap-4 items-start">
+            <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+            <div>
+              <h3 class="font-bold text-charcoal dark:text-white mb-1">{f.title}</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-2">{f.desc}</p>
+              {f.sub && (
+                <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
+                  <span class="font-medium text-charcoal dark:text-white">{isEn ? "Platforms we support:" : "Platform yang kami support:"}</span>{" "}
+                  {isEn ? "Cloudbeds, SiteMinder, Little Hotelier, STAAH, and Alpha's own booking engine (open source, no license fee)." : "Cloudbeds, SiteMinder, Little Hotelier, STAAH, dan booking engine Alpha sendiri (open source, tanpa biaya lisensi)."}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Integrasi PMS dan Channel Manager yang Ada</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Booking engine terhubung ke sistem manajemen properti dan channel manager yang sudah berjalan — tidak perlu buang sistem lama dari awal.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Data Reservasi Langsung Masuk ke Laporan Ads &amp; GA4</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Setiap direct booking terekam sebagai konversi di Google Ads dan GA4 Analytics. Anda tahu persis keyword dan kampanye mana yang menghasilkan reservasi aktual — penting untuk properti luxury hospitality yang mengelola budget marketing besar.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Anda Tetap Pegang Kontrol — Switch Kapan Saja</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Data historis reservasi milik Anda. Kalau ingin ganti platform di kemudian hari, kami fasilitasi migrasi tanpa kehilangan data.</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   </section>
@@ -172,16 +240,16 @@ const breadcrumbLD = {
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
       <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-        Mengapa "Tanpa Lock-In" Penting?
+        {tx.lockinTitle}
       </h2>
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-        Banyak booking engine di pasar Bali adalah model proprietary: Anda bayar lisensi bulanan, data reservasi tersimpan di sistem mereka, dan keluar berarti mulai dari nol.
+        {tx.lockinP1}
       </p>
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-        Alpha Digital mengambil posisi sebaliknya: platform-agnostic. Kami install yang terbaik untuk properti Anda saat ini, dan kalau kebutuhan berubah, Anda tidak terjebak.
+        {tx.lockinP2}
       </p>
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-        Ini juga berarti direct booking data Anda — tamu, riwayat pemesanan, preferensi — tetap milik Anda sepenuhnya.
+        {tx.lockinP3}
       </p>
     </div>
   </section>
@@ -190,17 +258,17 @@ const breadcrumbLD = {
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
       <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-        Hasil yang Bisa Diukur
+        {tx.proofTitle}
       </h2>
       <blockquote class="border-l-4 border-primary pl-6 py-2">
         <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">
-          "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads dan integrasi booking engine."
+          "{tx.proofQuote}"
         </p>
         <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">
-          — Verified client data. Name withheld per client policy.
+          {tx.proofCite}
         </cite>
       </blockquote>
-      <p class="text-slate-500 dark:text-slate-400 text-xs mt-4">Case Study #1 — full breakdown coming soon.</p>
+      <p class="text-slate-500 dark:text-slate-400 text-xs mt-4">{tx.proofNote}</p>
     </div>
   </section>
 
@@ -208,10 +276,10 @@ const breadcrumbLD = {
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
       <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-        Pertanyaan tentang Booking Integration
+        {tx.faqTitle}
       </h2>
       <div class="space-y-6">
-        {faqItems.map((item) => (
+        {tx.faq.map((item) => (
           <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
             <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
             <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
@@ -224,23 +292,23 @@ const breadcrumbLD = {
   <!-- Internal links -->
   <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
     <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
-      Booking engine adalah salah satu pembeda utama <a href="/" class="text-primary font-semibold hover:underline">digital marketing agency Bali for hotels and villas</a>: traffic tidak berhenti di klik, tapi diarahkan ke reservasi langsung yang bisa diukur.
+      <Fragment set:html={tx.seoAnchor} />
     </p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 2</p>
-        <p class="font-bold text-charcoal dark:text-white">Growth →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Google Ads management aktif</p>
+      <a href={isEn ? "/en/services/growth" : "/services/growth"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">{tx.tier2Label}</p>
+        <p class="font-bold text-charcoal dark:text-white">{tx.tier2Title}</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier2Desc}</p>
       </a>
-      <a href="/services/foundation" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 1</p>
-        <p class="font-bold text-charcoal dark:text-white">Foundation →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Tracking yang benar untuk semua channel</p>
+      <a href={isEn ? "/en/services/foundation" : "/services/foundation"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">{tx.tier1Label}</p>
+        <p class="font-bold text-charcoal dark:text-white">{tx.tier1Title}</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier1Desc}</p>
       </a>
-      <a href="/services/authority" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 3</p>
-        <p class="font-bold text-charcoal dark:text-white">Authority →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Semua channel, multi-properti</p>
+      <a href={isEn ? "/en/services/authority" : "/services/authority"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">{tx.tier3Label}</p>
+        <p class="font-bold text-charcoal dark:text-white">{tx.tier3Title}</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier3Desc}</p>
       </a>
     </div>
   </section>
@@ -248,7 +316,7 @@ const breadcrumbLD = {
   <!-- Author byline -->
   <section class="max-w-4xl mx-auto mb-4 px-6 md:px-12">
     <p class="text-xs text-slate-500 dark:text-slate-400">
-      Ditulis oleh <a href="/daniel-santoso/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
+      <Fragment set:html={tx.author} />
     </p>
   </section>
 
@@ -256,17 +324,17 @@ const breadcrumbLD = {
   <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
       <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
-        Siap Pasang Booking Engine?
+        {tx.finalCtaTitle}
       </h2>
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
-        Ceritakan sistem yang ada sekarang. Kami jelaskan opsi integrasi terbaik untuk properti Anda — tanpa commitment awal.
+        {tx.finalCtaDesc}
       </p>
       <a
         href="mailto:daniel@alphadigitalagency.id"
         class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
       >
         <span class="material-symbols-outlined">mail</span>
-        Minta Penawaran
+        {tx.finalCtaButton}
       </a>
     </div>
   </section>

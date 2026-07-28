@@ -55,6 +55,22 @@ function addCSSPreloadHints() {
 				}
 
 				processDir(distPath);
+
+				// Fix _routes.json: remove /images/* from the exclude list so the new
+				// src/pages/images/[...path].ts SSR route can serve R2 images through
+				// the Worker instead of being blocked by Pages static file routing.
+				const routesPath = join(distPath, '_routes.json');
+				try {
+					const routesRaw = readFileSync(routesPath, 'utf-8');
+					const routes = JSON.parse(routesRaw);
+					routes.exclude = routes.exclude.filter(
+						(p) => p !== '/images/*',
+					);
+					writeFileSync(routesPath, JSON.stringify(routes, null, 2), 'utf-8');
+					console.log('[routes] Removed /images/* from exclude list');
+				} catch (e) {
+					console.warn('[routes] Could not patch _routes.json:', e.message);
+				}
 			},
 		},
 	};

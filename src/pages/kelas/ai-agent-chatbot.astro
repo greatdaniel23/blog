@@ -1,5 +1,7 @@
 ---
-export const prerender = true;
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
 import TrackLayout from "../../components/TrackLayout.astro";
 ---
 <TrackLayout

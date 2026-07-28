@@ -1,5 +1,7 @@
 ---
-export const prerender = true;
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
 import "../../styles/global.css";
 import SwissHeader from "../../components/SwissHeader.astro";
 import SwissFooter from "../../components/SwissFooter.astro";
@@ -20,7 +22,7 @@ const chatMessages = [
 ---
 
 <!doctype html>
-<html class="light" lang="id">
+<html class="light" lang={isEn ? 'en' : 'id'}>
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />

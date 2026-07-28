@@ -1,287 +1,214 @@
 ---
-export const prerender = true;
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
 
-const serviceLD = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Growth — Google Ads Management untuk Vila dan Hotel di Bali",
-  "provider": {
-    "@type": "Organization",
-    "name": "Alpha Digital Agency",
-    "url": "https://alphadigitalagency.id"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Daniel Santoso",
-    "url": "https://alphadigitalagency.id/daniel-santoso/#person"
-  },
-  "areaServed": "Bali, Indonesia",
-  "description": "Google Ads management + audit funnel booking langsung dua minggu sekali. Untuk vila dan hotel di Bali yang ingin kurangi ketergantungan OTA.",
-  "serviceType": "Google Ads Management",
-  "url": "https://alphadigitalagency.id/services/growth/"
-};
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
 
-const faqItems = [
-  {
-    q: "Seberapa cepat Google Ads bisa menghasilkan direct booking?",
-    a: "Kampanye yang disetup dengan benar biasanya menghasilkan klik berkualitas dalam 1–2 minggu pertama. Direct booking aktual tergantung pada konversi website dan booking engine Anda. Kami audit titik drop-off dan perbaiki secara berkala."
+const t = {
+  id: {
+    tier: "Tier 2 — Growth",
+    heroH1: "Google Ads yang Bayar Sendiri dari Direct Booking",
+    heroH1End: ".",
+    heroDesc: "Kelola Google Ads dan optimalkan funnel booking langsung — audit dua minggu sekali, bukan laporan setahun sekali.",
+    ctaMail: "Minta Penawaran",
+    outcome: "Kami lihat query pencarian mana yang sudah dapat klik organik gratis — supaya Anda tidak bayar dua kali lewat iklan untuk pengunjung yang sama. Semua diukur lewat GA4 Analytics dan GTM yang sudah dikonfigurasi untuk luxury hospitality — perhotelan mewah yang membutuhkan data konversi akurat.",
+    featuresTitle: "Yang Anda Dapatkan",
+    features: [
+      { title: "Google Ads: Keyword, Bid, dan Creative", desc: "Management kampanye aktif — keyword research ongoing, bid adjustment berbasis data konversi, creative testing. 9 tahun Ads depth untuk hospitality, diperkuat Data Science dan GA4 Analytics untuk properti luxury hospitality Bali." },
+      { title: "Audit Funnel Booking Langsung Dua Minggu Sekali", desc: "Banyak properti tahu berapa yang sudah mereka keluarkan untuk iklan — tapi tidak tahu di titik mana tamu berhenti booking. Kami tunjukkan titik itu, dan kami perbaiki." },
+      { title: "Optimasi Konversi: dari Klik ke Reservasi", desc: "Click-to-reservation rate yang rendah berarti landing page atau booking flow bermasalah. Kami identifikasi dan rekomendasikan perbaikan spesifik." },
+      { title: "Laporan Cadence Konten dan Distribusi Organik", desc: "Kami rekomendasikan topik konten berdasarkan query organik yang sudah ada tapi belum dimonetasi — bukan konten acak." }
+    ],
+    proofTitle: "Hasil yang Bisa Diukur",
+    proofQuote: "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads.",
+    proofCite: "— Verified client data. Name withheld per client policy.",
+    proofNote: "Case Study #1 — full breakdown coming soon.",
+    adsSeoH2: "Google Ads vs. SEO: Kenapa Anda Butuh Keduanya",
+    adsSeoP1: "Banyak pemilik properti bertanya: \"Kalau sudah ada organic traffic, kenapa perlu Ads?\" Atau sebaliknya: \"Kalau Ads sudah jalan, kenapa masih perlu SEO?\"",
+    adsSeoP2: "Jawabannya adalah keduanya mengisi peran berbeda dalam funnel booking Anda. Google Ads menangkap traffic high-intent secara instan — tamu yang sekarang mengetik \"vila Bali available\" dan siap booking. SEO membangun proteksi jangka panjang — brand Anda tidak bisa diambil OTA di slot organik.",
+    adsSeoP3: "Untuk properti vila di Bali, kedua channel bekerja bersama: branded queries terlindungi oleh SEO, high-intent availability queries ditangkap oleh Ads. Kami lihat keduanya dalam satu laporan — supaya budget tidak dibuang dua kali untuk pengunjung yang sama.",
+    adsSeoP4: "Baca lebih lanjut: Foundation — Setup Tracking yang Benar dan Authority — Semua Channel Terhubung.",
+    monthlyTitle: "Yang Kami Manage Setiap Bulan",
+    monthlyDesc: "Transparansi adalah bagian dari layanan. Ini yang dikerjakan setiap bulan dalam manajemen Growth:",
+    monthlyItems: ["Review keyword — identifikasi peluang baru dan term yang buang budget","Bid adjustment berbasis data konversi aktual","Negative keyword audit — hentikan klik yang tidak relevan","Quality Score monitoring per ad group","Review landing page conversion rate","Audit funnel booking dua minggu sekali","Cross-channel review: Ads + organik + booking dalam satu tampilan","Laporan bulanan dengan rekomendasi aksi prioritas"],
+    faqTitle: "Pertanyaan tentang Growth",
+    faq: [
+      { q: "Seberapa cepat Google Ads bisa menghasilkan direct booking?", a: "Kampanye yang disetup dengan benar biasanya menghasilkan klik berkualitas dalam 1–2 minggu pertama. Direct booking aktual tergantung pada konversi website dan booking engine Anda. Kami audit titik drop-off dan perbaiki secara berkala." },
+      { q: "Apa artinya 'bi-weekly audit funnel booking'?", a: "Setiap dua minggu kami review data dari Google Ads, Search Console, dan booking engine bersama-sama — untuk melihat di mana tamu berhenti sebelum booking. Kami identifikasi titik tersebut dan rekomendasikan perbaikan spesifik." },
+      { q: "Apakah saya perlu Growth jika sudah punya agen iklan lain?", a: "Kalau Anda sudah punya agen Ads tapi tidak punya laporan yang menggabungkan Ads + organik + booking dalam satu tempat — ya, ada gap yang signifikan. Kami isi gap itu." },
+      { q: "Kami sudah punya banyak reservasi dari OTA. Kenapa perlu Google Ads?", a: "OTA mengambil 15–30% komisi per booking. Direct booking via Google Ads biasanya cost per acquisition-nya lebih rendah setelah kampanye mature. Tapi lebih dari itu: Anda punya data tamu, OTA tidak kasih itu ke Anda." },
+      { q: "Apakah Growth sudah termasuk setup tracking?", a: "Tracking yang benar adalah prasyarat Growth. Kalau tracking belum ada atau bermasalah, kami rekomendasikan mulai dari Foundation dulu — supaya data Ads yang kami kelola benar-benar akurat." }
+    ],
+    seoAnchor: "Growth adalah bagian dari sistem <a href=\"/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency Bali untuk hospitality</a>: Google Ads, SEO, booking engine, dan tracking bekerja sebagai satu funnel.",
+    tier1Title: "Foundation →", tier1Desc: "Mulai dari tracking yang benar",
+    tier3Title: "Authority →", tier3Desc: "Multi-properti, semua channel",
+    tier4Title: "Booking Engine →", tier4Desc: "Sambungkan Ads ke direct booking",
+    author: "Ditulis oleh <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026",
+    finalTitle: "Mulai dengan Growth",
+    finalDesc: "Kirim email. Kami audit kampanye Ads Anda yang berjalan sekarang dan identifikasi quick wins pertama.",
+    finalCta: "Minta Penawaran",
+    serviceName: "Growth — Google Ads Management untuk Vila dan Hotel di Bali",
+    serviceDesc: "Google Ads management + audit funnel booking langsung dua minggu sekali. Untuk vila dan hotel di Bali yang ingin kurangi ketergantungan OTA.",
+    pageUrl: "https://alphadigitalagency.id/services/growth/"
   },
-  {
-    q: "Apa artinya 'bi-weekly audit funnel booking'?",
-    a: "Setiap dua minggu kami review data dari Google Ads, Search Console, dan booking engine bersama-sama — untuk melihat di mana tamu berhenti sebelum booking. Kami identifikasi titik tersebut dan rekomendasikan perbaikan spesifik."
-  },
-  {
-    q: "Apakah saya perlu Growth jika sudah punya agen iklan lain?",
-    a: "Kalau Anda sudah punya agen Ads tapi tidak punya laporan yang menggabungkan Ads + organik + booking dalam satu tempat — ya, ada gap yang signifikan. Kami isi gap itu."
-  },
-  {
-    q: "Kami sudah punya banyak reservasi dari OTA. Kenapa perlu Google Ads?",
-    a: "OTA mengambil 15–30% komisi per booking. Direct booking via Google Ads biasanya cost per acquisition-nya lebih rendah setelah kampanye mature. Tapi lebih dari itu: Anda punya data tamu, OTA tidak kasih itu ke Anda."
-  },
-  {
-    q: "Apakah Growth sudah termasuk setup tracking?",
-    a: "Tracking yang benar adalah prasyarat Growth. Kalau tracking belum ada atau bermasalah, kami rekomendasikan mulai dari Foundation dulu — supaya data Ads yang kami kelola benar-benar akurat."
+  en: {
+    tier: "Tier 2 — Growth",
+    heroH1: "Google Ads That Pays for Itself Through Direct Bookings",
+    heroH1End: ".",
+    heroDesc: "Google Ads management with bi-weekly booking funnel audits — not annual reports.",
+    ctaMail: "Request a Proposal",
+    outcome: "We identify which search queries already get free organic clicks — so you don't pay twice via ads for the same visitors. Everything is measured through GA4 Analytics and GTM configured for luxury hospitality — high-end hotels requiring accurate conversion data.",
+    featuresTitle: "What You Get",
+    features: [
+      { title: "Google Ads: Keywords, Bids, and Creatives", desc: "Active campaign management — ongoing keyword research, conversion-based bid adjustments, creative testing. 9 years of hospitality Ads depth, powered by Data Science and GA4 Analytics for luxury Bali properties." },
+      { title: "Bi-Weekly Booking Funnel Audits", desc: "Many properties know how much they've spent on ads — but not where guests drop off before booking. We show you that point, and we fix it." },
+      { title: "Conversion Optimization: From Click to Reservation", desc: "A low click-to-reservation rate means your landing page or booking flow has problems. We identify and recommend specific fixes." },
+      { title: "Content Cadence and Organic Distribution Reports", desc: "We recommend content topics based on existing organic queries that are not yet monetized — not random content." }
+    ],
+    proofTitle: "Measurable Results",
+    proofQuote: "A 4-unit Bali villa property — direct bookings up 34% within 90 days after funnel audit and Google Ads optimization.",
+    proofCite: "— Verified client data. Name withheld per client policy.",
+    proofNote: "Case Study #1 — full breakdown coming soon.",
+    adsSeoH2: "Google Ads vs. SEO: Why You Need Both",
+    adsSeoP1: "Many property owners ask: \"If I already have organic traffic, why do I need Ads?\" Or the reverse: \"If Ads are already running, why do I still need SEO?\"",
+    adsSeoP2: "The answer is that both fill different roles in your booking funnel. Google Ads captures high-intent traffic instantly — guests typing \"Bali villa available\" right now and ready to book. SEO builds long-term protection — OTAs cannot take your brand in organic slots.",
+    adsSeoP3: "For Bali villa properties, both channels work together: branded queries are protected by SEO, high-intent availability queries are captured by Ads. We view both in one report — so budget is not wasted twice on the same visitor.",
+    adsSeoP4: "Read more: Foundation — Proper Tracking Setup and Authority — All Channels Connected.",
+    monthlyTitle: "What We Manage Every Month",
+    monthlyDesc: "Transparency is part of the service. Here's what's done each month in Growth management:",
+    monthlyItems: ["Keyword review — identify new opportunities and budget-wasting terms","Bid adjustments based on actual conversion data","Negative keyword audit — stop irrelevant clicks","Quality Score monitoring per ad group","Landing page conversion rate review","Bi-weekly booking funnel audit","Cross-channel review: Ads + organic + booking in one view","Monthly report with priority action recommendations"],
+    faqTitle: "Questions About Growth",
+    faq: [
+      { q: "How quickly can Google Ads generate direct bookings?", a: "Properly set up campaigns typically generate quality clicks within the first 1–2 weeks. Actual direct bookings depend on your website and booking engine conversion. We audit drop-off points and improve them regularly." },
+      { q: "What does 'bi-weekly booking funnel audit' mean?", a: "Every two weeks we review data from Google Ads, Search Console, and your booking engine together — to see where guests stop before booking. We identify those points and recommend specific fixes." },
+      { q: "Do I need Growth if I already have another ad agency?", a: "If you already have an Ads agency but lack reports that combine Ads + organic + booking in one place — yes, there's a significant gap. We fill that gap." },
+      { q: "We already get many reservations from OTAs. Why do we need Google Ads?", a: "OTAs take 15–30% commission per booking. Direct booking via Google Ads typically has a lower cost per acquisition once campaigns mature. But more than that: you own the guest data, OTAs don't give you that." },
+      { q: "Does Growth include tracking setup?", a: "Proper tracking is a prerequisite for Growth. If tracking is missing or broken, we recommend starting with Foundation first — so the Ads data we manage is truly accurate." }
+    ],
+    seoAnchor: "Growth is part of the <a href=\"/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency Bali for hospitality</a> system: Google Ads, SEO, booking engine, and tracking working as one funnel.",
+    tier1Title: "Foundation →", tier1Desc: "Start with proper tracking",
+    tier3Title: "Authority →", tier3Desc: "Multi-property, all channels",
+    tier4Title: "Booking Engine →", tier4Desc: "Connect Ads to direct bookings",
+    author: "Written by <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Last updated: May 2026",
+    finalTitle: "Start with Growth",
+    finalDesc: "Send us an email. We'll audit your current Ads campaigns and identify the first quick wins.",
+    finalCta: "Request a Proposal",
+    serviceName: "Growth — Google Ads Management for Bali Villas and Hotels",
+    serviceDesc: "Google Ads management + bi-weekly booking funnel audits. For Bali villas and hotels looking to reduce OTA dependency.",
+    pageUrl: "https://alphadigitalagency.id/en/services/growth/"
   }
-];
-
-const faqLD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.q,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.a
-    }
-  }))
 };
 
-const breadcrumbLD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
-    { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://alphadigitalagency.id/services/" },
-    { "@type": "ListItem", "position": 3, "name": "Growth", "item": "https://alphadigitalagency.id/services/growth/" }
-  ]
-};
+const tx = t[locale] || t.id;
+
+const serviceLD = { "@context": "https://schema.org", "@type": "Service", "name": tx.serviceName, "provider": { "@type": "Organization", "name": "Alpha Digital Agency", "url": "https://alphadigitalagency.id" }, "author": { "@type": "Person", "name": "Daniel Santoso", "url": "https://alphadigitalagency.id/daniel-santoso/#person" }, "areaServed": "Bali, Indonesia", "description": tx.serviceDesc, "serviceType": "Google Ads Management", "url": tx.pageUrl };
+
+const faqLD = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": tx.faq.map(item => ({ "@type": "Question", "name": item.q, "acceptedAnswer": { "@type": "Answer", "text": item.a } })) };
+
+const breadcrumbLD = { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" }, { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://alphadigitalagency.id/services/" }, { "@type": "ListItem", "position": 3, "name": "Growth", "item": tx.pageUrl } ] };
 ---
 
-<SwissLayout
-  title="Google Ads for Bali Hotels | Alpha Digital"
-  description="Google Ads management for Bali hotels and villas, connected to booking funnel audits, Search Console data, and direct reservation tracking."
-  currentPage="services"
->
+<SwissLayout title={isEn ? "Google Ads for Bali Hotels | Alpha Digital" : "Google Ads for Bali Hotels | Alpha Digital"} description={isEn ? "Google Ads management for Bali hotels and villas, connected to booking funnel audits, Search Console data, and direct reservation tracking." : "Google Ads management for Bali hotels and villas, connected to booking funnel audits, Search Console data, and direct reservation tracking."} currentPage="services">
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(serviceLD)} />
     <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
   </Fragment>
 
-  <!-- Hero -->
   <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
-    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">Tier 2 — Growth</p>
-    <h1
-      class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6"
-    >
-      Google Ads yang Bayar Sendiri dari Direct Booking<span class="text-primary">.</span>
+    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.tier}</p>
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6">
+      {tx.heroH1}<span class="text-primary">{tx.heroH1End}</span>
     </h1>
-    <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-      Kelola Google Ads dan optimalkan funnel booking langsung — audit dua minggu sekali, bukan laporan setahun sekali.
-    </p>
+    <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">{tx.heroDesc}</p>
     <div class="mt-8">
-      <a
-        href="mailto:daniel@alphadigitalagency.id"
-        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-      >
-        <span class="material-symbols-outlined">mail</span>
-        Minta Penawaran
+      <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest">
+        <span class="material-symbols-outlined">mail</span>{tx.ctaMail}
       </a>
     </div>
   </section>
 
-  <!-- Outcome statement -->
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
-      <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">
-        Kami lihat query pencarian mana yang sudah dapat klik organik gratis — supaya Anda tidak bayar dua kali lewat iklan untuk pengunjung yang sama. Semua diukur lewat GA4 Analytics dan GTM yang sudah dikonfigurasi untuk luxury hospitality — perhotelan mewah yang membutuhkan data konversi akurat.
-      </p>
+      <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">{tx.outcome}</p>
     </div>
   </section>
 
-  <!-- Features -->
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-        Yang Anda Dapatkan
-      </h2>
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.featuresTitle}</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Google Ads: Keyword, Bid, dan Creative</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Management kampanye aktif — keyword research ongoing, bid adjustment berbasis data konversi, creative testing. 9 tahun Ads depth untuk hospitality, diperkuat Data Science dan GA4 Analytics untuk properti luxury hospitality Bali.</p>
+        {tx.features.map(f => (
+          <div class="flex gap-4 items-start">
+            <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+            <div><h3 class="font-bold text-charcoal dark:text-white mb-1">{f.title}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{f.desc}</p></div>
           </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Audit Funnel Booking Langsung Dua Minggu Sekali</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Banyak properti tahu berapa yang sudah mereka keluarkan untuk iklan — tapi tidak tahu di titik mana tamu berhenti booking. Kami tunjukkan titik itu, dan kami perbaiki.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Optimasi Konversi: dari Klik ke Reservasi</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Click-to-reservation rate yang rendah berarti landing page atau booking flow bermasalah. Kami identifikasi dan rekomendasikan perbaikan spesifik.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Laporan Cadence Konten dan Distribusi Organik</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Kami rekomendasikan topik konten berdasarkan query organik yang sudah ada tapi belum dimonetasi — bukan konten acak.</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Proof anchor -->
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-        Hasil yang Bisa Diukur
-      </h2>
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">{tx.proofTitle}</h2>
       <blockquote class="border-l-4 border-primary pl-6 py-2">
-        <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">
-          "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads."
-        </p>
-        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">
-          — Verified client data. Name withheld per client policy.
-        </cite>
+        <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">"{tx.proofQuote}"</p>
+        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">{tx.proofCite}</cite>
       </blockquote>
-      <p class="text-slate-500 dark:text-slate-400 text-xs mt-4">Case Study #1 — full breakdown coming soon.</p>
+      <p class="text-slate-500 dark:text-slate-400 text-xs mt-4">{tx.proofNote}</p>
     </div>
   </section>
 
-  <!-- Google Ads vs SEO section (P1-10 new H2) -->
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-        Google Ads vs. SEO: Kenapa Anda Butuh Keduanya
-      </h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-        Banyak pemilik properti bertanya: "Kalau sudah ada organic traffic, kenapa perlu Ads?" Atau sebaliknya: "Kalau Ads sudah jalan, kenapa masih perlu SEO?"
-      </p>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-        Jawabannya adalah keduanya mengisi peran berbeda dalam funnel booking Anda. <strong class="text-charcoal dark:text-white">Google Ads</strong> menangkap traffic high-intent secara instan — tamu yang sekarang mengetik "vila Bali available" dan siap booking. <strong class="text-charcoal dark:text-white">SEO</strong> membangun proteksi jangka panjang — brand Anda tidak bisa diambil OTA di slot organik.
-      </p>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-        Untuk properti vila di Bali, kedua channel bekerja bersama: branded queries terlindungi oleh SEO, high-intent availability queries ditangkap oleh Ads. Kami lihat keduanya dalam satu laporan — supaya budget tidak dibuang dua kali untuk pengunjung yang sama.
-      </p>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-        Baca lebih lanjut: <a href="/services/foundation/" class="text-primary underline hover:no-underline">Foundation — Setup Tracking yang Benar</a> dan <a href="/services/authority/" class="text-primary underline hover:no-underline">Authority — Semua Channel Terhubung</a>.
-      </p>
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">{tx.adsSeoH2}</h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{tx.adsSeoP1}</p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{tx.adsSeoP2}</p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{tx.adsSeoP3}</p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">{tx.adsSeoP4}</p>
     </div>
   </section>
 
-  <!-- Yang Kami Manage Setiap Bulan checklist (P1-10 new H2) -->
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-        Yang Kami Manage Setiap Bulan
-      </h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-        Transparansi adalah bagian dari layanan. Ini yang dikerjakan setiap bulan dalam manajemen Growth:
-      </p>
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">{tx.monthlyTitle}</h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">{tx.monthlyDesc}</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {[
-          "Review keyword — identifikasi peluang baru dan term yang buang budget",
-          "Bid adjustment berbasis data konversi aktual",
-          "Negative keyword audit — hentikan klik yang tidak relevan",
-          "Quality Score monitoring per ad group",
-          "Review landing page conversion rate",
-          "Audit funnel booking dua minggu sekali",
-          "Cross-channel review: Ads + organik + booking dalam satu tampilan",
-          "Laporan bulanan dengan rekomendasi aksi prioritas",
-        ].map(item => (
-          <div class="flex items-start gap-3">
-            <div class="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item}</p>
-          </div>
+        {tx.monthlyItems.map(item => (
+          <div class="flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item}</p></div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
   <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-        Pertanyaan tentang Growth
-      </h2>
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.faqTitle}</h2>
       <div class="space-y-6">
-        {faqItems.map((item) => (
-          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
-            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
-          </div>
-        ))}
+        {tx.faq.map((item) => (<div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0"><h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p></div>))}
       </div>
     </div>
   </section>
 
-  <!-- Internal links -->
   <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
-    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
-      Growth adalah bagian dari sistem <a href="/" class="text-primary font-semibold hover:underline">digital marketing agency Bali untuk hospitality</a>: Google Ads, SEO, booking engine, dan tracking bekerja sebagai satu funnel.
-    </p>
+    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center"><Fragment set:html={tx.seoAnchor} /></p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <a href="/services/foundation" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 1</p>
-        <p class="font-bold text-charcoal dark:text-white">Foundation →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Mulai dari tracking yang benar</p>
-      </a>
-      <a href="/services/authority" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 3</p>
-        <p class="font-bold text-charcoal dark:text-white">Authority →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Multi-properti, semua channel</p>
-      </a>
-      <a href="/services/booking-integration" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 4</p>
-        <p class="font-bold text-charcoal dark:text-white">Booking Engine →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Sambungkan Ads ke direct booking</p>
-      </a>
+      <a href={isEn ? "/en/services/foundation" : "/services/foundation"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 1</p><p class="font-bold text-charcoal dark:text-white">{tx.tier1Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier1Desc}</p></a>
+      <a href={isEn ? "/en/services/authority" : "/services/authority"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 3</p><p class="font-bold text-charcoal dark:text-white">{tx.tier3Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier3Desc}</p></a>
+      <a href={isEn ? "/en/services/booking-integration" : "/services/booking-integration"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 4</p><p class="font-bold text-charcoal dark:text-white">{tx.tier4Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier4Desc}</p></a>
     </div>
   </section>
 
-  <!-- Author byline -->
   <section class="max-w-4xl mx-auto mb-4 px-6 md:px-12">
-    <p class="text-xs text-slate-500 dark:text-slate-400">
-      Ditulis oleh <a href="/daniel-santoso/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
-    </p>
+    <p class="text-xs text-slate-500 dark:text-slate-400"><Fragment set:html={tx.author} /></p>
   </section>
 
-  <!-- Final CTA -->
   <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
-        Mulai dengan Growth
-      </h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
-        Kirim email. Kami audit kampanye Ads Anda yang berjalan sekarang dan identifikasi quick wins pertama.
-      </p>
-      <a
-        href="mailto:daniel@alphadigitalagency.id"
-        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-      >
-        <span class="material-symbols-outlined">mail</span>
-        Minta Penawaran
-      </a>
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">{tx.finalTitle}</h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">{tx.finalDesc}</p>
+      <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.finalCta}</a>
     </div>
   </section>
 </SwissLayout>

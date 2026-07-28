@@ -3,6 +3,17 @@ import { defineMiddleware } from 'astro:middleware';
 export const onRequest = defineMiddleware(async (context, next) => {
     const { url, cookies, locals, request } = context;
 
+    // ── Locale detection ──────────────────────────────────────────────────────
+    // worker.ts rewrites /en/* → /* and sets X-Locale: en for English routes.
+    // Read it here so components/SwissLayout can reference Astro.locals.locale
+    // for the <html lang="..."> attribute.
+    const xLocale = request.headers.get('X-Locale');
+    if (xLocale === 'en') {
+        (locals as any).locale = 'en';
+    } else {
+        (locals as any).locale = 'id';
+    }
+
     // ── No-trailing-slash canonicalization (301) ─────────────────────────────
     // SAFE re-implementation of no-slash canonicalization WITHOUT flipping the
     // astro.config `trailingSlash` flag (which broke SSR dynamic-route param

@@ -34,8 +34,19 @@ const ga4Id: string = (import.meta.env.PUBLIC_GA4_ID as string | undefined) || '
 // Force a single leading slash so a "//evil.com/" pathname can't produce a
 // cross-origin canonical/og:url (WARDEN hard-fail 2026-06-09, same root cause
 // as the middleware open-redirect).
-const canonicalPath = "/" + Astro.url.pathname.replace(/^[/\\]+/, "");
-const canonicalURL = new URL(canonicalPath, Astro.site ?? SITE_URL);
+//
+// i18n: worker.ts rewrites /en/* → /* and sets X-Locale header. Astro.url.pathname
+// reflects the rewritten path (without /en/). We reconstruct the locale-prefixed
+// path for canonical and hreflang so Google sees distinct language versions.
+const rawPath = "/" + Astro.url.pathname.replace(/^[/\\]+/, "").replace(/\/+$/, "") || "/";
+const pageLocale = ((Astro.locals as any).locale as string) || 'id';
+const isPageEn = pageLocale === 'en';
+// For EN pages, canonical must include /en prefix. For ID, no prefix (x-default).
+const canonicalPath = isPageEn ? `/en${rawPath === '/' ? '' : rawPath}` : rawPath;
+const canonicalURL = new URL(canonicalPath || '/', Astro.site ?? SITE_URL);
+// The alternate (other locale) URL
+const altPath = isPageEn ? rawPath : `/en${rawPath === '/' ? '' : rawPath}`;
+const altURL = new URL(altPath || '/', Astro.site ?? SITE_URL);
 
 let isPagesDevHost = false;
 try {
@@ -124,7 +135,7 @@ const professionalServiceLD = {
 ---
 
 <!doctype html>
-<html class="light" lang="id">
+<html class="light" lang={Astro.locals.locale === 'en' ? 'en' : 'id'}>
     <head>
         <meta charset="utf-8" />
         <meta
@@ -136,6 +147,10 @@ const professionalServiceLD = {
         <meta name="description" content={description} />
         <meta name="robots" content={robotsContent} />
         <link rel="canonical" href={canonicalURL.href} />
+        {/* hreflang: tell Google these are language alternates, not duplicates */}
+        <link rel="alternate" hreflang="id" href={isPageEn ? altURL.href : canonicalURL.href} />
+        <link rel="alternate" hreflang="en" href={isPageEn ? canonicalURL.href : altURL.href} />
+        <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${rawPath === '/' ? '' : rawPath}`} />
         <link rel="sitemap" href="/sitemap.xml" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" />

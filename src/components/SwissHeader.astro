@@ -5,12 +5,22 @@ interface Props {
 
 const { currentPage = "" } = Astro.props;
 
+const locale = ((Astro.locals as any).locale as string) || 'id';
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+
 const navItems = [
-    { href: "/", label: "Home", key: "home" },
-    { href: "/services/growth/", label: "Services", key: "services" },
-    { href: "/ekosistem/", label: "Ekosistem", key: "ekosistem" },
-    { href: "/ai-agent/", label: "AI Agent", key: "ai-agent" },
-    { href: "/about/", label: "About", key: "about" },
+    { href: `${prefix}/`, label: "Home", key: "home" },
+    { href: `${prefix}/services/growth/`, label: isEn ? "Services" : "Layanan", key: "services", children: [
+        { href: `${prefix}/services/booking-integration/`, label: isEn ? "Direct Booking" : "Direct Booking" },
+        { href: `${prefix}/ai-agent/`, label: isEn ? "AI Concierge 24/7" : "AI Concierge 24/7" },
+        { href: `${prefix}/booking-engine/`, label: isEn ? "Enhance SEO Villa" : "Tingkatkan SEO Villa" },
+        { href: `${prefix}/services/foundation/`, label: isEn ? "Revenue Analytics" : "Analitik Revenue" },
+        { href: `${prefix}/services/growth/`, label: isEn ? "Google Ads ROAS" : "Google Ads ROAS" },
+    ]},
+    { href: `${prefix}/ekosistem/`, label: isEn ? "Ecosystem" : "Ekosistem", key: "ekosistem" },
+    { href: `${prefix}/ai-agent/`, label: "AI Agent", key: "ai-agent" },
+    { href: `${prefix}/about/`, label: "About", key: "about" },
 ];
 ---
 
@@ -27,23 +37,51 @@ const navItems = [
 
     <!-- Desktop Navigation -->
     <nav
-        class="hidden md:flex gap-8 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-700 dark:text-slate-300"
+        class="hidden md:flex gap-6 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-700 dark:text-slate-300"
         aria-label="Main navigation"
     >
         {
             navItems.map((item) => (
-                <a
-                    href={item.href}
-                    aria-current={currentPage === item.key ? "page" : undefined}
-                    class:list={[
-                        "transition-colors py-1 text-slate-700 dark:text-slate-300",
-                        currentPage === item.key
-                            ? "text-primary border-b-2 border-primary"
-                            : "hover:text-primary",
-                    ]}
-                >
-                    {item.label}
-                </a>
+                item.children ? (
+                    <div class="relative group">
+                        <a
+                            href={item.href}
+                            aria-current={currentPage === item.key ? "page" : undefined}
+                            class:list={[
+                                "transition-colors py-1 text-slate-700 dark:text-slate-300 inline-flex items-center gap-1",
+                                currentPage === item.key
+                                    ? "text-primary border-b-2 border-primary"
+                                    : "hover:text-primary",
+                            ]}
+                        >
+                            {item.label}
+                            <svg class="w-3 h-3 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </a>
+                        <div class="absolute top-full left-0 mt-1 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium py-2 min-w-[180px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                            {item.children.map((child) => (
+                                <a
+                                    href={child.href}
+                                    class="block px-4 py-2 text-[10px] text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-primary/5 transition-colors"
+                                >
+                                    {child.label}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <a
+                        href={item.href}
+                        aria-current={currentPage === item.key ? "page" : undefined}
+                        class:list={[
+                            "transition-colors py-1 text-slate-700 dark:text-slate-300",
+                            currentPage === item.key
+                                ? "text-primary border-b-2 border-primary"
+                                : "hover:text-primary",
+                        ]}
+                    >
+                        {item.label}
+                    </a>
+                )
             ))
         }
     </nav>
@@ -84,23 +122,33 @@ const navItems = [
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
     </button>
     <nav
-        class="flex flex-col items-center justify-center h-full gap-2"
+        class="flex flex-col items-center justify-center h-full gap-2 overflow-y-auto py-20"
         aria-label="Mobile navigation"
     >
         {
             navItems.map((item) => (
-                <a
-                    href={item.href}
-                    aria-current={currentPage === item.key ? "page" : undefined}
-                    class:list={[
-                        "flex items-center justify-center px-8 py-3 text-lg font-bold uppercase tracking-widest transition-colors",
-                        currentPage === item.key
-                            ? "text-primary"
-                            : "text-charcoal dark:text-white hover:text-primary",
-                    ]}
-                >
-                    {item.label}
-                </a>
+                <>
+                    <a
+                        href={item.href}
+                        aria-current={currentPage === item.key ? "page" : undefined}
+                        class:list={[
+                            "flex items-center justify-center px-8 py-3 text-lg font-bold uppercase tracking-widest transition-colors",
+                            currentPage === item.key
+                                ? "text-primary"
+                                : "text-charcoal dark:text-white hover:text-primary",
+                        ]}
+                    >
+                        {item.label}
+                    </a>
+                    {item.children && item.children.map((child) => (
+                        <a
+                            href={child.href}
+                            class="flex items-center justify-center px-8 py-2 text-sm text-slate-500 dark:text-slate-400 hover:text-primary transition-colors"
+                        >
+                            {child.label}
+                        </a>
+                    ))}
+                </>
             ))
         }
         <!-- Mobile Language Toggle -->

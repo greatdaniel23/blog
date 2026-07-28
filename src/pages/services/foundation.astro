@@ -1,239 +1,53 @@
 ---
-export const prerender = true;
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
 
-const serviceLD = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Foundation — Data Tracking & Analytics untuk Vila dan Hotel di Bali",
-  "provider": {
-    "@type": "Organization",
-    "name": "Alpha Digital Agency",
-    "url": "https://alphadigitalagency.id"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Daniel Santoso",
-    "url": "https://alphadigitalagency.id/daniel-santoso/#person"
-  },
-  "areaServed": "Bali, Indonesia",
-  "description": "Setup GA4, GTM, dan Google Search Console yang benar sebelum Anda scale budget iklan. Laporan bulanan lintas channel untuk properti hospitality di Bali.",
-  "serviceType": "Digital Marketing",
-  "url": "https://alphadigitalagency.id/services/foundation/"
-};
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
 
-const faqItems = [
-  {
-    q: "Mengapa tracking harus benar sebelum saya jalankan Google Ads?",
-    a: "Tanpa tracking yang benar, Anda tidak tahu konversi mana yang berasal dari iklan, organik, atau langsung. Budget Ads bisa terbuang ke keyword yang salah selama berbulan-bulan tanpa terdeteksi."
+const t = {
+  id: { tier:"Tier 1 — Foundation", heroH1:"Start With Clean Data", heroH1End:".", heroDesc:"Tracking yang benar, laporan bulanan lintas channel, dan satu area fokus pertama — pondasi sebelum Anda scale.", ctaMail:"Minta Penawaran",
+    outcome:"Kami gabungkan data Maps, iklan Google, dan pencarian organik dalam satu laporan — jadi Anda tahu persis channel mana yang paling banyak drive reservasi langsung bulan ini. Dirancang khusus untuk perhotelan mewah di Bali — luxury hospitality properties yang tidak bisa menebak data.",
+    featuresTitle:"Yang Anda Dapatkan", features:[{title:"Setup GA4 & Search Console yang Benar",desc:"Event tracking hospitality-specific: booking inquiry, form submit, phone click. Bukan setup default yang kehilangan 60% data konversi."},{title:"Laporan Bulanan: Iklan + Organik + Booking",desc:"Satu laporan yang menggabungkan Google Ads, Search Console, dan data booking — bukan tiga tab Excel terpisah."},{title:"Audit Google Business Profile & Maps",desc:"Visibilitas di Google Maps berdampak langsung pada reservasi langsung. Kami audit dan optimalkan profil properti Anda."},{title:"Satu Area Fokus: Ads, SEO, atau Konten",desc:"Berdasarkan audit data awal, kami rekomendasikan satu area yang paling berdampak untuk properti Anda — bukan coba semua sekaligus."}],
+    proofTitle:"Hasil yang Bisa Diukur", proofQuote:"Properti vila Bali dengan 4 unit — setelah setup tracking Foundation + optimasi Google Ads Growth + integrasi booking engine, client berhasil recovery 34% direct booking yang sebelumnya tidak tertracking. Foundation adalah lapisan pertama yang memungkinkan angka itu terlihat — dan dioptimalkan.", proofCite:"— Verified client data. Name withheld per client policy.", proofNote:"Case Study #1 — full breakdown coming soon. Diukur via GA4 direct booking conversion tracking (90-hari window, Month 1 baseline vs Month 3 result).",
+    faqTitle:"Pertanyaan tentang Foundation", faq:[{q:"Mengapa tracking harus benar sebelum saya jalankan Google Ads?",a:"Tanpa tracking yang benar, Anda tidak tahu konversi mana yang berasal dari iklan, organik, atau langsung. Budget Ads bisa terbuang ke keyword yang salah selama berbulan-bulan tanpa terdeteksi."},{q:"Apa saja yang termasuk dalam setup GA4 untuk hotel?",a:"Setup GA4 untuk properti hospitality mencakup: event tracking (begin_checkout, purchase, form_submit), conversion goal konfigurasi, channel grouping yang benar, dan integrasi dengan Google Ads dan Search Console."},{q:"Apa bedanya Foundation dengan layanan Growth?",a:"Foundation adalah pondasi — setup tracking, laporan baseline, dan satu area fokus. Growth adalah execution layer: Google Ads management aktif + audit funnel booking dua minggu sekali. Foundation biasanya diambil dulu sebelum Growth."},{q:"Apakah saya perlu tech background untuk menggunakan laporan Foundation?",a:"Tidak. Laporan kami dirancang untuk pemilik properti dan GM — bukan untuk developer. Kami sederhanakan data menjadi insight yang bisa langsung diambil tindakan."},{q:"Berapa lama setup Foundation selesai?",a:"Biasanya 2–3 minggu untuk setup lengkap: audit tracking yang ada, perbaikan, setup baru, dan verifikasi data. Laporan pertama dikirim di akhir bulan pertama."}],
+    seoAnchor:"Foundation adalah lapisan tracking dari <a href=\"/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency Bali untuk hospitality</a>: sebelum scale iklan, data booking dan attribution harus benar dulu.",
+    tier2Title:"Growth →",tier2Desc:"Google Ads + audit funnel booking",tier3Title:"Authority →",tier3Desc:"Semua channel, satu laporan",tier4Title:"Booking Engine →",tier4Desc:"Install & kelola, tanpa lock-in",
+    author:"Ditulis oleh <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026",
+    finalTitle:"Mulai dengan Foundation",finalDesc:"Kirim email ke kami. Kami audit situasi tracking properti Anda sekarang — gratis, tanpa komitmen.",finalCta:"Minta Penawaran",
+    serviceName:"Foundation — Data Tracking & Analytics untuk Vila dan Hotel di Bali",serviceDesc:"Setup GA4, GTM, dan Google Search Console yang benar sebelum Anda scale budget iklan. Laporan bulanan lintas channel untuk properti hospitality di Bali.",pageUrl:"https://alphadigitalagency.id/services/foundation/"
   },
-  {
-    q: "Apa saja yang termasuk dalam setup GA4 untuk hotel?",
-    a: "Setup GA4 untuk properti hospitality mencakup: event tracking (begin_checkout, purchase, form_submit), conversion goal konfigurasi, channel grouping yang benar, dan integrasi dengan Google Ads dan Search Console."
-  },
-  {
-    q: "Apa bedanya Foundation dengan layanan Growth?",
-    a: "Foundation adalah pondasi — setup tracking, laporan baseline, dan satu area fokus. Growth adalah execution layer: Google Ads management aktif + audit funnel booking dua minggu sekali. Foundation biasanya diambil dulu sebelum Growth."
-  },
-  {
-    q: "Apakah saya perlu tech background untuk menggunakan laporan Foundation?",
-    a: "Tidak. Laporan kami dirancang untuk pemilik properti dan GM — bukan untuk developer. Kami sederhanakan data menjadi insight yang bisa langsung diambil tindakan."
-  },
-  {
-    q: "Berapa lama setup Foundation selesai?",
-    a: "Biasanya 2–3 minggu untuk setup lengkap: audit tracking yang ada, perbaikan, setup baru, dan verifikasi data. Laporan pertama dikirim di akhir bulan pertama."
+  en: { tier:"Tier 1 — Foundation", heroH1:"Start With Clean Data", heroH1End:".", heroDesc:"Proper tracking, monthly cross-channel reports, and one focus area first — the foundation before you scale.", ctaMail:"Request a Proposal",
+    outcome:"We combine Maps, Google Ads, and organic search data in one report — so you know exactly which channel drives the most direct reservations this month. Built for luxury hospitality in Bali — properties that cannot guess their data.",
+    featuresTitle:"What You Get", features:[{title:"Proper GA4 & Search Console Setup",desc:"Hospitality-specific event tracking: booking inquiry, form submit, phone click. Not the default setup that misses 60% of conversion data."},{title:"Monthly Reports: Ads + Organic + Booking",desc:"One report combining Google Ads, Search Console, and booking data — not three separate Excel tabs."},{title:"Google Business Profile & Maps Audit",desc:"Maps visibility directly impacts direct reservations. We audit and optimize your property profile."},{title:"One Focus Area: Ads, SEO, or Content",desc:"Based on initial data audit, we recommend the single highest-impact area for your property — not trying everything at once."}],
+    proofTitle:"Measurable Results", proofQuote:"A 4-unit Bali villa property — after Foundation tracking setup + Growth Google Ads optimization + booking engine integration, the client recovered 34% of direct bookings that were previously untracked. Foundation is the first layer that made that number visible — and optimizable.", proofCite:"— Verified client data. Name withheld per client policy.", proofNote:"Case Study #1 — full breakdown coming soon. Measured via GA4 direct booking conversion tracking (90-day window, Month 1 baseline vs Month 3 result).",
+    faqTitle:"Questions About Foundation", faq:[{q:"Why does tracking need to be correct before I run Google Ads?",a:"Without proper tracking, you don't know which conversions come from ads, organic, or direct. Ad budget can be wasted on wrong keywords for months without detection."},{q:"What's included in GA4 setup for hotels?",a:"GA4 setup for hospitality properties includes: event tracking (begin_checkout, purchase, form_submit), conversion goal configuration, proper channel grouping, and integration with Google Ads and Search Console."},{q:"What's the difference between Foundation and Growth?",a:"Foundation is the foundation — tracking setup, baseline reports, and one focus area. Growth is the execution layer: active Google Ads management + bi-weekly booking funnel audits. Foundation is typically taken before Growth."},{q:"Do I need a tech background to use Foundation reports?",a:"No. Our reports are designed for property owners and GMs — not developers. We simplify data into actionable insights."},{q:"How long does Foundation setup take?",a:"Typically 2–3 weeks for complete setup: audit existing tracking, fixes, new setup, and data verification. The first report is delivered at the end of the first month."}],
+    seoAnchor:"Foundation is the tracking layer of <a href=\"/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency Bali for hospitality</a>: before scaling ads, booking data and attribution must be correct.",
+    tier2Title:"Growth →",tier2Desc:"Google Ads + funnel audit",tier3Title:"Authority →",tier3Desc:"All channels, one report",tier4Title:"Booking Engine →",tier4Desc:"Install & manage, no lock-in",
+    author:"Written by <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Last updated: May 2026",
+    finalTitle:"Start with Foundation",finalDesc:"Send us an email. We'll audit your current tracking situation — free, no commitment.",finalCta:"Request a Proposal",
+    serviceName:"Foundation — Data Tracking & Analytics for Bali Villas and Hotels",serviceDesc:"GA4, GTM, and Google Search Console setup done right before you scale ad spend. Monthly cross-channel reports for hospitality properties in Bali.",pageUrl:"https://alphadigitalagency.id/en/services/foundation/"
   }
-];
-
-const faqLD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.q,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.a
-    }
-  }))
 };
 
-const breadcrumbLD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
-    { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://alphadigitalagency.id/services/" },
-    { "@type": "ListItem", "position": 3, "name": "Foundation", "item": "https://alphadigitalagency.id/services/foundation/" }
-  ]
-};
+const tx = t[locale] || t.id;
+const serviceLD = { "@context":"https://schema.org","@type":"Service","name":tx.serviceName,"provider":{"@type":"Organization","name":"Alpha Digital Agency","url":"https://alphadigitalagency.id"},"author":{"@type":"Person","name":"Daniel Santoso","url":"https://alphadigitalagency.id/daniel-santoso/#person"},"areaServed":"Bali, Indonesia","description":tx.serviceDesc,"serviceType":"Digital Marketing","url":tx.pageUrl };
+const faqLD = { "@context":"https://schema.org","@type":"FAQPage","mainEntity":tx.faq.map(item=>({"@type":"Question","name":item.q,"acceptedAnswer":{"@type":"Answer","text":item.a}})) };
+const breadcrumbLD = { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{ "@type":"ListItem","position":1,"name":"Home","item":"https://alphadigitalagency.id/" },{ "@type":"ListItem","position":2,"name":"Services","item":"https://alphadigitalagency.id/services/" },{ "@type":"ListItem","position":3,"name":"Foundation","item":tx.pageUrl }] };
 ---
 
-<SwissLayout
-  title="GA4 &amp; Tracking Setup Bali | Alpha Digital"
-  description="GA4, GTM, and Search Console setup for Bali hotels and villas, built before ad spend scales so booking and inquiry data can be trusted."
-  currentPage="services"
->
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(serviceLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
-  </Fragment>
-
-  <!-- Hero -->
-  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
-    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">Tier 1 — Foundation</p>
-    <h1
-      class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6"
-    >
-      Start With Clean Data<span class="text-primary">.</span>
-    </h1>
-    <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-      Tracking yang benar, laporan bulanan lintas channel, dan satu area fokus pertama — pondasi sebelum Anda scale.
-    </p>
-    <div class="mt-8">
-      <a
-        href="mailto:daniel@alphadigitalagency.id"
-        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-      >
-        <span class="material-symbols-outlined">mail</span>
-        Minta Penawaran
-      </a>
-    </div>
-  </section>
-
-  <!-- Outcome statement -->
-  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
-    <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
-      <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">
-        Kami gabungkan data Maps, iklan Google, dan pencarian organik dalam satu laporan — jadi Anda tahu persis channel mana yang paling banyak drive reservasi langsung bulan ini. Dirancang khusus untuk perhotelan mewah di Bali — luxury hospitality properties yang tidak bisa menebak data.
-      </p>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-        Yang Anda Dapatkan
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Setup GA4 &amp; Search Console yang Benar</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Event tracking hospitality-specific: booking inquiry, form submit, phone click. Bukan setup default yang kehilangan 60% data konversi.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Laporan Bulanan: Iklan + Organik + Booking</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Satu laporan yang menggabungkan Google Ads, Search Console, dan data booking — bukan tiga tab Excel terpisah.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Audit Google Business Profile &amp; Maps</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Visibilitas di Google Maps berdampak langsung pada reservasi langsung. Kami audit dan optimalkan profil properti Anda.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Satu Area Fokus: Ads, SEO, atau Konten</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Berdasarkan audit data awal, kami rekomendasikan satu area yang paling berdampak untuk properti Anda — bukan coba semua sekaligus.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Proof anchor -->
-  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-        Hasil yang Bisa Diukur
-      </h2>
-      <blockquote class="border-l-4 border-primary pl-6 py-2">
-        <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">
-          "Properti vila Bali dengan 4 unit — setelah setup tracking Foundation + optimasi Google Ads Growth + integrasi booking engine, client berhasil recovery 34% direct booking yang sebelumnya tidak tertracking. Foundation adalah lapisan pertama yang memungkinkan angka itu terlihat — dan dioptimalkan."
-        </p>
-        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">
-          — Verified client data. Name withheld per client policy.
-        </cite>
-      </blockquote>
-      <p class="text-slate-500 dark:text-slate-400 text-xs mt-4">
-        Case Study #1 — full breakdown coming soon. Diukur via GA4 direct booking conversion tracking (90-hari window, Month 1 baseline vs Month 3 result).
-      </p>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-        Pertanyaan tentang Foundation
-      </h2>
-      <div class="space-y-6">
-        {faqItems.map((item) => (
-          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
-            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Internal links to other tiers -->
-  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
-    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
-      Foundation adalah lapisan tracking dari <a href="/" class="text-primary font-semibold hover:underline">digital marketing agency Bali untuk hospitality</a>: sebelum scale iklan, data booking dan attribution harus benar dulu.
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 2</p>
-        <p class="font-bold text-charcoal dark:text-white">Growth →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Google Ads + audit funnel booking</p>
-      </a>
-      <a href="/services/authority" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 3</p>
-        <p class="font-bold text-charcoal dark:text-white">Authority →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Semua channel, satu laporan</p>
-      </a>
-      <a href="/services/booking-integration" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 4</p>
-        <p class="font-bold text-charcoal dark:text-white">Booking Engine →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Install &amp; kelola, tanpa lock-in</p>
-      </a>
-    </div>
-  </section>
-
-  <!-- Author byline -->
-  <section class="max-w-4xl mx-auto mb-4 px-6 md:px-12">
-    <p class="text-xs text-slate-500 dark:text-slate-400">
-      Ditulis oleh <a href="/daniel-santoso/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
-    </p>
-  </section>
-
-  <!-- Final CTA -->
-  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
-        Mulai dengan Foundation
-      </h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
-        Kirim email ke kami. Kami audit situasi tracking properti Anda sekarang — gratis, tanpa komitmen.
-      </p>
-      <a
-        href="mailto:daniel@alphadigitalagency.id"
-        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-      >
-        <span class="material-symbols-outlined">mail</span>
-        Minta Penawaran
-      </a>
-    </div>
-  </section>
+<SwissLayout title={isEn?"GA4 & Tracking Setup Bali | Alpha Digital":"GA4 & Tracking Setup Bali | Alpha Digital"} description={isEn?"GA4, GTM, and Search Console setup for Bali hotels and villas, built before ad spend scales so booking and inquiry data can be trusted.":"GA4, GTM, and Search Console setup for Bali hotels and villas, built before ad spend scales so booking and inquiry data can be trusted."} currentPage="services">
+  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(serviceLD)} /><script type="application/ld+json" set:html={JSON.stringify(faqLD)} /><script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} /></Fragment>
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.tier}</p><h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6">{tx.heroH1}<span class="text-primary">{tx.heroH1End}</span></h1><p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">{tx.heroDesc}</p><div class="mt-8"><a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.ctaMail}</a></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8"><p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">{tx.outcome}</p></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.featuresTitle}</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-6">{tx.features.map(f=>(<div class="flex gap-4 items-start"><div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div><div><h3 class="font-bold text-charcoal dark:text-white mb-1">{f.title}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{f.desc}</p></div></div>))}</div></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">{tx.proofTitle}</h2><blockquote class="border-l-4 border-primary pl-6 py-2"><p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">"{tx.proofQuote}"</p><cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">{tx.proofCite}</cite></blockquote><p class="text-slate-500 dark:text-slate-400 text-xs mt-4">{tx.proofNote}</p></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.faqTitle}</h2><div class="space-y-6">{tx.faq.map((item)=>(<div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0"><h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p></div>))}</div></div></section>
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12"><p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center"><Fragment set:html={tx.seoAnchor} /></p><div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <a href={isEn?"/en/services/growth":"/services/growth"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 2</p><p class="font-bold text-charcoal dark:text-white">{tx.tier2Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier2Desc}</p></a>
+    <a href={isEn?"/en/services/authority":"/services/authority"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 3</p><p class="font-bold text-charcoal dark:text-white">{tx.tier3Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier3Desc}</p></a>
+    <a href={isEn?"/en/services/booking-integration":"/services/booking-integration"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 4</p><p class="font-bold text-charcoal dark:text-white">{tx.tier4Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier4Desc}</p></a>
+  </div></section>
+  <section class="max-w-4xl mx-auto mb-4 px-6 md:px-12"><p class="text-xs text-slate-500 dark:text-slate-400"><Fragment set:html={tx.author} /></p></section>
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">{tx.finalTitle}</h2><p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">{tx.finalDesc}</p><a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.finalCta}</a></div></section>
 </SwissLayout>

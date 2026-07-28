@@ -1,277 +1,56 @@
 ---
-export const prerender = true;
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
 
-const serviceLD = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Authority — Full-Funnel Marketing untuk Multi-Properti Bali",
-  "provider": {
-    "@type": "Organization",
-    "name": "Alpha Digital Agency",
-    "url": "https://alphadigitalagency.id"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Daniel Santoso",
-    "url": "https://alphadigitalagency.id/daniel-santoso/#person"
-  },
-  "areaServed": "Bali, Indonesia",
-  "description": "Google Ads → AI Chatbot → Booking Engine → GA4 — satu pipeline terintegrasi yang menggeser 15-30% pemesanan OTA ke direct booking. Untuk luxury hospitality group di Bali.",
-  "serviceType": "Full-Funnel Digital Marketing",
-  "url": "https://alphadigitalagency.id/services/authority/"
-};
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
 
-const faqItems = [
-  {
-    q: "Apa yang dimaksud dengan pipeline Google Ads → Chatbot → Booking Engine → GA4?",
-    a: "Ini adalah empat layer yang bekerja sebagai satu sistem. Google Ads membawa tamu yang tepat ke website properti Anda. AI Chatbot merekomendasikan kamar berdasarkan Place ID dan database properti Anda — tersedia 24 jam. Booking Engine memproses reservasi langsung tanpa komisi OTA. GA4 mengukur seluruh perjalanan tamu dari klik iklan hingga konfirmasi booking — sehingga setiap keputusan budget berdasarkan data nyata."
+const t = {
+  id: { tier:"Tier 3 — Authority", heroH1:"Geser 15–30% Booking dari OTA ke Direct", heroH1End:".", heroDesc:"Satu pipeline terintegrasi: Google Ads membawa tamu yang tepat, AI Chatbot merekomendasikan kamar 24 jam, Booking Engine memproses reservasi langsung, GA4 mengukur seluruh funnel. Untuk luxury hospitality group di Bali yang ingin berhenti membayar komisi OTA tanpa batas.", ctaMail:"Minta Penawaran",
+    pipelineLabel:"The Pipeline", pipelineSteps:["Google Ads","AI Chatbot","Booking Engine","GA4","15–30% OTA → Direct Shift"], pipelineDesc:"OTA mengambil 15–25% komisi per kamar. Kami bangun jalur alternatif yang lebih menguntungkan properti Anda — dan ukur pergeserannya dengan data, bukan estimasi.",
+    layersTitle:"Empat Layer, Satu Sistem", layers:[{num:1,title:"Google Ads — 9 Tahun Kedalaman",desc:"Kampanye yang menjangkau tamu dengan intent booking — bukan sekadar traffic. Brand-SERP defense mencegah OTA mengambil slot branded query properti Anda. Budget dialokasikan berdasarkan data channel × negara yang telah terbukti convert."},{num:2,title:"AI Chatbot — Rekomendasi Kamar 24 Jam",desc:"Asisten digital yang dipasang di website properti Anda. Merekomendasikan kamar berdasarkan Google Place ID dan database properti — menjawab pertanyaan tamu kapan saja, mendorong ke booking engine langsung tanpa perantara OTA."},{num:3,title:"Booking Engine — Direct, Tanpa Komisi OTA",desc:"Tamu memesan langsung dari website Anda. Tidak ada komisi platform perantara, tidak ada lock-in vendor. Data booking mengalir langsung ke laporan GA4 Anda — sehingga setiap konversi bisa diatribusikan ke channel yang tepat."},{num:4,title:"GA4 + MCP — Satu Ekosistem Data",desc:"Google Ads, Search Console, Maps, dan booking engine terhubung dalam satu laporan. Setiap reservasi ditelusuri dari keyword mana, channel mana, kampanye mana. Untuk properti multi-lokasi: Anda tahu properti mana yang underperform dan mengapa."}],
+    aiTitle:"Visibilitas AI: Dari TripAdvisor ke Gemini", aiP1:"AI recommendation engine — Gemini, ChatGPT, Google AI Overview — tidak meranking properti dari nol. Mereka mengagregasi pemimpin dari beberapa layer discovery di bawahnya: SERP, Google Maps, TripAdvisor, dan Editorial.", aiP2:"TripAdvisor adalah lever yang paling efisien: satu investasi menghasilkan tiga efek downstream — Maps Prominence naik, SERP backlink signal naik, dan visibilitas langsung di hasil AI naik. Properti yang masuk top 10 TripAdvisor di micro-area mereka (bukan kota-wide) cenderung muncul otomatis dalam rekomendasi AI untuk area tersebut.", aiP3:"Authority tier mencakup audit posisi properti Anda di keempat layer ini — dan rekomendasi layer mana yang paling efisien untuk dimenangkan berdasarkan profil properti Anda saat ini.",
+    proofTitle:"Hasil yang Bisa Diukur", proofQuote:"Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads. Full breakdown: Minta laporan methodology", proofCite:"— Verified client data. Name withheld per client policy.", proofNote:"Case Study #1 — diukur via GA4 direct booking conversion tracking, window 90 hari, Month 1 baseline vs Month 3 result. Full breakdown tersedia untuk prospek yang qualified.",
+    faqTitle:"Pertanyaan tentang Authority", faq:[{q:"Apa yang dimaksud dengan pipeline Google Ads → Chatbot → Booking Engine → GA4?",a:"Ini adalah empat layer yang bekerja sebagai satu sistem. Google Ads membawa tamu yang tepat ke website properti Anda. AI Chatbot merekomendasikan kamar berdasarkan Place ID dan database properti Anda — tersedia 24 jam. Booking Engine memproses reservasi langsung tanpa komisi OTA. GA4 mengukur seluruh perjalanan tamu dari klik iklan hingga konfirmasi booking — sehingga setiap keputusan budget berdasarkan data nyata."},{q:"Bagaimana cara kerja pergeseran OTA ke direct booking?",a:"OTA mengambil 15-25% komisi per kamar terjual. Tamu yang memesan via OTA sering datang dari branded query — artinya mereka sebenarnya sudah mencari properti Anda, tapi diarahkan ke platform perantara terlebih dahulu. Kami identifikasi kebocoran ini, bangun funnel direct booking yang lebih mulus, dan ukur pergeserannya via GA4. Target: 15-30% shift dari OTA ke direct dalam 90 hari."},{q:"Mengapa TripAdvisor penting untuk Authority tier?",a:"TripAdvisor adalah lever tunggal yang paling efisien: satu investasi menghasilkan tiga efek — Maps Prominence naik, SERP backlink signal naik, dan visibilitas di Gemini AI naik. Properti yang masuk top 10 TripAdvisor di micro-area mereka cenderung muncul otomatis di rekomendasi AI untuk area tersebut. Kami monitor dan optimalkan posisi TripAdvisor Anda sebagai bagian dari Authority tier."},{q:"Apa yang dimaksud dengan 'brand-SERP defense'?",a:"Ketika tamu mengetik nama properti Anda di Google, halaman pertama idealnya dikuasai oleh website Anda sendiri — bukan OTA atau kompetitor. Kami deteksi branded query yang diarahkan ke OTA, bangun branded campaign Google Ads, dan optimalkan GBP + website untuk merebut kembali slot tersebut."},{q:"Apakah Authority cocok untuk properti tunggal?",a:"Authority dirancang untuk properti yang sudah memiliki Google Ads berjalan dan ingin naik ke level berikutnya: semua channel terhubung, AI Chatbot + Booking Engine terintegrasi, dan data GA4 mengukur seluruh funnel. Untuk single property yang baru mulai, Growth biasanya lebih efisien dulu."},{q:"Bagaimana cara kerja koordinasi multi-properti?",a:"Kami kelola campaign Ads, AI Chatbot, dan data tracking untuk masing-masing properti secara independen — tapi laporan konsolidasi memperlihatkan performa semua properti dalam satu tampilan. Keputusan budget bisa dibuat di level grup dengan data yang akurat per properti."}],
+    seoAnchor:"Authority adalah paket full-funnel dari <a href=\"/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency Bali</a> yang fokus pada hospitality: channel, tracking, booking engine, dan reporting disatukan.",
+    tier1Title:"Foundation →",tier1Desc:"Tracking & analytics setup",tier2Title:"Growth →",tier2Desc:"Google Ads untuk satu properti",tier4Title:"Booking Engine →",tier4Desc:"Install tanpa lock-in vendor",
+    author:"Ditulis oleh <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026",
+    finalTitle:"Siap ke Level Authority?",finalDesc:"Ceritakan situasi properti Anda sekarang. Kami audit dan jelaskan gap yang paling berdampak pertama.",finalCta:"Minta Penawaran",
+    serviceName:"Authority — Full-Funnel Marketing untuk Multi-Properti Bali",serviceDesc:"Google Ads → AI Chatbot → Booking Engine → GA4 — satu pipeline terintegrasi yang menggeser 15-30% pemesanan OTA ke direct booking. Untuk luxury hospitality group di Bali.",pageUrl:"https://alphadigitalagency.id/services/authority/"
   },
-  {
-    q: "Bagaimana cara kerja pergeseran OTA ke direct booking?",
-    a: "OTA mengambil 15-25% komisi per kamar terjual. Tamu yang memesan via OTA sering datang dari branded query — artinya mereka sebenarnya sudah mencari properti Anda, tapi diarahkan ke platform perantara terlebih dahulu. Kami identifikasi kebocoran ini, bangun funnel direct booking yang lebih mulus, dan ukur pergeserannya via GA4. Target: 15-30% shift dari OTA ke direct dalam 90 hari."
-  },
-  {
-    q: "Mengapa TripAdvisor penting untuk Authority tier?",
-    a: "TripAdvisor adalah lever tunggal yang paling efisien: satu investasi menghasilkan tiga efek — Maps Prominence naik, SERP backlink signal naik, dan visibilitas di Gemini AI naik. Properti yang masuk top 10 TripAdvisor di micro-area mereka cenderung muncul otomatis di rekomendasi AI untuk area tersebut. Kami monitor dan optimalkan posisi TripAdvisor Anda sebagai bagian dari Authority tier."
-  },
-  {
-    q: "Apa yang dimaksud dengan 'brand-SERP defense'?",
-    a: "Ketika tamu mengetik nama properti Anda di Google, halaman pertama idealnya dikuasai oleh website Anda sendiri — bukan OTA atau kompetitor. Kami deteksi branded query yang diarahkan ke OTA, bangun branded campaign Google Ads, dan optimalkan GBP + website untuk merebut kembali slot tersebut."
-  },
-  {
-    q: "Apakah Authority cocok untuk properti tunggal?",
-    a: "Authority dirancang untuk properti yang sudah memiliki Google Ads berjalan dan ingin naik ke level berikutnya: semua channel terhubung, AI Chatbot + Booking Engine terintegrasi, dan data GA4 mengukur seluruh funnel. Untuk single property yang baru mulai, Growth biasanya lebih efisien dulu."
-  },
-  {
-    q: "Bagaimana cara kerja koordinasi multi-properti?",
-    a: "Kami kelola campaign Ads, AI Chatbot, dan data tracking untuk masing-masing properti secara independen — tapi laporan konsolidasi memperlihatkan performa semua properti dalam satu tampilan. Keputusan budget bisa dibuat di level grup dengan data yang akurat per properti."
+  en: { tier:"Tier 3 — Authority", heroH1:"Shift 15–30% of Bookings from OTA to Direct", heroH1End:".", heroDesc:"One integrated pipeline: Google Ads brings the right guests, AI Chatbot recommends rooms 24/7, Booking Engine processes direct reservations, GA4 measures the entire funnel. For luxury hospitality groups in Bali ready to stop paying unlimited OTA commissions.", ctaMail:"Request a Proposal",
+    pipelineLabel:"The Pipeline", pipelineSteps:["Google Ads","AI Chatbot","Booking Engine","GA4","15–30% OTA → Direct Shift"], pipelineDesc:"OTAs take 15–25% commission per room. We build a more profitable alternative pathway for your property — and measure the shift with data, not estimates.",
+    layersTitle:"Four Layers, One System", layers:[{num:1,title:"Google Ads — 9 Years Depth",desc:"Campaigns that reach guests with booking intent — not just traffic. Brand-SERP defense prevents OTAs from taking your property's branded query slots. Budget allocated based on proven channel × country conversion data."},{num:2,title:"AI Chatbot — Room Recommendations 24/7",desc:"A digital assistant installed on your property website. Recommends rooms based on Google Place ID and your property database — answering guest questions anytime, pushing to your direct booking engine without OTA intermediaries."},{num:3,title:"Booking Engine — Direct, Zero OTA Commission",desc:"Guests book directly on your website. No intermediary platform commission, no vendor lock-in. Booking data flows directly into your GA4 reports — so every conversion can be attributed to the right channel."},{num:4,title:"GA4 + MCP — One Data Ecosystem",desc:"Google Ads, Search Console, Maps, and booking engine connected in one report. Every reservation traced to its keyword, channel, and campaign. For multi-location properties: you know which property underperforms and why."}],
+    aiTitle:"AI Visibility: From TripAdvisor to Gemini", aiP1:"AI recommendation engines — Gemini, ChatGPT, Google AI Overview — don't rank properties from scratch. They aggregate leaders from several discovery layers beneath them: SERP, Google Maps, TripAdvisor, and Editorial.", aiP2:"TripAdvisor is the single most efficient lever: one investment produces three downstream effects — Maps Prominence rises, SERP backlink signal rises, and direct visibility in AI results rises. Properties in the top 10 TripAdvisor within their micro-area (not city-wide) tend to appear automatically in AI recommendations for that area.", aiP3:"The Authority tier includes an audit of your property's position across all four layers — and a recommendation on which layer is most efficient to win based on your current property profile.",
+    proofTitle:"Measurable Results", proofQuote:"A 4-unit Bali villa property — direct bookings up 34% within 90 days after funnel audit + Google Ads optimization. Full breakdown: Request methodology report", proofCite:"— Verified client data. Name withheld per client policy.", proofNote:"Case Study #1 — measured via GA4 direct booking conversion tracking, 90-day window, Month 1 baseline vs Month 3 result. Full breakdown available to qualified prospects.",
+    faqTitle:"Questions About Authority", faq:[{q:"What is the Google Ads → Chatbot → Booking Engine → GA4 pipeline?",a:"These are four layers working as one system. Google Ads brings the right guests to your property website. AI Chatbot recommends rooms based on Place ID and your property database — available 24/7. Booking Engine processes direct reservations with zero OTA commission. GA4 measures the entire guest journey from ad click to booking confirmation — so every budget decision is based on real data."},{q:"How does the OTA-to-direct booking shift work?",a:"OTAs take 15-25% commission per room sold. Guests booking via OTA often arrive from branded queries — meaning they were actually searching for your property, but were directed to an intermediary platform first. We identify these leaks, build a smoother direct booking funnel, and measure the shift via GA4. Target: 15-30% shift from OTA to direct within 90 days."},{q:"Why is TripAdvisor important for the Authority tier?",a:"TripAdvisor is the single most efficient lever: one investment produces three effects — Maps Prominence rises, SERP backlink signal rises, and Gemini AI visibility rises. Properties in the top 10 TripAdvisor within their micro-area tend to appear automatically in AI recommendations for that area. We monitor and optimize your TripAdvisor position as part of the Authority tier."},{q:"What is 'brand-SERP defense'?",a:"When guests type your property name into Google, the first page should ideally be dominated by your own website — not OTAs or competitors. We detect branded queries that route to OTAs, build branded Google Ads campaigns, and optimize GBP + website to reclaim those slots."},{q:"Is Authority suitable for a single property?",a:"Authority is designed for properties that already have Google Ads running and want to level up: all channels connected, AI Chatbot + Booking Engine integrated, and GA4 data measuring the entire funnel. For a single property just starting, Growth is usually more efficient first."},{q:"How does multi-property coordination work?",a:"We manage Ads campaigns, AI Chatbots, and data tracking for each property independently — but consolidated reports show all properties' performance in one view. Budget decisions can be made at group level with accurate per-property data."}],
+    seoAnchor:"Authority is the full-funnel package from <a href=\"/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency Bali</a> focused on hospitality: channels, tracking, booking engine, and reporting unified.",
+    tier1Title:"Foundation →",tier1Desc:"Tracking & analytics setup",tier2Title:"Growth →",tier2Desc:"Google Ads for one property",tier4Title:"Booking Engine →",tier4Desc:"Install, no vendor lock-in",
+    author:"Written by <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Last updated: May 2026",
+    finalTitle:"Ready for Authority Level?",finalDesc:"Tell us about your property's current situation. We'll audit and explain the highest-impact gap first.",finalCta:"Request a Proposal",
+    serviceName:"Authority — Full-Funnel Marketing for Multi-Property Bali Groups",serviceDesc:"Google Ads → AI Chatbot → Booking Engine → GA4 — one integrated pipeline that shifts 15-30% of OTA bookings to direct. For luxury hospitality groups in Bali.",pageUrl:"https://alphadigitalagency.id/en/services/authority/"
   }
-];
-
-const faqLD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map(item => ({
-    "@type": "Question",
-    "name": item.q,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.a
-    }
-  }))
 };
 
-const breadcrumbLD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
-    { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://alphadigitalagency.id/services/" },
-    { "@type": "ListItem", "position": 3, "name": "Authority", "item": "https://alphadigitalagency.id/services/authority/" }
-  ]
-};
+const tx = t[locale] || t.id;
+const serviceLD = { "@context":"https://schema.org","@type":"Service","name":tx.serviceName,"provider":{"@type":"Organization","name":"Alpha Digital Agency","url":"https://alphadigitalagency.id"},"author":{"@type":"Person","name":"Daniel Santoso","url":"https://alphadigitalagency.id/daniel-santoso/#person"},"areaServed":"Bali, Indonesia","description":tx.serviceDesc,"serviceType":"Full-Funnel Digital Marketing","url":tx.pageUrl };
+const faqLD = { "@context":"https://schema.org","@type":"FAQPage","mainEntity":tx.faq.map(item=>({"@type":"Question","name":item.q,"acceptedAnswer":{"@type":"Answer","text":item.a}})) };
+const breadcrumbLD = { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{ "@type":"ListItem","position":1,"name":"Home","item":"https://alphadigitalagency.id/" },{ "@type":"ListItem","position":2,"name":"Services","item":"https://alphadigitalagency.id/services/" },{ "@type":"ListItem","position":3,"name":"Authority","item":tx.pageUrl }] };
 ---
 
-<SwissLayout
-  title="Full-Funnel Hotel Marketing Bali | Alpha Digital"
-  description="Full-funnel marketing for Bali hospitality groups: Google Ads, direct booking, AI agent, SEO, and reporting coordinated across multi-property portfolios."
-  currentPage="services"
->
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(serviceLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
-  </Fragment>
-
-  <!-- Hero -->
-  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
-    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">Tier 3 — Authority</p>
-    <h1
-      class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6"
-    >
-      Geser 15–30% Booking dari OTA ke Direct<span class="text-primary">.</span>
-    </h1>
-    <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-      Satu pipeline terintegrasi: Google Ads membawa tamu yang tepat, AI Chatbot merekomendasikan kamar 24 jam, Booking Engine memproses reservasi langsung, GA4 mengukur seluruh funnel. Untuk luxury hospitality group di Bali yang ingin berhenti membayar komisi OTA tanpa batas.
-    </p>
-    <div class="mt-8">
-      <a
-        href="mailto:daniel@alphadigitalagency.id"
-        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-      >
-        <span class="material-symbols-outlined">mail</span>
-        Minta Penawaran
-      </a>
-    </div>
-  </section>
-
-  <!-- Pipeline chain — LDF + Thesis spine -->
-  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
-    <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
-      <p class="text-xs font-mono uppercase tracking-widest text-primary mb-3">The Pipeline</p>
-      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 flex-wrap">
-        <span class="font-bold text-charcoal dark:text-white text-sm">Google Ads</span>
-        <span class="text-primary font-bold text-lg hidden sm:block">→</span>
-        <span class="text-primary font-bold text-lg sm:hidden">↓</span>
-        <span class="font-bold text-charcoal dark:text-white text-sm">AI Chatbot</span>
-        <span class="text-primary font-bold text-lg hidden sm:block">→</span>
-        <span class="text-primary font-bold text-lg sm:hidden">↓</span>
-        <span class="font-bold text-charcoal dark:text-white text-sm">Booking Engine</span>
-        <span class="text-primary font-bold text-lg hidden sm:block">→</span>
-        <span class="text-primary font-bold text-lg sm:hidden">↓</span>
-        <span class="font-bold text-charcoal dark:text-white text-sm">GA4</span>
-        <span class="text-primary font-bold text-lg hidden sm:block">→</span>
-        <span class="text-primary font-bold text-lg sm:hidden">↓</span>
-        <span class="font-bold text-primary text-sm">15–30% OTA → Direct Shift</span>
-      </div>
-      <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mt-4">
-        OTA mengambil 15–25% komisi per kamar. Kami bangun jalur alternatif yang lebih menguntungkan properti Anda — dan ukur pergeserannya dengan data, bukan estimasi.
-      </p>
-    </div>
-  </section>
-
-  <!-- The four layers explained -->
-  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-        Empat Layer, Satu Sistem
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="flex gap-4 items-start">
-          <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">1</div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Google Ads — 9 Tahun Kedalaman</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Kampanye yang menjangkau tamu dengan intent booking — bukan sekadar traffic. Brand-SERP defense mencegah OTA mengambil slot branded query properti Anda. Budget dialokasikan berdasarkan data channel × negara yang telah terbukti convert.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">2</div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">AI Chatbot — Rekomendasi Kamar 24 Jam</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Asisten digital yang dipasang di website properti Anda. Merekomendasikan kamar berdasarkan Google Place ID dan database properti — menjawab pertanyaan tamu kapan saja, mendorong ke booking engine langsung tanpa perantara OTA.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">3</div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">Booking Engine — Direct, Tanpa Komisi OTA</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Tamu memesan langsung dari website Anda. Tidak ada komisi platform perantara, tidak ada lock-in vendor. Data booking mengalir langsung ke laporan GA4 Anda — sehingga setiap konversi bisa diatribusikan ke channel yang tepat.</p>
-          </div>
-        </div>
-        <div class="flex gap-4 items-start">
-          <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">4</div>
-          <div>
-            <h3 class="font-bold text-charcoal dark:text-white mb-1">GA4 + MCP — Satu Ekosistem Data</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Google Ads, Search Console, Maps, dan booking engine terhubung dalam satu laporan. Setiap reservasi ditelusuri dari keyword mana, channel mana, kampanye mana. Untuk properti multi-lokasi: Anda tahu properti mana yang underperform dan mengapa.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TripAdvisor Cascade / LDF layer -->
-  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-        Visibilitas AI: Dari TripAdvisor ke Gemini
-      </h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-        AI recommendation engine — Gemini, ChatGPT, Google AI Overview — tidak meranking properti dari nol. Mereka mengagregasi pemimpin dari beberapa layer discovery di bawahnya: SERP, Google Maps, TripAdvisor, dan Editorial.
-      </p>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-        TripAdvisor adalah lever yang paling efisien: satu investasi menghasilkan tiga efek downstream — Maps Prominence naik, SERP backlink signal naik, dan visibilitas langsung di hasil AI naik. Properti yang masuk top 10 TripAdvisor di micro-area mereka (bukan kota-wide) cenderung muncul otomatis dalam rekomendasi AI untuk area tersebut.
-      </p>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-        Authority tier mencakup audit posisi properti Anda di keempat layer ini — dan rekomendasi layer mana yang paling efisien untuk dimenangkan berdasarkan profil properti Anda saat ini.
-      </p>
-    </div>
-  </section>
-
-  <!-- Proof anchor -->
-  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-        Hasil yang Bisa Diukur
-      </h2>
-      <blockquote class="border-l-4 border-primary pl-6 py-2 mb-4">
-        <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">
-          "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads. Full breakdown: <a href="mailto:daniel@alphadigitalagency.id" class="text-primary not-italic underline">Minta laporan methodology</a>"
-        </p>
-        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">
-          — Verified client data. Name withheld per client policy.
-        </cite>
-      </blockquote>
-      <p class="text-slate-500 dark:text-slate-400 text-xs">
-        Case Study #1 — diukur via GA4 direct booking conversion tracking, window 90 hari, Month 1 baseline vs Month 3 result. Full breakdown tersedia untuk prospek yang qualified.
-      </p>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-        Pertanyaan tentang Authority
-      </h2>
-      <div class="space-y-6">
-        {faqItems.map((item) => (
-          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
-            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Internal links -->
-  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
-    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
-      Authority adalah paket full-funnel dari <a href="/" class="text-primary font-semibold hover:underline">digital marketing agency Bali</a> yang fokus pada hospitality: channel, tracking, booking engine, dan reporting disatukan.
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <a href="/services/foundation" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 1</p>
-        <p class="font-bold text-charcoal dark:text-white">Foundation →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Tracking &amp; analytics setup</p>
-      </a>
-      <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 2</p>
-        <p class="font-bold text-charcoal dark:text-white">Growth →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Google Ads untuk satu properti</p>
-      </a>
-      <a href="/services/booking-integration" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 4</p>
-        <p class="font-bold text-charcoal dark:text-white">Booking Engine →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Install tanpa lock-in vendor</p>
-      </a>
-    </div>
-  </section>
-
-  <!-- Author byline -->
-  <section class="max-w-4xl mx-auto mb-4 px-6 md:px-12">
-    <p class="text-xs text-slate-500 dark:text-slate-400">
-      Ditulis oleh <a href="/daniel-santoso/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
-    </p>
-  </section>
-
-  <!-- Final CTA -->
-  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
-        Siap ke Level Authority?
-      </h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
-        Ceritakan situasi properti Anda sekarang. Kami audit dan jelaskan gap yang paling berdampak pertama.
-      </p>
-      <a
-        href="mailto:daniel@alphadigitalagency.id"
-        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-      >
-        <span class="material-symbols-outlined">mail</span>
-        Minta Penawaran
-      </a>
-    </div>
-  </section>
+<SwissLayout title={isEn?"Full-Funnel Hotel Marketing Bali | Alpha Digital":"Full-Funnel Hotel Marketing Bali | Alpha Digital"} description={isEn?"Full-funnel marketing for Bali hospitality groups: Google Ads, direct booking, AI agent, SEO, and reporting coordinated across multi-property portfolios.":"Full-funnel marketing for Bali hospitality groups: Google Ads, direct booking, AI agent, SEO, and reporting coordinated across multi-property portfolios."} currentPage="services">
+  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(serviceLD)} /><script type="application/ld+json" set:html={JSON.stringify(faqLD)} /><script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} /></Fragment>
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.tier}</p><h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6">{tx.heroH1}<span class="text-primary">{tx.heroH1End}</span></h1><p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">{tx.heroDesc}</p><div class="mt-8"><a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.ctaMail}</a></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-3">{tx.pipelineLabel}</p><div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 flex-wrap">{tx.pipelineSteps.map((s,i)=>(<>{i>0 && <span class="text-primary font-bold text-lg hidden sm:block">→</span>}{i>0 && <span class="text-primary font-bold text-lg sm:hidden">↓</span>}<span class={`font-bold text-sm ${i===tx.pipelineSteps.length-1?'text-primary':'text-charcoal dark:text-white'}`}>{s}</span></>))}</div><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mt-4">{tx.pipelineDesc}</p></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.layersTitle}</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-6">{tx.layers.map(l=>(<div class="flex gap-4 items-start"><div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">{l.num}</div><div><h3 class="font-bold text-charcoal dark:text-white mb-1">{l.title}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{l.desc}</p></div></div>))}</div></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">{tx.aiTitle}</h2><p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{tx.aiP1}</p><p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{tx.aiP2}</p><p class="text-slate-600 dark:text-slate-400 leading-relaxed">{tx.aiP3}</p></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">{tx.proofTitle}</h2><blockquote class="border-l-4 border-primary pl-6 py-2 mb-4"><p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">"{tx.proofQuote}"</p><cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">{tx.proofCite}</cite></blockquote><p class="text-slate-500 dark:text-slate-400 text-xs">{tx.proofNote}</p></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.faqTitle}</h2><div class="space-y-6">{tx.faq.map((item)=>(<div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0"><h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p></div>))}</div></div></section>
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12"><p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center"><Fragment set:html={tx.seoAnchor} /></p><div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <a href={isEn?"/en/services/foundation":"/services/foundation"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 1</p><p class="font-bold text-charcoal dark:text-white">{tx.tier1Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier1Desc}</p></a>
+    <a href={isEn?"/en/services/growth":"/services/growth"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 2</p><p class="font-bold text-charcoal dark:text-white">{tx.tier2Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier2Desc}</p></a>
+    <a href={isEn?"/en/services/booking-integration":"/services/booking-integration"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 4</p><p class="font-bold text-charcoal dark:text-white">{tx.tier4Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier4Desc}</p></a>
+  </div></section>
+  <section class="max-w-4xl mx-auto mb-4 px-6 md:px-12"><p class="text-xs text-slate-500 dark:text-slate-400"><Fragment set:html={tx.author} /></p></section>
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">{tx.finalTitle}</h2><p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">{tx.finalDesc}</p><a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.finalCta}</a></div></section>
 </SwissLayout>

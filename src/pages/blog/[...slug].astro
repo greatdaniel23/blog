@@ -86,7 +86,8 @@ function compactDescription(description: string): string {
 
 // Resolve hero image URL for structured data — use absolute URL if possible.
 const isPublicHero = post?.hero_image?.startsWith("/images/");
-const heroImageSrc = isPublicHero
+const isR2Hero = post?.hero_image?.startsWith("https://");
+const heroImageSrc = isPublicHero || isR2Hero
 	? post?.hero_image
 	: post?.hero_image
 		? images[post.hero_image.replace("../../", "/src/")]?.default?.src
@@ -234,9 +235,9 @@ if (post?.howto_steps && post.howto_steps.trim() !== "") {
 	<article class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
 		<!-- Hero Image -->
 		{
-			post.hero_image && (isPublicHero || images[post.hero_image.replace("../../", "/src/")]) && (
+			post.hero_image && (isPublicHero || isR2Hero || images[post.hero_image.replace("../../", "/src/")]) && (
 				<div class="mb-8 overflow-hidden border-2 border-charcoal shadow-premium">
-					{isPublicHero ? (
+					{isPublicHero || isR2Hero ? (
 						<img
 							src={post.hero_image}
 							alt={post.title}

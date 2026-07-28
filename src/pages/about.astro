@@ -1,276 +1,97 @@
 ---
-export const prerender = true;
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../components/SwissLayout.astro";
 
-const personLD = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "@id": "https://alphadigitalagency.id/daniel-santoso/#person",
-  "name": "Daniel Santoso",
-  "jobTitle": "Founder & Google Ads Specialist",
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Alpha Digital Agency",
-    "url": "https://alphadigitalagency.id"
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
+
+const t = {
+  id: {
+    heroAbout:"About", heroH2:"Daniel Santoso — Google Ads Specialist Bali, 9 Tahun Pengalaman untuk Vila & Hotel", heroP:"9 tahun Google Ads untuk hospitality Bali — satu sistem, satu laporan, satu tujuan.",
+    whoTitle:"Siapa Kami", whoP1:"Alpha Digital Agency adalah praktik marketing hospitality Bali — spesialisasi Google Ads, data tracking lintas channel, dan integrasi booking engine langsung untuk vila dan hotel. Fokus kami adalah perhotelan mewah di Bali — 9 active hospitality clients across Bali yang membutuhkan hasil terukur, bukan sekadar laporan.", whoP2:"Daniel Santoso, founder Alpha Digital, membawa 9 tahun kedalaman Google Ads untuk properti hospitality — dilengkapi dengan praktik Data Science modern: GA4 Analytics, BigQuery untuk analisis data skala enterprise, dan AI Agents yang bekerja 24/7 di website properti Anda.", whoP3:"Kami tidak menjual tech. Tidak menjual platform. Kami memastikan digital marketing dapat diimplementasikan dengan benar dan tepat — sehingga pemilik properti punya gambaran jelas tentang channel mana yang benar-benar menghasilkan reservasi.", whoP4:"Kami gabungkan Google Ads, Search Console, dan Analytics dalam satu sistem laporan — supaya iklan berbayar dan pencarian organik tidak saling makan budget, tapi saling mendukung reservasi langsung.",
+    expertiseTitle:"Keahlian Kami", expertise:[{title:"Google Ads — 9 Tahun",desc:"Spesialisasi kampanye Google Ads untuk vila dan hotel boutique di Bali. Keyword research, bid strategy, creative optimization — berbasis data, bukan asumsi."},{title:"Data Tracking & Analytics",desc:"Setup GA4, GTM, dan Google Search Console yang benar. Laporan bulanan yang menggabungkan data Ads + organik + booking dalam satu tampilan."},{title:"Booking Engine Integration",desc:"Install dan kelola booking engine — platform apa pun, tanpa lock-in vendor. Reservasi langsung terhubung ke laporan Ads Anda."},{title:"AI Agent untuk Properti",desc:"Asisten digital 24/7 di website properti Anda — jawab pertanyaan tamu, bantu proses reservasi, terintegrasi dengan booking engine."}],
+    proofTitle:"Hasil Nyata", proofQuote:"Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads.", proofCite:"— Verified client data. Name withheld per client policy.", proofNote:"Case Study #1 — full breakdown coming soon. Hubungi kami untuk melihat methodology secara detail.",
+    faqTitle:"Pertanyaan Umum", faq:[{q:"Siapa di balik Alpha Digital Agency?",a:"Daniel Santoso — 9 tahun spesialisasi Google Ads untuk properti hospitality di Bali. Alpha Digital bukan konglomerat besar; kami praktik yang tight, pakai data nyata, dan bertanggung jawab langsung ke Anda."},{q:"Mengapa Alpha Digital fokus hanya pada hospitality Bali?",a:"Karena spesialisasi menghasilkan hasil lebih baik dari generalisasi. Kami tahu behavior tamu Bali, dinamika OTA di pasar ini, dan struktur kampanye Google Ads yang efektif untuk vila dan hotel boutique."},{q:"Apakah Alpha Digital menggunakan AI dalam operasional?",a:"Ya — Alpha Digital adalah praktik pertama di Bali yang secara terbuka menggunakan AI end-to-end dalam operasional: dari riset, analisis data, hingga pembuatan konten. Tapi keputusan strategis dan review klien tetap di tangan manusia."},{q:"Bagaimana cara Alpha Digital melaporkan hasil ke klien?",a:"Kami kirim laporan bulanan yang menggabungkan data Google Ads, Search Console, dan Analytics dalam satu tampilan. Tidak ada laporan 50 halaman yang tidak bisa dibaca — hanya angka yang penting dan rekomendasi aksi nyata."}],
+    card1Label:"Agency",card1Title:"Digital Marketing Agency Bali →",card1Desc:"Hospitality, direct booking, Ads, SEO, AI.",
+    card2Label:"Layanan Utama",card2Title:"Growth — Google Ads →",
+    card3Label:"Full-Funnel",card3Title:"Authority Tier →",
+    finalTitle:"Mulai dari Mana?",finalDesc:"Kirim email atau WhatsApp. Kami mulai dengan audit cepat situasi digital properti Anda — gratis, tanpa komitmen.",finalCta:"Minta Penawaran",finalWa:"WhatsApp",
+    author:"Ditulis oleh <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026",
+    personDesc:"9 tahun spesialisasi Google Ads untuk properti hospitality di Bali. Founder Alpha Digital Agency — praktik marketing yang menggabungkan Ads, SEO, dan booking engine dalam satu sistem data."
   },
-  "knowsAbout": [
-    "Google Ads",
-    "GA4",
-    "Google Search Console",
-    "GTM",
-    "Booking Engine Integration",
-    "Hospitality Digital Marketing",
-    "Direct Booking Strategy",
-    "SEO for Hotels",
-    "AI Agent for Hospitality",
-    "Google Ads for Hotels Bali",
-    "OTA Reduction Strategy",
-    "Hotel Revenue Analytics"
-  ],
-  "description": "9 tahun spesialisasi Google Ads untuk properti hospitality di Bali. Founder Alpha Digital Agency — praktik marketing yang menggabungkan Ads, SEO, dan booking engine dalam satu sistem data.",
-  "url": "https://alphadigitalagency.id/daniel-santoso/",
-  "hasCredential": {
-    "@type": "EducationalOccupationalCredential",
-    "name": "Google Ads Specialist",
-    "credentialCategory": "professional experience"
+  en: {
+    heroAbout:"About", heroH2:"Daniel Santoso — Google Ads Specialist Bali, 9 Years Experience for Villas & Hotels", heroP:"9 years of Google Ads for Bali hospitality — one system, one report, one goal.",
+    whoTitle:"Who We Are", whoP1:"Alpha Digital Agency is a Bali hospitality marketing practice — specializing in Google Ads, cross-channel data tracking, and direct booking engine integration for villas and hotels. Our focus is luxury hospitality in Bali — 9 active hospitality clients across Bali who need measurable results, not just reports.", whoP2:"Daniel Santoso, founder of Alpha Digital, brings 9 years of Google Ads depth for hospitality properties — complemented by modern Data Science practice: GA4 Analytics, BigQuery for enterprise-scale data analysis, and AI Agents working 24/7 on your property website.", whoP3:"We don't sell tech. We don't sell platforms. We ensure digital marketing is implemented correctly and precisely — so property owners have a clear picture of which channels actually generate reservations.", whoP4:"We combine Google Ads, Search Console, and Analytics in one reporting system — so paid ads and organic search don't cannibalize each other's budget, but mutually support direct reservations.",
+    expertiseTitle:"Our Expertise", expertise:[{title:"Google Ads — 9 Years",desc:"Specialized Google Ads campaigns for villas and boutique hotels in Bali. Keyword research, bid strategy, creative optimization — data-driven, not assumptions."},{title:"Data Tracking & Analytics",desc:"Proper GA4, GTM, and Google Search Console setup. Monthly reports combining Ads + organic + booking data in one view."},{title:"Booking Engine Integration",desc:"Install and manage booking engines — any platform, no vendor lock-in. Direct reservations connected to your Ads reports."},{title:"AI Agent for Properties",desc:"24/7 digital assistant on your property website — answer guest questions, assist with reservations, integrated with your booking engine."}],
+    proofTitle:"Real Results", proofQuote:"A 4-unit Bali villa property — direct bookings up 34% within 90 days after funnel audit + Google Ads optimization.", proofCite:"— Verified client data. Name withheld per client policy.", proofNote:"Case Study #1 — full breakdown coming soon. Contact us to see the methodology in detail.",
+    faqTitle:"Common Questions", faq:[{q:"Who is behind Alpha Digital Agency?",a:"Daniel Santoso — 9 years of Google Ads specialization for hospitality properties in Bali. Alpha Digital is not a large conglomerate; we are a tight practice, using real data, and directly accountable to you."},{q:"Why does Alpha Digital focus only on Bali hospitality?",a:"Because specialization produces better results than generalization. We know Bali guest behavior, OTA dynamics in this market, and the effective Google Ads campaign structure for villas and boutique hotels."},{q:"Does Alpha Digital use AI in operations?",a:"Yes — Alpha Digital is the first practice in Bali to openly use AI end-to-end in operations: from research, data analysis, to content creation. But strategic decisions and client reviews remain in human hands."},{q:"How does Alpha Digital report results to clients?",a:"We deliver monthly reports combining Google Ads, Search Console, and Analytics data in one view. No unreadable 50-page reports — just the numbers that matter and actionable recommendations."}],
+    card1Label:"Agency",card1Title:"Digital Marketing Agency Bali →",card1Desc:"Hospitality, direct booking, Ads, SEO, AI.",
+    card2Label:"Core Service",card2Title:"Growth — Google Ads →",
+    card3Label:"Full-Funnel",card3Title:"Authority Tier →",
+    finalTitle:"Where to Start?",finalDesc:"Send an email or WhatsApp. We'll start with a quick audit of your property's digital situation — free, no commitment.",finalCta:"Request a Proposal",finalWa:"WhatsApp",
+    author:"Written by <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Last updated: May 2026",
+    personDesc:"9 years of Google Ads specialization for hospitality properties in Bali. Founder of Alpha Digital Agency — a marketing practice combining Ads, SEO, and booking engine in one data system."
   }
 };
 
-const breadcrumbLD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
-    { "@type": "ListItem", "position": 2, "name": "About", "item": "https://alphadigitalagency.id/about/" }
-  ]
-};
+const tx = t[locale] || t.id;
 
-const aboutFaqItems = [
-  {
-    q: "Siapa di balik Alpha Digital Agency?",
-    a: "Daniel Santoso — 9 tahun spesialisasi Google Ads untuk properti hospitality di Bali. Alpha Digital bukan konglomerat besar; kami praktik yang tight, pakai data nyata, dan bertanggung jawab langsung ke Anda."
-  },
-  {
-    q: "Mengapa Alpha Digital fokus hanya pada hospitality Bali?",
-    a: "Karena spesialisasi menghasilkan hasil lebih baik dari generalisasi. Kami tahu behavior tamu Bali, dinamika OTA di pasar ini, dan struktur kampanye Google Ads yang efektif untuk vila dan hotel boutique."
-  },
-  {
-    q: "Apakah Alpha Digital menggunakan AI dalam operasional?",
-    a: "Ya — Alpha Digital adalah praktik pertama di Bali yang secara terbuka menggunakan AI end-to-end dalam operasional: dari riset, analisis data, hingga pembuatan konten. Tapi keputusan strategis dan review klien tetap di tangan manusia."
-  },
-  {
-    q: "Bagaimana cara Alpha Digital melaporkan hasil ke klien?",
-    a: "Kami kirim laporan bulanan yang menggabungkan data Google Ads, Search Console, dan Analytics dalam satu tampilan. Tidak ada laporan 50 halaman yang tidak bisa dibaca — hanya angka yang penting dan rekomendasi aksi nyata."
-  }
-];
+const personLD = { "@context":"https://schema.org","@type":"Person","@id":"https://alphadigitalagency.id/daniel-santoso/#person","name":"Daniel Santoso","jobTitle":"Founder & Google Ads Specialist","worksFor":{"@type":"Organization","name":"Alpha Digital Agency","url":"https://alphadigitalagency.id"},"knowsAbout":["Google Ads","GA4","Google Search Console","GTM","Booking Engine Integration","Hospitality Digital Marketing","Direct Booking Strategy","SEO for Hotels","AI Agent for Hospitality","Google Ads for Hotels Bali","OTA Reduction Strategy","Hotel Revenue Analytics"],"description":tx.personDesc,"url":"https://alphadigitalagency.id/daniel-santoso/","hasCredential":{"@type":"EducationalOccupationalCredential","name":"Google Ads Specialist","credentialCategory":"professional experience"}};
 
-const aboutFaqLD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": aboutFaqItems.map(item => ({
-    "@type": "Question",
-    "name": item.q,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.a
-    }
-  }))
-};
+const breadcrumbLD = { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{ "@type":"ListItem","position":1,"name":"Home","item":"https://alphadigitalagency.id/" },{ "@type":"ListItem","position":2,"name":"About","item":isEn?"https://alphadigitalagency.id/en/about/":"https://alphadigitalagency.id/about/" }] };
+
+const aboutFaqLD = { "@context":"https://schema.org","@type":"FAQPage","mainEntity":tx.faq.map(item=>({"@type":"Question","name":item.q,"acceptedAnswer":{"@type":"Answer","text":item.a}})) };
 ---
 
-<SwissLayout
-  title="About Alpha Digital Agency Bali | Daniel Santoso"
-  description="Hospitality digital marketing practice in Bali led by Daniel Santoso: Google Ads, tracking, SEO, and booking engine implementation for hotels and villas."
-  currentPage="about"
->
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(personLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(aboutFaqLD)} />
-  </Fragment>
+<SwissLayout title={isEn?"About Alpha Digital Agency Bali | Daniel Santoso":"About Alpha Digital Agency Bali | Daniel Santoso"} description={isEn?"Hospitality digital marketing practice in Bali led by Daniel Santoso: Google Ads, tracking, SEO, and booking engine implementation for hotels and villas.":"Hospitality digital marketing practice in Bali led by Daniel Santoso: Google Ads, tracking, SEO, and booking engine implementation for hotels and villas."} currentPage="about">
+  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(personLD)} /><script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} /><script type="application/ld+json" set:html={JSON.stringify(aboutFaqLD)} /></Fragment>
 
-  <!-- Hero Section -->
   <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
-    <h1
-      class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-center"
-    >
-      <span class="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] block">
-        About<span class="text-primary">.</span>
-      </span>
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-center">
+      <span class="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] block">{tx.heroAbout}<span class="text-primary">.</span></span>
     </h1>
-    <h2
-      class="mt-3 font-display font-bold text-lg md:text-xl text-charcoal dark:text-white text-center"
-    >
-      Daniel Santoso — Google Ads Specialist Bali, 9 Tahun Pengalaman untuk Vila &amp; Hotel
-    </h2>
-    <p
-      class="mt-3 md:mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto text-center leading-relaxed tracking-wide"
-    >
-      9 tahun Google Ads untuk hospitality Bali — satu sistem, satu laporan, satu tujuan.
-    </p>
+    <h2 class="mt-3 font-display font-bold text-lg md:text-xl text-charcoal dark:text-white text-center">{tx.heroH2}</h2>
+    <p class="mt-3 md:mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto text-center leading-relaxed tracking-wide">{tx.heroP}</p>
   </section>
 
-  <!-- About Content -->
   <section class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
-    <div
-      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
-    >
-      <div class="prose prose-lg max-w-none">
-        <h2
-          class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6"
-        >
-          Siapa Kami
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-          Alpha Digital Agency adalah praktik marketing hospitality Bali — spesialisasi Google Ads, data tracking lintas channel, dan integrasi booking engine langsung untuk vila dan hotel. Fokus kami adalah perhotelan mewah di Bali — 9 active hospitality clients across Bali yang membutuhkan hasil terukur, bukan sekadar laporan.
-        </p>
-        <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-          Daniel Santoso, founder Alpha Digital, membawa 9 tahun kedalaman Google Ads untuk properti hospitality — dilengkapi dengan praktik Data Science modern: GA4 Analytics, BigQuery untuk analisis data skala enterprise, dan AI Agents yang bekerja 24/7 di website properti Anda.
-        </p>
-        <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-          Kami tidak menjual tech. Tidak menjual platform. Kami memastikan digital marketing dapat diimplementasikan dengan benar dan tepat — sehingga pemilik properti punya gambaran jelas tentang channel mana yang benar-benar menghasilkan reservasi.
-        </p>
-        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-          Kami gabungkan Google Ads, Search Console, dan Analytics dalam satu sistem laporan — supaya iklan berbayar dan pencarian organik tidak saling makan budget, tapi saling mendukung reservasi langsung.
-        </p>
-      </div>
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6">{tx.whoTitle}</h2>
+      {[tx.whoP1,tx.whoP2,tx.whoP3,tx.whoP4].map((p,i)=>(<p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">{p}</p>))}
     </div>
 
-    <!-- Expertise grid -->
-    <div
-      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
-    >
-      <h2
-        class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8"
-      >
-        Keahlian Kami
-      </h2>
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.expertiseTitle}</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="border-l-4 border-primary pl-4">
-          <h3 class="font-bold text-charcoal dark:text-white mb-2">
-            Google Ads — 9 Tahun
-          </h3>
-          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-            Spesialisasi kampanye Google Ads untuk vila dan hotel boutique di Bali. Keyword research, bid strategy, creative optimization — berbasis data, bukan asumsi.
-          </p>
-        </div>
-        <div class="border-l-4 border-primary pl-4">
-          <h3 class="font-bold text-charcoal dark:text-white mb-2">
-            Data Tracking &amp; Analytics
-          </h3>
-          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-            Setup GA4, GTM, dan Google Search Console yang benar. Laporan bulanan yang menggabungkan data Ads + organik + booking dalam satu tampilan.
-          </p>
-        </div>
-        <div class="border-l-4 border-primary pl-4">
-          <h3 class="font-bold text-charcoal dark:text-white mb-2">
-            Booking Engine Integration
-          </h3>
-          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-            Install dan kelola booking engine — platform apa pun, tanpa lock-in vendor. Reservasi langsung terhubung ke laporan Ads Anda.
-          </p>
-        </div>
-        <div class="border-l-4 border-primary pl-4">
-          <h3 class="font-bold text-charcoal dark:text-white mb-2">
-            AI Agent untuk Properti
-          </h3>
-          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-            Asisten digital 24/7 di website properti Anda — jawab pertanyaan tamu, bantu proses reservasi, terintegrasi dengan booking engine.
-          </p>
-        </div>
+        {tx.expertise.map(e=>(<div class="border-l-4 border-primary pl-4"><h3 class="font-bold text-charcoal dark:text-white mb-2">{e.title}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{e.desc}</p></div>))}
       </div>
     </div>
 
-    <!-- Proof block — anonymized -->
-    <div
-      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
-    >
-      <h2
-        class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6"
-      >
-        Hasil Nyata
-      </h2>
-      <blockquote class="border-l-4 border-primary pl-6 py-2">
-        <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">
-          "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads."
-        </p>
-        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">
-          — Verified client data. Name withheld per client policy.
-        </cite>
-      </blockquote>
-      <p class="text-slate-500 dark:text-slate-400 text-xs mt-6">
-        Case Study #1 — full breakdown coming soon. <a href="mailto:daniel@alphadigitalagency.id" class="text-primary underline">Hubungi kami</a> untuk melihat methodology secara detail.
-      </p>
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-6">{tx.proofTitle}</h2>
+      <blockquote class="border-l-4 border-primary pl-6 py-2"><p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">"{tx.proofQuote}"</p><cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">{tx.proofCite}</cite></blockquote>
+      <p class="text-slate-500 dark:text-slate-400 text-xs mt-6"><Fragment set:html={tx.proofNote.replace("Hubungi kami","Hubungi kami").replace("Contact us","Contact us")} /> <a href="mailto:daniel@alphadigitalagency.id" class="text-primary underline">{isEn?"Contact us":"Hubungi kami"}</a> {isEn?"to see the methodology in detail.":"untuk melihat methodology secara detail."}</p>
     </div>
 
-    <!-- FAQ -->
-    <div
-      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8"
-    >
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-        Pertanyaan Umum
-      </h2>
-      <div class="space-y-6">
-        {aboutFaqItems.map((item) => (
-          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
-            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
-          </div>
-        ))}
-      </div>
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.faqTitle}</h2>
+      <div class="space-y-6">{tx.faq.map((item)=>(<div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0"><h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p></div>))}</div>
     </div>
 
-    <!-- Author byline -->
-    <p class="text-xs text-slate-500 dark:text-slate-400 mb-8">
-      Ditulis oleh <a href="/daniel-santoso/" class="underline hover:text-primary">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026
-    </p>
+    <p class="text-xs text-slate-500 dark:text-slate-400 mb-8"><Fragment set:html={tx.author} /></p>
 
-    <!-- Internal links to services -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <a href="/" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Agency</p>
-        <p class="font-bold text-charcoal dark:text-white text-sm">Digital Marketing Agency Bali →</p>
-        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">Hospitality, direct booking, Ads, SEO, AI.</p>
-      </a>
-      <a href="/services/growth" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Layanan Utama</p>
-        <p class="font-bold text-charcoal dark:text-white text-sm">Growth — Google Ads →</p>
-      </a>
-      <a href="/services/authority" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Full-Funnel</p>
-        <p class="font-bold text-charcoal dark:text-white text-sm">Authority Tier →</p>
-      </a>
+      <a href={isEn?"/en":"/"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">{tx.card1Label}</p><p class="font-bold text-charcoal dark:text-white text-sm">{tx.card1Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.card1Desc}</p></a>
+      <a href={isEn?"/en/services/growth":"/services/growth"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">{tx.card2Label}</p><p class="font-bold text-charcoal dark:text-white text-sm">{tx.card2Title}</p></a>
+      <a href={isEn?"/en/services/authority":"/services/authority"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">{tx.card3Label}</p><p class="font-bold text-charcoal dark:text-white text-sm">{tx.card3Title}</p></a>
     </div>
 
-    <!-- CTA -->
-    <div
-      class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center"
-    >
-      <h2
-        class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4"
-      >
-        Mulai dari Mana?
-      </h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
-        Kirim email atau WhatsApp. Kami mulai dengan audit cepat situasi digital properti Anda — gratis, tanpa komitmen.
-      </p>
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">{tx.finalTitle}</h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">{tx.finalDesc}</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a
-          href="mailto:daniel@alphadigitalagency.id"
-          class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-        >
-          <span class="material-symbols-outlined">mail</span>
-          Minta Penawaran
-        </a>
-        <a
-          href="https://wa.me/628814802249"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
-        >
-          <span class="material-symbols-outlined">chat</span>
-          WhatsApp
-        </a>
+        <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.finalCta}</a>
+        <a href="https://wa.me/628814802249" target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">chat</span>{tx.finalWa}</a>
       </div>
     </div>
   </section>
