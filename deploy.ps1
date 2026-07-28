@@ -14,41 +14,25 @@ $EnvFile = "D:\multiple-agentic\.env"
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host "  ALPHA DIGITAL - Clean Deploy Pipeline" -ForegroundColor Cyan
 Write-Host "  Project: $ProjectName" -ForegroundColor Cyan
+Write-Host "  Rule: DEPLOY FROM GIT ONLY (origin/main)" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 
-# Gate 1: Clean working tree
+# Gate 1: Fetch latest from origin
 Write-Host ""
-Write-Host "[1/5] Checking working tree..." -ForegroundColor Yellow
-$Status = git status --porcelain
-if ($Status) {
-    Write-Host "FAIL: Working tree is not clean." -ForegroundColor Red
-    Write-Host ""
-    Write-Host "Uncommitted changes:" -ForegroundColor Red
-    Write-Host $Status
-    Write-Host ""
-    Write-Host "Fix: git add -A; git commit -m 'message'; git push" -ForegroundColor Yellow
-    exit 1
-}
-Write-Host "OK - Working tree is clean." -ForegroundColor Green
-
-# Gate 2: Sync with remote
-Write-Host ""
-Write-Host "[2/5] Syncing with origin/main..." -ForegroundColor Yellow
+Write-Host "[1/5] Fetching latest from origin..." -ForegroundColor Yellow
 git fetch origin
-$Local = git rev-parse HEAD
 $Remote = git rev-parse origin/main
+Write-Host "OK - origin/main = $Remote" -ForegroundColor Green
 
-if ($Local -ne $Remote) {
-    Write-Host "Local is behind origin. Pulling latest..." -ForegroundColor Yellow
-    git pull origin main
-    Write-Host "OK - Synced. New HEAD: $(git rev-parse --short HEAD)" -ForegroundColor Green
-} else {
-    Write-Host "OK - Already up to date with origin/main." -ForegroundColor Green
-}
+# Gate 2: Hard reset to origin/main
+Write-Host ""
+Write-Host "[2/5] Hard resetting to origin/main (discarding ALL local changes)..." -ForegroundColor Yellow
+git reset --hard origin/main | Out-Null
+git clean -fd | Out-Null
 
 $CommitHash = git rev-parse --short HEAD
 $CommitMsg = git log -1 --pretty=%s
-Write-Host "Deploying: $CommitHash - $CommitMsg" -ForegroundColor Cyan
+Write-Host "Deploying from git: $CommitHash - $CommitMsg" -ForegroundColor Cyan
 
 # Gate 3: API token check
 Write-Host ""

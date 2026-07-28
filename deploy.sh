@@ -16,40 +16,25 @@ echo "=========================================="
 echo "  ALPHA DIGITAL — Clean Deploy Pipeline"
 echo "  Project: $PROJECT_NAME"
 echo "  Environment: $ENVIRONMENT"
+echo "  Rule: DEPLOY FROM GIT ONLY (origin/main)"
 echo "=========================================="
 
-# ── Gate 1: Clean working tree ──────────────────
+# ── Gate 1: Fetch latest from origin ────────────
 echo ""
-echo "[1/5] Checking working tree..."
-if [ -n "$(git status --porcelain)" ]; then
-    echo "❌ FAIL: Working tree is not clean."
-    echo ""
-    echo "Uncommitted changes detected:"
-    git status --short
-    echo ""
-    echo "Fix: git add -A && git commit -m \"your message\" && git push"
-    exit 1
-fi
-echo "✅ Working tree is clean."
-
-# ── Gate 2: Sync with remote ────────────────────
-echo ""
-echo "[2/5] Syncing with origin/main..."
+echo "[1/5] Fetching latest from origin..."
 git fetch origin
-LOCAL=$(git rev-parse HEAD)
 REMOTE=$(git rev-parse origin/main)
+echo "✅ origin/main = $REMOTE"
 
-if [ "$LOCAL" != "$REMOTE" ]; then
-    echo "⚠️  Local is behind origin. Pulling latest..."
-    git pull origin main
-    echo "✅ Synced. New HEAD: $(git rev-parse --short HEAD)"
-else
-    echo "✅ Already up to date with origin/main."
-fi
+# ── Gate 2: Hard reset to origin/main ───────────
+echo ""
+echo "[2/5] Hard resetting to origin/main (discarding ALL local changes)..."
+git reset --hard origin/main
+git clean -fd
 
 COMMIT_HASH=$(git rev-parse --short HEAD)
 COMMIT_MSG=$(git log -1 --pretty=%s)
-echo "📦 Deploying: $COMMIT_HASH — $COMMIT_MSG"
+echo "📦 Deploying from git: $COMMIT_HASH — $COMMIT_MSG"
 
 # ── Gate 3: API token check ─────────────────────
 echo ""
