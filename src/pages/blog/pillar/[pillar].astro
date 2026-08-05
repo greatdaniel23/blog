@@ -1,0 +1,118 @@
+---
+// PillarPage hub — Evergreen Topical Hub per content pillar (KG-SEO v3
+// Gap #17 / PRD REQ-ST-1 PillarPage node type). Data-driven from
+// content_pillars + posts, so a new pillar needs zero code.
+// Route: /blog/pillar/<pillar_id>  (no-trailing-slash standard)
+import SwissLayout from "../../../components/SwissLayout.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { SITE_URL } from "../../../consts";
+
+const { env } = Astro.locals.runtime;
+const { pillar } = Astro.params;
+
+if (!env || !env.DB) {
+	console.error("DB binding missing");
+	throw new Error("DB binding missing");
+}
+
+// Unknown pillar → redirect to blog index via middleware-style 404 fallback.
+const pillarRow = await env.DB.prepare(
+	"SELECT * FROM content_pillars WHERE pillar_id = ?",
+)
+	.bind(pillar)
+	.first<{ pillar_id: string; title: string; hub_topic: string; description: string; wikidata_id: string | null }>();
+
+if (!pillarRow) {
+	return new Response(null, { status: 404, statusText: "Not Found" });
+}
+
+const { results: posts } = await env.DB.prepare(
+	"SELECT slug, title, description, pub_date FROM posts WHERE is_published = 1 AND pillar_id = ? ORDER BY pub_date DESC LIMIT 30",
+)
+	.bind(pillar)
+	.all<{ slug: string; title: string; description: string; pub_date: string }>();
+
+const pillarUrl = `${SITE_URL}/blog/pillar/${pillarRow.pillar_id}`;
+
+// CollectionPage schema — the hub itself is the evergreen topic authority node.
+const hubLD = {
+	"@type": ["CollectionPage"],
+	"@id": `${pillarUrl}/#webpage`,
+	url: pillarUrl,
+	name: `${pillarRow.title} — Hub Topikal`,
+	description: pillarRow.description ?? pillarRow.hub_topic ?? `${pillarRow.title} articles`,
+	isPartOf: { "@id": `${SITE_URL}/#website` },
+	...(pillarRow.wikidata_id
+		? {
+				about: {
+					"@type": "Thing",
+					name: pillarRow.title,
+					sameAs: `https://www.wikidata.org/wiki/${pillarRow.wikidata_id}`,
+				},
+			}
+		: {}),
+	mainEntity: {
+		"@type": "ItemList",
+		itemListElement: posts.slice(0, 10).map((post, i) => ({
+			"@type": "ListItem",
+			position: i + 1,
+			url: `${SITE_URL}/blog/${post.slug}`,
+			name: post.title,
+		})),
+	},
+};
+
+const breadcrumbs = [
+	{ name: "Home", url: "/" },
+	{ name: "Blog", url: "/blog" },
+	{ name: pillarRow.title, url: pillarUrl },
+];
+---
+
+<SwissLayout
+	title={`${pillarRow.title} | Blog Alpha Digital`}
+	description={pillarRow.description ?? pillarRow.hub_topic ?? `${pillarRow.title} articles`}
+	currentPage="blog"
+	mainEntity={hubLD}
+	breadcrumbs={breadcrumbs}
+>
+	<section class="max-w-6xl mx-auto mb-16 md:mb-24 px-6 md:px-12">
+		<p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary mb-3">
+			Pillar Hub · {pillarRow.pillar_id}
+		</p>
+		<h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest">
+			<span class="text-[2rem] sm:text-[3rem] md:text-[4rem] block">{pillarRow.title}</span>
+		</h1>
+		{(pillarRow.description || pillarRow.hub_topic) && (
+			<p class="mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl leading-relaxed tracking-wide">
+				{pillarRow.description ?? pillarRow.hub_topic}
+			</p>
+		)}
+		<p class="mt-3 text-xs text-slate-500 dark:text-slate-400">{posts.length} artikel</p>
+	</section>
+
+	<section class="max-w-6xl mx-auto pb-16 px-6 md:px-12">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			{posts.map((post) => (
+				<a
+					href={`/blog/${post.slug}`}
+					class="group border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 hover:border-primary transition-colors"
+				>
+					<p class="font-bold text-charcoal dark:text-white group-hover:text-primary transition-colors">
+						{post.title}
+					</p>
+					{post.description && (
+						<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-2">
+							{post.description}
+						</p>
+					)}
+					{post.pub_date && (
+						<p class="text-xs text-slate-500 dark:text-slate-400 mt-3">
+							<FormattedDate date={post.pub_date} />
+						</p>
+					)}
+				</a>
+			))}
+		</div>
+	</section>
+</SwissLayout>

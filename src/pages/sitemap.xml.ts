@@ -22,28 +22,36 @@ const SITE = 'https://alphadigitalagency.id';
 // Excludes: /pembantu (admin), /api/*, /404, rss.xml, the booking proxy, and
 // /ai-agent/demo/ (noindex — ALPHA decision 2026-06-09).
 const STATIC_ROUTES: Array<{ path: string; changefreq: string; priority: string }> = [
+  // No-trailing-slash canonical standard (KG-SEO v3 Gap #18) — every URL here
+  // is emitted in no-slash form, matching the middleware 301 + page canonicals.
   { path: '/', changefreq: 'weekly', priority: '1.0' },
-  { path: '/about/', changefreq: 'monthly', priority: '0.7' },
-  { path: '/daniel-santoso/', changefreq: 'monthly', priority: '0.7' },
+  { path: '/about', changefreq: 'monthly', priority: '0.7' },
+  { path: '/daniel-santoso', changefreq: 'monthly', priority: '0.7' },
   { path: '/services', changefreq: 'monthly', priority: '0.8' },
   { path: '/services/ai-agent', changefreq: 'monthly', priority: '0.8' },
   { path: '/services/booking-engine', changefreq: 'monthly', priority: '0.8' },
-  { path: '/ekosistem/', changefreq: 'monthly', priority: '0.7' },
+  { path: '/ekosistem', changefreq: 'monthly', priority: '0.7' },
   { path: '/gallery', changefreq: 'monthly', priority: '0.6' },
   { path: '/blog', changefreq: 'daily', priority: '0.7' },
   { path: '/services/google-ads', changefreq: 'monthly', priority: '0.7' },
-  { path: '/kelas/', changefreq: 'monthly', priority: '0.5' },
-  { path: '/kelas/digital-marketing-fundamental/', changefreq: 'monthly', priority: '0.4' },
-  { path: '/kelas/google-ads/', changefreq: 'monthly', priority: '0.4' },
-  { path: '/kelas/ai-produktivitas-karyawan/', changefreq: 'monthly', priority: '0.4' },
-  { path: '/kelas/seo-google-analytics/', changefreq: 'monthly', priority: '0.4' },
-  { path: '/kelas/ai-agent-chatbot/', changefreq: 'monthly', priority: '0.4' },
-  { path: '/kelas/ai-untuk-orang-tua/', changefreq: 'monthly', priority: '0.3' },
-  { path: '/services/authority/', changefreq: 'monthly', priority: '0.8' },
-  { path: '/services/booking-integration/', changefreq: 'monthly', priority: '0.8' },
-  { path: '/services/foundation/', changefreq: 'monthly', priority: '0.8' },
-  { path: '/services/growth/', changefreq: 'monthly', priority: '0.8' },
-  { path: '/privacy-policy/', changefreq: 'yearly', priority: '0.3' },
+  { path: '/kelas', changefreq: 'monthly', priority: '0.5' },
+  { path: '/kelas/digital-marketing-fundamental', changefreq: 'monthly', priority: '0.4' },
+  { path: '/kelas/google-ads', changefreq: 'monthly', priority: '0.4' },
+  { path: '/kelas/ai-produktivitas-karyawan', changefreq: 'monthly', priority: '0.4' },
+  { path: '/kelas/seo-google-analytics', changefreq: 'monthly', priority: '0.4' },
+  { path: '/kelas/ai-agent-chatbot', changefreq: 'monthly', priority: '0.4' },
+  { path: '/kelas/ai-untuk-orang-tua', changefreq: 'monthly', priority: '0.3' },
+  { path: '/services/authority', changefreq: 'monthly', priority: '0.8' },
+  { path: '/services/booking-integration', changefreq: 'monthly', priority: '0.8' },
+  { path: '/services/foundation', changefreq: 'monthly', priority: '0.8' },
+  { path: '/services/growth', changefreq: 'monthly', priority: '0.8' },
+  // Evergreen pillar hubs (KG-SEO v3 Gap #17)
+  { path: '/blog/pillar/digital-marketing-bali', changefreq: 'weekly', priority: '0.7' },
+  { path: '/blog/pillar/google-ads', changefreq: 'weekly', priority: '0.7' },
+  { path: '/blog/pillar/digital-marketing-for-hotel', changefreq: 'weekly', priority: '0.7' },
+  { path: '/blog/pillar/booking-engine', changefreq: 'weekly', priority: '0.7' },
+  { path: '/blog/pillar/ai-agent', changefreq: 'weekly', priority: '0.7' },
+  { path: '/privacy-policy', changefreq: 'yearly', priority: '0.3' },
 ];
 
 type PostRow = { slug: string; pub_date: string | null; updated_at: string | null };

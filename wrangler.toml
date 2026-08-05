@@ -17,6 +17,13 @@ binding = "SESSION"
 id = "471b088473d445e1ac4bf33aded07b68"
 preview_id = "471b088473d445e1ac4bf33aded07b68"
 
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "kg-blog-index"
+
+[[ai]]
+binding = "AI"
+
 [observability]
 enabled = true
 

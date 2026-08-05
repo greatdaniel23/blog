@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import SwissLayout from "../../components/SwissLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
+import { SITE_URL } from "../../consts";
 
 interface Post {
 	id: number;
@@ -25,9 +26,30 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/assets/*.{jpeg,jpg,png,gif}",
 	{ eager: true },
 );
+
+// Blog index CollectionPage schema (Gap #13) — the index previously emitted no
+// Blog/CollectionPage/ItemList, leaving the listing graph-blind. ItemList is
+// populated from the published posts (latest 10, no-slash URLs).
+const blogIndexLD = {
+	"@type": ["Blog", "CollectionPage"],
+	"@id": `${SITE_URL}/blog/#webpage`,
+	name: "Blog | Alpha Digital Agency",
+	description:
+		"Strategi Google Ads, SEO hospitality, booking engine, dan AI agent untuk hotel dan villa di Bali — langsung dari praktisi.",
+	url: `${SITE_URL}/blog`,
+	mainEntity: {
+		"@type": "ItemList",
+		itemListElement: posts.slice(0, 10).map((post, i) => ({
+			"@type": "ListItem",
+			position: i + 1,
+			url: `${SITE_URL}/blog/${post.slug}`,
+			name: post.title,
+		})),
+	},
+};
 ---
 
-<SwissLayout title="Blog | Alpha Digital Agency" currentPage="blog" description="Strategi Google Ads, SEO hospitality, booking engine, dan AI agent untuk hotel dan villa di Bali — langsung dari praktisi.">
+<SwissLayout title="Blog | Alpha Digital Agency" currentPage="blog" description="Strategi Google Ads, SEO hospitality, booking engine, dan AI agent untuk hotel dan villa di Bali — langsung dari praktisi." extraNodes={[blogIndexLD]}>
 	<!-- Hero Section -->
 	<section class="max-w-6xl mx-auto mb-16 md:mb-24 px-6 md:px-12">
 		<h1

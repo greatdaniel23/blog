@@ -214,7 +214,9 @@ if (breadcrumbs && breadcrumbs.length > 0) {
 			"@type": "ListItem",
 			position: i + 1,
 			name: b.name,
-			item: new URL(b.url, SITE_URL).toString(),
+			// Normalize to the no-trailing-slash canonical form (Gap #11) —
+			// breadcrumb items must match the page canonical @id exactly.
+			item: b.url === "/" ? SITE_URL : new URL(b.url.replace(/\/+$/, ""), SITE_URL).toString(),
 		})),
 	};
 }
