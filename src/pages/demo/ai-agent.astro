@@ -5,13 +5,12 @@ const isEn = locale === 'en';
 import "../../styles/global.css";
 import SwissHeader from "../../components/SwissHeader.astro";
 import SwissFooter from "../../components/SwissFooter.astro";
+import SeoGraph from "../../components/SeoGraph.astro";
 
 const SITE_URL = "https://alphadigitalagency.id";
 const DEFAULT_IMAGE = `${SITE_URL}/images/og-alpha-default.png`;
 
-const orgLD = { "@context":"https://schema.org","@type":"Organization","@id":`${SITE_URL}/#organization`,"name":"Alpha Digital Agency Indonesia","url":SITE_URL };
-const webLD = { "@context":"https://schema.org","@type":"WebSite","@id":`${SITE_URL}/#website`,"url":SITE_URL,"name":"Alpha Digital Agency Indonesia" };
-const breadLD = { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{ "@type":"ListItem","position":1,"name":"Home","item":SITE_URL },{ "@type":"ListItem","position":2,"name":"Demo AI Agent","item":`${SITE_URL}/demo/ai-agent` }] };
+const breadcrumbs = [{ "name":"Home", "url":SITE_URL },{ "name":"Demo AI Agent", "url":`${SITE_URL}/demo/ai-agent` }];
 
 const chatMessages = [
     { role: 'guest', text: 'Halo, ada kamar available untuk 20-22 Agustus? Untuk 2 orang.', label: 'Tamu' },
@@ -40,9 +39,12 @@ const chatMessages = [
     <meta name="twitter:title" content="Demo AI Agent Chatbot — Alpha Digital Agency" />
     <meta name="twitter:description" content="AI agent yang ngerti villa kamu. Jawab pertanyaan tamu 24 jam non-stop." />
     <meta name="twitter:image" content={DEFAULT_IMAGE} />
-    <script type="application/ld+json" set:html={JSON.stringify(orgLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(webLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadLD)} />
+    <SeoGraph
+        title="Demo AI Agent Chatbot — Alpha Digital Agency"
+        description="Lihat bagaimana AI agent menjawab pertanyaan tamu 24/7, multi-bahasa, terlatih dengan data hotel."
+        url="https://alphadigitalagency.id/demo/ai-agent"
+        breadcrumbs={breadcrumbs}
+    />
     <style is:inline>
         body { min-height: max(884px, 100dvh); }
         .chat-guest { background: #059669; color: #fff; border-radius: 12px 12px 2px 12px; }

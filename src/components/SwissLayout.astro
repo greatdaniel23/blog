@@ -1,6 +1,7 @@
 ---
 import SwissHeader from "./SwissHeader.astro";
 import SwissFooter from "./SwissFooter.astro";
+import SeoGraph from "./SeoGraph.astro";
 import "../styles/global.css";
 import { SITE_URL, SITE_TITLE } from "../consts";
 
@@ -16,9 +17,15 @@ interface Props {
         publishedTime?: string;
         modifiedTime?: string;
     };
+    /** Unified @graph page nodes (Knowledge Graph SEO v3) — passed to SeoGraph. */
+    mainEntity?: object;
+    breadcrumbs?: { name: string; url: string }[];
+    faq?: { q: string; a: string }[];
+    howto?: { name?: string; steps: { name: string; text: string }[] };
+    extraNodes?: object[];
 }
 
-const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "", robots = "index, follow", image, article } = Astro.props;
+const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "", robots = "index, follow", image, article, mainEntity, breadcrumbs, faq, howto, extraNodes } = Astro.props;
 const BUILD_MARKER = "SEO-FIX-2026-06-14-ALPHA";
 
 // GA4 Measurement ID — public by design, safe to hardcode in static HTML.
@@ -64,74 +71,10 @@ const DEFAULT_OG = `${SITE_URL}/images/og-alpha-default.png`;
 const ogImage = new URL(image ?? DEFAULT_OG, SITE_URL).toString();
 const ogType = article ? "article" : "website";
 
-// Site-wide Organization schema — injected on every SwissLayout page.
-// founder + knowsAbout added 2026-05-14 for EEAT/Gemini citation signal (CANVAS Sprint 6 P1-3).
-const organizationLD = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": `${SITE_URL}/#organization`,
-    name: SITE_TITLE,
-    url: SITE_URL,
-    address: {
-        "@type": "PostalAddress",
-        addressLocality: "Denpasar",
-        addressRegion: "Bali",
-        addressCountry: "ID",
-    },
-    areaServed: { "@type": "Place", name: "Bali, Indonesia" },
-    contactPoint: {
-        "@type": "ContactPoint",
-        telephone: "+628814802249",
-        email: "daniel@alphadigitalagency.id",
-        contactType: "sales",
-        areaServed: "ID",
-        availableLanguage: ["id", "en"],
-    },
-    founder: {
-        "@type": "Person",
-        name: "Daniel Santoso",
-        url: `${SITE_URL}/daniel-santoso/`,
-    },
-    knowsAbout: [
-        "Digital Marketing Agency Bali",
-        "Digital Marketing Bali",
-        "Google Ads for Hotels",
-        "GA4 Analytics for Hospitality",
-        "Direct Booking Strategy",
-        "OTA Reduction Strategy",
-        "Booking Engine Integration",
-        "Bali Villa Digital Marketing",
-        "Hotel Revenue Management",
-        "Google Tag Manager",
-        "Search Console Optimization",
-    ],
-};
-
-const websiteLD = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${SITE_URL}/#website`,
-    url: SITE_URL,
-    name: SITE_TITLE,
-    publisher: { "@id": `${SITE_URL}/#organization` },
-};
-
-const professionalServiceLD = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "@id": `${SITE_URL}/#professionalservice`,
-    name: SITE_TITLE,
-    url: SITE_URL,
-    parentOrganization: { "@id": `${SITE_URL}/#organization` },
-    areaServed: { "@type": "Place", name: "Bali, Indonesia" },
-    serviceType: [
-        "Google Ads Management",
-        "Hospitality SEO",
-        "Booking Engine Integration",
-        "AI Agent Implementation",
-        "GA4 and Search Console Tracking",
-    ],
-};
+// Site-wide entity schema moved to SeoGraph.astro (single @graph block per page,
+// Knowledge Graph SEO v3 Phase A) — Organization/LocalBusiness/ProfessionalService/
+// WebSite are emitted there; page-level nodes arrive via the mainEntity/breadcrumbs/
+// faq/howto/extraNodes props above.
 ---
 
 <!doctype html>
@@ -279,10 +222,17 @@ const professionalServiceLD = {
                 transition: opacity 0.3s;
             }
         </style>
-        <!-- Site-wide entity schema -->
-        <script type="application/ld+json" set:html={JSON.stringify(organizationLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(websiteLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(professionalServiceLD)} />
+        <!-- Unified @graph entity schema (single ld+json block per page) -->
+        <SeoGraph
+            title={title}
+            description={description}
+            url={canonicalURL.href}
+            mainEntity={mainEntity}
+            breadcrumbs={breadcrumbs}
+            faq={faq}
+            howto={howto}
+            extraNodes={extraNodes}
+        />
         <slot name="head" />
         {ga4Id && (
             <>

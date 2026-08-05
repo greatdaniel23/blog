@@ -86,17 +86,12 @@ const format = [
   },
 ];
 
-const breadcrumbLD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://alphadigitalagency.id/" },
-    { "@type": "ListItem", position: 2, name: "Kelas Digital Marketing", item: "https://alphadigitalagency.id/kelas/" },
-  ],
-};
+const breadcrumbs = [
+  { name: "Home", url: "/" },
+  { name: "Kelas Digital Marketing", url: "/kelas/" },
+];
 
-const courseLD = {
-  "@context": "https://schema.org",
+const mainEntity = {
   "@type": "Course",
   name: "Kelas Digital Marketing — Privat & Offline di Bali",
   description:
@@ -113,10 +108,10 @@ const courseLD = {
   title="Kelas Digital Marketing Bali | Alpha Digital"
   description="Kelas digital marketing privat di Bali: Google Ads, SEO, GA4, dan AI, diajar praktisi agensi aktif. Daftar via WhatsApp."
   currentPage="kelas"
+  mainEntity={mainEntity}
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(courseLD)} />
     <!-- build:{BUILD_TAG} -->
   </Fragment>
 

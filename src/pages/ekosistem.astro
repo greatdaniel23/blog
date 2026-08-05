@@ -8,8 +8,7 @@ import SwissLayout from "../components/SwissLayout.astro";
 // Grep for this string on production after deploy.
 const BUILD_MARKER = "EKOSISTEM-PITCH-2026-05-16-NEXUS";
 
-const serviceLD = {
-    "@context": "https://schema.org",
+const mainEntity = {
     "@type": "Service",
     "name": "Ekosistem Digital Hospitality Bali — Stack Terintegrasi Alpha Digital",
     "provider": {
@@ -51,24 +50,12 @@ const faqItems = [
     }
 ];
 
-const faqLD = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqItems.map(item => ({
-        "@type": "Question",
-        "name": item.q,
-        "acceptedAnswer": { "@type": "Answer", "text": item.a }
-    }))
-};
+const faq = faqItems;
 
-const breadcrumbLD = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
-        { "@type": "ListItem", "position": 2, "name": "Ekosistem", "item": "https://alphadigitalagency.id/ekosistem/" }
-    ]
-};
+const breadcrumbs = [
+    { "name": "Home", "url": "/" },
+    { "name": "Ekosistem", "url": "https://alphadigitalagency.id/ekosistem/" }
+];
 
 const layers = [
     {
@@ -90,14 +77,14 @@ const layers = [
         name: "AI Agent",
         role: "Konsultan 24 Jam",
         body: "Chatbot yang dilatih dari Google Place ID dan database properti Anda — menjawab pertanyaan ketersediaan, tarif, lokasi, dan kebijakan secara akurat dalam bahasa tamu. Mengarahkan tamu langsung ke booking engine.",
-        link: { href: "/ai-agent/", label: "Detail AI Agent" }
+        link: { href: "/services/ai-agent/", label: "Detail AI Agent" }
     },
     {
         n: "04",
         name: "Booking Engine",
         role: "Mesin Reservasi Langsung Milik Anda",
         body: "Booking engine open-source milik Alpha (tanpa biaya lisensi bulanan) atau integrasi Cloudbeds / SiteMinder / Little Hotelier — pilihan Anda. Data reservasi tetap di properti, tidak terkunci vendor.",
-        link: { href: "/booking-engine/", label: "Detail Booking Engine" }
+        link: { href: "/services/booking-engine/", label: "Detail Booking Engine" }
     },
     {
         n: "05",
@@ -113,11 +100,11 @@ const layers = [
     title="Hospitality Digital Stack Bali | Alpha Digital"
     description="Integrated digital stack for Bali hotels and villas: Google Ads, website, AI agent, booking engine, GA4, and reporting in one implementation pipeline."
     currentPage="ekosistem"
+    mainEntity={mainEntity}
+    faq={faq}
+    breadcrumbs={breadcrumbs}
 >
     <Fragment slot="head">
-        <script type="application/ld+json" set:html={JSON.stringify(serviceLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
         <meta name="build-marker" content={BUILD_MARKER} />
     </Fragment>
 

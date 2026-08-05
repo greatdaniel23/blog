@@ -1,0 +1,248 @@
+---
+// SeoGraph — single unified @graph JSON-LD emitter (Knowledge Graph SEO v3, Phase A).
+// Every page emits exactly ONE <script type="application/ld+json"> whose payload is
+// an @graph array: Organization → LocalBusiness → ProfessionalService → WebSite →
+// WebPage → page main entity → BreadcrumbList/FAQPage/HowTo/extra nodes.
+//
+// Specs: docs/knowledge-graph-seo-v3/03_ARCHITECTURE_SCHEMA.md §3 (unified @graph
+// model) + 07_STATIC_PAGE_GRAPH_DETAILED_SPEC.md §3 (static node types).
+// @id cross-references: page nodes point at the sitewide entities via @id refs.
+import {
+	SITE_TITLE,
+	SITE_DESCRIPTION,
+	SITE_URL,
+	SITE_LOGO,
+	SITE_SOCIAL,
+} from "../consts";
+
+interface Props {
+	title: string;
+	description: string;
+	/** Absolute canonical URL, NO trailing slash. */
+	url: string;
+	/** Page main entity node (Service / BlogPosting / ProfessionalService / Person / Course). */
+	mainEntity?: object | null;
+	breadcrumbs?: { name: string; url: string }[] | null;
+	faq?: { q: string; a: string }[] | null;
+	howto?: { name?: string; steps: { name: string; text: string }[] } | null;
+	/** Additional graph nodes (e.g. ProfilePage) — @context stripped automatically. */
+	extraNodes?: object[];
+}
+
+const {
+	title,
+	description,
+	url,
+	mainEntity,
+	breadcrumbs,
+	faq,
+	howto,
+	extraNodes = [],
+} = Astro.props;
+
+// sameAs only from confirmed social URLs (D-002: LinkedIn verified; Threads not
+// created yet per D-003 — never include it). No wikidata placeholders.
+const sameAsList = (["linkedin"] as const)
+	.map((k) => SITE_SOCIAL[k])
+	.filter((u): u is string => typeof u === "string" && u.length > 0);
+
+const organizationLD = {
+	"@type": "Organization",
+	"@id": `${SITE_URL}/#organization`,
+	name: SITE_TITLE,
+	url: SITE_URL,
+	logo: {
+		"@type": "ImageObject",
+		"@id": `${SITE_URL}/#logo`,
+		url: SITE_LOGO,
+		caption: "Alpha Digital Agency Logo",
+	},
+	address: {
+		"@type": "PostalAddress",
+		addressLocality: "Denpasar",
+		addressRegion: "Bali",
+		addressCountry: "ID",
+	},
+	contactPoint: {
+		"@type": "ContactPoint",
+		telephone: "+628814802249",
+		email: "daniel@alphadigitalagency.id",
+		contactType: "sales",
+		areaServed: "ID",
+		availableLanguage: ["id", "en"],
+	},
+	areaServed: { "@type": "Place", name: "Bali, Indonesia" },
+	founder: {
+		"@type": "Person",
+		name: "Daniel Santoso",
+		url: `${SITE_URL}/daniel-santoso/`,
+	},
+	knowsAbout: [
+		"Digital Marketing Agency Bali",
+		"Digital Marketing Bali",
+		"Google Ads for Hotels",
+		"GA4 Analytics for Hospitality",
+		"Direct Booking Strategy",
+		"OTA Reduction Strategy",
+		"Booking Engine Integration",
+		"Bali Villa Digital Marketing",
+		"Hotel Revenue Management",
+		"Google Tag Manager",
+		"Search Console Optimization",
+	],
+};
+if (sameAsList.length > 0) {
+	organizationLD.sameAs = sameAsList;
+}
+
+// Merged dedup LocalBusiness node (Phase A item 3): the old SwissFooter block
+// (street address Jl Pulau Singkep GG Starindo A4) merged with the old
+// index.astro block (geo + priceRange). One #localbusiness per page, inside @graph.
+const localBusinessLD = {
+	"@type": "LocalBusiness",
+	"@id": `${SITE_URL}/#localbusiness`,
+	name: SITE_TITLE,
+	url: SITE_URL,
+	telephone: "+628814802249",
+	email: "daniel@alphadigitalagency.id",
+	address: {
+		"@type": "PostalAddress",
+		streetAddress: "Jl Pulau Singkep GG Starindo A4",
+		addressLocality: "Denpasar",
+		addressRegion: "Bali",
+		addressCountry: "ID",
+	},
+	geo: { "@type": "GeoCoordinates", latitude: -8.6705, longitude: 115.2126 },
+	priceRange: "$$",
+	areaServed: { "@type": "Place", name: "Bali, Indonesia" },
+	parentOrganization: { "@id": `${SITE_URL}/#organization` },
+};
+
+const professionalServiceLD = {
+	"@type": "ProfessionalService",
+	"@id": `${SITE_URL}/#professionalservice`,
+	name: SITE_TITLE,
+	url: SITE_URL,
+	parentOrganization: { "@id": `${SITE_URL}/#organization` },
+	areaServed: { "@type": "Place", name: "Bali, Indonesia" },
+	serviceType: [
+		"Google Ads Management",
+		"Hospitality SEO",
+		"Booking Engine Integration",
+		"AI Agent Implementation",
+		"GA4 and Search Console Tracking",
+	],
+	address: {
+		"@type": "PostalAddress",
+		streetAddress: "Jl Pulau Singkep GG Starindo A4",
+		addressLocality: "Denpasar",
+		addressRegion: "Bali",
+		addressCountry: "ID",
+	},
+	geo: { "@type": "GeoCoordinates", latitude: -8.6705, longitude: 115.2126 },
+	priceRange: "$$",
+	telephone: "+628814802249",
+};
+
+const websiteLD = {
+	"@type": "WebSite",
+	"@id": `${SITE_URL}/#website`,
+	url: SITE_URL,
+	name: SITE_TITLE,
+	description: SITE_DESCRIPTION,
+	publisher: { "@id": `${SITE_URL}/#organization` },
+	potentialAction: {
+		"@type": "SearchAction",
+		target: {
+			"@type": "EntryPoint",
+			urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+		},
+		"query-input": "required name=search_term_string",
+	},
+};
+
+const webpageLD = {
+	"@type": "WebPage",
+	"@id": `${url}/#webpage`,
+	url,
+	name: title,
+	description,
+	isPartOf: { "@id": `${SITE_URL}/#website` },
+};
+
+// Main entity: strip @context, then normalize cross-references so the node
+// participates in the graph (isPartOf → #webpage, mainEntityOfPage → #webpage
+// as a bare @id ref — not a nested WebPage object).
+let mainEntityLD: object | null = null;
+if (mainEntity) {
+	const node = JSON.parse(JSON.stringify(mainEntity)) as Record<string, unknown>;
+	delete node["@context"];
+	node.isPartOf = { "@id": `${url}/#webpage` };
+	node.mainEntityOfPage = { "@id": `${url}/#webpage` };
+	mainEntityLD = node;
+}
+
+let breadcrumbLD: object | null = null;
+if (breadcrumbs && breadcrumbs.length > 0) {
+	breadcrumbLD = {
+		"@type": "BreadcrumbList",
+		itemListElement: breadcrumbs.map((b, i) => ({
+			"@type": "ListItem",
+			position: i + 1,
+			name: b.name,
+			item: new URL(b.url, SITE_URL).toString(),
+		})),
+	};
+}
+
+let faqLD: object | null = null;
+if (faq && faq.length > 0) {
+	faqLD = {
+		"@type": "FAQPage",
+		mainEntity: faq.map((f) => ({
+			"@type": "Question",
+			name: f.q,
+			acceptedAnswer: { "@type": "Answer", text: f.a },
+		})),
+	};
+}
+
+let howtoLD: object | null = null;
+if (howto && howto.steps && howto.steps.length > 0) {
+	howtoLD = {
+		"@type": "HowTo",
+		...(howto.name ? { name: howto.name } : {}),
+		step: howto.steps.map((s) => ({
+			"@type": "HowToStep",
+			name: s.name,
+			text: s.text,
+		})),
+	};
+}
+
+const extraNodesLD = extraNodes.map((n) => {
+	const node = JSON.parse(JSON.stringify(n)) as Record<string, unknown>;
+	delete node["@context"];
+	return node;
+});
+
+const graph = [
+	organizationLD,
+	localBusinessLD,
+	professionalServiceLD,
+	websiteLD,
+	webpageLD,
+	mainEntityLD,
+	breadcrumbLD,
+	faqLD,
+	howtoLD,
+	...extraNodesLD,
+].filter(Boolean);
+
+const graphLD = {
+	"@context": "https://schema.org",
+	"@graph": graph,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(graphLD)} />

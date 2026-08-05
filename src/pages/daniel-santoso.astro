@@ -7,8 +7,7 @@ const isEn = locale === 'en';
 const SITE_URL = "https://alphadigitalagency.id";
 const DANIEL_URL = `${SITE_URL}/daniel-santoso/`;
 
-const personLD = {
-  "@context": "https://schema.org",
+const mainEntity = {
   "@type": "Person",
   "@id": `${DANIEL_URL}#person`,
   "name": "Daniel Santoso",
@@ -52,28 +51,25 @@ const personLD = {
   }
 };
 
-const profilePageLD = {
-  "@context": "https://schema.org",
-  "@type": "ProfilePage",
-  "@id": DANIEL_URL,
-  "url": DANIEL_URL,
-  "name": "Daniel Santoso - Founder of Alpha Digital Agency Indonesia",
-  "about": {
-    "@id": `${DANIEL_URL}#person`
-  },
-  "isPartOf": {
-    "@id": `${SITE_URL}/#website`
+const extraNodes = [
+  {
+    "@type": "ProfilePage",
+    "@id": DANIEL_URL,
+    "url": DANIEL_URL,
+    "name": "Daniel Santoso - Founder of Alpha Digital Agency Indonesia",
+    "about": {
+      "@id": `${DANIEL_URL}#person`
+    },
+    "isPartOf": {
+      "@id": `${SITE_URL}/#website`
+    }
   }
-};
+];
 
-const breadcrumbLD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": `${SITE_URL}/` },
-    { "@type": "ListItem", "position": 2, "name": "Daniel Santoso", "item": DANIEL_URL }
-  ]
-};
+const breadcrumbs = [
+  { "name": "Home", "url": "/" },
+  { "name": "Daniel Santoso", "url": DANIEL_URL }
+];
 
 const faqItems = isEn ? [
   { q: "Who is Daniel Santoso?", a: "Daniel Santoso is the founder of Alpha Digital Agency Indonesia and a Google Ads specialist focused on hospitality digital marketing for hotels, villas, and restaurants in Bali." },
@@ -94,31 +90,19 @@ const faqItems = isEn ? [
   }
 ];
 
-const faqLD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqItems.map((item) => ({
-    "@type": "Question",
-    "name": item.q,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": item.a
-    }
-  }))
-};
+const faq = faqItems;
 ---
 
 <SwissLayout
   title="Daniel Santoso | Google Ads Specialist Bali"
   description="Daniel Santoso is the founder of Alpha Digital Agency Indonesia and a Bali Google Ads specialist for hotels, villas, SEO, booking engines, GA4, and AI agents."
   currentPage="about"
+  mainEntity={mainEntity}
+  extraNodes={extraNodes}
+  breadcrumbs={breadcrumbs}
+  faq={faq}
 >
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(personLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(profilePageLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />
-  </Fragment>
 
   <section class="max-w-5xl mx-auto mb-16 px-6 md:px-12">
     <p class="text-[10px] font-mono font-bold uppercase tracking-[0.22em] text-primary mb-4 text-center">

@@ -4,14 +4,10 @@ const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
 import SwissLayout from "../../components/SwissLayout.astro";
 
-const breadcrumbLD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
-    { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": "https://alphadigitalagency.id/privacy-policy/" }
-  ]
-};
+const breadcrumbs = [
+  { "name": "Home", "url": "/" },
+  { "name": "Privacy Policy", "url": "/privacy-policy/" }
+];
 
 const effectiveDate = "27 Mei 2026";
 const effectiveDateEN = "May 27, 2026";
@@ -21,9 +17,9 @@ const effectiveDateEN = "May 27, 2026";
   title="Kebijakan Privasi — Alpha Digital Agency Indonesia"
   description="Kebijakan privasi Alpha Digital Agency Indonesia: data yang dikumpulkan, tujuan penggunaan, hak pengguna per UU PDP, dan cara menghubungi kami."
   currentPage="privacy-policy"
+  breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
   </Fragment>
 
   <!-- Hero -->

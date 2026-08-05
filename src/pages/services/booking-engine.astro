@@ -1,59 +1,17 @@
 ---
 // Landing page using site header + footer for nav consistency
-import "../styles/global.css";
-import SwissHeader from "../components/SwissHeader.astro";
-import SwissFooter from "../components/SwissFooter.astro";
+import "../../styles/global.css";
+import SwissHeader from "../../components/SwissHeader.astro";
+import SwissFooter from "../../components/SwissFooter.astro";
+import SeoGraph from "../../components/SeoGraph.astro";
 
 const SITE_URL = "https://alphadigitalagency.id";
+const PAGE_URL = `${SITE_URL}/services/booking-engine`;
 const DEFAULT_IMAGE = `${SITE_URL}/images/og-alpha-default.png`;
 
-const organizationLD = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": `${SITE_URL}/#organization`,
-    "name": "Alpha Digital Agency Indonesia",
-    "url": SITE_URL,
-    "logo": DEFAULT_IMAGE,
-    "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "sales",
-        "areaServed": "ID",
-        "availableLanguage": ["Indonesian", "English"]
-    },
-    "founder": {
-        "@type": "Person",
-        "name": "Daniel Santoso",
-        "url": `${SITE_URL}/daniel-santoso/`
-    }
-};
-
-const webSiteLD = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${SITE_URL}/#website`,
-    "url": SITE_URL,
-    "name": "Alpha Digital Agency Indonesia",
-    "publisher": { "@id": `${SITE_URL}/#organization` }
-};
-
-const professionalServiceLD = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "@id": `${SITE_URL}/#professional-service`,
-    "name": "Alpha Digital Agency Indonesia",
-    "url": SITE_URL,
-    "image": DEFAULT_IMAGE,
-    "areaServed": "Bali, Indonesia",
-    "serviceType": [
-        "Booking Engine Integration",
-        "Google Ads Management",
-        "SEO and Data Tracking",
-        "AI Agent Implementation"
-    ]
-};
-
-const bookingEngineLD = {
-    "@context": "https://schema.org",
+// Unified @graph page nodes (KG-SEO v3 Phase A) — sitewide nodes (Organization/
+// LocalBusiness/ProfessionalService/WebSite) come from SeoGraph itself.
+const mainEntity = {
     "@type": "Service",
     "name": "Direct Booking Engine untuk Vila dan Hotel di Bali",
     "provider": {
@@ -69,17 +27,13 @@ const bookingEngineLD = {
     "areaServed": "Bali, Indonesia",
     "description": "Direct booking engine untuk vila dan hotel Bali — edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Kurangi ketergantungan OTA.",
     "serviceType": "Booking Engine Integration",
-    "url": "https://alphadigitalagency.id/booking-engine"
+    "url": PAGE_URL
 };
 
-const breadcrumbLD = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
-        { "@type": "ListItem", "position": 2, "name": "Booking Engine", "item": "https://alphadigitalagency.id/booking-engine" }
-    ]
-};
+const breadcrumbs = [
+    { "name": "Home", "url": "/" },
+    { "name": "Booking Engine", "url": PAGE_URL }
+];
 ---
 
 <!doctype html>
@@ -94,14 +48,14 @@ const breadcrumbLD = {
         />
         <meta name="build-marker" content="SEO-FIX-2026-06-14-ALPHA" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://alphadigitalagency.id/booking-engine" />
-        <link rel="alternate" hreflang="id" href="https://alphadigitalagency.id/booking-engine" />
-        <link rel="alternate" hreflang="en" href="https://alphadigitalagency.id/en/booking-engine" />
-        <link rel="alternate" hreflang="x-default" href="https://alphadigitalagency.id/booking-engine" />
+        <link rel="canonical" href={PAGE_URL} />
+        <link rel="alternate" hreflang="id" href={PAGE_URL} />
+        <link rel="alternate" hreflang="en" href={`${SITE_URL}/en/services/booking-engine`} />
+        <link rel="alternate" hreflang="x-default" href={PAGE_URL} />
         <link rel="sitemap" href="/sitemap.xml" />
         <meta property="og:title" content="Direct Booking Engine — Alpha Digital Agency Indonesia" />
         <meta property="og:description" content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency." />
-        <meta property="og:url" content="https://alphadigitalagency.id/booking-engine" />
+        <meta property="og:url" content={PAGE_URL} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Alpha Digital Agency Indonesia" />
         <meta property="og:image" content={DEFAULT_IMAGE} />
@@ -109,11 +63,13 @@ const breadcrumbLD = {
         <meta name="twitter:title" content="Direct Booking Engine — Alpha Digital Agency Indonesia" />
         <meta name="twitter:description" content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency." />
         <meta name="twitter:image" content={DEFAULT_IMAGE} />
-        <script type="application/ld+json" set:html={JSON.stringify(organizationLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(webSiteLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(professionalServiceLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(bookingEngineLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
+        <SeoGraph
+            title="Direct Booking Engine — Alpha Digital Agency Indonesia"
+            description="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency."
+            url={PAGE_URL}
+            mainEntity={mainEntity}
+            breadcrumbs={breadcrumbs}
+        />
         <style is:inline>
             .dot-pattern {
                 background-image: radial-gradient(#cbd5e1 1px, transparent 1px);

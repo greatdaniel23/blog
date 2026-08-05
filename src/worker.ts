@@ -5,6 +5,18 @@ import { handle } from '@astrojs/cloudflare/handler';
 const CANONICAL_ORIGIN = 'https://alphadigitalagency.id';
 const NOINDEX = 'noindex, nofollow';
 
+// Legacy URL → English URL standard (Daniel decision 2026-08-05, KG-SEO v3 Phase A).
+// Old service-page URLs 301 to their /services/* homes. Exact-path map; trailing
+// slash normalized before lookup. Subpaths (/ai-agent/demo, /booking/*) untouched.
+const LEGACY_REDIRECTS: Record<string, string> = {
+	'/layanan': '/services/google-ads',
+	'/en/layanan': '/en/services/google-ads',
+	'/ai-agent': '/services/ai-agent',
+	'/en/ai-agent': '/en/services/ai-agent',
+	'/booking-engine': '/services/booking-engine',
+	'/en/booking-engine': '/en/services/booking-engine',
+};
+
 function mustRedirectToCanonical(hostname: string): boolean {
 	const host = hostname.toLowerCase();
 	return (
@@ -54,6 +66,20 @@ export function createExports(manifest: SSRManifest) {
 		default: {
 			async fetch(request: Request, env: any, context: any): Promise<Response> {
 				const incoming = new URL(request.url);
+
+				// Legacy service-URL 301s — run BEFORE the /en/ rewrite so both
+				// the bare and /en/ forms map explicitly (locale prefix preserved).
+				const pathForRedirect = incoming.pathname.replace(/\/+$/, '') || '/';
+				const legacyTarget = LEGACY_REDIRECTS[pathForRedirect];
+				if (legacyTarget) {
+					return new Response(null, {
+						status: 301,
+						headers: {
+							Location: legacyTarget,
+							'Cache-Control': 'public, max-age=3600',
+						},
+					});
+				}
 
 				// /en/ rewrite must run BEFORE canonical redirect so the
 				// rewritten path is what gets forwarded, and the canonical

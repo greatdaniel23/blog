@@ -2,6 +2,7 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import { AstroSeo as SEO } from "@astrolib/seo";
+import SeoGraph from "./SeoGraph.astro";
 import "../styles/global.css";
 import type { ImageMetadata } from "astro";
 import FallbackImage from "../assets/blog-placeholder-1.jpg";
@@ -176,14 +177,7 @@ const articleLD = article
 		}
 	: null;
 
-const extraLD = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
-const allLD = [
-	organizationLD,
-	websiteLD,
-	breadcrumbLD,
-	articleLD,
-	...extraLD,
-].filter(Boolean);
+const extraNodes = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
 ---
 
 <!-- Global Metadata -->
@@ -236,9 +230,15 @@ const allLD = [
 	}}
 />
 
-{allLD.map((ld) => (
-	<script type="application/ld+json" set:html={JSON.stringify(ld)} />
-))}
+<!-- Unified @graph schema (KG-SEO v3 Phase A) — single ld+json block per page -->
+<SeoGraph
+	title={title}
+	description={description}
+	url={canonicalURL.href}
+	mainEntity={articleLD}
+	breadcrumbs={breadcrumbs}
+	extraNodes={extraNodes}
+/>
 
 {ga4Id && (
     <>

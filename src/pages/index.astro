@@ -90,43 +90,28 @@ const t = {
 
 const tx = t[locale] || t.id;
 
-const localBusinessLD = {
-  "@context": "https://schema.org",
-  "@type": ["LocalBusiness", "ProfessionalService"],
-  "@id": "https://alphadigitalagency.id/#localbusiness",
+// Unified @graph page nodes (KG-SEO v3 Phase A) — the old localBusinessLD/
+// homeFaqLD/homeBreadcrumbLD blocks are replaced by the sitewide LocalBusiness
+// in SeoGraph (dedup) + the props below (ProfessionalService main entity, FAQ,
+// breadcrumb) inside the single @graph block.
+const mainEntity = {
+  "@type": "ProfessionalService",
   "parentOrganization": { "@id": "https://alphadigitalagency.id/#organization" },
-  "name": "Alpha Digital Agency",
+  "name": "Alpha Digital Agency Indonesia",
   "url": "https://alphadigitalagency.id",
-  "description": isEn
-    ? "Digital marketing agency Bali for villas and hotels: Google Ads, SEO, booking engine, GA4 tracking, and AI agents in one reporting system."
-    : "Digital marketing agency Bali untuk vila dan hotel: Google Ads, SEO, booking engine, GA4 tracking, dan AI agent dalam satu sistem laporan.",
+  "serviceType": ["Google Ads Management", "Hospitality SEO", "Booking Engine Integration", "AI Agent Implementation", "GA4 and Search Console Tracking"],
   "address": { "@type": "PostalAddress", "addressLocality": "Denpasar", "addressRegion": "Bali", "addressCountry": "ID" },
   "geo": { "@type": "GeoCoordinates", "latitude": -8.6705, "longitude": 115.2126 },
-  "areaServed": { "@type": "Place", "name": "Bali, Indonesia" },
   "priceRange": "$$",
   "telephone": "+628814802249",
-  "email": "daniel@alphadigitalagency.id",
-  "knowsAbout": ["Digital Marketing Agency Bali", "Digital Marketing Bali", "Google Ads", "SEO", "GA4", "Booking Engine", "Hospitality Marketing", "Bali"]
+  "areaServed": { "@type": "Place", "name": "Bali, Indonesia" },
 };
-
-const homeFaqLD = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": tx.faq.map(item => ({ "@type": "Question", "name": item.q, "acceptedAnswer": { "@type": "Answer", "text": item.a } }))
-};
-
-const homeBreadcrumbLD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" } ]
-};
+const faq = tx.faq;
+const breadcrumbs = [ { name: "Home", url: "/" } ];
 ---
 
-<SwissLayout title={tx.metaTitle} description={tx.metaDesc} currentPage="home">
+<SwissLayout title={tx.metaTitle} description={tx.metaDesc} currentPage="home" mainEntity={mainEntity} faq={faq} breadcrumbs={breadcrumbs}>
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(localBusinessLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(homeFaqLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(homeBreadcrumbLD)} />
     <script src="/assets/agency-agent-widget.js" data-agent-id="5" data-api-url="/api/chat" data-greeting={tx.aiGreeting} data-accent="#10b981" defer is:inline></script>
   </Fragment>
 

@@ -32,18 +32,13 @@ const format = formatProp ?? [
   { title: "Jadwal fleksibel", desc: "Atur sesuai slot yang cocok (detail saat japri).", icon: "schedule" },
 ];
 
-const breadcrumbLD = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://alphadigitalagency.id/" },
-    { "@type": "ListItem", position: 2, name: "Kelas Digital Marketing", item: "https://alphadigitalagency.id/kelas/" },
-    { "@type": "ListItem", position: 3, name: title, item: `https://alphadigitalagency.id/kelas/${slug}/` },
-  ],
-};
+const breadcrumbs = [
+  { name: "Home", url: "/" },
+  { name: "Kelas Digital Marketing", url: "/kelas/" },
+  { name: title, url: `https://alphadigitalagency.id/kelas/${slug}/` },
+];
 
-const courseLD = {
-  "@context": "https://schema.org",
+const mainEntity = {
   "@type": "Course",
   name: `${title} — Kelas Digital Marketing Alpha Digital`,
   description: metaDesc,
@@ -51,10 +46,8 @@ const courseLD = {
 };
 ---
 
-<SwissLayout title={metaTitle} description={metaDesc} currentPage="kelas">
+<SwissLayout title={metaTitle} description={metaDesc} currentPage="kelas" mainEntity={mainEntity} breadcrumbs={breadcrumbs}>
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
-    <script type="application/ld+json" set:html={JSON.stringify(courseLD)} />
     <!-- build:{buildTag} -->
   </Fragment>
 

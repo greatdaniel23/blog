@@ -132,7 +132,7 @@ const relatedSEOLinks = [
 		desc: "Hubungkan website, tracking, dan direct reservation flow.",
 	},
 	{
-		href: "/ai-agent/",
+		href: "/services/ai-agent/",
 		label: "AI Agent for Hotels",
 		desc: "Asisten AI untuk menjawab calon tamu dan menjaga inquiry tetap bergerak.",
 	},
@@ -163,59 +163,46 @@ const blogPostingLD = post ? {
 	},
 } : null;
 
-const breadcrumbLD = post ? {
-	"@context": "https://schema.org",
-	"@type": "BreadcrumbList",
-	itemListElement: [
-		{ "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-		{ "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog/` },
-		{ "@type": "ListItem", position: 3, name: post.title, item: postURL },
-	],
-} : null;
+// BreadcrumbList now built as breadcrumbsProp (SeoGraph props) below — the old
+// breadcrumbLD const was replaced by the unified @graph (KG-SEO v3 Phase A).
 
-// FAQPage schema — only emitted when post.faq is a non-empty JSON string
-let faqLD: object | null = null;
+// FAQPage schema — only emitted when post.faq is a non-empty JSON string.
+// Data feeds SeoGraph's FAQPage node inside the unified @graph (KG-SEO v3 Phase A).
+let faqProp: { q: string; a: string }[] | null = null;
 if (post?.faq && post.faq.trim() !== "") {
 	try {
 		const faqItems: Array<{ question: string; answer: string }> = JSON.parse(post.faq);
 		if (Array.isArray(faqItems) && faqItems.length > 0) {
-			faqLD = {
-				"@context": "https://schema.org",
-				"@type": "FAQPage",
-				mainEntity: faqItems.map((item) => ({
-					"@type": "Question",
-					name: item.question,
-					acceptedAnswer: { "@type": "Answer", text: item.answer },
-				})),
-			};
+			faqProp = faqItems.map((item) => ({ q: item.question, a: item.answer }));
 		}
 	} catch {
 		// parse failure — skip silently
 	}
 }
 
-// HowTo schema — only emitted when post.howto_steps is a non-empty JSON string
-let howtoLD: object | null = null;
+// HowTo schema — only emitted when post.howto_steps is a non-empty JSON string.
+// Data feeds SeoGraph's HowTo node inside the unified @graph (KG-SEO v3 Phase A).
+let howtoProp: { name?: string; steps: Array<{ name: string; text: string }> } | null = null;
 if (post?.howto_steps && post.howto_steps.trim() !== "") {
 	try {
 		const howtoData: { name?: string; steps: Array<{ name: string; text: string }> } =
 			JSON.parse(post.howto_steps);
 		if (Array.isArray(howtoData.steps) && howtoData.steps.length > 0) {
-			howtoLD = {
-				"@context": "https://schema.org",
-				"@type": "HowTo",
-				name: howtoData.name ?? post.title,
-				step: howtoData.steps.map((s) => ({
-					"@type": "HowToStep",
-					name: s.name,
-					text: s.text,
-				})),
-			};
+			howtoProp = { name: howtoData.name ?? post.title, steps: howtoData.steps };
 		}
 	} catch {
 		// parse failure — skip silently
 	}
 }
+
+// Breadcrumbs for the unified @graph (SeoGraph BreadcrumbList node).
+const breadcrumbsProp = post
+	? [
+			{ name: "Home", url: "/" },
+			{ name: "Blog", url: "/blog/" },
+			{ name: post.title, url: postURL },
+		]
+	: null;
 ---
 
 {post ? (
@@ -225,13 +212,11 @@ if (post?.howto_steps && post.howto_steps.trim() !== "") {
 	currentPage="blog"
 	image={heroImageAbsolute}
 	article={{ publishedTime: publishedISO, modifiedTime: modifiedISO }}
+	mainEntity={blogPostingLD}
+	breadcrumbs={breadcrumbsProp}
+	faq={faqProp}
+	howto={howtoProp}
 >
-	<Fragment slot="head">
-		{blogPostingLD && <script type="application/ld+json" set:html={JSON.stringify(blogPostingLD)} />}
-		{breadcrumbLD && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />}
-		{faqLD && <script type="application/ld+json" set:html={JSON.stringify(faqLD)} />}
-		{howtoLD && <script type="application/ld+json" set:html={JSON.stringify(howtoLD)} />}
-	</Fragment>
 	<article class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
 		<!-- Hero Image -->
 		{

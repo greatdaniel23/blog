@@ -40,32 +40,16 @@ const businessInfo = {
 };
 
 const services = [
-    { name: "Booking Engine", href: "/booking-engine/" },
+    { name: "Booking Engine", href: "/services/booking-engine/" },
     { name: "Blog", href: "/blog/" },
     { name: "Gallery", href: "/gallery/" },
     { name: "Web Development", href: "/" },
     { name: "Digital Marketing", href: "/" },
 ];
 
-// LocalBusiness node — @id-linked to the sitewide Organization (#organization)
-// so Google treats them as one entity (P2). Empty image/sameAs omitted rather
-// than emitted (no fabricated social URLs).
-const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": `${businessInfo.website}/#localbusiness`,
-    name: businessInfo.name,
-    telephone: businessInfo.phone,
-    email: businessInfo.email,
-    address: {
-        "@type": "PostalAddress",
-        streetAddress: businessInfo.address,
-        addressLocality: businessInfo.city,
-        addressCountry: businessInfo.country,
-    },
-    url: businessInfo.website,
-    parentOrganization: { "@id": `${businessInfo.website}/#organization` },
-};
+// LocalBusiness node removed — now emitted once per page inside the unified
+// @graph block (SeoGraph.astro, Knowledge Graph SEO v3 Phase A dedup: footer
+// street address + index geo/priceRange merged into one #localbusiness).
 ---
 
 <!-- Footer -->
@@ -226,6 +210,4 @@ const jsonLd = {
         </div>
     </div>
 
-    <!-- JSON-LD Schema for SEO -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </footer>

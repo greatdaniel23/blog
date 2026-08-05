@@ -1,0 +1,196 @@
+---
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
+import SwissLayout from "../../components/SwissLayout.astro";
+import { WA_JASA } from "../../lib/linkbio";
+
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
+
+// Unique build string for post-deploy curl-grep verification (raw HTTP, not WebFetch)
+const BUILD_TAG = "google-ads-v1-2026-08-05";
+
+const t = {
+  id: {
+    eyebrow: "Google Ads Specialist · Bali",
+    heroH1: "Google Ads Specialist Bali untuk Hotel & Villa.",
+    heroDesc: "9 tahun ngerjain akun Google Ads beneran, bukan teori. Kami jualan conversion, bukan klik — tiap rupiah iklan terlacak sampai booking lewat loop Google Ads → booking engine → GA4.",
+    waLabel: "Konsultasi via WhatsApp", mailLabel: "Minta Penawaran",
+    cardsTitle: "Yang Kami Kelola untuk Anda",
+    cards: [
+      { icon: "ads_click", title: "Google Ads Audit & Setup", desc: "Audit akun dari nol, struktur kampanye yang benar, setup tracking konversi sebelum budget jalan." },
+      { icon: "trending_up", title: "Monthly Campaign Management", desc: "Optimasi rutin, negative keyword, audience refinement, dan laporan yang jujur tiap bulan." },
+      { icon: "monitoring", title: "Conversion Tracking", desc: "Loop Google Ads → booking engine → GA4 → data konversi balik ke kampanye. Setiap rupiah terlacak." },
+      { icon: "handshake", title: "Konsultasi & Pendampingan", desc: "Strategi Google Ads yang nyetel ke bisnis properti kamu — bukan template agensi lain." },
+    ],
+    proofTitle: "Bukti & Hasil",
+    proofNote: "Hasil kerja nyata — nama klien dianonimkan demi privasi.",
+    proofQuote1: "Properti vila Bali dengan 4 unit — direct booking naik 34% dalam 90 hari setelah audit funnel + optimasi Google Ads.",
+    proofCite1: "— Data klien terverifikasi. Nama dirahasiakan sesuai kebijakan klien.",
+    proofQuote2: "Akun iklan yang tadinya boncos jadi terukur & profitable setelah dibenahi struktur & trackingnya.",
+    proofCite2: "— Hasil kerja agensi. Nama klien dirahasiakan demi privasi.",
+    proofFootnote: "Hasil tiap bisnis beda-beda. Kami tunjukkan metodologi lengkap saat ngobrol langsung.",
+    faqTitle: "Pertanyaan tentang Google Ads",
+    faq: [
+      { q: "Berapa biaya Google Ads untuk hotel atau villa?", a: "Biaya iklan ditentukan oleh budget harian yang Anda setujui — kami tidak mengunci minimal budget. Yang kami kelola adalah struktur, tracking, dan optimasinya agar tiap rupiah terukur. Paket layanan disesuaikan dengan kondisi akun dan target properti Anda." },
+      { q: "Berapa lama sampai melihat hasil?", a: "Biasanya 2-4 minggu untuk stabilisasi kampanye dan pengumpulan data konversi. Optimasi serius dimulai setelah 30 hari ketika data conversion sudah cukup — kami fokus ke ROAS, bukan sekadar klik." },
+      { q: "Bagaimana cara tracking booking dari Google Ads?", a: "Kami pasang loop pelacakan lengkap: Google Ads → website → booking engine → GA4. Setiap konversi booking bisa ditelusuri balik ke keyword, kampanye, dan channel mana yang menghasilkannya." },
+      { q: "Apakah cocok untuk villa atau hotel kecil?", a: "Ya. Kami khusus hospitality Bali — dari villa 4 unit sampai group multi-properti. Struktur kampanye dan strategi disesuaikan skala bisnis, bukan disalin dari template." },
+      { q: "Apa bedanya dengan agensi lain?", a: "9 tahun pengalaman akun Google Ads hospitality + integrasi data penuh (GA4, GTM, Search Console, booking engine) dalam satu laporan. Kami ukur hasilnya dengan data, bukan estimasi." },
+    ],
+    ctaTitle: "Mulai dari Mana?",
+    ctaDesc: "Ceritakan kondisi akun dan target properti kamu. Kita mulai dari audit — tanpa komitmen.",
+    serviceName: "Google Ads Specialist & Revenue Marketing for Hospitality",
+    serviceDesc: "Jasa kelola Google Ads terintegrasi GA4, GTM, dan booking engine khusus villa & hotel di Bali. Pengalaman 9 tahun optimasi ROI.",
+    pageUrl: "https://alphadigitalagency.id/services/google-ads",
+    breadcrumbName: "Google Ads",
+  },
+  en: {
+    eyebrow: "Google Ads Specialist · Bali",
+    heroH1: "Google Ads Specialist Bali for Hotels & Villas.",
+    heroDesc: "9 years managing real Google Ads accounts, not theory. We sell conversions, not clicks — every advertising rupiah is tracked through to booking via the Google Ads → booking engine → GA4 loop.",
+    waLabel: "Consult via WhatsApp", mailLabel: "Request a Proposal",
+    cardsTitle: "What We Manage for You",
+    cards: [
+      { icon: "ads_click", title: "Google Ads Audit & Setup", desc: "Account audit from scratch, correct campaign structure, conversion tracking set up before budget runs." },
+      { icon: "trending_up", title: "Monthly Campaign Management", desc: "Ongoing optimization, negative keywords, audience refinement, and honest monthly reporting." },
+      { icon: "monitoring", title: "Conversion Tracking", desc: "Google Ads → booking engine → GA4 → conversion data back into campaigns. Every rupiah accounted for." },
+      { icon: "handshake", title: "Consultation & Guidance", desc: "Google Ads strategy that fits your property business — not another agency's template." },
+    ],
+    proofTitle: "Proof & Results",
+    proofNote: "Real results — client names anonymized for privacy.",
+    proofQuote1: "A 4-unit Bali villa property — direct bookings up 34% within 90 days after funnel audit + Google Ads optimization.",
+    proofCite1: "— Verified client data. Name withheld per client policy.",
+    proofQuote2: "An ads account that was losing money became measurable and profitable after restructuring and tracking fixes.",
+    proofCite2: "— Agency work results. Client names withheld for privacy.",
+    proofFootnote: "Every business is different. We show the full methodology in a direct conversation.",
+    faqTitle: "Google Ads Questions",
+    faq: [
+      { q: "How much does Google Ads cost for a hotel or villa?", a: "Ad spend is set by the daily budget you approve — we don't lock a minimum budget. What we manage is structure, tracking, and optimization so every rupiah is measured. Service packages adapt to your account's condition and property goals." },
+      { q: "How long until I see results?", a: "Typically 2-4 weeks for campaign stabilization and conversion data collection. Serious optimization begins after 30 days when conversion data is sufficient — we focus on ROAS, not just clicks." },
+      { q: "How do you track bookings from Google Ads?", a: "We install a full tracking loop: Google Ads → website → booking engine → GA4. Every booking conversion can be traced back to the keyword, campaign, and channel that produced it." },
+      { q: "Is it suitable for a small villa or hotel?", a: "Yes. We specialize in Bali hospitality — from 4-unit villas to multi-property groups. Campaign structure and strategy are scaled to your business, not copied from a template." },
+      { q: "How is this different from other agencies?", a: "9 years of hospitality Google Ads experience + full data integration (GA4, GTM, Search Console, booking engine) in one report. We measure results with data, not estimates." },
+    ],
+    ctaTitle: "Where to Start?",
+    ctaDesc: "Tell us about your account and property goals. We start with an audit — no commitment.",
+    serviceName: "Google Ads Specialist & Revenue Marketing for Hospitality",
+    serviceDesc: "Google Ads management integrated with GA4, GTM, and booking engine for Bali villas & hotels. 9 years of ROI-focused optimization experience.",
+    pageUrl: "https://alphadigitalagency.id/en/services/google-ads",
+    breadcrumbName: "Google Ads",
+  }
+};
+
+const tx = t[locale] || t.id;
+
+// Unified @graph page nodes (KG-SEO v3 Phase A) — spec 07 §3 SPEC 1 mandatory
+// attributes: serviceType, provider, areaServed, hasOfferCatalog, description, url.
+const mainEntity = {
+  "@type": "Service",
+  name: tx.serviceName,
+  serviceType: "Google Ads Management",
+  provider: { "@id": "https://alphadigitalagency.id/#organization" },
+  areaServed: { "@type": "AdministrativeArea", name: "Bali", sameAs: "https://www.wikidata.org/wiki/Q3950" },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Paket Google Ads Hotel",
+    itemListElement: [
+      { "@type": "Offer", name: "Google Ads Fundamental & Audit Wedge", priceCurrency: "IDR" },
+      { "@type": "Offer", name: "Google Ads Growth Package", priceCurrency: "IDR" },
+    ],
+  },
+  description: tx.serviceDesc,
+  url: tx.pageUrl,
+};
+const breadcrumbs = [
+  { name: "Home", url: isEn ? "/en" : "/" },
+  { name: "Services", url: isEn ? "/en/services" : "/services" },
+  { name: tx.breadcrumbName, url: tx.pageUrl },
+];
+const faq = tx.faq;
+---
+
+<SwissLayout
+  title={isEn ? "Google Ads Specialist Bali for Hotels & Villas | Alpha Digital" : "Jasa Google Ads Specialist Bali untuk Hotel & Villa | Alpha Digital"}
+  description={tx.serviceDesc}
+  currentPage="services"
+  mainEntity={mainEntity}
+  breadcrumbs={breadcrumbs}
+  faq={faq}
+>
+  <!-- ===================== HERO ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12 text-center" data-build={BUILD_TAG}>
+    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.eyebrow}</p>
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[1.9rem] sm:text-[2.5rem] md:text-[3rem]">
+      {tx.heroH1}
+    </h1>
+    <p class="mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-lg mx-auto">
+      {tx.heroDesc}
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+      <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">chat</span>{tx.waLabel}</a>
+      <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.mailLabel}</a>
+    </div>
+    <!-- build:{BUILD_TAG} -->
+  </section>
+
+  <!-- ===================== KARTU LAYANAN ===================== -->
+  <!-- HARD GATE: NO per-card accent tab/bar/dot; shadow-premium = down-right directional. -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+    <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">{tx.cardsTitle}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {tx.cards.map((s) => (
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
+          <span class="material-symbols-outlined text-primary text-[30px]">{s.icon}</span>
+          <h3 class="font-bold text-charcoal dark:text-white text-base mt-3 mb-1.5">{s.title}</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===================== BUKTI & HASIL ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+    <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">{tx.proofTitle}</h2>
+    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-5 text-center max-w-lg mx-auto">{tx.proofNote}</p>
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+      <blockquote class="border-l-4 border-primary pl-5 py-1 mb-6">
+        <p class="text-slate-700 dark:text-slate-300 text-sm md:text-base leading-relaxed italic mb-2">"{tx.proofQuote1}"</p>
+        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">{tx.proofCite1}</cite>
+      </blockquote>
+      <blockquote class="border-l-4 border-primary pl-5 py-1">
+        <p class="text-slate-700 dark:text-slate-300 text-sm md:text-base leading-relaxed italic mb-2">"{tx.proofQuote2}"</p>
+        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">{tx.proofCite2}</cite>
+      </blockquote>
+      <p class="text-slate-500 dark:text-slate-400 text-xs mt-6">{tx.proofFootnote}</p>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6">{tx.faqTitle}</h2>
+      <div class="space-y-6">
+        {tx.faq.map((item) => (
+          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
+            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA KONSULTASI ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-4 text-center">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-3">{tx.ctaTitle}</h2>
+      <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-7 max-w-lg mx-auto">{tx.ctaDesc}</p>
+      <div class="flex justify-center">
+        <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest">
+          <span class="material-symbols-outlined">chat</span>
+          {tx.waLabel}
+        </a>
+      </div>
+    </div>
+  </section>
+</SwissLayout>

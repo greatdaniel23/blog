@@ -6,18 +6,13 @@ import SwissLayout from "../../components/SwissLayout.astro";
 
 const BUILD_MARKER = "AI-AGENT-DEMO-2026-05-20-MASON-SAMUDRA";
 
-const breadcrumbLD = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphadigitalagency.id/" },
-        { "@type": "ListItem", "position": 2, "name": "AI Agent", "item": "https://alphadigitalagency.id/ai-agent/" },
-        { "@type": "ListItem", "position": 3, "name": "Demo", "item": "https://alphadigitalagency.id/ai-agent/demo/" }
-    ]
-};
+const breadcrumbs = [
+    { "name": "Home", "url": "/" },
+    { "name": "AI Agent", "url": "/services/ai-agent/" },
+    { "name": "Demo", "url": "/ai-agent/demo/" }
+];
 
-const softwareApplicationLD = {
-    "@context": "https://schema.org",
+const mainEntity = {
     "@type": "SoftwareApplication",
     "name": "AI Agent Villa — Alpha Digital Agency",
     "applicationCategory": "BusinessApplication",
@@ -38,29 +33,25 @@ const softwareApplicationLD = {
     "inLanguage": ["id", "en"]
 };
 
-const faqPageLD = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-        { "@type": "Question", "name": "Apakah demo ini menggunakan data villa nyata?", "acceptedAnswer": { "@type": "Answer", "text": "Ya — demo ini menjalankan AI Agent yang kami setup untuk Samudra Villa, vila boutique di Bali. Data yang dijawab agent berasal dari informasi properti tersebut, bukan contoh rekayasa." } },
-        { "@type": "Question", "name": "Apakah percakapan saya di demo ini disimpan?", "acceptedAnswer": { "@type": "Answer", "text": "Percakapan di halaman demo ini tidak dikaitkan dengan identitas Anda. Kami mencatat data agregat untuk evaluasi kualitas agent — tidak ada nama, email, atau data personal yang tersimpan dari sesi demo publik ini." } },
-        { "@type": "Question", "name": "Bisakah saya minta agent dengan persona berbeda untuk villa saya?", "acceptedAnswer": { "@type": "Answer", "text": "Ya. Setiap AI Agent yang kami setup punya nama, gaya bicara, dan pengetahuan yang disesuaikan dengan properti Anda. Dari bahasa yang diutamakan sampai cara agent memperkenalkan diri — semua bisa dikustomisasi." } },
-        { "@type": "Question", "name": "Apakah ada demo untuk jenis properti villa lain?", "acceptedAnswer": { "@type": "Answer", "text": "Demo ini menampilkan Samudra Villa. Untuk properti lain yang kami tangani, demo tidak kami publikasikan secara terbuka — tapi dalam diskusi setup kami bisa tunjukkan contoh agent lain yang berjalan untuk konteks berbeda." } }
-    ]
-};
+const faq = [
+    { q: "Apakah demo ini menggunakan data villa nyata?", a: "Ya — demo ini menjalankan AI Agent yang kami setup untuk Samudra Villa, vila boutique di Bali. Data yang dijawab agent berasal dari informasi properti tersebut, bukan contoh rekayasa." },
+    { q: "Apakah percakapan saya di demo ini disimpan?", a: "Percakapan di halaman demo ini tidak dikaitkan dengan identitas Anda. Kami mencatat data agregat untuk evaluasi kualitas agent — tidak ada nama, email, atau data personal yang tersimpan dari sesi demo publik ini." },
+    { q: "Bisakah saya minta agent dengan persona berbeda untuk villa saya?", a: "Ya. Setiap AI Agent yang kami setup punya nama, gaya bicara, dan pengetahuan yang disesuaikan dengan properti Anda. Dari bahasa yang diutamakan sampai cara agent memperkenalkan diri — semua bisa dikustomisasi." },
+    { q: "Apakah ada demo untuk jenis properti villa lain?", a: "Demo ini menampilkan Samudra Villa. Untuk properti lain yang kami tangani, demo tidak kami publikasikan secara terbuka — tapi dalam diskusi setup kami bisa tunjukkan contoh agent lain yang berjalan untuk konteks berbeda." }
+];
 ---
 
 <SwissLayout
     title="Demo AI Agent Villa Bali — Coba Langsung | Alpha Digital"
     description="Coba langsung AI Agent villa Bali yang kami bangun — jawab pertanyaan tamu dalam bahasa mereka, 24 jam. Siap disetup untuk properti Anda. Diskusi gratis."
     currentPage="ai-agent"
+    mainEntity={mainEntity}
+    breadcrumbs={breadcrumbs}
+    faq={faq}
 >
     <Fragment slot="head">
         <!-- noindex (ALPHA decision 2026-06-09): interactive demo shell, excluded from sitemap too. -->
         <meta name="robots" content="noindex, follow" />
-        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(softwareApplicationLD)} />
-        <script type="application/ld+json" set:html={JSON.stringify(faqPageLD)} />
         <meta name="build-marker" content={BUILD_MARKER} />
     </Fragment>
 
