@@ -58,8 +58,7 @@ const BUSINESS_ADDRESS = {
 	addressCountry: "ID",
 };
 const BUSINESS_PHONE = "0895-3687-07977";
-// Opening hour confirmed 09:00; closing hour not provided (flagged to ALPHA) —
-// emit opens-only rather than inventing a close time.
+// Business hours confirmed by Daniel: 09:00–21:00 WITA.
 const BUSINESS_HOURS = {
 	"@type": "OpeningHoursSpecification",
 	dayOfWeek: [
@@ -72,6 +71,7 @@ const BUSINESS_HOURS = {
 		"Sunday",
 	],
 	opens: "09:00",
+	closes: "21:00",
 };
 
 const organizationLD = {
