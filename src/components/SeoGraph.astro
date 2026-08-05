@@ -46,6 +46,34 @@ const sameAsList = (["linkedin"] as const)
 	.map((k) => SITE_SOCIAL[k])
 	.filter((u): u is string => typeof u === "string" && u.length > 0);
 
+// Business contact data — Daniel's confirmed values 2026-08-05:
+// address "Jl. Pulau Singkep gg starindo No.A4, Pedungan, Denpasar Selatan,
+// Kota Denpasar, Bali 80223" · phone 0895-3687-07977 · hours 9:00 am.
+const BUSINESS_ADDRESS = {
+	"@type": "PostalAddress",
+	streetAddress: "Jl. Pulau Singkep gg starindo No.A4",
+	addressLocality: "Denpasar",
+	addressRegion: "Bali",
+	postalCode: "80223",
+	addressCountry: "ID",
+};
+const BUSINESS_PHONE = "0895-3687-07977";
+// Opening hour confirmed 09:00; closing hour not provided (flagged to ALPHA) —
+// emit opens-only rather than inventing a close time.
+const BUSINESS_HOURS = {
+	"@type": "OpeningHoursSpecification",
+	dayOfWeek: [
+		"Monday",
+		"Tuesday",
+		"Wednesday",
+		"Thursday",
+		"Friday",
+		"Saturday",
+		"Sunday",
+	],
+	opens: "09:00",
+};
+
 const organizationLD = {
 	"@type": "Organization",
 	"@id": `${SITE_URL}/#organization`,
@@ -57,15 +85,10 @@ const organizationLD = {
 		url: SITE_LOGO,
 		caption: "Alpha Digital Agency Logo",
 	},
-	address: {
-		"@type": "PostalAddress",
-		addressLocality: "Denpasar",
-		addressRegion: "Bali",
-		addressCountry: "ID",
-	},
+	address: BUSINESS_ADDRESS,
 	contactPoint: {
 		"@type": "ContactPoint",
-		telephone: "+628814802249",
+		telephone: BUSINESS_PHONE,
 		email: "daniel@alphadigitalagency.id",
 		contactType: "sales",
 		areaServed: "ID",
@@ -95,25 +118,20 @@ if (sameAsList.length > 0) {
 	organizationLD.sameAs = sameAsList;
 }
 
-// Merged dedup LocalBusiness node (Phase A item 3): the old SwissFooter block
-// (street address Jl Pulau Singkep GG Starindo A4) merged with the old
-// index.astro block (geo + priceRange). One #localbusiness per page, inside @graph.
+// Merged dedup LocalBusiness node (Phase A item 3): one #localbusiness per page,
+// inside @graph. Data = Daniel's confirmed business record 2026-08-05 (address,
+// phone, hours) + geo/priceRange from the old index block.
 const localBusinessLD = {
 	"@type": "LocalBusiness",
 	"@id": `${SITE_URL}/#localbusiness`,
 	name: SITE_TITLE,
 	url: SITE_URL,
-	telephone: "+628814802249",
+	telephone: BUSINESS_PHONE,
 	email: "daniel@alphadigitalagency.id",
-	address: {
-		"@type": "PostalAddress",
-		streetAddress: "Jl Pulau Singkep GG Starindo A4",
-		addressLocality: "Denpasar",
-		addressRegion: "Bali",
-		addressCountry: "ID",
-	},
+	address: BUSINESS_ADDRESS,
 	geo: { "@type": "GeoCoordinates", latitude: -8.6705, longitude: 115.2126 },
 	priceRange: "$$",
+	openingHoursSpecification: BUSINESS_HOURS,
 	areaServed: { "@type": "Place", name: "Bali, Indonesia" },
 	parentOrganization: { "@id": `${SITE_URL}/#organization` },
 };
@@ -132,16 +150,10 @@ const professionalServiceLD = {
 		"AI Agent Implementation",
 		"GA4 and Search Console Tracking",
 	],
-	address: {
-		"@type": "PostalAddress",
-		streetAddress: "Jl Pulau Singkep GG Starindo A4",
-		addressLocality: "Denpasar",
-		addressRegion: "Bali",
-		addressCountry: "ID",
-	},
+	address: BUSINESS_ADDRESS,
 	geo: { "@type": "GeoCoordinates", latitude: -8.6705, longitude: 115.2126 },
 	priceRange: "$$",
-	telephone: "+628814802249",
+	telephone: BUSINESS_PHONE,
 };
 
 const websiteLD = {

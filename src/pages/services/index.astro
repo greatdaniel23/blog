@@ -1,0 +1,111 @@
+---
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
+import SwissLayout from "../../components/SwissLayout.astro";
+import { WA_JASA } from "../../lib/linkbio";
+
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
+
+// Unique build string for post-deploy curl-grep verification (raw HTTP, not WebFetch)
+const BUILD_TAG = "services-index-v1-2026-08-05";
+
+const t = {
+  id: {
+    eyebrow: "Layanan Alpha Digital · Bali",
+    heroH1: "Layanan Kami untuk Properti Hospitality.",
+    heroDesc: "Google Ads, AI Agent, booking engine, dan tracking data — dirancang sebagai satu sistem untuk menggeser booking dari OTA ke direct.",
+    waLabel: "Konsultasi via WhatsApp",
+    servicesTitle: "Pilih Layanan",
+    cards: [
+      { title: "Google Ads Specialist", desc: "Kelola Google Ads terintegrasi GA4 & booking engine — conversion, bukan klik.", href: "/services/google-ads/", icon: "ads_click" },
+      { title: "AI Agent", desc: "Asisten chat 24/7 yang dilatih dari data properti Anda, terhubung ke booking engine.", href: "/services/ai-agent/", icon: "smart_toy" },
+      { title: "Booking Engine", desc: "Reservasi langsung tanpa komisi OTA — edge-rendered, Google Hotel Center ready.", href: "/services/booking-engine/", icon: "calendar_month" },
+      { title: "Google Ads Growth", desc: "Paket Google Ads untuk satu properti — ROAS-focused, tracking terpasang.", href: "/services/growth/", icon: "trending_up" },
+      { title: "GA4 & Tracking Setup", desc: "GTM, GA4, Search Console — fondasi data sebelum budget iklan naik.", href: "/services/foundation/", icon: "monitoring" },
+      { title: "Full-Funnel Authority", desc: "Google Ads → AI Chatbot → Booking Engine → GA4 dalam satu pipeline.", href: "/services/authority/", icon: "layers" },
+      { title: "Booking Integration", desc: "Hubungkan website, tracking, dan direct reservation flow tanpa lock-in vendor.", href: "/services/booking-integration/", icon: "integration_instructions" },
+    ],
+    ctaTitle: "Mulai dari Mana?",
+    ctaDesc: "Ceritakan situasi properti Anda. Kita mulai dari ngobrol — tanpa komitmen.",
+  },
+  en: {
+    eyebrow: "Alpha Digital Services · Bali",
+    heroH1: "Our Services for Hospitality Properties.",
+    heroDesc: "Google Ads, AI Agent, booking engine, and data tracking — designed as one system to shift bookings from OTA to direct.",
+    waLabel: "Consult via WhatsApp",
+    servicesTitle: "Choose a Service",
+    cards: [
+      { title: "Google Ads Specialist", desc: "Google Ads management integrated with GA4 & booking engine — conversions, not clicks.", href: "/services/google-ads/", icon: "ads_click" },
+      { title: "AI Agent", desc: "24/7 chat assistant trained on your property data, connected to your booking engine.", href: "/services/ai-agent/", icon: "smart_toy" },
+      { title: "Booking Engine", desc: "Direct reservations with zero OTA commission — edge-rendered, Google Hotel Center ready.", href: "/services/booking-engine/", icon: "calendar_month" },
+      { title: "Google Ads Growth", desc: "Google Ads package for one property — ROAS-focused, tracking installed.", href: "/services/growth/", icon: "trending_up" },
+      { title: "GA4 & Tracking Setup", desc: "GTM, GA4, Search Console — the data foundation before ad spend scales.", href: "/services/foundation/", icon: "monitoring" },
+      { title: "Full-Funnel Authority", desc: "Google Ads → AI Chatbot → Booking Engine → GA4 in one pipeline.", href: "/services/authority/", icon: "layers" },
+      { title: "Booking Integration", desc: "Connect website, tracking, and direct reservation flow with no vendor lock-in.", href: "/services/booking-integration/", icon: "integration_instructions" },
+    ],
+    ctaTitle: "Where to Start?",
+    ctaDesc: "Tell us about your property. We start with a conversation — no commitment.",
+  },
+};
+
+const tx = t[locale] || t.id;
+
+const breadcrumbs = [
+  { name: "Home", url: isEn ? "/en" : "/" },
+  { name: "Services", url: isEn ? "/en/services" : "/services" },
+];
+---
+
+<SwissLayout
+  title={isEn ? "Services — Alpha Digital Agency, Bali" : "Layanan — Alpha Digital Agency, Bali"}
+  description={isEn ? "Alpha Digital services for Bali hotels & villas: Google Ads specialist, AI Agent, booking engine, GA4 & tracking setup, full-funnel authority." : "Layanan Alpha Digital untuk hotel & villa Bali: Google Ads specialist, AI Agent, booking engine, GA4 & tracking, full-funnel authority."}
+  currentPage="services"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- ===================== HERO ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12 text-center" data-build={BUILD_TAG}>
+    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.eyebrow}</p>
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[1.9rem] sm:text-[2.5rem] md:text-[3rem]">
+      {tx.heroH1}
+    </h1>
+    <p class="mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-lg mx-auto">
+      {tx.heroDesc}
+    </p>
+    <div class="mt-8 flex justify-center">
+      <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest">
+        <span class="material-symbols-outlined">chat</span>
+        {tx.waLabel}
+      </a>
+    </div>
+    <!-- build:{BUILD_TAG} -->
+  </section>
+
+  <!-- ===================== LAYANAN CARDS ===================== -->
+  <!-- HARD GATE: NO per-card accent tab/bar/dot; shadow-premium = down-right directional. -->
+  <section class="max-w-3xl mx-auto px-6 md:px-12 mb-12">
+    <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">{tx.servicesTitle}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {tx.cards.map((s) => (
+        <a href={s.href} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block">
+          <span class="material-symbols-outlined text-primary text-[30px]">{s.icon}</span>
+          <h3 class="font-bold text-charcoal dark:text-white text-base mt-3 mb-1.5">{s.title}</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-4 text-center">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-3">{tx.ctaTitle}</h2>
+      <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-7 max-w-lg mx-auto">{tx.ctaDesc}</p>
+      <div class="flex justify-center">
+        <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest">
+          <span class="material-symbols-outlined">chat</span>
+          {tx.waLabel}
+        </a>
+      </div>
+    </div>
+  </section>
+</SwissLayout>

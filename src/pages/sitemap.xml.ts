@@ -25,6 +25,7 @@ const STATIC_ROUTES: Array<{ path: string; changefreq: string; priority: string 
   { path: '/', changefreq: 'weekly', priority: '1.0' },
   { path: '/about/', changefreq: 'monthly', priority: '0.7' },
   { path: '/daniel-santoso/', changefreq: 'monthly', priority: '0.7' },
+  { path: '/services', changefreq: 'monthly', priority: '0.8' },
   { path: '/services/ai-agent', changefreq: 'monthly', priority: '0.8' },
   { path: '/services/booking-engine', changefreq: 'monthly', priority: '0.8' },
   { path: '/ekosistem/', changefreq: 'monthly', priority: '0.7' },

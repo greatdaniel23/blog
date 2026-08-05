@@ -65,15 +65,18 @@ console.log('\n=== 2. LEGACY 301 MATRIX (expect 301 + Location) ===');
 for (const p of legacy) {
   const r = await get(p);
   const expected = {
-    '/layanan': '/services/google-ads',
-    '/en/layanan': '/en/services/google-ads',
+    '/layanan': '/services',
+    '/en/layanan': '/en/services',
     '/ai-agent': '/services/ai-agent',
     '/en/ai-agent': '/en/services/ai-agent',
     '/booking-engine': '/services/booking-engine',
     '/en/booking-engine': '/en/services/booking-engine',
-    '/layanan/': '/services/google-ads',
+    '/layanan/': '/services',
   }[p];
-  const ok = r.status === 301 && r.location === `https://${HOST}${expected}`;
+  // worker.ts emits a relative Location (path form) — compare against the path.
+  const ok =
+    r.status === 301 &&
+    (r.location === expected || r.location === `https://${HOST}${expected}`);
   if (!ok) failures++;
   console.log(`${ok ? 'OK' : 'FAIL'} ${p} -> ${r.status} ${r.location}`);
 }

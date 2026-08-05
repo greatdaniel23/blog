@@ -9,8 +9,10 @@ const NOINDEX = 'noindex, nofollow';
 // Old service-page URLs 301 to their /services/* homes. Exact-path map; trailing
 // slash normalized before lookup. Subpaths (/ai-agent/demo, /booking/*) untouched.
 const LEGACY_REDIRECTS: Record<string, string> = {
-	'/layanan': '/services/google-ads',
-	'/en/layanan': '/en/services/google-ads',
+	// /layanan → /services (Daniel decision 2026-08-05: temporary target, GSC
+	// manual update to follow; /services is the service hub index page).
+	'/layanan': '/services',
+	'/en/layanan': '/en/services',
 	'/ai-agent': '/services/ai-agent',
 	'/en/ai-agent': '/en/services/ai-agent',
 	'/booking-engine': '/services/booking-engine',
