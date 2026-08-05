@@ -140,7 +140,12 @@ console.log(`\nGoogle Ads Service node: ${svcOk ? 'OK' : 'FAIL'} — ` + JSON.st
 const home = await get('/');
 const homeGraph = JSON.parse(home.body.match(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)[1])['@graph'];
 const lbNode = homeGraph.find((n) => n['@id']?.endsWith('#localbusiness'));
-const lbOk = lbNode?.address?.streetAddress === 'Jl Pulau Singkep GG Starindo A4' && lbNode?.geo?.latitude === -8.6705;
+const lbOk =
+  lbNode?.address?.streetAddress === 'Jl. Pulau Singkep gg starindo No.A4' &&
+  lbNode?.address?.postalCode === '80223' &&
+  lbNode?.telephone === '0895-3687-07977' &&
+  lbNode?.openingHoursSpecification?.opens === '09:00' &&
+  lbNode?.geo?.latitude === -8.6705;
 if (!lbOk) failures++;
 console.log(`LocalBusiness merged (street+geo): ${lbOk ? 'OK' : 'FAIL'}`);
 
