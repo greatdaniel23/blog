@@ -1,0 +1,56 @@
+---
+// FeaturedResources.astro — Dynamic "Featured Resources" module (KG-SEO v3
+// spec 07 §4 / PRD RULE-BR-3). Static pages render the latest N blog posts
+// matched by entity tag (posts.pillar_id), completing the bidirectional
+// graph edge: Dynamic → Static (upward links) + Static → Dynamic (this module).
+//
+// Graceful empty state: when posts are unclassified (pillar_id NULL) the
+// section renders nothing instead of crashing or showing stale rows.
+interface Props {
+	/** content_pillars.pillar_id — e.g. "google-ads", "booking-engine", "ai-agent". */
+	entityTag: string;
+	/** Max posts to render (spec default 3). */
+	limit?: number;
+}
+
+const { entityTag, limit = 3 } = Astro.props;
+
+const { env } = Astro.locals.runtime;
+let posts: { slug: string; title: string; description: string }[] = [];
+if (env && env.DB) {
+	const { results } = await env.DB.prepare(
+		"SELECT slug, title, description FROM posts WHERE is_published = 1 AND pillar_id = ? ORDER BY pub_date DESC LIMIT ?",
+	)
+		.bind(entityTag, limit)
+		.all();
+	posts = (results ?? []) as { slug: string; title: string; description: string }[];
+}
+---
+
+{posts.length > 0 && (
+	<section class="mt-14">
+		<p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary mb-3">
+			Featured Resources
+		</p>
+		<h3 class="font-display font-bold text-xl text-charcoal dark:text-white mb-5">
+			Panduan &amp; Resource Terkait
+		</h3>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+			{posts.map((post) => (
+				<a
+					href={`/blog/${post.slug}`}
+					class="group border border-slate-200 dark:border-slate-700 p-4 hover:border-primary transition-colors"
+				>
+					<span class="font-bold text-charcoal dark:text-white group-hover:text-primary transition-colors">
+						{post.title}
+					</span>
+					{post.description && (
+						<span class="block text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
+							{post.description}
+						</span>
+					)}
+				</a>
+			))}
+		</div>
+	</section>
+)}

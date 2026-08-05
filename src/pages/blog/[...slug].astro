@@ -110,31 +110,24 @@ const modifiedISO = post && post.updated_at && post.updated_at !== post.pub_date
 const seoTitle = post ? compactTitle(post.title, post.slug) : "";
 const seoDescription = post ? compactDescription(post.description ?? "") : "";
 
+// Upward link edges — entity-descriptive anchors per KG SEO v3 spec 07 §3C.
+// Dynamic posts feed authority to static service nodes; anchors use the
+// approved entity phrases (never "klik di sini" / generic labels).
 const relatedSEOLinks = [
 	{
-		href: "/",
-		label: "Digital Marketing Agency Bali",
-		desc: "Pillar utama Alpha untuk hotel, vila, dan bisnis hospitality di Bali.",
+		href: "/services/google-ads",
+		label: "Google Ads Specialist Bali",
+		desc: "Google Ads management terintegrasi GA4, GTM, dan booking engine untuk hotel & villa di Bali.",
 	},
 	{
-		href: "/services/growth/",
-		label: "Google Ads for Bali Hotels",
-		desc: "Google Ads, demand capture, dan optimasi direct booking.",
+		href: "/services/booking-engine",
+		label: "Booking Engine Villa Bali",
+		desc: "Booking engine direct reservation untuk kurangi ketergantungan OTA dan kuasai data tamu.",
 	},
 	{
-		href: "/services/foundation/",
-		label: "GA4, GTM & Search Console Setup",
-		desc: "Fondasi data agar iklan, SEO, dan booking bisa diukur.",
-	},
-	{
-		href: "/services/booking-integration/",
-		label: "Booking Engine Integration",
-		desc: "Hubungkan website, tracking, dan direct reservation flow.",
-	},
-	{
-		href: "/services/ai-agent/",
-		label: "AI Agent for Hotels",
-		desc: "Asisten AI untuk menjawab calon tamu dan menjaga inquiry tetap bergerak.",
+		href: "/services/ai-agent",
+		label: "AI Chatbot Villa Bali",
+		desc: "Asisten AI yang menjawab calon tamu 24/7 dan menjaga inquiry tetap bergerak.",
 	},
 ];
 
@@ -203,6 +196,17 @@ const breadcrumbsProp = post
 			{ name: post.title, url: postURL },
 		]
 	: null;
+
+// WebPage.about — entity topics from the post's content pillar (Gap #6).
+// Wikidata-verified QIDs only; posts without a pillar emit no about.
+const PILLAR_ABOUT: Record<string, { name: string; sameAs: string }> = {
+	"digital-marketing-bali": { name: "Digital Marketing", sameAs: "https://www.wikidata.org/wiki/Q1323528" },
+	"google-ads": { name: "Google Ads", sameAs: "https://www.wikidata.org/wiki/Q43452" },
+	"digital-marketing-for-hotel": { name: "Hotel", sameAs: "https://www.wikidata.org/wiki/Q27686" },
+	"booking-engine": { name: "Hotel", sameAs: "https://www.wikidata.org/wiki/Q27686" },
+	"ai-agent": { name: "Artificial Intelligence", sameAs: "https://www.wikidata.org/wiki/Q11660" },
+};
+const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolean) : null;
 ---
 
 {post ? (
@@ -216,6 +220,7 @@ const breadcrumbsProp = post
 	breadcrumbs={breadcrumbsProp}
 	faq={faqProp}
 	howto={howtoProp}
+	about={aboutProp}
 >
 	<article class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
 		<!-- Hero Image -->
@@ -298,7 +303,7 @@ const breadcrumbsProp = post
 			<h2 class="font-display font-bold text-2xl text-charcoal dark:text-white mb-5">
 				Lanjutkan ke fondasi digital marketing Bali
 			</h2>
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 				{relatedSEOLinks.map((link) => (
 					<a href={link.href} class="group border border-slate-200 dark:border-slate-700 p-4 hover:border-primary transition-colors">
 						<span class="font-bold text-charcoal dark:text-white group-hover:text-primary transition-colors">

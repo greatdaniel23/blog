@@ -23,9 +23,11 @@ interface Props {
     faq?: { q: string; a: string }[];
     howto?: { name?: string; steps: { name: string; text: string }[] };
     extraNodes?: object[];
+    /** Entity topics for WebPage.about — Wikidata-verified QIDs only (Gap #6). */
+    about?: { name: string; sameAs?: string }[] | null;
 }
 
-const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "", robots = "index, follow", image, article, mainEntity, breadcrumbs, faq, howto, extraNodes } = Astro.props;
+const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "", robots = "index, follow", image, article, mainEntity, breadcrumbs, faq, howto, extraNodes, about } = Astro.props;
 const BUILD_MARKER = "SEO-FIX-2026-06-14-ALPHA";
 
 // GA4 Measurement ID — public by design, safe to hardcode in static HTML.
@@ -232,6 +234,7 @@ const ogType = article ? "article" : "website";
             faq={faq}
             howto={howto}
             extraNodes={extraNodes}
+            about={about}
         />
         <slot name="head" />
         {ga4Id && (

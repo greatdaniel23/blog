@@ -108,9 +108,15 @@ const mainEntity = {
 };
 const faq = tx.faq;
 const breadcrumbs = [ { name: "Home", url: "/" } ];
+// WebPage.about — Wikidata-verified QIDs (Gap #6). No fabricated IDs.
+const about = [
+  { name: "Digital Marketing", sameAs: "https://www.wikidata.org/wiki/Q1323528" },
+  { name: "Google Ads", sameAs: "https://www.wikidata.org/wiki/Q43452" },
+  { name: "Bali", sameAs: "https://www.wikidata.org/wiki/Q3950" },
+];
 ---
 
-<SwissLayout title={tx.metaTitle} description={tx.metaDesc} currentPage="home" mainEntity={mainEntity} faq={faq} breadcrumbs={breadcrumbs}>
+<SwissLayout title={tx.metaTitle} description={tx.metaDesc} currentPage="home" mainEntity={mainEntity} faq={faq} breadcrumbs={breadcrumbs} about={about}>
   <Fragment slot="head">
     <script src="/assets/agency-agent-widget.js" data-agent-id="5" data-api-url="/api/chat" data-greeting={tx.aiGreeting} data-accent="#10b981" defer is:inline></script>
   </Fragment>

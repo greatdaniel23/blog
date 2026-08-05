@@ -1,6 +1,7 @@
 ---
 // SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
+import FeaturedResources from "../../components/FeaturedResources.astro";
 import { WA_JASA } from "../../lib/linkbio";
 
 const locale = (Astro.locals as any).locale || 'id';
@@ -106,6 +107,11 @@ const breadcrumbs = [
   { name: tx.breadcrumbName, url: tx.pageUrl },
 ];
 const faq = tx.faq;
+// WebPage.about — Wikidata-verified QIDs (Gap #6). No fabricated IDs.
+const about = [
+  { name: "Google Ads", sameAs: "https://www.wikidata.org/wiki/Q43452" },
+  { name: "Hotel Digital Marketing", sameAs: "https://www.wikidata.org/wiki/Q27686" },
+];
 ---
 
 <SwissLayout
@@ -115,6 +121,7 @@ const faq = tx.faq;
   mainEntity={mainEntity}
   breadcrumbs={breadcrumbs}
   faq={faq}
+  about={about}
 >
   <!-- ===================== HERO ===================== -->
   <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12 text-center" data-build={BUILD_TAG}>
@@ -178,6 +185,9 @@ const faq = tx.faq;
       </div>
     </div>
   </section>
+
+  <!-- ===================== FEATURED RESOURCES (KG-SEO v3 RULE-BR-3) ===================== -->
+  <FeaturedResources entityTag="google-ads" />
 
   <!-- ===================== CTA KONSULTASI ===================== -->
   <section class="max-w-2xl mx-auto px-6 md:px-12 mb-4 text-center">

@@ -4,27 +4,27 @@ import "../../styles/global.css";
 import SwissHeader from "../../components/SwissHeader.astro";
 import SwissFooter from "../../components/SwissFooter.astro";
 import SeoGraph from "../../components/SeoGraph.astro";
+import FeaturedResources from "../../components/FeaturedResources.astro";
 
 const SITE_URL = "https://alphadigitalagency.id";
 const PAGE_URL = `${SITE_URL}/services/booking-engine`;
 const DEFAULT_IMAGE = `${SITE_URL}/images/og-alpha-default.png`;
 
-// Unified @graph page nodes (KG-SEO v3 Phase A) — sitewide nodes (Organization/
+// Unified @graph page nodes (KG-SEO v3 Phase A + B) — sitewide nodes (Organization/
 // LocalBusiness/ProfessionalService/WebSite) come from SeoGraph itself.
+// Gap #5: @id per node, typed areaServed (AdministrativeArea Q3950), provider as @id ref.
 const mainEntity = {
     "@type": "Service",
+    "@id": `${PAGE_URL}/#service`,
     "name": "Direct Booking Engine untuk Vila dan Hotel di Bali",
     "provider": {
-        "@type": "Organization",
-        "name": "Alpha Digital Agency",
-        "url": "https://alphadigitalagency.id"
+        "@id": "https://alphadigitalagency.id/#organization"
     },
-    "author": {
-        "@type": "Person",
-        "name": "Daniel Santoso",
-        "url": "https://alphadigitalagency.id/daniel-santoso/"
+    "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Bali",
+        "sameAs": "https://www.wikidata.org/wiki/Q3950"
     },
-    "areaServed": "Bali, Indonesia",
     "description": "Direct booking engine untuk vila dan hotel Bali — edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Kurangi ketergantungan OTA.",
     "serviceType": "Booking Engine Integration",
     "url": PAGE_URL
@@ -33,6 +33,12 @@ const mainEntity = {
 const breadcrumbs = [
     { "name": "Home", "url": "/" },
     { "name": "Booking Engine", "url": PAGE_URL }
+];
+
+// WebPage.about — Wikidata-verified QIDs (Gap #6). Booking engine has no
+// Wikidata entity (verified 2026-08-05) — hotel is the closest stable anchor.
+const about = [
+    { "name": "Hotel", "sameAs": "https://www.wikidata.org/wiki/Q27686" },
 ];
 ---
 
@@ -69,6 +75,7 @@ const breadcrumbs = [
             url={PAGE_URL}
             mainEntity={mainEntity}
             breadcrumbs={breadcrumbs}
+            about={about}
         />
         <style is:inline>
             .dot-pattern {
@@ -601,6 +608,11 @@ const breadcrumbs = [
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Featured Resources (KG-SEO v3 RULE-BR-3) -->
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
+            <FeaturedResources entityTag="booking-engine" />
         </div>
 
         <SwissFooter />

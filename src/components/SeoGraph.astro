@@ -27,6 +27,8 @@ interface Props {
 	howto?: { name?: string; steps: { name: string; text: string }[] } | null;
 	/** Additional graph nodes (e.g. ProfilePage) — @context stripped automatically. */
 	extraNodes?: object[];
+	/** Entity topics for WebPage.about — Wikidata-verified QIDs only (Gap #6). */
+	about?: { name: string; sameAs?: string }[] | null;
 }
 
 const {
@@ -38,6 +40,7 @@ const {
 	faq,
 	howto,
 	extraNodes = [],
+	about = null,
 } = Astro.props;
 
 // sameAs only from confirmed social URLs (D-002: LinkedIn verified; Threads not
@@ -180,6 +183,15 @@ const webpageLD = {
 	name: title,
 	description,
 	isPartOf: { "@id": `${SITE_URL}/#website` },
+	...(about && about.length > 0
+		? {
+				about: about.map((a) =>
+					a.sameAs
+						? { "@type": "Thing", name: a.name, sameAs: a.sameAs }
+						: { "@type": "Thing", name: a.name }
+				),
+			}
+		: {}),
 };
 
 // Main entity: strip @context, then normalize cross-references so the node
