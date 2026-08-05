@@ -21,7 +21,7 @@ preview_id = "471b088473d445e1ac4bf33aded07b68"
 binding = "VECTORIZE"
 index_name = "kg-blog-index"
 
-[[ai]]
+[ai]
 binding = "AI"
 
 [observability]
