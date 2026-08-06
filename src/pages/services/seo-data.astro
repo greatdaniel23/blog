@@ -1,0 +1,216 @@
+---
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header.
+// Serves BOTH /services/seo-data (id) and /en/services/seo-data (worker rewrite,
+// verified live 2026-08-07) — same pattern as google-ads/foundation pages.
+import SwissLayout from "../../components/SwissLayout.astro";
+import { WA_JASA } from "../../lib/linkbio";
+
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
+
+// Unique build string for post-deploy curl-grep verification (raw HTTP, not WebFetch)
+const BUILD_TAG = "seo-data-v1-2026-08-07";
+
+const t = {
+  id: {
+    eyebrow: "SEO & Data Tracking · Bali",
+    heroH1: "SEO & Data Tracking untuk Hotel & Villa di Bali.",
+    heroDesc: "Website cepat, terindex dengan benar, dan terukur. Technical SEO, Google Search Console, GA4, GTM, dan Microsoft Clarity — supaya keputusan marketing properti Anda berbasis data, bukan feeling.",
+    waLabel: "Konsultasi via WhatsApp", mailLabel: "Minta Penawaran",
+    cardsTitle: "Yang Kami Kerjakan",
+    cards: [
+      { icon: "search", title: "Technical SEO", desc: "Kecepatan halaman, indexability, schema markup, dan struktur URL yang benar — fondasi supaya Google menemukan, memahami, dan meranking properti Anda." },
+      { icon: "visibility", title: "Google Search Console", desc: "Pantau keyword yang membawa tamu, deteksi halaman yang error atau tidak terindex, dan cek kesehatan situs langsung dari sumber datanya." },
+      { icon: "monitoring", title: "GA4 & GTM Setup", desc: "Event tracking hospitality: booking inquiry, form submit, phone click. Bukan setup default yang kehilangan 60% data konversi." },
+      { icon: "touch_app", title: "Microsoft Clarity", desc: "Heatmap dan session recording — lihat bagaimana tamu berinteraksi dengan website Anda, lalu perbaiki titik yang menghambat booking." },
+    ],
+    proofTitle: "Hasil yang Bisa Diukur",
+    proofNote: "Hasil kerja nyata — nama klien dianonimkan demi privasi.",
+    proofQuote: "Properti vila Bali dengan 4 unit — setelah lapisan tracking dipasang dengan benar, 34% direct booking yang tadinya tidak tertracking menjadi terlihat, terukur, dan bisa dioptimasi.",
+    proofCite: "— Data klien terverifikasi. Nama dirahasiakan sesuai kebijakan klien.",
+    proofFootnote: "Case Study #1 — full breakdown coming soon. Diukur via GA4 direct booking conversion tracking (90-hari window, Month 1 baseline vs Month 3 result).",
+    faqTitle: "Pertanyaan tentang SEO & Data Tracking",
+    faq: [
+      { q: "Apa bedanya layanan ini dengan paket Foundation?", a: "SEO & Data Tracking fokus di dua hal: visibilitas organik (technical SEO, Google Search Console) dan lapisan data (GA4, GTM, Microsoft Clarity). Foundation adalah paket yang menggabungkan data lintas channel — termasuk iklan dan Maps — dalam satu laporan bulanan plus satu area fokus. Banyak properti mulai dari Foundation, lalu memilih satu layanan untuk dikelola aktif." },
+      { q: "Apakah GA4 bisa melacak booking, bukan cuma pageview?", a: "Bisa. Kami pasang event tracking hospitality: booking inquiry, form submit, phone click, dan jika booking engine terhubung — konversi booking penuh. Data inilah yang membuat keputusan marketing bisa diukur terhadap reservasi nyata, bukan sekadar klik." },
+      { q: "Berapa lama sampai tracking siap dan data mulai terkumpul?", a: "Setup lengkap biasanya 2–3 minggu: audit tracking yang ada, perbaikan, pemasangan baru, dan verifikasi. Data yang bisa dianalisa mulai terkumpul di bulan pertama." },
+      { q: "Apakah saya perlu paham teknis untuk membaca laporannya?", a: "Tidak. Laporan dirancang untuk pemilik properti dan GM — bukan untuk developer. Data diringkas menjadi insight yang bisa langsung diambil tindakan." },
+      { q: "Apa itu technical SEO dan kenapa penting untuk hotel?", a: "Technical SEO adalah fondasi teknis yang menentukan seberapa baik Google bisa menemukan dan meranking website Anda: kecepatan halaman, struktur URL, indexability, dan schema markup. Tanpa ini, konten terbaik pun sulit mendapat trafik organik dari pencarian hotel & villa di Bali." },
+    ],
+    ctaTitle: "Mulai dari Mana?",
+    ctaDesc: "Ceritakan situasi tracking dan visibilitas properti Anda. Kami audit dulu — gratis, tanpa komitmen.",
+    serviceName: "SEO & Data Tracking untuk Hotel & Villa di Bali",
+    serviceDesc: "Technical SEO, Google Search Console, GA4, GTM, dan Microsoft Clarity untuk hotel & villa di Bali — website yang cepat, terindex dengan benar, dan terukur.",
+    pageUrl: "https://alphadigitalagency.id/services/seo-data",
+    breadcrumbName: "SEO & Data Tracking",
+  },
+  en: {
+    eyebrow: "SEO & Data Tracking · Bali",
+    heroH1: "SEO & Data Tracking for Hotels & Villas in Bali.",
+    heroDesc: "Fast, correctly indexed, and measurable websites. Technical SEO, Google Search Console, GA4, GTM, and Microsoft Clarity — so property marketing decisions are based on data, not gut feeling.",
+    waLabel: "Consult via WhatsApp", mailLabel: "Request a Proposal",
+    cardsTitle: "What We Do",
+    cards: [
+      { icon: "search", title: "Technical SEO", desc: "Page speed, indexability, schema markup, and clean URL structure — the foundation for Google to find, understand, and rank your property." },
+      { icon: "visibility", title: "Google Search Console", desc: "Track the keywords that bring guests, detect broken or unindexed pages, and monitor site health straight from the source." },
+      { icon: "monitoring", title: "GA4 & GTM Setup", desc: "Hospitality event tracking: booking inquiry, form submit, phone click. Not the default setup that misses 60% of conversion data." },
+      { icon: "touch_app", title: "Microsoft Clarity", desc: "Heatmaps and session recordings — see how guests actually interact with your website, then fix what blocks bookings." },
+    ],
+    proofTitle: "Measurable Results",
+    proofNote: "Real results — client names anonymized for privacy.",
+    proofQuote: "A 4-unit Bali villa property — once the tracking layer was properly installed, 34% of direct bookings that were previously untracked became visible, measurable, and optimizable.",
+    proofCite: "— Verified client data. Name withheld per client policy.",
+    proofFootnote: "Case Study #1 — full breakdown coming soon. Measured via GA4 direct booking conversion tracking (90-day window, Month 1 baseline vs Month 3 result).",
+    faqTitle: "SEO & Data Tracking Questions",
+    faq: [
+      { q: "How is this different from the Foundation package?", a: "SEO & Data Tracking focuses on two things: organic visibility (technical SEO, Google Search Console) and the data layer (GA4, GTM, Microsoft Clarity). Foundation combines cross-channel data — including ads and Maps — into one monthly report plus one focus area. Many properties start with Foundation, then pick one service to run actively." },
+      { q: "Can GA4 track bookings, not just pageviews?", a: "Yes. We install hospitality event tracking: booking inquiry, form submit, phone click, and — when a booking engine is connected — full booking conversions. This is what lets marketing decisions be measured against real reservations, not just clicks." },
+      { q: "How long until tracking is ready and data accumulates?", a: "Complete setup typically takes 2–3 weeks: audit of existing tracking, fixes, new installation, and verification. Analyzable data starts accumulating in the first month." },
+      { q: "Do I need a technical background to read the reports?", a: "No. Reports are designed for property owners and GMs — not developers. Data is summarized into actionable insights." },
+      { q: "What is technical SEO and why does it matter for hotels?", a: "Technical SEO is the technical foundation that determines how well Google can find and rank your website: page speed, URL structure, indexability, and schema markup. Without it, even the best content struggles to earn organic traffic from Bali hotel & villa searches." },
+    ],
+    ctaTitle: "Where to Start?",
+    ctaDesc: "Tell us about your property's tracking and visibility situation. We start with an audit — no commitment.",
+    serviceName: "SEO & Data Tracking for Hotels & Villas in Bali",
+    serviceDesc: "Technical SEO, Google Search Console, GA4, GTM, and Microsoft Clarity for hotels & villas in Bali — fast, correctly indexed, and measurable websites.",
+    pageUrl: "https://alphadigitalagency.id/en/services/seo-data",
+    breadcrumbName: "SEO & Data Tracking",
+  }
+};
+
+const tx = t[locale] || t.id;
+
+// Unified @graph page node (KG-SEO v3 Phase A) — spec 07 §3 SPEC 1 mandatory
+// attributes: serviceType, provider, areaServed, hasOfferCatalog, description, url.
+// QIDs verified via Wikidata 2026-08-06 (08_TAGGER_ENTITY_MAP): Bali Q3125978.
+const mainEntity = {
+  "@type": "Service",
+  name: tx.serviceName,
+  serviceType: "SEO & Data Tracking",
+  provider: { "@id": "https://alphadigitalagency.id/#organization" },
+  areaServed: { "@type": "AdministrativeArea", name: "Bali", sameAs: "https://www.wikidata.org/wiki/Q3125978" },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Paket SEO & Data Tracking Hotel",
+    itemListElement: [
+      { "@type": "Offer", name: "Audit SEO & Tracking", priceCurrency: "IDR" },
+      { "@type": "Offer", name: "Kelola SEO & Data Bulanan", priceCurrency: "IDR" },
+    ],
+  },
+  description: tx.serviceDesc,
+  url: tx.pageUrl,
+};
+const breadcrumbs = [
+  { name: "Home", url: "/" },
+  { name: "Services", url: "/services" },
+  { name: tx.breadcrumbName, url: tx.pageUrl },
+];
+const faq = tx.faq;
+// WebPage.about — Wikidata-verified QIDs only (Gap #6). No fabricated IDs.
+const about = [
+  { name: "Digital Marketing", sameAs: "https://www.wikidata.org/wiki/Q1323528" },
+  { name: "Hotel", sameAs: "https://www.wikidata.org/wiki/Q27686" },
+];
+---
+
+<SwissLayout
+  title={isEn ? "SEO & Data Tracking for Hotels & Villas in Bali | Alpha Digital" : "SEO & Data Tracking untuk Hotel & Villa di Bali | Alpha Digital"}
+  description={tx.serviceDesc}
+  currentPage="services"
+  mainEntity={mainEntity}
+  breadcrumbs={breadcrumbs}
+  faq={faq}
+  about={about}
+>
+  <!-- ===================== HERO ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12 text-center" data-build={BUILD_TAG}>
+    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.eyebrow}</p>
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[1.9rem] sm:text-[2.5rem] md:text-[3rem]">
+      {tx.heroH1}
+    </h1>
+    <p class="mt-4 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-lg mx-auto">
+      {tx.heroDesc}
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+      <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">chat</span>{tx.waLabel}</a>
+      <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.mailLabel}</a>
+    </div>
+    <!-- build:{BUILD_TAG} -->
+  </section>
+
+  <!-- ===================== KARTU LAYANAN ===================== -->
+  <!-- HARD GATE: NO per-card accent tab/bar/dot; shadow-premium = down-right directional. -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+    <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">{tx.cardsTitle}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {tx.cards.map((s) => (
+        <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
+          <span class="material-symbols-outlined text-primary text-[30px]">{s.icon}</span>
+          <h3 class="font-bold text-charcoal dark:text-white text-base mt-3 mb-1.5">{s.title}</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===================== BUKTI & HASIL ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+    <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6 text-center">{tx.proofTitle}</h2>
+    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-5 text-center max-w-lg mx-auto">{tx.proofNote}</p>
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+      <blockquote class="border-l-4 border-primary pl-5 py-1">
+        <p class="text-slate-700 dark:text-slate-300 text-sm md:text-base leading-relaxed italic mb-2">"{tx.proofQuote}"</p>
+        <cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">{tx.proofCite}</cite>
+      </blockquote>
+      <p class="text-slate-500 dark:text-slate-400 text-xs mt-6">{tx.proofFootnote}</p>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-6">{tx.faqTitle}</h2>
+      <div class="space-y-6">
+        {tx.faq.map((item) => (
+          <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
+            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INTERNAL LINKS ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-12">
+    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center">
+      SEO &amp; data tracking adalah lapisan pengukuran dari <a href="/" class="text-primary font-semibold hover:underline">digital marketing agency Bali untuk hospitality</a>: sebelum budget naik, visibilitas dan data harus jelas dulu.
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <a href={isEn ? "/en/services/foundation" : "/services/foundation"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 1</p>
+        <p class="font-bold text-charcoal dark:text-white">{isEn ? "Foundation →" : "Foundation →"}</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{isEn ? "Cross-channel tracking in one report" : "Tracking lintas channel dalam satu laporan"}</p>
+      </a>
+      <a href={isEn ? "/en/services/growth" : "/services/growth"} class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center">
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 2</p>
+        <p class="font-bold text-charcoal dark:text-white">{isEn ? "Growth →" : "Growth →"}</p>
+        <p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{isEn ? "Google Ads measured with data" : "Google Ads yang terukur dengan data"}</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===================== CTA KONSULTASI ===================== -->
+  <section class="max-w-2xl mx-auto px-6 md:px-12 mb-4 text-center">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-7 md:p-9">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-3">{tx.ctaTitle}</h2>
+      <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-7 max-w-lg mx-auto">{tx.ctaDesc}</p>
+      <div class="flex justify-center">
+        <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest">
+          <span class="material-symbols-outlined">chat</span>
+          {tx.waLabel}
+        </a>
+      </div>
+    </div>
+  </section>
+</SwissLayout>

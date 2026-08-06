@@ -1,0 +1,45 @@
+---
+// EN mirror of /services/seo-data — convention mirror matching the existing
+// src/pages/en/services/*.astro files (prerendered static, no raw JSON-LD;
+// the unified @graph for EN is emitted by the SSR page src/pages/services/
+// seo-data.astro, which the worker serves for /en/* via X-Locale rewrite).
+export const prerender = true;
+import SwissLayout from "../../../components/SwissLayout.astro";
+---
+
+<SwissLayout
+  title="SEO & Data Tracking for Hotels & Villas in Bali | Alpha Digital"
+  description="Technical SEO, Google Search Console, GA4, GTM, and Microsoft Clarity for hotels & villas in Bali — fast, correctly indexed, and measurable websites."
+  currentPage="services"
+>
+
+  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">SEO &amp; Data Tracking <span class="text-primary">for Hotels &amp; Villas</span></h1>
+    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">Fast, correctly indexed, and measurable websites. Technical SEO, Google Search Console, GA4, GTM, and Microsoft Clarity — so property marketing decisions are based on data, not gut feeling.</p>
+
+    <div class="space-y-4 mb-10">
+      {[
+        { icon: 'search', title: 'Technical SEO', desc: 'Page speed, indexability, schema markup, and clean URL structure — the foundation for Google to find, understand, and rank your property.' },
+        { icon: 'visibility', title: 'Google Search Console', desc: 'Track the keywords that bring guests, detect broken or unindexed pages, and monitor site health straight from the source.' },
+        { icon: 'monitoring', title: 'GA4 & GTM Setup', desc: 'Hospitality event tracking: booking inquiry, form submit, phone click. Not the default setup that misses 60% of conversion data.' },
+        { icon: 'touch_app', title: 'Microsoft Clarity', desc: 'Heatmaps and session recordings — see how guests actually interact with your website, then fix what blocks bookings.' },
+      ].map(f => (
+        <div class="flex items-start gap-4 border border-gray-200 dark:border-gray-800 rounded-lg p-5">
+          <span class="material-symbols-outlined text-primary text-2xl shrink-0">{f.icon}</span>
+          <div><h3 class="font-bold text-sm text-emerald-dark dark:text-white">{f.title}</h3><p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 mb-10">
+      <p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed">
+        A 4-unit Bali villa property — once the tracking layer was properly installed, 34% of direct bookings that were previously untracked became visible, measurable, and optimizable.
+      </p>
+    </div>
+
+    <div class="text-center">
+      <a href="mailto:daniel@alphadigitalagency.id" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Start with SEO &amp; Data Tracking →</a>
+    </div>
+  </section>
+
+</SwissLayout>

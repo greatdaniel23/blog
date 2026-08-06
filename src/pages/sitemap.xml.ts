@@ -44,6 +44,7 @@ const STATIC_ROUTES: Array<{ path: string; changefreq: string; priority: string 
   { path: '/services/authority', changefreq: 'monthly', priority: '0.8' },
   { path: '/services/booking-integration', changefreq: 'monthly', priority: '0.8' },
   { path: '/services/foundation', changefreq: 'monthly', priority: '0.8' },
+  { path: '/services/seo-data', changefreq: 'monthly', priority: '0.8' },
   { path: '/services/growth', changefreq: 'monthly', priority: '0.8' },
   // Evergreen pillar hubs (KG-SEO v3 Gap #17)
   { path: '/blog/pillar/digital-marketing-bali', changefreq: 'weekly', priority: '0.7' },
