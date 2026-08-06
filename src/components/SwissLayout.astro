@@ -30,7 +30,7 @@ interface Props {
 const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "", robots = "index, follow", image, article, mainEntity, breadcrumbs, faq, howto, extraNodes, about } = Astro.props;
 // Per-deploy unique build marker for post-deploy raw-HTTP verification
 // (alpha-deploy-verify skill). Bumped on every KG-SEO v3 deploy.
-const BUILD_MARKER = "KG-SEO-V3-STATIC-2026-08-06-V2";
+const BUILD_MARKER = "KG-SEO-V3-DYNAMIC-2026-08-06-V2";
 
 // GA4 Measurement ID — public by design, safe to hardcode in static HTML.
 // import.meta.env.PUBLIC_GA4_ID feeds this at build time when the env var is set
@@ -46,17 +46,26 @@ const ga4Id: string = (import.meta.env.PUBLIC_GA4_ID as string | undefined) || '
 // cross-origin canonical/og:url (WARDEN hard-fail 2026-06-09, same root cause
 // as the middleware open-redirect).
 //
-// i18n: worker.ts rewrites /en/* → /* and sets X-Locale header. Astro.url.pathname
-// reflects the rewritten path (without /en/). We reconstruct the locale-prefixed
-// path for canonical and hreflang so Google sees distinct language versions.
+// i18n: EN blog POSTS live at <slug>-en (e.g. /blog/xxx-en) — reached directly,
+// no /en/ path prefix. The /en/ prefix scheme exists only for the static pages
+// (src/pages/en/*; worker.ts rewrites /en/* → /* and sets X-Locale). Hreflang
+// pairs ID ↔ EN by adding/stripping the -en suffix on post paths; other paths
+// keep the /en/ form.
 const rawPath = "/" + Astro.url.pathname.replace(/^[/\\]+/, "").replace(/\/+$/, "") || "/";
 const pageLocale = ((Astro.locals as any).locale as string) || 'id';
-const isPageEn = pageLocale === 'en';
-// For EN pages, canonical must include /en prefix. For ID, no prefix (x-default).
-const canonicalPath = isPageEn ? `/en${rawPath === '/' ? '' : rawPath}` : rawPath;
-const canonicalURL = new URL(canonicalPath || '/', Astro.site ?? SITE_URL);
-// The alternate (other locale) URL
-const altPath = isPageEn ? rawPath : `/en${rawPath === '/' ? '' : rawPath}`;
+const isPostPage = /^\/blog\/[^/]+$/.test(rawPath);
+// EN detection: X-Locale header (static /en/ pages) OR -en slug suffix (posts).
+const isPageEn = pageLocale === 'en' || (isPostPage && /-en$/.test(rawPath));
+// Canonical is ALWAYS the exact no-slash path being served — no prefix surgery.
+const canonicalURL = new URL(rawPath || '/', Astro.site ?? SITE_URL);
+// The alternate (other locale) URL — post pages pair via the -en suffix.
+const altPath = isPostPage
+    ? isPageEn
+        ? rawPath.replace(/-en$/, '')
+        : `${rawPath}-en`
+    : isPageEn
+        ? rawPath
+        : `/en${rawPath === '/' ? '' : rawPath}`;
 const altURL = new URL(altPath || '/', Astro.site ?? SITE_URL);
 
 let isPagesDevHost = false;
@@ -82,7 +91,7 @@ const ogType = article ? "article" : "website";
 ---
 
 <!doctype html>
-<html class="light" lang={Astro.locals.locale === 'en' ? 'en' : 'id'}>
+<html class="light" lang={isPageEn ? 'en' : 'id'}>
     <head>
         <meta charset="utf-8" />
         <meta

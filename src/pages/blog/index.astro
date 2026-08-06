@@ -22,6 +22,12 @@ const { results: posts } = await env.DB.prepare(
 	"SELECT * FROM posts WHERE is_published = 1 ORDER BY pub_date DESC",
 ).all<Post>();
 
+// Pillar hubs for the topical nav (KG-SEO v3 Gap #17) — data-driven from
+// content_pillars so a new pillar needs zero code.
+const { results: pillars } = await env.DB.prepare(
+	"SELECT pillar_id, title FROM content_pillars ORDER BY title",
+).all<{ pillar_id: string; title: string }>();
+
 const images = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/assets/*.{jpeg,jpg,png,gif}",
 	{ eager: true },
@@ -29,10 +35,12 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 
 // Blog index CollectionPage schema (Gap #13) — the index previously emitted no
 // Blog/CollectionPage/ItemList, leaving the listing graph-blind. ItemList is
-// populated from the published posts (latest 10, no-slash URLs).
+// populated from the published posts (latest 10, no-slash URLs). Passed as
+// mainEntity so SeoGraph normalizes it into the @graph (isPartOf → #webpage).
+// Distinct @id (#blog) — never collides with the auto WebPage node's #webpage.
 const blogIndexLD = {
 	"@type": ["Blog", "CollectionPage"],
-	"@id": `${SITE_URL}/blog/#webpage`,
+	"@id": `${SITE_URL}/blog/#blog`,
 	name: "Blog | Alpha Digital Agency",
 	description:
 		"Strategi Google Ads, SEO hospitality, booking engine, dan AI agent untuk hotel dan villa di Bali — langsung dari praktisi.",
@@ -49,7 +57,7 @@ const blogIndexLD = {
 };
 ---
 
-<SwissLayout title="Blog | Alpha Digital Agency" currentPage="blog" description="Strategi Google Ads, SEO hospitality, booking engine, dan AI agent untuk hotel dan villa di Bali — langsung dari praktisi." extraNodes={[blogIndexLD]}>
+<SwissLayout title="Blog | Alpha Digital Agency" currentPage="blog" description="Strategi Google Ads, SEO hospitality, booking engine, dan AI agent untuk hotel dan villa di Bali — langsung dari praktisi." mainEntity={blogIndexLD}>
 	<!-- Hero Section -->
 	<section class="max-w-6xl mx-auto mb-16 md:mb-24 px-6 md:px-12">
 		<h1
@@ -68,6 +76,22 @@ const blogIndexLD = {
 			luxury experiences, and drive direct bookings.
 		</p>
 	</section>
+
+	<!-- Pillar hub navigation (KG-SEO v3 Gap #17 — evergreen topical hubs) -->
+	{pillars.length > 0 && (
+		<nav class="max-w-6xl mx-auto pb-10 px-6 md:px-12" aria-label="Topik blog">
+			<div class="flex flex-wrap gap-3 justify-center">
+				{pillars.map((p) => (
+					<a
+						href={`/blog/pillar/${p.pillar_id}`}
+						class="border-2 border-charcoal dark:border-white px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-primary hover:text-white hover:border-primary transition-colors"
+					>
+						{p.title}
+					</a>
+				))}
+			</div>
+		</nav>
+	)}
 
 	<!-- Blog Posts Grid -->
 	<section class="max-w-6xl mx-auto pb-16 px-6 md:px-12">
@@ -93,7 +117,7 @@ const blogIndexLD = {
 
 						return (
 							<a
-								href={`/blog/${post.slug}/`}
+								href={`/blog/${post.slug}`}
 								class:list={[
 									"card-swiss block bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark overflow-hidden group",
 									{

@@ -9,18 +9,20 @@ const locale = ((Astro.locals as any).locale as string) || 'id';
 const isEn = locale === 'en';
 const prefix = isEn ? '/en' : '';
 
+// All hrefs in NO-trailing-slash form (KG-SEO v3 Gap #12: the slash variants
+// 301 — a header on every page must never generate redirect hops).
 const navItems = [
     { href: `${prefix}/`, label: "Home", key: "home" },
-    { href: `${prefix}/services/growth/`, label: isEn ? "Services" : "Layanan", key: "services", children: [
-        { href: `${prefix}/services/booking-integration/`, label: isEn ? "Direct Booking" : "Direct Booking" },
-        { href: `${prefix}/services/ai-agent/`, label: isEn ? "AI Concierge 24/7" : "AI Concierge 24/7" },
-        { href: `${prefix}/services/booking-engine/`, label: isEn ? "Enhance SEO Villa" : "Tingkatkan SEO Villa" },
-        { href: `${prefix}/services/foundation/`, label: isEn ? "Revenue Analytics" : "Analitik Revenue" },
-        { href: `${prefix}/services/growth/`, label: isEn ? "Google Ads ROAS" : "Google Ads ROAS" },
+    { href: `${prefix}/services/growth`, label: isEn ? "Services" : "Layanan", key: "services", children: [
+        { href: `${prefix}/services/booking-integration`, label: isEn ? "Direct Booking" : "Direct Booking" },
+        { href: `${prefix}/services/ai-agent`, label: isEn ? "AI Concierge 24/7" : "AI Concierge 24/7" },
+        { href: `${prefix}/services/booking-engine`, label: isEn ? "Enhance SEO Villa" : "Tingkatkan SEO Villa" },
+        { href: `${prefix}/services/foundation`, label: isEn ? "Revenue Analytics" : "Analitik Revenue" },
+        { href: `${prefix}/services/growth`, label: isEn ? "Google Ads ROAS" : "Google Ads ROAS" },
     ]},
-    { href: `${prefix}/ekosistem/`, label: isEn ? "Ecosystem" : "Ekosistem", key: "ekosistem" },
-    { href: `${prefix}/services/ai-agent/`, label: "AI Agent", key: "ai-agent" },
-    { href: `${prefix}/about/`, label: "About", key: "about" },
+    { href: `${prefix}/ekosistem`, label: isEn ? "Ecosystem" : "Ekosistem", key: "ekosistem" },
+    { href: `${prefix}/services/ai-agent`, label: "AI Agent", key: "ai-agent" },
+    { href: `${prefix}/about`, label: "About", key: "about" },
 ];
 ---
 

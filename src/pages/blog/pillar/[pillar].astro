@@ -35,9 +35,11 @@ const { results: posts } = await env.DB.prepare(
 const pillarUrl = `${SITE_URL}/blog/pillar/${pillarRow.pillar_id}`;
 
 // CollectionPage schema — the hub itself is the evergreen topic authority node.
+// Distinct @id (#pillar-page): the auto WebPage node already owns #webpage for
+// this URL — a colliding @id would merge two node types into one entity.
 const hubLD = {
 	"@type": ["CollectionPage"],
-	"@id": `${pillarUrl}/#webpage`,
+	"@id": `${pillarUrl}/#pillar-page`,
 	url: pillarUrl,
 	name: `${pillarRow.title} — Hub Topikal`,
 	description: pillarRow.description ?? pillarRow.hub_topic ?? `${pillarRow.title} articles`,
@@ -108,7 +110,8 @@ const breadcrumbs = [
 					)}
 					{post.pub_date && (
 						<p class="text-xs text-slate-500 dark:text-slate-400 mt-3">
-							<FormattedDate date={post.pub_date} />
+							{/* D1 returns pub_date as a string — FormattedDate needs a Date */}
+							<FormattedDate date={new Date(post.pub_date)} />
 						</p>
 					)}
 				</a>

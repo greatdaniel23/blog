@@ -16,10 +16,15 @@
  */
 
 import { execSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const APPLY = process.argv.includes("--apply");
 const THRESHOLD_DAYS = 180;
 const PRUNE_DAYS = 360;
+
+// Repo root as a real Windows path (import.meta.url.pathname yields "/D:/…"
+// which cmd.exe rejects as cwd).
+const REPO_ROOT = fileURLToPath(new URL("..", import.meta.url));
 
 type Post = {
   id: number;
@@ -48,25 +53,24 @@ function sh(cmd: string): string {
   return execSync(cmd, {
     shell: comSpec,
     env: { ...process.env, ComSpec: comSpec },
-    cwd: new URL("..", import.meta.url).pathname,
+    cwd: REPO_ROOT,
     encoding: "utf-8",
   });
 }
 
-function sqlFile(query: string): string {
-  const path = `${process.env.TEMP ?? "C:\\Windows\\Temp"}\\kg_sql_${Date.now()}_${Math.floor(Math.random() * 1e6)}.sql`;
-  require("node:fs").writeFileSync(path, query, "utf-8");
-  return path;
-}
-
 function runD1(query: string): unknown[] {
-  const file = sqlFile(query);
-  try {
-    const out = sh(`npx wrangler d1 execute blogdatabase --remote --json --file "${file}"`);
-    return JSON.parse(out) as unknown[];
-  } finally {
-    require("node:fs").unlinkSync(file);
+  // --command (not --file): on this wrangler version, --file returns only a
+  // batch summary ("Total queries executed") and DROPS the SELECT rows.
+  const out = sh(`npx wrangler d1 execute blogdatabase --remote --json --command "${query.replace(/"/g, '\\"')}"`);
+  // wrangler prints its banner/spinner to stdout before the JSON — extract the
+  // JSON array between the first '[' and the last ']' so banner noise can never
+  // break JSON.parse.
+  const jsonStart = out.indexOf("[");
+  const jsonEnd = out.lastIndexOf("]");
+  if (jsonStart < 0 || jsonEnd <= jsonStart) {
+    throw new Error(`no JSON array in wrangler output: ${out.slice(0, 200)}`);
   }
+  return JSON.parse(out.slice(jsonStart, jsonEnd + 1)) as unknown[];
 }
 
 function run(): Post[] {

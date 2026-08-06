@@ -19,11 +19,35 @@ interface Post {
 	updated_at: string;
 	faq?: string | null;
 	howto_steps?: string | null;
+	// KG-SEO v3 dynamic-node taxonomy (migration 0009) + authors FK (0013).
+	pillar_id?: string | null;
+	node_type?: string | null;
+	upward_links?: string | null;
+	author_id?: number | null;
+	/** Free-text legacy author — kept for display fallback pre-0013. */
+	author?: string | null;
+	/** Resolved author name via authors table JOIN (0013). */
+	author_name?: string | null;
 }
 
-const post = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
-	.bind(slug)
-	.first<Post>();
+// Authors JOIN (migration 0013). Fail-degrade: if the migration hasn't been
+// applied yet (author_id column absent), fall back to the legacy plain query —
+// the page must NEVER 500 over an unapplied migration.
+let post: Post | null = null;
+try {
+	post = await env.DB.prepare(
+		`SELECT p.*, a.name AS author_name
+		 FROM posts p
+		 LEFT JOIN authors a ON p.author_id = a.id
+		 WHERE p.slug = ?`,
+	)
+		.bind(slug)
+		.first<Post>();
+} catch {
+	post = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
+		.bind(slug)
+		.first<Post>();
+}
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/assets/*.{jpeg,jpg,png,gif}",
@@ -36,13 +60,17 @@ if (!post) {
 	Astro.response.status = 404;
 }
 
-// Convert D1 timestamps ("YYYY-MM-DD HH:MM:SS") to ISO 8601 with the Bali offset.
-// Idempotent: already-ISO input (has 'T' or an offset) is returned unchanged.
+// Convert D1 timestamps ("YYYY-MM-DD HH:MM:SS", date-only "YYYY-MM-DD") to ISO
+// 8601 with the Bali offset. Idempotent: already-ISO input (has 'T' or an offset)
+// is returned unchanged.
 function toISO(d: string | null | undefined): string | undefined {
 	if (!d) return undefined;
 	const s = d.trim();
 	if (s === "") return undefined;
 	if (s.includes("T") || /[+\-]\d{2}:\d{2}$/.test(s) || s.endsWith("Z")) return s;
+	// Date-only "YYYY-MM-DD" → need time component
+	if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s + "T08:00:00+08:00";
+	// "YYYY-MM-DD HH:MM:SS" → add +08:00 offset
 	return s.replace(" ", "T") + "+08:00";
 }
 
@@ -110,26 +138,143 @@ const modifiedISO = post && post.updated_at && post.updated_at !== post.pub_date
 const seoTitle = post ? compactTitle(post.title, post.slug) : "";
 const seoDescription = post ? compactDescription(post.description ?? "") : "";
 
-// Upward link edges — entity-descriptive anchors per KG SEO v3 spec 07 §3C.
-// Dynamic posts feed authority to static service nodes; anchors use the
-// approved entity phrases (never "klik di sini" / generic labels).
-const relatedSEOLinks = [
-	{
-		href: "/services/google-ads",
-		label: "Google Ads Specialist Bali",
-		desc: "Google Ads management terintegrasi GA4, GTM, dan booking engine untuk hotel & villa di Bali.",
-	},
-	{
-		href: "/services/booking-engine",
-		label: "Booking Engine Villa Bali",
-		desc: "Booking engine direct reservation untuk kurangi ketergantungan OTA dan kuasai data tamu.",
-	},
-	{
-		href: "/services/ai-agent",
-		label: "AI Chatbot Villa Bali",
-		desc: "Asisten AI yang menjawab calon tamu 24/7 dan menjaga inquiry tetap bergerak.",
-	},
-];
+// Upward link edges (KG-SEO v3 Gap #8, spec 07 §3C) — entity-descriptive
+// anchors, 1–3 per post, matched to the post's content pillar. Dynamic posts
+// feed authority to static authority sinks; anchors use the approved entity
+// phrases (never "klik di sini" / generic labels).
+interface UpwardLink {
+	href: string;
+	label: string;
+	desc: string;
+}
+
+// Approved per-pillar targets. Primary = the pillar's own static authority
+// sink; digital-marketing-bali feeds the brand root + the SEO/data offering.
+const PILLAR_UPWARD_TARGETS: Record<string, UpwardLink[]> = {
+	"google-ads": [
+		{
+			href: "/services/google-ads",
+			label: "Google Ads Specialist Bali",
+			desc: "Google Ads management terintegrasi GA4, GTM, dan booking engine untuk hotel & villa di Bali.",
+		},
+	],
+	"booking-engine": [
+		{
+			href: "/services/booking-engine",
+			label: "Booking Engine Villa Bali",
+			desc: "Booking engine direct reservation untuk kurangi ketergantungan OTA dan kuasai data tamu.",
+		},
+	],
+	"ai-agent": [
+		{
+			href: "/services/ai-agent",
+			label: "AI Chatbot Villa Bali",
+			desc: "Asisten AI yang menjawab calon tamu 24/7 dan menjaga inquiry tetap bergerak.",
+		},
+	],
+	"digital-marketing-for-hotel": [
+		{
+			href: "/services/google-ads",
+			label: "Google Ads Specialist Bali",
+			desc: "Google Ads management terintegrasi GA4, GTM, dan booking engine untuk hotel & villa di Bali.",
+		},
+		{
+			href: "/services/booking-engine",
+			label: "Booking Engine Villa Bali",
+			desc: "Booking engine direct reservation untuk kurangi ketergantungan OTA dan kuasai data tamu.",
+		},
+	],
+	"digital-marketing-bali": [
+		{
+			href: "/",
+			label: "Digital Marketing Agency Bali",
+			desc: "Alpha Digital Agency — Google Ads, AI, dan digital transformation untuk bisnis hospitality di Bali.",
+		},
+		{
+			href: "/services/foundation",
+			label: "SEO & Data Tracking Bali",
+			desc: "Fundamental SEO, GA4, GTM, dan Search Console untuk hotel & villa di Bali.",
+		},
+	],
+};
+
+// Defensive fallback when a post has no pillar (should not happen post-0010).
+const FALLBACK_UPWARD_LINK: UpwardLink = PILLAR_UPWARD_TARGETS["digital-marketing-bali"][0];
+
+// Internal-only href guard: relative no-slash paths only. Rejects absolute /
+// protocol-relative URLs so CMS-provided upward_links can never open a redirect
+// or leak off-domain (WARDEN open-redirect pattern).
+function isInternalPath(href: string): boolean {
+	return (
+		typeof href === "string" &&
+		href.startsWith("/") &&
+		!href.startsWith("//") &&
+		!href.includes(":")
+	);
+}
+
+// Resolve the 1–3 upward links for this post:
+//   1. post.upward_links JSON (CMS, format from migration 0009:
+//      [{ target_static_url, anchor_text, relevance_score }]) — validated + capped.
+//   2. else entity-matched module derived from the post's pillar.
+function resolveUpwardLinks(post: Post): UpwardLink[] {
+	if (post.upward_links && post.upward_links.trim() !== "") {
+		try {
+			const parsed: unknown = JSON.parse(post.upward_links);
+			if (Array.isArray(parsed)) {
+				const links = parsed
+					.map((item) => {
+						const row = item as Record<string, unknown>;
+						const href = String(row.target_static_url ?? row.href ?? "");
+						const label = String(row.anchor_text ?? row.label ?? "").trim();
+						if (!isInternalPath(href) || !label) return null;
+						return { href, label, desc: String(row.desc ?? "") } as UpwardLink;
+					})
+					.filter((l): l is UpwardLink => l !== null)
+					.slice(0, 3);
+				if (links.length > 0) return links;
+			}
+		} catch {
+			// malformed JSON — fall through to pillar derivation
+		}
+	}
+	const derived = post.pillar_id ? PILLAR_UPWARD_TARGETS[post.pillar_id] : undefined;
+	return derived && derived.length > 0 ? derived : [FALLBACK_UPWARD_LINK];
+}
+
+const relatedSEOLinks = post ? resolveUpwardLinks(post) : [];
+
+// Pillar title map for the module heading + hub link (mirrors content_pillars;
+// avoids an extra query per post).
+const PILLAR_TITLES: Record<string, string> = {
+	"google-ads": "Google Ads",
+	"booking-engine": "Booking Engine",
+	"ai-agent": "AI Agent",
+	"digital-marketing-for-hotel": "Digital Marketing for Hotel",
+	"digital-marketing-bali": "Digital Marketing Bali",
+};
+const pillarTitle = post?.pillar_id ? PILLAR_TITLES[post.pillar_id] : null;
+
+// Author attribution (KG-SEO v3 Gap #10) — standardized from the authors FK:
+//   - Daniel Santoso            → Person (no-slash profile URL)
+//   - any other / NULL author   → Organization (#organization @id ref)
+// Resolved name comes from the authors table; pre-0013 rows fall back to the
+// legacy free-text column.
+const authorResolvedName =
+	post?.author_name ?? post?.author ?? null;
+const isPersonAuthor =
+	authorResolvedName === "Daniel Santoso";
+const authorLD = isPersonAuthor
+	? {
+			"@type": "Person",
+			name: "Daniel Santoso",
+			url: `${SITE_URL}/daniel-santoso`,
+		}
+	: {
+			"@type": "Organization",
+			"@id": `${SITE_URL}/#organization`,
+		};
+const authorDisplayName = authorResolvedName || "Alpha Digital Agency";
 
 const blogPostingLD = post ? {
 	"@context": "https://schema.org",
@@ -138,11 +283,7 @@ const blogPostingLD = post ? {
 	description: post.description ?? "",
 	datePublished: publishedISO,
 	dateModified: modifiedISO,
-	author: {
-		"@type": "Person",
-		name: "Daniel Santoso",
-		url: `${SITE_URL}/daniel-santoso/`,
-	},
+	author: authorLD,
 	publisher: {
 		"@id": `${SITE_URL}/#organization`,
 	},
@@ -188,11 +329,13 @@ if (post?.howto_steps && post.howto_steps.trim() !== "") {
 	}
 }
 
-// Breadcrumbs for the unified @graph (SeoGraph BreadcrumbList node).
+// Breadcrumbs for the unified @graph (SeoGraph BreadcrumbList node) — all
+// items in no-slash canonical form (KG-SEO v3 Gap #11: zero redirect hops,
+// @id must match the page canonicals).
 const breadcrumbsProp = post
 	? [
 			{ name: "Home", url: "/" },
-			{ name: "Blog", url: "/blog/" },
+			{ name: "Blog", url: "/blog" },
 			{ name: post.title, url: postURL },
 		]
 	: null;
@@ -252,9 +395,15 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 
 		<!-- Article Header -->
 		<header class="mb-8 text-center">
-			<!-- E-E-A-T byline: author + publish date above the fold -->
+			<!-- E-E-A-T byline: author + publish date above the fold. Author from
+			     the authors FK (0013); Person rows link no-slash to the profile. -->
 			<p class="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">
-				Ditulis oleh <a href="/daniel-santoso/" class="text-primary hover:underline">Daniel Santoso</a>
+				Ditulis oleh{" "}
+				{isPersonAuthor ? (
+					<a href="/daniel-santoso" class="text-primary hover:underline">Daniel Santoso</a>
+				) : (
+					<span class="text-charcoal dark:text-white">{authorDisplayName}</span>
+				)}
 				<span class="text-slate-400 mx-2">·</span>
 				<FormattedDate date={new Date(post.pub_date)} />
 				{
@@ -301,9 +450,14 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 				Related Alpha Digital Pages
 			</p>
 			<h2 class="font-display font-bold text-2xl text-charcoal dark:text-white mb-5">
-				Lanjutkan ke fondasi digital marketing Bali
+				Lanjutkan ke topik {pillarTitle ?? "digital marketing Bali"}
 			</h2>
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+			<div class:list={[
+				"grid gap-4",
+				relatedSEOLinks.length === 1
+					? "grid-cols-1 md:grid-cols-1 max-w-md"
+					: "grid-cols-1 md:grid-cols-2",
+			]}>
 				{relatedSEOLinks.map((link) => (
 					<a href={link.href} class="group border border-slate-200 dark:border-slate-700 p-4 hover:border-primary transition-colors">
 						<span class="font-bold text-charcoal dark:text-white group-hover:text-primary transition-colors">
@@ -315,6 +469,15 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 					</a>
 				))}
 			</div>
+			{pillarTitle && (
+				<a
+					href={`/blog/pillar/${post.pillar_id}`}
+					class="inline-flex items-center gap-2 mt-5 text-sm font-bold text-primary hover:underline"
+				>
+					Jelajahi semua artikel topik {pillarTitle}
+					<span class="material-symbols-outlined text-sm">arrow_forward</span>
+				</a>
+			)}
 		</section>
 
 		<!-- Back to Blog -->
@@ -337,7 +500,7 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 		<p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-md mx-auto">
 			Artikel yang Anda cari mungkin telah dipindahkan, dihapus, atau tidak pernah ada.
 		</p>
-		<a href="/blog/" class="btn-swiss inline-flex items-center gap-2 px-6 py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest">
+		<a href="/blog" class="btn-swiss inline-flex items-center gap-2 px-6 py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest">
 			<span class="material-symbols-outlined">arrow_back</span>
 			Kembali ke Blog
 		</a>
