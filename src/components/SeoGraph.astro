@@ -43,6 +43,12 @@ const {
 	about = null,
 } = Astro.props;
 
+// No-slash form of the page URL for @id construction. The root canonical is
+// "https://alphadigitalagency.id/" — appending "/#webpage" naively would emit a
+// double-slash @id ("//#webpage") that mismatches the page canonical (Gap #3
+// @id-consistency requirement). Every other page's canonical is already no-slash.
+const urlBase = url.replace(/\/+$/, "");
+
 // sameAs only from confirmed social URLs (D-002: LinkedIn verified; Threads not
 // created yet per D-003 — never include it). No wikidata placeholders.
 const sameAsList = (["linkedin"] as const)
@@ -178,7 +184,7 @@ const websiteLD = {
 
 const webpageLD = {
 	"@type": "WebPage",
-	"@id": `${url}/#webpage`,
+	"@id": `${urlBase}/#webpage`,
 	url,
 	name: title,
 	description,
@@ -196,13 +202,16 @@ const webpageLD = {
 
 // Main entity: strip @context, then normalize cross-references so the node
 // participates in the graph (isPartOf → #webpage, mainEntityOfPage → #webpage
-// as a bare @id ref — not a nested WebPage object).
+// as a bare @id ref — not a nested WebPage object). Every node gets a stable
+// @id (template `{{PAGE_URL}}/#main-entity`) when the page did not supply one —
+// a missing @id breaks the spec's @id cross-reference requirement (Gap #5).
 let mainEntityLD: object | null = null;
 if (mainEntity) {
 	const node = JSON.parse(JSON.stringify(mainEntity)) as Record<string, unknown>;
 	delete node["@context"];
-	node.isPartOf = { "@id": `${url}/#webpage` };
-	node.mainEntityOfPage = { "@id": `${url}/#webpage` };
+	node["@id"] = node["@id"] ?? `${urlBase}/#main-entity`;
+	node.isPartOf = { "@id": `${urlBase}/#webpage` };
+	node.mainEntityOfPage = { "@id": `${urlBase}/#webpage` };
 	mainEntityLD = node;
 }
 

@@ -96,6 +96,10 @@ const tx = t[locale] || t.id;
 // breadcrumb) inside the single @graph block.
 const mainEntity = {
   "@type": "ProfessionalService",
+  // Unifies with the sitewide ProfessionalService node emitted by SeoGraph —
+  // same @id ⇒ single entity in the graph (Gap #3 dedup discipline), not a
+  // duplicate ProfessionalService per page.
+  "@id": "https://alphadigitalagency.id/#professionalservice",
   "parentOrganization": { "@id": "https://alphadigitalagency.id/#organization" },
   "name": "Alpha Digital Agency Indonesia",
   "url": "https://alphadigitalagency.id",
