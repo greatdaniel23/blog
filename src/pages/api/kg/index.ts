@@ -113,7 +113,12 @@ export const POST: APIRoute = async ({ locals, request }) => {
       const vectors: { id: string; values: number[]; metadata: Record<string, string> }[] = [];
       for (let i = 0; i < chunks.length; i++) {
         const emb = await env.AI.run("@cf/baai/bge-base-en-v1.5", { text: [chunks[i]] });
-        const values = (emb as { data?: { embedding?: number[] }[] }).data?.[0]?.embedding;
+        // Workers AI embedding responses differ by model: bge returns
+        // { data: [[...]] } (array of arrays) while some return
+        // { data: [{ embedding: [...] }] }. Handle both.
+        const raw = emb as { data?: (number[] | { embedding?: number[] })[] };
+        const first = raw.data?.[0];
+        const values = Array.isArray(first) ? first : first?.embedding;
         if (!values) {
           failures.push(`${docIdBase}#c${i} (no embedding)`);
           continue;
