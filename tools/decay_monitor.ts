@@ -41,12 +41,39 @@ function daysSince(iso: string | null): number | null {
   return Math.floor((Date.now() - d.getTime()) / 86_400_000);
 }
 
+// Windows-safe shell + SQL: temp file + wrangler --file (avoids nested-quote
+// breakage and cmd.exe ENOENT from execSync shell resolution).
+function sh(cmd: string): string {
+  const comSpec = process.env.ComSpec ?? "C:\\Windows\\System32\\cmd.exe";
+  return execSync(cmd, {
+    shell: comSpec,
+    env: { ...process.env, ComSpec: comSpec },
+    cwd: new URL("..", import.meta.url).pathname,
+    encoding: "utf-8",
+  });
+}
+
+function sqlFile(query: string): string {
+  const path = `${process.env.TEMP ?? "C:\\Windows\\Temp"}\\kg_sql_${Date.now()}_${Math.floor(Math.random() * 1e6)}.sql`;
+  require("node:fs").writeFileSync(path, query, "utf-8");
+  return path;
+}
+
+function runD1(query: string): unknown[] {
+  const file = sqlFile(query);
+  try {
+    const out = sh(`npx wrangler d1 execute blogdatabase --remote --json --file "${file}"`);
+    return JSON.parse(out) as unknown[];
+  } finally {
+    require("node:fs").unlinkSync(file);
+  }
+}
+
 function run(): Post[] {
-  const out = execSync(
-    `npx wrangler d1 execute blogdatabase --remote --json --command "SELECT id, slug, title, pub_date, last_audit_date, decay_status FROM posts WHERE is_published = 1"`,
-    { cwd: new URL("..", import.meta.url).pathname, encoding: "utf-8" },
+  const parsed = runD1(
+    "SELECT id, slug, title, pub_date, last_audit_date, decay_status FROM posts WHERE is_published = 1;",
   );
-  return (JSON.parse(out)[0]?.results ?? []) as Post[];
+  return (parsed[0]?.results ?? []) as Post[];
 }
 
 function main() {
@@ -78,9 +105,8 @@ function main() {
   if (APPLY) {
     for (const { post, action } of flags) {
       const status = action === "REFRESH" ? "decayed" : "warning";
-      execSync(
-        `npx wrangler d1 execute blogdatabase --remote --command "UPDATE posts SET decay_status = '${status}', last_audit_date = '${today}' WHERE id = ${post.id}"`,
-        { cwd: new URL("..", import.meta.url).pathname, encoding: "utf-8" },
+      runD1(
+        `UPDATE posts SET decay_status = '${status}', last_audit_date = '${today}' WHERE id = ${post.id};`,
       );
     }
     console.log(`\nApplied: ${flags.length} posts updated (decay_status + last_audit_date = ${today}).`);

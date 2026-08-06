@@ -30,12 +30,37 @@ if (!title && !allMode) {
 
 type Row = { static_url: string; primary_keyword: string; keyword_group: string };
 
+// Windows-safe shell + SQL execution: write the query to a temp file and use
+// wrangler --file (avoids nested-quote breakage + cmd.exe ENOENT from execSync
+// shell resolution). ComSpec may be missing from the env — set it explicitly.
+function sh(cmd: string): string {
+  const comSpec = process.env.ComSpec ?? "C:\\Windows\\System32\\cmd.exe";
+  return execSync(cmd, {
+    shell: comSpec,
+    env: { ...process.env, ComSpec: comSpec },
+    cwd: new URL("..", import.meta.url).pathname,
+    encoding: "utf-8",
+  });
+}
+
+function sqlFile(query: string): string {
+  const path = `${process.env.TEMP ?? "C:\\Windows\\Temp"}\\kg_sql_${Date.now()}_${Math.floor(Math.random() * 1e6)}.sql`;
+  require("node:fs").writeFileSync(path, query, "utf-8");
+  return path;
+}
+
+function runD1(query: string): unknown[] {
+  const file = sqlFile(query);
+  try {
+    const out = sh(`npx wrangler d1 execute blogdatabase --remote --json --file "${file}"`);
+    return JSON.parse(out) as unknown[];
+  } finally {
+    require("node:fs").unlinkSync(file);
+  }
+}
+
 function fetchRegistry(): Row[] {
-  const out = execSync(
-    `npx wrangler d1 execute blogdatabase --remote --json --command "SELECT static_url, primary_keyword, keyword_group FROM static_node_keywords"`,
-    { cwd: new URL("..", import.meta.url).pathname, encoding: "utf-8" },
-  );
-  const parsed = JSON.parse(out);
+  const parsed = runD1("SELECT static_url, primary_keyword, keyword_group FROM static_node_keywords;");
   return (parsed[0]?.results ?? []) as Row[];
 }
 
@@ -59,11 +84,8 @@ function main() {
 
   if (allMode) {
     // Sweep mode: pull all published post titles and report overlaps.
-    const out = execSync(
-      `npx wrangler d1 execute blogdatabase --remote --json --command "SELECT id, slug, title FROM posts WHERE is_published = 1"`,
-      { cwd: new URL("..", import.meta.url).pathname, encoding: "utf-8" },
-    );
-    const posts = (JSON.parse(out)[0]?.results ?? []) as { id: number; slug: string; title: string }[];
+    const parsed = runD1("SELECT id, slug, title FROM posts WHERE is_published = 1;");
+    const posts = (parsed[0]?.results ?? []) as { id: number; slug: string; title: string }[];
     let blocked = 0;
     let warned = 0;
     for (const post of posts) {
