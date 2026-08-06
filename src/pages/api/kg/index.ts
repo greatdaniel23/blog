@@ -51,6 +51,15 @@ function chunkText(text: string, maxWords: number): string[] {
   return chunks.length ? chunks : [""];
 }
 
+// Vectorize ids are capped at 64 bytes — long slugs overflow. Use a stable
+// 8-hex hash of the slug as the doc id base (metadata carries the full slug).
+async function shortHash(input: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+  return Array.from(new Uint8Array(digest).slice(0, 4))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 async function verifyToken(env: Env, token: string | null, secret: string): Promise<boolean> {
   if (!token || !secret) return false;
   const a = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
@@ -94,26 +103,26 @@ export const POST: APIRoute = async ({ locals, request }) => {
     try {
       const body = [post.title, post.description ?? "", post.content].join("\n\n");
       const chunks = chunkText(body, CHUNK_WORDS);
-      const docIdBase = `blog_${post.slug}`;
+      const docIdBase = `blog_${await shortHash(post.slug)}`;
 
       // Delete stale chunks for this doc before upsert (Vectorize has no list() —
       // bounded id namespace is the documented pattern).
-      const stale = Array.from({ length: 64 }, (_, i) => `${docIdBase}#chunk_${i}`);
+      const stale = Array.from({ length: 64 }, (_, i) => `${docIdBase}#c${i}`);
       await env.VECTORIZE.deleteByIds(stale);
 
       const vectors: { id: string; values: number[]; metadata: Record<string, string> }[] = [];
       for (let i = 0; i < chunks.length; i++) {
-        const emb = await env.AI.run("@cf/baai/bge-m2-base", { text: [chunks[i]] });
+        const emb = await env.AI.run("@cf/baai/bge-base-en-v1.5", { text: [chunks[i]] });
         const values = (emb as { data?: { embedding?: number[] }[] }).data?.[0]?.embedding;
         if (!values) {
-          failures.push(`${docIdBase}#chunk_${i} (no embedding)`);
+          failures.push(`${docIdBase}#c${i} (no embedding)`);
           continue;
         }
         vectors.push({
-          id: `${docIdBase}#chunk_${i}`,
+          id: `${docIdBase}#c${i}`,
           values,
           metadata: {
-            doc_id: docIdBase,
+            doc_id: `blog_${post.slug}`,
             node_type: post.node_type ?? "deep_dive_guide",
             entity_tags: post.pillar_id ?? "unclassified",
             target_static_node: STATIC_TARGET[post.pillar_id ?? ""] ?? "",
