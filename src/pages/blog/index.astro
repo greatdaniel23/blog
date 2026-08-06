@@ -11,6 +11,7 @@ interface Post {
 	description: string;
 	pub_date: string;
 	hero_image: string;
+	hero_alt?: string | null;
 }
 
 const { env } = Astro.locals.runtime;
@@ -131,7 +132,7 @@ const blogIndexLD = {
 										{isPublicImage ? (
 											<img
 												src={post.hero_image}
-												alt={post.title}
+												alt={post.hero_alt || post.title}
 												class:list={[
 													"w-full object-cover transition-transform duration-300 group-hover:scale-105",
 													{
@@ -145,7 +146,7 @@ const blogIndexLD = {
 												width={isFeatured ? 1200 : 600}
 												height={isFeatured ? 500 : 300}
 												src={imageModule.default}
-												alt={post.title}
+												alt={post.hero_alt || post.title}
 												class:list={[
 													"w-full object-cover transition-transform duration-300 group-hover:scale-105",
 													{

@@ -16,6 +16,8 @@ interface Post {
 	content: string;
 	pub_date: string;
 	hero_image: string;
+	/** Image description (alt) — migration 0016; falls back to the post title at render. */
+	hero_alt?: string | null;
 	updated_at: string;
 	faq?: string | null;
 	howto_steps?: string | null;
@@ -147,6 +149,11 @@ const modifiedISO = post && post.updated_at && post.updated_at !== post.pub_date
 
 const seoTitle = post ? compactTitle(post.title, post.slug) : "";
 const seoDescription = post ? compactDescription(post.description ?? "") : "";
+
+// Hero image description (Daniel directive 2026-08-07): every blog image must
+// carry alt text. Backfilled via tools/backfill_hero_alt.py (migration 0016);
+// the post title is the render-time fallback — never an empty alt.
+const heroAlt = post?.hero_alt?.trim() || post?.title || "";
 
 // Upward link edges (KG-SEO v3 Gap #8, spec 07 §3C) — entity-descriptive
 // anchors, 1–3 per post, matched to the post's content pillar. Dynamic posts
@@ -371,6 +378,9 @@ const blogPostingLD = post ? {
 	image: {
 		"@type": "ImageObject",
 		url: schemaImageAbsolute,
+		// Image description for SEO (Daniel directive 2026-08-07) — schema.org
+		// ImageObject supports caption/description for rich results.
+		caption: heroAlt,
 	},
 } : null;
 
@@ -450,7 +460,7 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 					{isPublicHero || isR2Hero ? (
 						<img
 							src={post.hero_image}
-							alt={post.title}
+							alt={heroAlt}
 							class="w-full h-64 md:h-96 object-cover"
 						/>
 					) : (
@@ -462,7 +472,7 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 									post.hero_image.replace("../../", "/src/")
 								].default
 							}
-							alt={post.title}
+							alt={heroAlt}
 							class="w-full h-64 md:h-96 object-cover"
 						/>
 					)}
