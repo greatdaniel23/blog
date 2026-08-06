@@ -11,12 +11,12 @@ import SwissLayout from "../../components/SwissLayout.astro";
 
     <div class="grid gap-4 sm:grid-cols-2">
       {[
-        { icon: 'ads_click', title: 'Google Ads Fundamentals', desc: 'Campaign setup, keyword strategy, conversion tracking.', href: '/en/kelasgoogle-ads/' },
-        { icon: 'search', title: 'SEO & Google Analytics', desc: 'Technical SEO, GSC, GA4 setup and interpretation.', href: '/en/kelasseo-google-analytics/' },
-        { icon: 'smart_toy', title: 'AI Agent Chatbot', desc: 'How AI agents work for hotels. Setup and training guide.', href: '/en/kelasai-agent-chatbot/' },
-        { icon: 'bolt', title: 'AI for Employee Productivity', desc: 'Practical AI tools for daily hospitality operations.', href: '/en/kelasai-produktivitas-karyawan/' },
-        { icon: 'family_restroom', title: 'AI for Parents', desc: 'Using AI to help with children\'s learning and activities.', href: '/en/kelasai-untuk-orang-tua/' },
-        { icon: 'school', title: 'Digital Marketing Fundamentals', desc: 'Complete introduction: SEO, Ads, analytics, strategy.', href: '/en/kelasdigital-marketing-fundamental/' },
+        { icon: 'ads_click', title: 'Google Ads Fundamentals', desc: 'Campaign setup, keyword strategy, conversion tracking.', href: '/en/kelas/google-ads' },
+        { icon: 'search', title: 'SEO & Google Analytics', desc: 'Technical SEO, GSC, GA4 setup and interpretation.', href: '/en/kelas/seo-google-analytics' },
+        { icon: 'smart_toy', title: 'AI Agent Chatbot', desc: 'How AI agents work for hotels. Setup and training guide.', href: '/en/kelas/ai-agent-chatbot' },
+        { icon: 'bolt', title: 'AI for Employee Productivity', desc: 'Practical AI tools for daily hospitality operations.', href: '/en/kelas/ai-produktivitas-karyawan' },
+        { icon: 'family_restroom', title: 'AI for Parents', desc: 'Using AI to help with children\'s learning and activities.', href: '/en/kelas/ai-untuk-orang-tua' },
+        { icon: 'school', title: 'Digital Marketing Fundamentals', desc: 'Complete introduction: SEO, Ads, analytics, strategy.', href: '/en/kelas/digital-marketing-fundamental' },
       ].map(k => (
         <a href={k.href} class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2 hover:border-primary/30 transition-all group">
           <span class="material-symbols-outlined text-primary text-3xl">{k.icon}</span>
