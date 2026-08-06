@@ -49,6 +49,16 @@ try {
 		.first<Post>();
 }
 
+// Increment view count (fire-and-forget via waitUntil, don't block render).
+// ctx is the CF ExecutionContext from the Astro Cloudflare adapter runtime.
+if (post) {
+	Astro.locals.runtime.ctx.waitUntil(
+		env.DB.prepare("UPDATE posts SET view_count = view_count + 1 WHERE id = ?")
+			.bind(post.id)
+			.run(),
+	);
+}
+
 const images = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/assets/*.{jpeg,jpg,png,gif}",
 	{ eager: true },
