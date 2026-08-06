@@ -53,7 +53,15 @@ const mainEntity = {
   name: tx.serviceName,
   provider: { "@id": "https://alphadigitalagency.id/#organization" },
   serviceType: "AI Chatbot for Hospitality",
-  areaServed: { "@type": "AdministrativeArea", name: "Bali", sameAs: "https://www.wikidata.org/wiki/Q3950" },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Paket AI Agent Hotel",
+    itemListElement: [
+      { "@type": "Offer", name: "AI Agent Setup & Training", priceCurrency: "IDR" },
+      { "@type": "Offer", name: "AI Agent + Booking Engine Integration", priceCurrency: "IDR" },
+    ],
+  },
+  areaServed: { "@type": "AdministrativeArea", name: "Bali", sameAs: "https://www.wikidata.org/wiki/Q3125978" },
   description: tx.serviceDesc,
   url: tx.pageUrl
 };

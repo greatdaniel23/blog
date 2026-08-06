@@ -28,7 +28,9 @@ interface Props {
 }
 
 const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "", robots = "index, follow", image, article, mainEntity, breadcrumbs, faq, howto, extraNodes, about } = Astro.props;
-const BUILD_MARKER = "SEO-FIX-2026-06-14-ALPHA";
+// Per-deploy unique build marker for post-deploy raw-HTTP verification
+// (alpha-deploy-verify skill). Bumped on every KG-SEO v3 deploy.
+const BUILD_MARKER = "KG-SEO-V3-STATIC-2026-08-06";
 
 // GA4 Measurement ID — public by design, safe to hardcode in static HTML.
 // import.meta.env.PUBLIC_GA4_ID feeds this at build time when the env var is set
