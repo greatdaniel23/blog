@@ -25,6 +25,7 @@ interface PostRow {
   content: string;
   pillar_id: string | null;
   node_type: string | null;
+  language: string | null;
   updated_at: string | null;
 }
 
@@ -60,6 +61,23 @@ async function shortHash(input: string): Promise<string> {
     .join("");
 }
 
+// Vectorize 40041 = per-account rate limit; retry with linear backoff so a sync
+// run converges instead of failing chunks mid-corpus (residual observed 08-06).
+const RATE_LIMIT_KEYS = ["40041", "rate limit", "rate_limit"];
+async function withRateBackoff<T>(fn: () => Promise<T>, maxAttempts = 3): Promise<T> {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (e) {
+      const msg = String((e as Error).message ?? "");
+      const isRateLimit = RATE_LIMIT_KEYS.some((k) => msg.toLowerCase().includes(k));
+      if (!isRateLimit || attempt === maxAttempts) throw e;
+      await new Promise((r) => setTimeout(r, 1000 * attempt));
+    }
+  }
+  throw new Error("Unreachable");
+}
+
 async function verifyToken(env: Env, token: string | null, secret: string): Promise<boolean> {
   if (!token || !secret) return false;
   const a = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
@@ -93,7 +111,7 @@ export const POST: APIRoute = async ({ locals, request }) => {
   }
 
   const { results: posts } = await env.DB.prepare(
-    "SELECT id, slug, title, description, content, pillar_id, node_type, updated_at FROM posts WHERE is_published = 1",
+    "SELECT id, slug, title, description, content, pillar_id, node_type, language, updated_at FROM posts WHERE is_published = 1",
   ).all<PostRow>();
 
   let upserted = 0;
@@ -108,7 +126,7 @@ export const POST: APIRoute = async ({ locals, request }) => {
       // Delete stale chunks for this doc before upsert (Vectorize has no list() —
       // bounded id namespace is the documented pattern).
       const stale = Array.from({ length: 64 }, (_, i) => `${docIdBase}#c${i}`);
-      await env.VECTORIZE.deleteByIds(stale);
+      await withRateBackoff(() => env.VECTORIZE.deleteByIds(stale));
 
       const vectors: { id: string; values: number[]; metadata: Record<string, string> }[] = [];
       for (let i = 0; i < chunks.length; i++) {
@@ -133,11 +151,14 @@ export const POST: APIRoute = async ({ locals, request }) => {
             target_static_node: STATIC_TARGET[post.pillar_id ?? ""] ?? "",
             last_updated: post.updated_at ?? new Date().toISOString().slice(0, 10),
             title: post.title,
+            slug: post.slug,
+            description: (post.description ?? "").slice(0, 200),
+            language: post.language ?? (post.slug.endsWith("-en") ? "en" : "id"),
           },
         });
       }
       if (vectors.length > 0) {
-        await env.VECTORIZE.upsert(vectors);
+        await withRateBackoff(() => env.VECTORIZE.upsert(vectors));
         upserted += vectors.length;
       }
     } catch (e) {

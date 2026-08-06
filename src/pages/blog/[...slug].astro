@@ -254,6 +254,73 @@ function resolveUpwardLinks(post: Post): UpwardLink[] {
 
 const relatedSEOLinks = post ? resolveUpwardLinks(post) : [];
 
+// Vector-driven "Artikel Terkait" module (Phase 3, audit §4.6) — semantic
+// neighbors from kg-blog-index. Inline embed+query: this SSR worker holds the
+// AI + VECTORIZE bindings, so the render path needs no HTTP hop and no extra
+// auth surface. Same rerank rules as the blog-agent side (language hard-filter,
+// self/EN-twin exclusion by slug, pillar ±0.05 boost, floor 0.75, top-3 cap).
+// Degrade: any failure → empty list → module hidden → page renders exactly as
+// before (the pillar-based upward-links module above is the fallback).
+interface RelatedArticle {
+	slug: string;
+	title: string;
+	description: string;
+	score: number;
+}
+
+const KG_FLOOR = 0.75;
+const KG_TOP_N = 3;
+const KG_QUERY_TOP_K = 20;
+const KG_PILLAR_BOOST = 0.05;
+
+async function embedBGE(ai: unknown, text: string): Promise<number[]> {
+	const emb = await (ai as Ai).run("@cf/baai/bge-base-en-v1.5", { text: [text] });
+	// Same response handling as /api/kg routes: bge returns { data: [[...]] },
+	// some models { data: [{ embedding: [...] }] } — handle both.
+	const raw = emb as { data?: (number[] | { embedding?: number[] })[] };
+	const first = raw.data?.[0];
+	const values = Array.isArray(first) ? first : first?.embedding;
+	if (!values) throw new Error("no embedding returned");
+	return values;
+}
+
+const relatedArticles: RelatedArticle[] = [];
+if (post) {
+	try {
+		const language = post.slug.endsWith("-en") ? "en" : "id";
+		const queryText = `${post.title} ${post.description ?? ""}`.trim();
+		const vector = await embedBGE(env.AI, queryText);
+		const res = await (env.VECTORIZE as VectorizeIndex).query(vector, {
+			topK: KG_QUERY_TOP_K,
+			returnMetadata: "all",
+		});
+		const twinSlug = post.slug.endsWith("-en") ? post.slug.slice(0, -3) : `${post.slug}-en`;
+		const hits: RelatedArticle[] = [];
+		for (const m of res.matches ?? []) {
+			const md = m.metadata ?? {};
+			// Old chunks lack a language field (pre-re-sync) — treat missing as 'id'.
+			if ((md.language ?? "id") !== language) continue;
+			const slug = String(md.slug ?? md.doc_id ?? "").replace(/^blog_/, "");
+			if (!slug || slug === post.slug || slug === twinSlug) continue;
+			let score = m.score;
+			const pillar = String(md.entity_tags ?? "");
+			if (post.pillar_id && pillar === post.pillar_id) score += KG_PILLAR_BOOST;
+			else if (post.pillar_id && pillar !== "unclassified") score -= KG_PILLAR_BOOST;
+			if (score < KG_FLOOR) continue;
+			hits.push({
+				slug,
+				title: String(md.title ?? slug),
+				description: String(md.description ?? ""),
+				score,
+			});
+		}
+		hits.sort((a, b) => b.score - a.score);
+		relatedArticles.push(...hits.slice(0, KG_TOP_N));
+	} catch {
+		// degrade: no related module on any query failure
+	}
+}
+
 // Pillar title map for the module heading + hub link (mirrors content_pillars;
 // avoids an extra query per post).
 const PILLAR_TITLES: Record<string, string> = {
@@ -489,6 +556,36 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 				</a>
 			)}
 		</section>
+
+		{
+			relatedArticles.length > 0 && (
+				<section class="mt-12 border-2 border-charcoal dark:border-white bg-white dark:bg-slate-900 shadow-premium dark:shadow-premium-dark p-6 md:p-8">
+					<p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary mb-3">
+						Related Articles
+					</p>
+					<h2 class="font-display font-bold text-2xl text-charcoal dark:text-white mb-5">
+						Artikel Terkait
+					</h2>
+					<div class="grid gap-4 grid-cols-1 md:grid-cols-3">
+						{relatedArticles.map((a) => (
+							<a
+								href={`/blog/${a.slug}`}
+								class="group border border-slate-200 dark:border-slate-700 p-4 hover:border-primary transition-colors"
+							>
+								<span class="font-bold text-charcoal dark:text-white group-hover:text-primary transition-colors">
+									{a.title}
+								</span>
+								{a.description && (
+									<span class="block text-sm text-slate-600 dark:text-slate-400 leading-relaxed mt-1 line-clamp-2">
+										{a.description}
+									</span>
+								)}
+							</a>
+						))}
+					</div>
+				</section>
+			)
+		}
 
 		<!-- Back to Blog -->
 		<div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
