@@ -1,6 +1,7 @@
 ---
 // SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
+import { WA_JASA } from "../../lib/linkbio";
 
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
@@ -14,6 +15,7 @@ const t = {
     heroPunctuation: ".",
     heroDesc: "Kami install dan kelola booking engine — platform apa pun, tanpa lock-in vendor, tanpa biaya lisensi tambahan. Anda tetap pegang kontrol.",
     ctaMail: "Minta Penawaran",
+    waLabel: "Konsultasi via WhatsApp",
     outcome: "Booking engine kami bisa dipakai di properti mana pun — tidak terikat platform, tidak ada biaya lisensi bulanan, dan Anda tetap pegang kontrol penuh atas data reservasi Anda.",
     whyTitle: "Mengapa Platform-Agnostic Penting?",
     whyP1: "Setiap booking via OTA berarti 15–25% komisi keluar dari pendapatan kamar villa Anda. Tujuan integrasi booking engine yang kami install bukan sekadar \"punya tombol pesan\" — melainkan menggeser 15–30% reservasi dari OTA ke direct booking dalam 90 hari pertama. Setiap pergeseran itu adalah margin recovery permanen: komisi yang sebelumnya keluar, kini tetap di kantong properti Anda.",
@@ -56,10 +58,11 @@ const t = {
     serviceName: "Booking Engine Integration — Install & Manage for Bali Villas and Hotels",
     serviceDesc: "We install and manage booking engines for Bali hospitality properties — any platform, no vendor lock-in, no additional license fees. You stay in control.",
     tier: "Tier 4 — Booking Engine Integration",
-    heroLine: "Yours. Not the Vendor",
+    heroLine: "You Own It. Not the Vendor",
     heroPunctuation: ".",
-    heroDesc: "We install and manage booking engines — any platform, no vendor lock-in, no additional license fees. You stay in control.",
+    heroDesc: "We install and manage booking engines — any platform, no vendor lock-in, no extra license fees. You stay in control.",
     ctaMail: "Request a Proposal",
+    waLabel: "Consult via WhatsApp",
     outcome: "Our booking engine can be used on any property — not tied to any platform, no monthly license fees, and you retain full control over your reservation data.",
     whyTitle: "Why Platform-Agnostic Matters",
     whyP1: "Every booking via an OTA means 15–25% commission leaves your villa room revenue. The goal of the booking engine integration we install is not merely to \"have a book button\" — it is to shift 15–30% of reservations from OTAs to direct bookings within the first 90 days. Every shift is a permanent margin recovery: commission that previously left the property now stays in your pocket.",
@@ -143,8 +146,6 @@ const metaDesc = isEn
   faq={faq}
   breadcrumbs={breadcrumbs}
 >
-  <Fragment slot="head">
-
   <!-- Hero -->
   <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
     <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.tier}</p>
@@ -156,10 +157,19 @@ const metaDesc = isEn
     <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
       {tx.heroDesc}
     </p>
-    <div class="mt-8">
+    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+      <a
+        href={WA_JASA}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+      >
+        <span class="material-symbols-outlined">chat</span>
+        {tx.waLabel}
+      </a>
       <a
         href="mailto:daniel@alphadigitalagency.id"
-        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+        class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
       >
         <span class="material-symbols-outlined">mail</span>
         {tx.ctaMail}
@@ -310,13 +320,24 @@ const metaDesc = isEn
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">
         {tx.finalCtaDesc}
       </p>
-      <a
-        href="mailto:daniel@alphadigitalagency.id"
-        class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-      >
-        <span class="material-symbols-outlined">mail</span>
-        {tx.finalCtaButton}
-      </a>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href={WA_JASA}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+          <span class="material-symbols-outlined">chat</span>
+          {tx.waLabel}
+        </a>
+        <a
+          href="mailto:daniel@alphadigitalagency.id"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
+        >
+          <span class="material-symbols-outlined">mail</span>
+          {tx.finalCtaButton}
+        </a>
+      </div>
     </div>
   </section>
 </SwissLayout>

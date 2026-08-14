@@ -3,7 +3,10 @@
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
 import "../../styles/global.css";
+import SwissHeader from "../../components/SwissHeader.astro";
+import SwissFooter from "../../components/SwissFooter.astro";
 import SeoGraph from "../../components/SeoGraph.astro";
+import { WA_JASA } from "../../lib/linkbio";
 
 const SITE_URL = "https://alphadigitalagency.id";
 
@@ -47,6 +50,7 @@ const breadcrumbs = [{ "name":"Home", "url":SITE_URL },{ "name":"Speed Demo", "u
     </style>
 </head>
 <body>
+    <SwissHeader currentPage="demo" />
 
     <main style="max-width:1200px;margin:0 auto;padding:4rem 1.5rem 3rem;">
 
@@ -133,12 +137,16 @@ const breadcrumbs = [{ "name":"Home", "url":SITE_URL },{ "name":"Speed Demo", "u
 
         <!-- CTA -->
         <section style="text-align:center;padding:2rem 0 0;">
-            <a href="mailto:daniel@alphadigitalagency.id?subject=Website%20Audit" class="btn-alpha">Audit Website Kamu Sekarang</a>
-            <p style="color:#64748b;font-size:0.8rem;margin-top:0.75rem;">Gratis — kita kasih laporan performa + rekomendasi perbaikan.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;align-items:center;">
+                <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-alpha" style="background:#059669;">Konsultasi via WhatsApp</a>
+                <a href="mailto:daniel@alphadigitalagency.id?subject=Website%20Audit" class="btn-alpha" style="background:transparent;border-color:rgba(255,255,255,0.3);">Audit Website Kamu Sekarang</a>
+            </div>
+            <p style="color:#64748b;font-size:0.8rem;margin-top:1rem;">Gratis — kita kasih laporan performa + rekomendasi perbaikan.</p>
             <p style="color:#475569;font-size:0.75rem;margin-top:3rem;">📊 Skor di atas adalah hasil aktual Lighthouse untuk website yang Alpha Digital bangun. Bukan simulasi.</p>
         </section>
 
     </main>
 
+    <SwissFooter />
 </body>
 </html>

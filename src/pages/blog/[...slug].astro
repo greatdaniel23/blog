@@ -4,6 +4,7 @@ import { marked } from "marked";
 import SwissLayout from "../../components/SwissLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import { SITE_URL } from "../../consts";
+import { WA_JASA } from "../../lib/linkbio";
 
 const { slug } = Astro.params;
 const { env } = Astro.locals.runtime;
@@ -531,6 +532,37 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 				prose-li:marker:text-primary"
 			set:html={content}
 		/>
+
+		<!-- In-Article Consultation Card (Lead Capture) -->
+		<section class="mt-12 border-2 border-charcoal dark:border-white bg-primary/5 dark:bg-primary/10 p-6 md:p-8">
+			<p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary mb-2">
+				Alpha Digital Hospitality Practice
+			</p>
+			<h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-3">
+				Butuh Audit Google Ads & Direct Booking untuk Properti Anda?
+			</h2>
+			<p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed mb-6">
+				Kami bantu audit kebocoran komisi OTA, tracking konversi GA4, dan setup Google Ads yang langsung terhubung ke reservasi riil villa atau hotel Anda.
+			</p>
+			<div class="flex flex-col sm:flex-row gap-3">
+				<a
+					href={WA_JASA}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+				>
+					<span class="material-symbols-outlined">chat</span>
+					Konsultasi via WhatsApp
+				</a>
+				<a
+					href="mailto:daniel@alphadigitalagency.id?subject=Konsultasi%20Properti%20Hospitality"
+					class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
+				>
+					<span class="material-symbols-outlined">mail</span>
+					Kirim Email
+				</a>
+			</div>
+		</section>
 
 		<section class="mt-12 border-2 border-charcoal dark:border-white bg-white dark:bg-slate-900 shadow-premium dark:shadow-premium-dark p-6 md:p-8">
 			<p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary mb-3">

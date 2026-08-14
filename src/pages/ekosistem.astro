@@ -3,6 +3,7 @@
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
 import SwissLayout from "../components/SwissLayout.astro";
+import { WA_JASA } from "../lib/linkbio";
 
 // Unique build marker for post-deploy verification (per feedback_verify_deploy_target).
 // Grep for this string on production after deploy.
@@ -221,12 +222,23 @@ const layers = [
         <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg mb-6">
             Mau lihat ekosistem ini diterapkan ke properti Anda?
         </p>
-        <a
-            href="mailto:daniel@alphadigitalagency.id"
-            class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
-        >
-            <span class="material-symbols-outlined">mail</span>
-            Mulai Diskusi
-        </a>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+                href={WA_JASA}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+            >
+                <span class="material-symbols-outlined">chat</span>
+                Konsultasi via WhatsApp
+            </a>
+            <a
+                href="mailto:daniel@alphadigitalagency.id"
+                class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
+            >
+                <span class="material-symbols-outlined">mail</span>
+                Mulai Diskusi
+            </a>
+        </div>
     </section>
 </SwissLayout>

@@ -1,18 +1,14 @@
 ---
-// Landing page using site header + footer for nav consistency
-import "../../styles/global.css";
-import SwissHeader from "../../components/SwissHeader.astro";
-import SwissFooter from "../../components/SwissFooter.astro";
-import SeoGraph from "../../components/SeoGraph.astro";
+// Landing page using SwissLayout for nav & SEO consistency
+import SwissLayout from "../../components/SwissLayout.astro";
 import FeaturedResources from "../../components/FeaturedResources.astro";
+import { WA_JASA } from "../../lib/linkbio";
 
 const SITE_URL = "https://alphadigitalagency.id";
 const PAGE_URL = `${SITE_URL}/services/booking-engine`;
-const DEFAULT_IMAGE = `${SITE_URL}/images/og-alpha-default.png`;
 
 // Unified @graph page nodes (KG-SEO v3 Phase A + B) — sitewide nodes (Organization/
 // LocalBusiness/ProfessionalService/WebSite) come from SeoGraph itself.
-// Gap #5: @id per node, typed areaServed (AdministrativeArea Q3125978 — Bali, verified), provider as @id ref.
 const mainEntity = {
     "@type": "Service",
     "@id": `${PAGE_URL}/#service`,
@@ -43,71 +39,20 @@ const breadcrumbs = [
     { "name": "Booking Engine", "url": PAGE_URL }
 ];
 
-// WebPage.about — Wikidata-verified QIDs (Gap #6). Booking engine has no
-// Wikidata entity (verified 2026-08-05) — hotel is the closest stable anchor.
 const about = [
     { "name": "Hotel", "sameAs": "https://www.wikidata.org/wiki/Q27686" },
 ];
 ---
 
-<!doctype html>
-<html class="light" lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-        <title>Direct Booking Engine — Alpha Digital Agency Indonesia</title>
-        <meta
-            name="description"
-            content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency."
-        />
-        <meta name="build-marker" content="KG-SEO-V3-STATIC-2026-08-06-V2" />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={PAGE_URL} />
-        <link rel="alternate" hreflang="id" href={PAGE_URL} />
-        <link rel="alternate" hreflang="en" href={`${SITE_URL}/en/services/booking-engine`} />
-        <link rel="alternate" hreflang="x-default" href={PAGE_URL} />
-        <link rel="sitemap" href="/sitemap.xml" />
-        <meta property="og:title" content="Direct Booking Engine — Alpha Digital Agency Indonesia" />
-        <meta property="og:description" content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency." />
-        <meta property="og:url" content={PAGE_URL} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Alpha Digital Agency Indonesia" />
-        <meta property="og:image" content={DEFAULT_IMAGE} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Direct Booking Engine — Alpha Digital Agency Indonesia" />
-        <meta name="twitter:description" content="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency." />
-        <meta name="twitter:image" content={DEFAULT_IMAGE} />
-        <SeoGraph
-            title="Direct Booking Engine — Alpha Digital Agency Indonesia"
-            description="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency."
-            url={PAGE_URL}
-            mainEntity={mainEntity}
-            breadcrumbs={breadcrumbs}
-            about={about}
-        />
-        <style is:inline>
-            .dot-pattern {
-                background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-                background-size: 24px 24px;
-            }
-            .dark .dot-pattern {
-                background-image: radial-gradient(#1f2937 1px, transparent 1px);
-            }
-            body {
-                min-height: max(884px, 100dvh);
-            }
-        </style>
-    </head>
-    <body
-        class="bg-background-light dark:bg-background-dark font-display text-emerald-dark dark:text-gray-100 overflow-x-hidden"
-    >
-        <SwissHeader currentPage="services" />
-
-        <div class="relative w-full min-h-screen flex flex-col lg:flex-row pt-20">
-            <div
-                class="absolute inset-0 dot-pattern opacity-40 pointer-events-none z-0"
-            >
-            </div>
+<SwissLayout
+    title="Direct Booking Engine — Alpha Digital Agency Indonesia"
+    description="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency."
+    currentPage="services"
+    mainEntity={mainEntity}
+    breadcrumbs={breadcrumbs}
+    about={about}
+>
+    <div class="relative w-full min-h-screen flex flex-col lg:flex-row pb-12">
 
             <!-- Left Content: The Pitch -->
             <div
@@ -249,9 +194,19 @@ const about = [
 
                     <div class="flex flex-wrap gap-4 mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                         <a
-                            href="mailto:daniel@alphadigitalagency.id?subject=request%20install"
-                            class="bg-transparent border-2 border-emerald-dark dark:border-gray-200 text-emerald-dark dark:text-gray-200 hover:bg-emerald-dark hover:text-white dark:hover:bg-white dark:hover:text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors"
+                            href={WA_JASA}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="btn-swiss inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
                         >
+                            <span class="material-symbols-outlined">chat</span>
+                            Konsultasi via WhatsApp
+                        </a>
+                        <a
+                            href="mailto:daniel@alphadigitalagency.id?subject=request%20install"
+                            class="btn-swiss inline-flex items-center gap-2 px-8 py-3.5 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
+                        >
+                            <span class="material-symbols-outlined">mail</span>
                             Request to Use
                         </a>
                     </div>
@@ -619,10 +574,7 @@ const about = [
         </div>
 
         <!-- Featured Resources (KG-SEO v3 RULE-BR-3) -->
-        <div class="max-w-6xl mx-auto px-6 md:px-12">
+        <div class="max-w-6xl mx-auto px-6 md:px-12 mb-16">
             <FeaturedResources entityTag="booking-engine" />
         </div>
-
-        <SwissFooter />
-    </body>
-</html>
+</SwissLayout>
