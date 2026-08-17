@@ -4,7 +4,7 @@
 // To go live: change the values here; all three pages pick them up.
 // ----------------------------------------------------------------------------
 // TODO(Daniel): nomor WhatsApp final (format internasional tanpa "+", mis "628xxxxxxxxxx")
-export const WA_NUMBER = "628814802249"; // PLACEHOLDER — sementara nomor situs. Ganti kalau ada nomor khusus.
+export const WA_NUMBER = "6289536870777"; // Nomor bisnis kanonik 0895-3687-07977 (Daniel 2026-08-15).
 
 // TODO(Daniel): harga/jadwal kelas. null = tampil "japri untuk slot & biaya". String = tampil teks itu.
 export const KELAS_HARGA_JADWAL: string | null = null; // PLACEHOLDER

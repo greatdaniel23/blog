@@ -35,7 +35,12 @@ const businessInfo = {
     address: "Jl. Pulau Singkep gg starindo No.A4, Pedungan, Denpasar Selatan",
     city: "Kota Denpasar, Bali 80223",
     country: "Indonesia",
-    phone: "+628814802249",
+    phone: "+6289536870777",
+    // Daniel 2026-08-15: both contact numbers shown.
+    phones: [
+        { label: "0895-3687-07977", href: "tel:0895368707977" },
+        { label: "0881-480-2249", href: "tel:08814802249" },
+    ],
     email: "daniel@alphadigitalagency.id",
     website: "https://alphadigitalagency.id",
 };
@@ -116,12 +121,18 @@ const services = [
                         </a>
                     </li>
                     <li>
-                        <a
-                            href={`tel:${businessInfo.phone}`}
-                            class="hover:text-primary transition-colors"
-                        >
-                            {businessInfo.phone}
-                        </a>
+                        {
+                            businessInfo.phones.map((p) => (
+                                <div>
+                                    <a
+                                        href={p.href}
+                                        class="hover:text-primary transition-colors"
+                                    >
+                                        {p.label}
+                                    </a>
+                                </div>
+                            ))
+                        }
                     </li>
                 </ul>
             </div>
@@ -199,7 +210,7 @@ const services = [
                         Privacy Policy
                     </a>
                     <a
-                        href="https://wa.me/628814802249"
+                        href="https://wa.me/6289536870777"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="hover:text-primary transition-colors"

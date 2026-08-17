@@ -143,7 +143,7 @@ const lbNode = homeGraph.find((n) => n['@id']?.endsWith('#localbusiness'));
 const lbOk =
   lbNode?.address?.streetAddress === 'Jl. Pulau Singkep gg starindo No.A4' &&
   lbNode?.address?.postalCode === '80223' &&
-  lbNode?.telephone === '0895-3687-07977' &&
+  Array.isArray(lbNode?.telephone) && lbNode.telephone.join(',') === '+6289536870777,+628814802249' &&
   lbNode?.openingHoursSpecification?.opens === '09:00' &&
   lbNode?.geo?.latitude === -8.6705;
 if (!lbOk) failures++;

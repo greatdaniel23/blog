@@ -55,9 +55,10 @@ const sameAsList = (["linkedin"] as const)
 	.map((k) => SITE_SOCIAL[k])
 	.filter((u): u is string => typeof u === "string" && u.length > 0);
 
-// Business contact data — Daniel's confirmed values 2026-08-05:
+// Business contact data — Daniel's confirmed values 2026-08-05 (phone ratified
+// canonical 0895 everywhere on 2026-08-15; schema uses E.164 form):
 // address "Jl. Pulau Singkep gg starindo No.A4, Pedungan, Denpasar Selatan,
-// Kota Denpasar, Bali 80223" · phone 0895-3687-07977 · hours 9:00 am.
+// Kota Denpasar, Bali 80223" · phone +6289536870777 · hours 9:00 am.
 const BUSINESS_ADDRESS = {
 	"@type": "PostalAddress",
 	streetAddress: "Jl. Pulau Singkep gg starindo No.A4",
@@ -66,7 +67,9 @@ const BUSINESS_ADDRESS = {
 	postalCode: "80223",
 	addressCountry: "ID",
 };
-const BUSINESS_PHONE = "0895-3687-07977";
+const BUSINESS_PHONE = "+6289536870777";
+// Daniel 2026-08-15: TWO contact numbers (both visible site-wide).
+const BUSINESS_PHONES = ["+6289536870777", "+628814802249"];
 // Business hours confirmed by Daniel: 09:00–21:00 WITA.
 const BUSINESS_HOURS = {
 	"@type": "OpeningHoursSpecification",
@@ -95,6 +98,7 @@ const organizationLD = {
 		caption: "Alpha Digital Agency Logo",
 	},
 	address: BUSINESS_ADDRESS,
+	telephone: BUSINESS_PHONES,
 	contactPoint: {
 		"@type": "ContactPoint",
 		telephone: BUSINESS_PHONE,
@@ -135,7 +139,7 @@ const localBusinessLD = {
 	"@id": `${SITE_URL}/#localbusiness`,
 	name: SITE_TITLE,
 	url: SITE_URL,
-	telephone: BUSINESS_PHONE,
+	telephone: BUSINESS_PHONES,
 	email: "daniel@alphadigitalagency.id",
 	address: BUSINESS_ADDRESS,
 	geo: { "@type": "GeoCoordinates", latitude: -8.6705, longitude: 115.2126 },
@@ -162,7 +166,7 @@ const professionalServiceLD = {
 	address: BUSINESS_ADDRESS,
 	geo: { "@type": "GeoCoordinates", latitude: -8.6705, longitude: 115.2126 },
 	priceRange: "$$",
-	telephone: BUSINESS_PHONE,
+	telephone: BUSINESS_PHONES,
 };
 
 const websiteLD = {

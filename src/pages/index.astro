@@ -17,7 +17,7 @@ const t = {
     tier3Label: "Tier 3", tier3Title: "Authority", tier3Desc: "Semua channel, satu laporan.",
     tier4Label: "Tier 4", tier4Title: "Booking Engine", tier4Desc: "Install & kelola, tanpa lock-in.",
     ctaMail: "Minta Penawaran",
-    ctaPhone: "0881 480 2249",
+    ctaPhone: "0895-3687-07977 / 0881-480-2249",
     answerH2: "Apa yang membuat Alpha Digital Agency berbeda dari agency digital lain di Bali?",
     answerP: "Alpha Digital Agency Indonesia adalah agensi spesialis industri perhotelan mewah (luxury hospitality) di Bali — fokus pada vila, hotel boutique, dan restoran. Tidak seperti agency umum, kami membangun AI Agents yang menghubungkan data Google Ads, pencarian organik, dan GA4 ke dalam satu ekosistem terpadu. Sistem ini menganalisis jalur konversi (booking funnel audit) secara otomatis, sehingga setiap rupiah iklan yang dikeluarkan terlacak hingga ke reservasi langsung. Hasilnya: pengurangan ketergantungan OTA dan peningkatan ROI yang terukur — bukan laporan vanity metric.",
     compareLabel: "Digital Marketing Agency Bali",
@@ -40,7 +40,7 @@ const t = {
       { q: "Layanan apa yang sebaiknya dimiliki digital marketing agency Bali untuk hotel?", a: "Minimal harus bisa mengelola Google Ads, membaca Search Console, memasang GA4/GTM, memperbaiki website, memahami booking engine, dan mengukur direct booking. Tanpa itu, laporan marketing mudah berhenti di klik dan engagement." },
       { q: "Berapa lama sebelum saya melihat hasil dari Google Ads?", a: "Kampanye Google Ads biasanya mulai menghasilkan data bermakna dalam 2–4 minggu pertama. Optimasi dilakukan dua minggu sekali berdasarkan data nyata, bukan asumsi." },
       { q: "Apakah saya perlu sudah punya website untuk mulai?", a: "Tidak harus. Kami bisa audit website yang sudah ada, atau bantu dari awal. Yang paling penting adalah tracking yang benar sebelum budget iklan dibakar." },
-      { q: "Bagaimana cara memulai dengan Alpha Digital?", a: "Kirim email ke daniel@alphadigitalagency.id atau WhatsApp ke 0881 480 2249. Kami mulai dengan audit cepat situasi digital properti Anda — gratis, tanpa komitmen." }
+      { q: "Bagaimana cara memulai dengan Alpha Digital?", a: "Kirim email ke daniel@alphadigitalagency.id atau WhatsApp ke 0895-3687-07977 / 0881-480-2249. Kami mulai dengan audit cepat situasi digital properti Anda — gratis, tanpa komitmen." }
     ],
     author: "Ditulis oleh <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Terakhir diperbarui: Mei 2026",
     aiGreeting: "Halo! Saya asisten Alpha Digital. Ada yang bisa saya bantu soal digital marketing bisnis Anda?",
@@ -58,7 +58,7 @@ const t = {
     tier3Label: "Tier 3", tier3Title: "Authority", tier3Desc: "All channels, one report.",
     tier4Label: "Tier 4", tier4Title: "Booking Engine", tier4Desc: "Install & manage, no lock-in.",
     ctaMail: "Request a Proposal",
-    ctaPhone: "0881 480 2249",
+    ctaPhone: "0895-3687-07977 / 0881-480-2249",
     answerH2: "What makes Alpha Digital Agency different from other digital agencies in Bali?",
     answerP: "Alpha Digital Agency Indonesia is a luxury hospitality specialist in Bali — focused on villas, boutique hotels, and restaurants. Unlike general agencies, we build AI Agents that connect Google Ads, organic search, and GA4 data into one unified ecosystem. This system analyzes conversion paths (booking funnel audit) automatically, so every rupiah of ad spend is traced through to direct reservations. The result: reduced OTA dependency and measurable ROI — not vanity metric reports.",
     compareLabel: "Digital Marketing Agency Bali",
@@ -107,7 +107,7 @@ const mainEntity = {
   "address": { "@type": "PostalAddress", "addressLocality": "Denpasar", "addressRegion": "Bali", "addressCountry": "ID" },
   "geo": { "@type": "GeoCoordinates", "latitude": -8.6705, "longitude": 115.2126 },
   "priceRange": "$$",
-  "telephone": "0895-3687-07977",
+  "telephone": ["+6289536870777", "+628814802249"],
   "areaServed": { "@type": "Place", "name": "Bali, Indonesia" },
 };
 const faq = tx.faq;
@@ -122,7 +122,6 @@ const about = [
 
 <SwissLayout title={tx.metaTitle} description={tx.metaDesc} currentPage="home" mainEntity={mainEntity} faq={faq} breadcrumbs={breadcrumbs} about={about}>
   <Fragment slot="head">
-    <script src="/assets/agency-agent-widget.js" data-agent-id="5" data-api-url="/api/chat" data-greeting={tx.aiGreeting} data-accent="#10b981" defer is:inline></script>
   </Fragment>
 
   <!-- Hero -->
@@ -168,7 +167,7 @@ const about = [
           <span class="material-symbols-outlined text-[18px] md:text-[20px]">mail</span>
           <span class="font-bold text-[11px] md:text-[13px] uppercase tracking-widest">{tx.ctaMail}</span>
         </a>
-        <a class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white text-charcoal dark:text-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover" href="tel:08814802249">
+        <a class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white text-charcoal dark:text-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover" href="tel:0895368707977">
           <span class="material-symbols-outlined text-[18px] md:text-[20px] group-hover:text-primary transition-colors">call</span>
           <span class="font-bold text-[11px] md:text-[13px] uppercase tracking-widest">{tx.ctaPhone}</span>
         </a>

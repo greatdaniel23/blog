@@ -142,6 +142,31 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     const response = await next();
 
+    // ── Security headers (2026-08-15 audit fix) ──────────────────────────────
+    // Site had ZERO security headers (SEO audit 2026-08-15 §4.3). Applied to
+    // every SSR-served response (home, /blog*, /booking-engine, /api/*, /pembantu*).
+    // Static prerendered pages get the same set via public/_headers (/*).
+    for (const [k, v] of [
+        ['Strict-Transport-Security', 'max-age=31536000; includeSubDomains'],
+        ['X-Content-Type-Options', 'nosniff'],
+        ['X-Frame-Options', 'SAMEORIGIN'],
+        ['Referrer-Policy', 'strict-origin-when-cross-origin'],
+        ['Permissions-Policy', 'camera=(), microphone=(), geolocation=()'],
+        // Content-Security-Policy (2026-08-17, Daniel-approved enforce; allow-list from
+        // live resource inventory: gtag GA4 + Google Fonts + inline scripts/styles +
+        // lh3.googleusercontent.com partner/hero images (WARDEN fix 2026-08-17).
+        // No iframes/embeds exist on the site → frame-src 'none').
+        ['Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lh3.googleusercontent.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://stats.g.doubleclick.net; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"],
+    ] as const) {
+        response.headers.set(k, v);
+    }
+
+    // ── Edge caching for marketing SSR routes ────────────────────────────────
+    // ROLLED BACK 2026-08-16 (ALPHA): browser max-age=300 on SSR HTML caused a
+    // stale-HTML window during rapid deploys (mixed old/new layout report).
+    // cf-cache-status stayed DYNAMIC (no edge benefit observed). Static pages
+    // keep their pre-existing public/_headers rules.
+
     // Attach noindex headers for pages.dev preview domain
     if (isPagesDevHost) {
         response.headers.set('X-Robots-Tag', 'noindex, nofollow');

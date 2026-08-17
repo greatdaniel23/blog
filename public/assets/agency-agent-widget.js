@@ -349,7 +349,7 @@
         .then(function (res) {
           if (res.status === 429) {
             card.innerHTML = '<div class="aa-lead-card__title" style="color:#b45309;">Terlalu Banyak Permintaan</div>' +
-              '<p style="font-size:12px;color:#78350f;line-height:1.5;margin-top:4px;">Maaf, coba lagi nanti. Tim kami tetap bisa dihubungi via WhatsApp: 0881-480-2249.</p>';
+              '<p style="font-size:12px;color:#78350f;line-height:1.5;margin-top:4px;">Maaf, coba lagi nanti. Tim kami tetap bisa dihubungi via WhatsApp: 0895-3687-07977.</p>';
             return;
           }
           return res.json().then(function (data) {
@@ -369,7 +369,7 @@
               transcript.scrollTop = transcript.scrollHeight;
             } else {
               card.innerHTML = '<div class="aa-lead-card__title" style="color:#b91c1c;">Terjadi Kesalahan</div>' +
-                '<p style="font-size:12px;color:#7f1d1d;line-height:1.5;margin-top:4px;">Mohon coba lagi, atau hubungi kami via WhatsApp: 0881-480-2249.</p>';
+                '<p style="font-size:12px;color:#7f1d1d;line-height:1.5;margin-top:4px;">Mohon coba lagi, atau hubungi kami via WhatsApp: 0895-3687-07977.</p>';
             }
           });
         })
@@ -492,7 +492,7 @@
           if (res.status === 429) {
             card.innerHTML =
               '<div class="aa-consult-card__title" style="color:#b45309;">Terlalu Banyak Permintaan</div>' +
-              '<p style="font-size:12px;color:#78350f;line-height:1.5;margin-top:4px;">Maaf, coba lagi nanti. Atau hubungi kami via WhatsApp: 0881-480-2249.</p>';
+              '<p style="font-size:12px;color:#78350f;line-height:1.5;margin-top:4px;">Maaf, coba lagi nanti. Atau hubungi kami via WhatsApp: 0895-3687-07977.</p>';
             return;
           }
           return res.json().then(function (data) {
@@ -510,7 +510,7 @@
             } else {
               card.innerHTML =
                 '<div class="aa-consult-card__title" style="color:#b91c1c;">Terjadi Kesalahan</div>' +
-                '<p style="font-size:12px;color:#7f1d1d;line-height:1.5;margin-top:4px;">Mohon coba lagi, atau hubungi kami via WhatsApp: 0881-480-2249.</p>';
+                '<p style="font-size:12px;color:#7f1d1d;line-height:1.5;margin-top:4px;">Mohon coba lagi, atau hubungi kami via WhatsApp: 0895-3687-07977.</p>';
               var retryBtn = document.createElement('button');
               retryBtn.className = 'aa-consult-card__btn';
               retryBtn.textContent = 'Coba Lagi';

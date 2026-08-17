@@ -13,5 +13,10 @@ dist/
 !tsconfig.json
 !public/_routes.json
 
+# Env files - never commit (WARDEN 2026-08-15)
+.env
+.env.*
+!.env.example
+
 # Client secrets
 client_secret*.json

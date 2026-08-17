@@ -43,7 +43,7 @@ const shared: Record<Locale, Record<string, string>> = {
 		'cta.whatsapp': 'WhatsApp',
 		'cta.email': 'Email',
 		'cta.request_quote': 'Minta Penawaran',
-		'cta.phone_number': '0881 480 2249',
+		'cta.phone_number': '0895-3687-07977 / 0881-480-2249',
 
 		// Common
 		'common.read_article': 'Baca Artikel',
@@ -85,7 +85,7 @@ const shared: Record<Locale, Record<string, string>> = {
 		'cta.whatsapp': 'WhatsApp',
 		'cta.email': 'Email',
 		'cta.request_quote': 'Request a Quote',
-		'cta.phone_number': '0881 480 2249',
+		'cta.phone_number': '0895-3687-07977 / 0881-480-2249',
 
 		// Common
 		'common.read_article': 'Read Article',
