@@ -42,12 +42,12 @@ try {
 		`SELECT p.*, a.name AS author_name
 		 FROM posts p
 		 LEFT JOIN authors a ON p.author_id = a.id
-		 WHERE p.slug = ?`,
+		 WHERE p.slug = ? AND p.is_published = 1`,
 	)
 		.bind(slug)
 		.first<Post>();
 } catch {
-	post = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
+	post = await env.DB.prepare("SELECT * FROM posts WHERE slug = ? AND is_published = 1")
 		.bind(slug)
 		.first<Post>();
 }
@@ -642,7 +642,7 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 	</article>
 </SwissLayout>
 ) : (
-<SwissLayout title="Artikel Tidak Ditemukan | Alpha Digital Agency" currentPage="blog">
+<SwissLayout title="Artikel Tidak Ditemukan | Alpha Digital Agency" currentPage="blog" robots="noindex, nofollow">
 	<section class="max-w-2xl mx-auto px-6 md:px-12 text-center py-16">
 		<div class="font-display font-extrabold text-[6rem] md:text-[9rem] leading-none text-primary mb-4">404</div>
 		<h1 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">Artikel Tidak Ditemukan</h1>
