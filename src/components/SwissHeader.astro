@@ -211,11 +211,25 @@ const navItems = [
 
     // Language toggle
     (function() {
-        const isEN = window.location.pathname.startsWith('/en/') || window.location.pathname === '/en';
         const path = window.location.pathname;
+        // Post pages pair languages via the -en slug suffix (NOT the /en/ prefix).
+        const isPost = /^\/blog\/[^/]+\/?$/.test(path);
+        const isEN = isPost
+            ? /-en\/?$/.test(path)
+            : (path.startsWith('/en/') || path === '/en');
 
         function enPath(p) { return p.startsWith('/en') ? p : '/en' + (p === '/' ? '' : p); }
         function idPath(p) { return p.replace(/^\/en/, '') || '/'; }
+
+        // Post-page hrefs: strip trailing slash, then add/remove the -en suffix.
+        function postEnHref(p) {
+            const clean = p.replace(/\/+$/, '');
+            return clean.endsWith('-en') ? clean : clean + '-en';
+        }
+        function postIdHref(p) {
+            const clean = p.replace(/\/+$/, '');
+            return clean.replace(/-en$/, '') || '/';
+        }
 
         const activeClass = 'border-primary/40 text-primary bg-primary/5';
         const inactiveClass = 'border-transparent hover:border-primary/30 text-slate-400 hover:text-primary';
@@ -224,8 +238,8 @@ const navItems = [
         const idBtn = document.getElementById('lang-id');
         const enBtn = document.getElementById('lang-en');
         if (idBtn && enBtn) {
-            idBtn.href = isEN ? idPath(path) : path;
-            enBtn.href = isEN ? path : enPath(path);
+            idBtn.href = isPost ? postIdHref(path) : (isEN ? idPath(path) : path);
+            enBtn.href = isPost ? postEnHref(path) : (isEN ? path : enPath(path));
             if (isEN) {
                 enBtn.className = enBtn.className + ' ' + activeClass;
                 idBtn.className = idBtn.className + ' ' + inactiveClass;
@@ -239,8 +253,8 @@ const navItems = [
         const idMob = document.getElementById('lang-id-mob');
         const enMob = document.getElementById('lang-en-mob');
         if (idMob && enMob) {
-            idMob.href = isEN ? idPath(path) : path;
-            enMob.href = isEN ? path : enPath(path);
+            idMob.href = isPost ? postIdHref(path) : (isEN ? idPath(path) : path);
+            enMob.href = isPost ? postEnHref(path) : (isEN ? path : enPath(path));
             if (isEN) {
                 enMob.className = enMob.className + ' border-primary/40 text-primary bg-primary/5';
                 idMob.className = idMob.className + ' border-transparent text-slate-400';

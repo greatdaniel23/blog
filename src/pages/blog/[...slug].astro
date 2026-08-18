@@ -419,11 +419,12 @@ if (post?.howto_steps && post.howto_steps.trim() !== "") {
 
 // Breadcrumbs for the unified @graph (SeoGraph BreadcrumbList node) — all
 // items in no-slash canonical form (KG-SEO v3 Gap #11: zero redirect hops,
-// @id must match the page canonicals).
+// @id must match the page canonicals). EN posts breadcrumb to the /en pages.
+const isPostEn = post ? /-en$/.test(post.slug) : false;
 const breadcrumbsProp = post
 	? [
-			{ name: "Home", url: "/" },
-			{ name: "Blog", url: "/blog" },
+			{ name: "Home", url: isPostEn ? "/en" : "/" },
+			{ name: "Blog", url: isPostEn ? "/en/blog" : "/blog" },
 			{ name: post.title, url: postURL },
 		]
 	: null;

@@ -15,11 +15,18 @@ interface Props {
 
 const { entityTag, limit = 3 } = Astro.props;
 
+// Locale-aware resource list (2026-08-18): static /en/* pages have the /en
+// path prefix at build; SSR pages get X-Locale via the worker rewrite.
+const pageLocale = ((Astro.locals as any).locale as string) || "id";
+const hasEnPrefix =
+	Astro.url.pathname === "/en" || Astro.url.pathname.startsWith("/en/");
+const isEn = pageLocale === "en" || hasEnPrefix;
+
 const { env } = Astro.locals.runtime;
 let posts: { slug: string; title: string; description: string }[] = [];
 if (env && env.DB) {
 	const { results } = await env.DB.prepare(
-		"SELECT slug, title, description FROM posts WHERE is_published = 1 AND pillar_id = ? ORDER BY pub_date DESC LIMIT ?",
+		`SELECT slug, title, description FROM posts WHERE is_published = 1 AND pillar_id = ? AND slug ${isEn ? "LIKE '%-en'" : "NOT LIKE '%-en'"} ORDER BY pub_date DESC LIMIT ?`,
 	)
 		.bind(entityTag, limit)
 		.all();

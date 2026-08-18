@@ -19,8 +19,17 @@ if (!env || !env.DB) {
 	console.error("DB binding missing");
 	throw new Error("DB binding missing");
 }
+
+// Locale-aware blog listing (2026-08-18, Daniel bug report: "mode Indonesia
+// tapi blog English"). /en/blog is served through the worker /en/* rewrite with
+// X-Locale: en; languages pair via the -en slug suffix convention.
+const pageLocale = ((Astro.locals as any).locale as string) || "id";
+const hasEnPrefix =
+	Astro.url.pathname === "/en" || Astro.url.pathname.startsWith("/en/");
+const isEn = pageLocale === "en" || hasEnPrefix;
+
 const { results: posts } = await env.DB.prepare(
-	"SELECT * FROM posts WHERE is_published = 1 ORDER BY pub_date DESC",
+	`SELECT * FROM posts WHERE is_published = 1 AND slug ${isEn ? "LIKE '%-en'" : "NOT LIKE '%-en'"} ORDER BY pub_date DESC`,
 ).all<Post>();
 
 // Pillar hubs for the topical nav (KG-SEO v3 Gap #17) — data-driven from
@@ -39,13 +48,16 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 // populated from the published posts (latest 10, no-slash URLs). Passed as
 // mainEntity so SeoGraph normalizes it into the @graph (isPartOf → #webpage).
 // Distinct @id (#blog) — never collides with the auto WebPage node's #webpage.
+const blogIndexURL = isEn ? `${SITE_URL}/en/blog` : `${SITE_URL}/blog`;
+const blogIndexDescription = isEn
+	? "Google Ads strategy, hospitality SEO, booking engines, and AI agents for hotels and villas in Bali — straight from practitioners."
+	: "Strategi Google Ads, SEO hospitality, booking engine, dan AI agent untuk hotel dan villa di Bali — langsung dari praktisi.";
 const blogIndexLD = {
 	"@type": ["Blog", "CollectionPage"],
-	"@id": `${SITE_URL}/blog/#blog`,
+	"@id": `${blogIndexURL}/#blog`,
 	name: "Blog | Alpha Digital Agency",
-	description:
-		"Strategi Google Ads, SEO hospitality, booking engine, dan AI agent untuk hotel dan villa di Bali — langsung dari praktisi.",
-	url: `${SITE_URL}/blog`,
+	description: blogIndexDescription,
+	url: blogIndexURL,
 	mainEntity: {
 		"@type": "ItemList",
 		itemListElement: posts.slice(0, 10).map((post, i) => ({
@@ -58,7 +70,7 @@ const blogIndexLD = {
 };
 ---
 
-<SwissLayout title="Blog | Alpha Digital Agency" currentPage="blog" description="Strategi Google Ads, SEO hospitality, booking engine, dan AI agent untuk hotel dan villa di Bali — langsung dari praktisi." mainEntity={blogIndexLD}>
+<SwissLayout title="Blog | Alpha Digital Agency" currentPage="blog" description={blogIndexDescription} mainEntity={blogIndexLD}>
 	<!-- Hero Section -->
 	<section class="max-w-6xl mx-auto mb-16 md:mb-24 px-6 md:px-12">
 		<h1
@@ -67,14 +79,23 @@ const blogIndexLD = {
 			<span
 				class="text-[2.5rem] sm:text-[4rem] md:text-[5rem] lg:text-[6rem] block"
 			>
-				Insights<span class="text-primary">&</span>Stories
+				{isEn ? (
+					<>
+						Insights<span class="text-primary">&</span>Stories
+					</>
+				) : (
+					<>
+						Wawasan<span class="text-primary">&</span>Cerita
+					</>
+				)}
 			</span>
 		</h1>
 		<p
 			class="mt-4 md:mt-6 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto text-center leading-relaxed tracking-wide"
 		>
-			Digital marketing expertise for hotels. We decode data, design
-			luxury experiences, and drive direct bookings.
+			{isEn
+				? "Digital marketing expertise for hotels. We decode data, design luxury experiences, and drive direct bookings."
+				: "Keahlian digital marketing untuk hotel dan villa di Bali. Kami baca data, rancang pengalaman tamu, dan dorong direct booking."}
 		</p>
 	</section>
 
@@ -84,7 +105,7 @@ const blogIndexLD = {
 			<div class="flex flex-wrap gap-3 justify-center">
 				{pillars.map((p) => (
 					<a
-						href={`/blog/pillar/${p.pillar_id}`}
+						href={`${isEn ? "/en" : ""}/blog/pillar/${p.pillar_id}`}
 						class="border-2 border-charcoal dark:border-white px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-primary hover:text-white hover:border-primary transition-colors"
 					>
 						{p.title}
@@ -100,7 +121,7 @@ const blogIndexLD = {
 			posts.length === 0 ? (
 				<div class="text-center py-16">
 					<p class="text-slate-500 text-lg">
-						No posts published yet.
+						{isEn ? "No posts published yet." : "Belum ada artikel."}
 					</p>
 				</div>
 			) : (
@@ -182,7 +203,7 @@ const blogIndexLD = {
 										{post.description}
 									</p>
 									<div class="mt-4 flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
-										<span>Read Article</span>
+										<span>{isEn ? "Read Article" : "Baca Artikel"}</span>
 										<span class="material-symbols-outlined text-sm">
 											arrow_forward
 										</span>

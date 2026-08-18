@@ -26,13 +26,20 @@ if (!pillarRow) {
 	return new Response(null, { status: 404, statusText: "Not Found" });
 }
 
+// Locale-aware hub listing (2026-08-18): /en/blog/pillar/* arrives via the
+// worker /en/* rewrite (X-Locale: en); filter posts by the -en slug suffix.
+const pageLocale = ((Astro.locals as any).locale as string) || "id";
+const hasEnPrefix =
+	Astro.url.pathname === "/en" || Astro.url.pathname.startsWith("/en/");
+const isEn = pageLocale === "en" || hasEnPrefix;
+
 const { results: posts } = await env.DB.prepare(
-	"SELECT slug, title, description, pub_date FROM posts WHERE is_published = 1 AND pillar_id = ? ORDER BY pub_date DESC LIMIT 30",
+	`SELECT slug, title, description, pub_date FROM posts WHERE is_published = 1 AND pillar_id = ? AND slug ${isEn ? "LIKE '%-en'" : "NOT LIKE '%-en'"} ORDER BY pub_date DESC LIMIT 30`,
 )
 	.bind(pillar)
 	.all<{ slug: string; title: string; description: string; pub_date: string }>();
 
-const pillarUrl = `${SITE_URL}/blog/pillar/${pillarRow.pillar_id}`;
+const pillarUrl = `${SITE_URL}${isEn ? "/en" : ""}/blog/pillar/${pillarRow.pillar_id}`;
 
 // CollectionPage schema — the hub itself is the evergreen topic authority node.
 // Distinct @id (#pillar-page): the auto WebPage node already owns #webpage for
@@ -65,8 +72,8 @@ const hubLD = {
 };
 
 const breadcrumbs = [
-	{ name: "Home", url: "/" },
-	{ name: "Blog", url: "/blog" },
+	{ name: "Home", url: isEn ? "/en" : "/" },
+	{ name: "Blog", url: isEn ? "/en/blog" : "/blog" },
 	{ name: pillarRow.title, url: pillarUrl },
 ];
 ---
