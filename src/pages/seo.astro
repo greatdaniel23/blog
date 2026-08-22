@@ -1,0 +1,481 @@
+---
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header.
+// Serves BOTH /seo (id) and /en/seo (worker rewrite) via SwissLayout.
+import SwissLayout from "../components/SwissLayout.astro";
+import { WA_JASA } from "../lib/linkbio";
+
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
+
+// Unique build marker for deploy verification
+const BUILD_TAG = "seo-manifesto-v1-2026-08-22";
+
+const t = {
+  id: {
+    eyebrow: "Praktik SEO Transparan · Skin in the Game",
+    heroH1: "SEO Bukan Gimmick: Kami Uji di Diri Sendiri Dulu, Kami Percaya Datanya, Kami Distribusikan untuk Anda.",
+    heroDesc: "Banyak agensi menjanjikan peringkat satu dan ribuan klik, tetapi situs agensinya sendiri sepi trafik organik. Di Alpha Digital Agency, kami tidak menjual apa yang tidak kami buktikan sendiri. Inilah data riil 112 hari pertumbuhan SEO kami di Bali.",
+    
+    // Core Scoreboard
+    metricsTitle: "Bukti Transparan: 112 Hari Pertumbuhan Organik alphadigitalagency.id",
+    metricsSubtitle: "Data asli Google Search Console (Mei – Agustus 2026) tanpa angka yang dimanipulasi.",
+    metrics: [
+      { num: "10.181", label: "Total Impresi Organik", sub: "+380% MoM (Mei: 692 → Juli: 4.405)" },
+      { num: "205", label: "Klik Organik B2B", sub: "+220% MoM (Mei: 25 → Juli: 80 klik)" },
+      { num: "74,1%", label: "Trafik Desktop (B2B Intent)", sub: "Pemilik villa & GM riset dari komputer kantor" },
+      { num: "100 / 100", label: "Lighthouse SEO Score", sub: "100% Canonical, Hreflang & Schema Valid" }
+    ],
+
+    // The 3-Pillar Philosophy
+    philosophyTitle: "Metodologi 3 Pilar: Test → Believe → Distribute",
+    philosophyDesc: "Bagaimana kami memastikan setiap strategi SEO yang kami terapkan untuk klien adalah hasil dari proses engineering yang teruji.",
+    pillars: [
+      {
+        step: "01",
+        title: "WE TEST — Laboratorium di Diri Sendiri",
+        desc: "Sebelum kami menawarkan layanan SEO untuk villa atau hotel Anda, kami menguji semua arsitektur teknis pada domain kami sendiri: dari struktur 5-Blok Semantic Outline, dynamic sitemap D1, E-E-A-T entity linking Wikidata, hingga Core Web Vitals dengan sub-100ms response time. Kami memiliki 'skin in the game'."
+      },
+      {
+        step: "02",
+        title: "WE BELIEVE — Berdasarkan Permintaan Riil, Bukan Tebakan",
+        desc: "Kami tidak menulis artikel acak hanya untuk mengisi kuota blog. Prinsip kami: 1 Post = 1 Search Query GSC Riil = 1 Target Solusi Produk. Ketika data Search Console membuktikan bahwa sebuah topik memiliki volume pencarian bernilai komersial tinggi, barulah konten tersebut diproduksi secara mendalam."
+      },
+      {
+        step: "03",
+        title: "WE DISTRIBUTE — Standar yang Sama untuk Klien Kami",
+        desc: "Metodologi yang sama kami terapkan langsung untuk portofolio klien hospitality aktif kami di Bali (termasuk Kayumanis Group dan Piasan Restaurant), yang secara konsisten menghasilkan lebih dari 100.000 impresi organik dan 3.600+ klik direct booking setiap bulan tanpa ketergantungan penuh pada komisi OTA 18-20%."
+      }
+    ],
+
+    // Pitfalls Comparison Table
+    comparisonTitle: "Membedah Jebakan 'SEO Gimmick' vs SEO Engineering",
+    comparisonDesc: "Mengapa banyak strategi SEO di industri agensi digital gagal menghasilkan reservasi dan hanya menghasilkan laporan tebal yang tidak berguna.",
+    compHeaders: ["Aspek", "SEO Gimmick / AI Spam", "Alpha Digital Engineering (E-E-A-T)"],
+    compRows: [
+      {
+        aspect: "Fokus Keyword",
+        bad: "Mengejar kata kunci definisi umum (misal: 'apa itu liburan') demi metrik traffic palsu.",
+        good: "Menargetkan kata kunci komersial B2B bernilai tinggi (misal: 'marketing agency bali', 'direct booking vs ota cost')."
+      },
+      {
+        aspect: "Kualitas Konten",
+        bad: "Generasi massal 50 artikel AI generik dalam 1 hari yang membosankan dan berulang.",
+        good: "Semantic Outline 5-Blok: membedah masalah riil, kalkulasi biaya, komparasi teknis, dan studi kasus lapangan."
+      },
+      {
+        aspect: "Fondasi Teknis",
+        bad: "Website lambat, widget chat berat, schema rusak, dan canonical redirect loop.",
+        good: "Skor Lighthouse SEO 100/100, valid @graph schema JSON-LD, hreflang ID/EN presisi, dan server edge ultra cepat."
+      },
+      {
+        aspect: "Hasil & Pengukuran",
+        bad: "Laporan 50 halaman penuh grafik tidak relevan tanpa koneksi ke reservasi.",
+        good: "Laporan terpadu GA4 + GSC + Direct Booking engine: mengukur konversi reservasi nyata."
+      }
+    ],
+
+    // Live Query Proof
+    queryTitle: "Bukti Peringkat Kata Kunci Organik di Google",
+    queryDesc: "Beberapa kata kunci utama berbobot komersial tinggi yang berhasil kami rank di Google Page 1:",
+    queries: [
+      { query: "alpha digital agency", pos: "Pos 3.5", note: "Brand authority anchor (CTR 23.7%)" },
+      { query: "marketing agency bali", pos: "Pos 5.4", note: "Kompetitif komersial B2B (Page 1)" },
+      { query: "digital agency bali", pos: "Pos 11.2", note: "520 impresi — striking distance to Top 5" },
+      { query: "ai agent booking hotel", pos: "Pos 5.0", note: "High-intent hospitality AI query" }
+    ],
+
+    // E-E-A-T Author Section
+    authorTitle: "Tentang Penulis & Standar E-E-A-T",
+    authorName: "Daniel Santoso",
+    authorRole: "Founder & Google Ads Specialist (9 Tahun Pengalaman Hospitality Bali)",
+    authorBio: "Daniel Santoso memimpin Alpha Digital Agency dengan pendekatan data-driven tanpa omong kosong. Dengan pengalaman 9 tahun mengelola kampanye Google Ads dan analitik digital untuk villa mewah, boutique hotel, dan restoran di Bali, setiap artikel dan strategi SEO diuji secara ketat berdasarkan realitas operasional bisnis pariwisata.",
+    
+    // FAQ
+    faqTitle: "Pertanyaan Seputar Praktik SEO Transparan",
+    faq: [
+      {
+        q: "Mengapa Alpha Digital Agency membuka data Search Console sendiri secara publik?",
+        a: "Karena kepercayaan (Trustworthiness) dibangun dari transparansi. Klien hospitality kami mempercayakan anggaran dan pertumbuhan bisnis mereka kepada kami; cara terbaik membuktikan kemampuan teknis kami adalah dengan menunjukkan bahwa kami mampu menumbuhkan aset digital kami sendiri secara organik."
+      },
+      {
+        q: "Berapa lama waktu yang dibutuhkan sampai SEO organik mulai menghasilkan hasil?",
+        a: "SEO adalah aset kumulatif (compounding). Pada domain alphadigitalagency.id, impresi mulai meningkat signifikan dalam 60 hari pertama setelah arsitektur teknis dan 48 artikel pilar dipublikasikan, mencapai lonjakan +380% di bulan ketiga. Untuk properti villa dan hotel, indexing dan peningkatan visibilitas lokal biasanya mulai terlihat dalam 4–8 minggu."
+      },
+      {
+        q: "Apakah artikel blog Alpha Digital dibuat oleh AI?",
+        a: "Kami menggunakan AI sebagai alat bantu riset dan penyusunan struktur, namun setiap konten wajib melalui Semantic Outline Engine 5-Blok dan review editorial manusia yang ketat (E-E-A-T Gate). Kami memastikan setiap artikel menyajikan kalkulasi riil, pengalaman lapangan, dan solusi teknis yang tidak dapat dibuat oleh AI generik."
+      },
+      {
+        q: "Bagaimana cara kerja SEO organik dalam mengurangi komisi OTA untuk villa?",
+        a: "Ketika tamu potensial mencari properti atau tipe villa di Bali, SEO organik menangkap pencarian tersebut di Google dan mengarahkannya langsung ke website resmi properti Anda yang dilengkapi direct booking engine. Ini mengalihkan 15–30% reservasi yang seharusnya terkena potongan komisi OTA 18–20% menjadi pendapatan bersih properti Anda."
+      },
+      {
+        q: "Bagaimana cara memulai audit SEO untuk properti saya?",
+        a: "Hubungi kami melalui WhatsApp atau formulir konsultasi. Kami akan melakukan audit teknis menyeluruh terhadap website, Search Console, GA4, dan Core Web Vitals properti Anda secara gratis tanpa komitmen."
+      }
+    ],
+
+    // Final CTA
+    ctaTitle: "Ingin Menguji Kekuatan SEO Organik untuk Properti Anda?",
+    ctaDesc: "Mari bedah potensi visibilitas website villa atau hotel Anda. Kami mulai dengan audit SEO & data tracking menyeluruh — transparan, terukur, dan tanpa biaya komitmen.",
+    ctaWa: "Konsultasi via WhatsApp",
+    ctaMail: "Minta Audit Properti",
+    lastUpdated: "Terakhir diperbarui: 22 Agustus 2026 · Terverifikasi oleh tim Data & SEO Alpha Digital Agency"
+  },
+
+  en: {
+    eyebrow: "Transparent SEO Practice · Skin in the Game",
+    heroH1: "SEO Is Not a Gimmick: We Test on Ourselves First, We Believe the Data, We Deploy for You.",
+    heroDesc: "Many agencies promise page-one rankings and thousands of clicks, yet their own agency website gets zero organic traffic. At Alpha Digital Agency, we never sell what we haven't proven ourselves. Here is the uncensored 112-day organic growth data of alphadigitalagency.id.",
+    
+    // Core Scoreboard
+    metricsTitle: "Transparent Proof: 112 Days of Organic Growth at alphadigitalagency.id",
+    metricsSubtitle: "Real Google Search Console data (May – August 2026) with zero fabricated numbers.",
+    metrics: [
+      { num: "10,181", label: "Total Organic Impressions", sub: "+380% MoM (May: 692 → July: 4,405)" },
+      { num: "205", label: "B2B Organic Clicks", sub: "+220% MoM (May: 25 → July: 80 clicks)" },
+      { num: "74.1%", label: "Desktop Traffic (B2B Intent)", sub: "Villa owners & GMs searching from office desks" },
+      { num: "100 / 100", label: "Lighthouse SEO Score", sub: "100% Canonical, Hreflang & Schema Valid" }
+    ],
+
+    // The 3-Pillar Philosophy
+    philosophyTitle: "Our 3-Pillar Methodology: Test → Believe → Distribute",
+    philosophyDesc: "How we guarantee that every SEO strategy deployed for our clients is the direct result of rigorous, verified engineering.",
+    pillars: [
+      {
+        step: "01",
+        title: "WE TEST — In Our Own Laboratory First",
+        desc: "Before offering SEO services for your villa or hotel, we test all technical architecture on our own domain: from the 5-Block Semantic Outline framework, dynamic D1 sitemaps, Wikidata E-E-A-T entity linking, to sub-100ms Core Web Vitals response times. We maintain active skin in the game."
+      },
+      {
+        step: "02",
+        title: "WE BELIEVE — Driven by Real Demand, Never Guesswork",
+        desc: "We never write random fluff articles just to fulfill arbitrary blog quotas. Our rule: 1 Post = 1 Real GSC Search Query = 1 Product Solution Target. When Search Console data proves high-value commercial search intent, we produce an exhaustive, high-information-gain resource."
+      },
+      {
+        step: "03",
+        title: "WE DISTRIBUTE — The Exact Same Rigor for Clients",
+        desc: "We deploy the exact same methodology across our active Bali hospitality clients (including Kayumanis Group and Piasan Restaurant), consistently generating over 100,000 monthly organic impressions and 3,600+ direct booking clicks without relying entirely on 18–20% OTA commissions."
+      }
+    ],
+
+    // Pitfalls Comparison Table
+    comparisonTitle: "Dissecting 'Gimmick SEO' vs True SEO Engineering",
+    comparisonDesc: "Why generic agency SEO tactics fail to generate reservations and only produce bloated, useless 50-page reports.",
+    compHeaders: ["Dimension", "Gimmick SEO / AI Spam", "Alpha Digital Engineering (E-E-A-T)"],
+    compRows: [
+      {
+        aspect: "Keyword Strategy",
+        bad: "Chasing broad dictionary definitions ('what is holiday') for fake vanity traffic.",
+        good: "Targeting high-intent B2B commercial queries ('marketing agency bali', 'direct booking vs ota cost')."
+      },
+      {
+        aspect: "Content Quality",
+        bad: "Mass-generating 50 generic AI drafts in one day that sound repetitive and robotic.",
+        good: "5-Block Semantic Outlines: real friction points, exact math formulas, technical comparisons, and live case studies."
+      },
+      {
+        aspect: "Technical Foundation",
+        bad: "Slow page loads, heavy render-blocking chat widgets, broken schema, and redirect loops.",
+        good: "100/100 Lighthouse SEO, valid @graph JSON-LD schema, precise ID/EN hreflang, and ultra-fast edge delivery."
+      },
+      {
+        aspect: "Outcome & Tracking",
+        bad: "50-page monthly decks full of vanity charts disconnected from actual room revenue.",
+        good: "Unified GA4 + GSC + Booking Engine tracking measuring direct reservations and ROI."
+      }
+    ],
+
+    // Live Query Proof
+    queryTitle: "Verified Google Search Rankings",
+    queryDesc: "A snapshot of high-value commercial search queries ranked on Google Page 1:",
+    queries: [
+      { query: "alpha digital agency", pos: "Pos 3.5", note: "Brand authority anchor (CTR 23.7%)" },
+      { query: "marketing agency bali", pos: "Pos 5.4", note: "High-value commercial B2B query (Page 1)" },
+      { query: "digital agency bali", pos: "Pos 11.2", note: "520 impressions — striking distance to Top 5" },
+      { query: "ai agent booking hotel", pos: "Pos 5.0", note: "High-intent hospitality AI query" }
+    ],
+
+    // E-E-A-T Author Section
+    authorTitle: "About the Author & E-E-A-T Standards",
+    authorName: "Daniel Santoso",
+    authorRole: "Founder & Google Ads Specialist (9 Years Hospitality Experience in Bali)",
+    authorBio: "Daniel Santoso leads Alpha Digital Agency with a rigorous, no-nonsense data approach. Backed by 9 years of managing Google Ads campaigns and digital analytics for luxury villas, boutique hotels, and premier restaurants across Bali, every article and SEO strategy is strictly vetted against the operational realities of the hospitality business.",
+    
+    // FAQ
+    faqTitle: "Frequently Asked Questions About Transparent SEO",
+    faq: [
+      {
+        q: "Why does Alpha Digital Agency publicly disclose its own Search Console data?",
+        a: "Because Trustworthiness is built on radical transparency. Hospitality clients trust us with their revenue growth; the best way to prove our technical execution is by demonstrating that we can grow our own digital assets organically."
+      },
+      {
+        q: "How long does organic SEO take to generate measurable results?",
+        a: "SEO is a compounding asset. On alphadigitalagency.id, impression volume accelerated significantly within the first 60 days following our technical architecture and 48 published bilingual pillar posts, surging +380% by Month 3. For villa and hotel properties, local indexability and search visibility improvements typically materialize in 4–8 weeks."
+      },
+      {
+        q: "Are Alpha Digital blog articles written entirely by AI?",
+        a: "We leverage AI for research synthesis and structural mapping, but every piece of content must pass our 5-Block Semantic Outline Engine and human editorial review (E-E-A-T Quality Gate). We ensure every article includes practical calculations, real operational case studies, and engineering depth that generic AI prompts cannot produce."
+      },
+      {
+        q: "How does organic SEO help villas reduce OTA commissions?",
+        a: "When prospective guests search for accommodations in Bali, organic SEO captures that high-intent demand on Google and routes it directly to your official website equipped with a direct booking engine. This shifts 15–30% of reservations away from 18–20% OTA commissions into direct net revenue."
+      },
+      {
+        q: "How can I request an SEO audit for my property?",
+        a: "Reach out via WhatsApp or our consultation form. We will conduct an exhaustive technical audit of your website, Search Console, GA4 setup, and Core Web Vitals free of charge with zero obligation."
+      }
+    ],
+
+    // Final CTA
+    ctaTitle: "Ready to Test the Power of Organic SEO for Your Property?",
+    ctaDesc: "Let's analyze the organic search potential of your villa or hotel. We start with a comprehensive SEO & tracking audit — transparent, measurable, and zero commitment.",
+    ctaWa: "WhatsApp Consultation",
+    ctaMail: "Request Property Audit",
+    lastUpdated: "Last updated: August 22, 2026 · Verified by Alpha Digital Agency SEO & Data Engineering Team"
+  }
+};
+
+const tx = t[locale] || t.id;
+
+// Knowledge Graph SEO v3 - Unified @graph entity
+const mainEntity = {
+  "@type": "TechArticle",
+  "@id": "https://alphadigitalagency.id/seo/#article",
+  "headline": tx.heroH1,
+  "description": tx.heroDesc,
+  "inLanguage": locale === 'en' ? 'en' : 'id',
+  "datePublished": "2026-08-22T08:00:00+08:00",
+  "dateModified": "2026-08-22T18:30:00+08:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://alphadigitalagency.id/daniel-santoso/#person",
+    "name": "Daniel Santoso",
+    "jobTitle": "Founder & Google Ads Specialist",
+    "url": "https://alphadigitalagency.id/daniel-santoso/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://alphadigitalagency.id/#organization",
+    "name": "Alpha Digital Agency",
+    "url": "https://alphadigitalagency.id"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": isEn ? "https://alphadigitalagency.id/en/seo" : "https://alphadigitalagency.id/seo"
+  },
+  "about": [
+    { "@type": "Thing", "name": "Search Engine Optimization", "sameAs": "https://www.wikidata.org/wiki/Q180711" },
+    { "@type": "Thing", "name": "Digital Marketing", "sameAs": "https://www.wikidata.org/wiki/Q1323528" },
+    { "@type": "Thing", "name": "Bali", "sameAs": "https://www.wikidata.org/wiki/Q3125978" }
+  ]
+};
+
+const breadcrumbs = [
+  { name: "Home", url: "/" },
+  { name: "SEO", url: isEn ? "/en/seo" : "/seo" }
+];
+
+const faq = tx.faq;
+---
+
+<SwissLayout 
+  title={isEn ? "SEO Is Not a Gimmick: Transparent Organic Growth Proof | Alpha Digital" : "SEO Bukan Gimmick: Bukti Nyata Pertumbuhan SEO Organik | Alpha Digital"} 
+  description={tx.heroDesc} 
+  currentPage="seo" 
+  mainEntity={mainEntity} 
+  faq={faq} 
+  breadcrumbs={breadcrumbs}
+  about={[
+    { name: "Search Engine Optimization", sameAs: "https://www.wikidata.org/wiki/Q180711" },
+    { name: "Digital Marketing", sameAs: "https://www.wikidata.org/wiki/Q1323528" },
+    { name: "Bali", sameAs: "https://www.wikidata.org/wiki/Q3125978" }
+  ]}
+>
+
+  <!-- HERO SECTION -->
+  <section class="max-w-4xl mx-auto mb-14 px-6 md:px-12 pt-4">
+    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary font-mono text-xs font-bold uppercase tracking-wider mb-6">
+      <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+      <span>{tx.eyebrow}</span>
+    </div>
+    
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest">
+      <span class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl block leading-tight">{tx.heroH1}</span>
+    </h1>
+    
+    <p class="mt-6 text-base md:text-lg text-slate-600 dark:text-slate-300 font-medium leading-relaxed max-w-3xl">
+      {tx.heroDesc}
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-500 dark:text-slate-400">
+      <span class="flex items-center space-x-1.5">
+        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+        <span>{isEn ? "Author: " : "Penulis: "}<a href="/daniel-santoso" class="text-charcoal dark:text-white font-bold underline hover:text-primary">Daniel Santoso</a></span>
+      </span>
+      <span>•</span>
+      <span class="flex items-center space-x-1.5">
+        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span>{isEn ? "E-E-A-T Quality Verified" : "Terverifikasi E-E-A-T"}</span>
+      </span>
+      <span>•</span>
+      <span class="text-slate-400">August 2026</span>
+    </div>
+  </section>
+
+  <!-- SECTION 1: THE DATA SCOREBOARD (FIRST-HAND EVIDENCE) -->
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+      <div class="mb-8">
+        <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-2">{tx.metricsTitle}</h2>
+        <p class="text-slate-600 dark:text-slate-400 text-sm">{tx.metricsSubtitle}</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+        {tx.metrics.map((m) => (
+          <div class="bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 p-6 rounded-xl relative overflow-hidden">
+            <div class="text-3xl sm:text-4xl font-extrabold text-primary font-mono tracking-tight mb-1">{m.num}</div>
+            <div class="text-sm font-bold text-charcoal dark:text-white uppercase tracking-wider mb-2">{m.label}</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-sans">{m.sub}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Live Query Proof Callout -->
+      <div class="border-t border-slate-200 dark:border-slate-800 pt-6">
+        <h3 class="font-bold text-charcoal dark:text-white text-base mb-3">{tx.queryTitle}</h3>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-4">{tx.queryDesc}</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+          {tx.queries.map((q) => (
+            <div class="bg-slate-100 dark:bg-slate-800/60 p-3.5 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-charcoal dark:text-white block font-sans">"{q.query}"</span>
+                <span class="text-[11px] text-slate-500 dark:text-slate-400 font-sans">{q.note}</span>
+              </div>
+              <span class="px-2 py-1 rounded bg-primary/10 text-primary font-bold border border-primary/20">{q.pos}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: THE 3-PILLAR PHILOSOPHY -->
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-3">{tx.philosophyTitle}</h2>
+      <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-8">{tx.philosophyDesc}</p>
+
+      <div class="space-y-8">
+        {tx.pillars.map((p) => (
+          <div class="border-l-4 border-primary pl-6 py-1">
+            <div class="flex items-center space-x-3 mb-2">
+              <span class="font-mono text-xs font-bold text-primary px-2 py-0.5 rounded bg-primary/10 border border-primary/20">{p.step}</span>
+              <h3 class="font-bold text-lg md:text-xl text-charcoal dark:text-white">{p.title}</h3>
+            </div>
+            <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: PITFALLS COMPARISON TABLE -->
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-3">{tx.comparisonTitle}</h2>
+      <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-8">{tx.comparisonDesc}</p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+          <thead>
+            <tr class="border-b-2 border-charcoal dark:border-white bg-slate-100 dark:bg-slate-800/80 font-mono text-xs uppercase text-charcoal dark:text-white">
+              <th class="py-3 px-4 w-1/4">{tx.compHeaders[0]}</th>
+              <th class="py-3 px-4 w-3/8 text-rose-600 dark:text-rose-400">{tx.compHeaders[1]}</th>
+              <th class="py-3 px-4 w-3/8 text-emerald-600 dark:text-emerald-400">{tx.compHeaders[2]}</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            {tx.compRows.map((r) => (
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+                <td class="py-4 px-4 font-bold text-charcoal dark:text-white">{r.aspect}</td>
+                <td class="py-4 px-4 text-slate-600 dark:text-slate-400 leading-relaxed bg-rose-500/5">{r.bad}</td>
+                <td class="py-4 px-4 text-slate-700 dark:text-slate-200 leading-relaxed font-medium bg-emerald-500/5">{r.good}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: E-E-A-T AUTHOR & FOUNDER SECTION -->
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8 flex flex-col md:flex-row items-start gap-8">
+      <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-primary via-blue-600 to-indigo-700 flex-shrink-0 flex items-center justify-center text-white text-3xl font-extrabold shadow-lg">
+        DS
+      </div>
+      <div>
+        <div class="text-xs font-mono font-bold uppercase tracking-wider text-primary mb-1">{tx.authorTitle}</div>
+        <h3 class="font-display font-bold text-2xl text-charcoal dark:text-white mb-1">
+          <a href="/daniel-santoso" class="hover:text-primary underline">{tx.authorName}</a>
+        </h3>
+        <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-4">{tx.authorRole}</p>
+        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">{tx.authorBio}</p>
+        
+        <div class="flex flex-wrap gap-2 text-xs font-mono">
+          <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">Google Ads Specialist</span>
+          <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">GA4 & Data Analytics</span>
+          <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">Hospitality Direct Booking</span>
+          <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">Entity SEO Architect</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: FAQ -->
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-8">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.faqTitle}</h2>
+      <div class="space-y-6">
+        {tx.faq.map((item) => (
+          <div class="border-b border-slate-200 dark:border-slate-800 pb-6 last:border-0 last:pb-0">
+            <h3 class="font-bold text-base md:text-lg text-charcoal dark:text-white mb-2.5">{item.q}</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: FINAL CTA -->
+  <section class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
+    <div class="bg-charcoal text-white dark:bg-slate-950 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center rounded-2xl">
+      <h2 class="font-display font-extrabold text-2xl md:text-4xl mb-4">{tx.ctaTitle}</h2>
+      <p class="text-slate-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-8">{tx.ctaDesc}</p>
+      
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a 
+          href={WA_JASA} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="w-full sm:w-auto px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm rounded-xl transition shadow-lg shadow-emerald-500/20 flex items-center justify-center space-x-2"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          <span>{tx.ctaWa}</span>
+        </a>
+        <a 
+          href="mailto:daniel@alphadigitalagency.id" 
+          class="w-full sm:w-auto px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-sm rounded-xl border border-white/20 transition flex items-center justify-center space-x-2"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+          <span>{tx.ctaMail}</span>
+        </a>
+      </div>
+
+      <div class="mt-8 text-[11px] text-slate-400 font-mono">{tx.lastUpdated}</div>
+    </div>
+  </section>
+
+</SwissLayout>
