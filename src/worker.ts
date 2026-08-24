@@ -37,6 +37,10 @@ const LEGACY_REDIRECTS: Record<string, string> = {
 	'/blog/booking-engine-adalah-en': '/blog/what-is-a-booking-engine-guide-for-bali-hotels-and-villas-en',
 	'/blog/google-tag-manager-adalah-en': '/blog/google-tag-manager-for-hotels-booking-tracking-guide-en',
 	'/blog/cara-tracking-konversi-booking-villa-bali-en': '/blog/how-to-track-bali-villa-booking-conversions-ga4-gtm-guide-en',
+	'/blog/revolusi-reservasi-hotel-ai-agent-booking-engine-en': '/blog/hotel-reservation-revolution-ai-agent-booking-engine-en',
+	'/blog/esensi-digital-marketing-dan-strategi-distribusi-informasi-en': '/blog/the-essence-of-digital-marketing-and-information-distribution-strategy-en',
+	'/blog/era-baru-google-ads-mengapa-alpha-digital-agency-memilih-integrasi-llm-anthropic-di-2026-en': '/blog/new-era-of-google-ads-ai-hotel-villa-advertising-2026-en',
+	'/blog/google-analytics-4-adalah-en': '/blog/what-is-google-analytics-4-ga4-guide-for-hotels-en',
 };
 
 function mustRedirectToCanonical(hostname: string): boolean {
