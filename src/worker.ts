@@ -17,6 +17,26 @@ const LEGACY_REDIRECTS: Record<string, string> = {
 	'/en/ai-agent': '/en/services/ai-agent',
 	'/booking-engine': '/services/booking-engine',
 	'/en/booking-engine': '/en/services/booking-engine',
+
+	// Blog EN slug redirects (2026-08-24)
+	'/blog/cara-membuat-website-hotel-booking-langsung-en': '/blog/how-to-create-a-hotel-website-for-direct-booking-bali-en',
+	'/blog/memilih-digital-agency-di-bali-untuk-hotel-dan-villa-panduan-strategis-2026-en': '/blog/choosing-a-digital-agency-in-bali-for-hotels-and-villas-2026-en',
+	'/blog/cara-meningkatkan-direct-booking-untuk-villa-bali-strategi-praktis-memaksimalkan-pendapatan-en': '/blog/how-to-increase-direct-booking-for-bali-villas-en',
+	'/blog/digital-marketing-villa-bali-panduan-langkah-demi-langkah-en': '/blog/digital-marketing-for-bali-villas-step-by-step-guide-en',
+	'/blog/data-dulu-baru-ads-en': '/blog/data-first-then-ads-lombok-case-study-en',
+	'/blog/panduan-strategi-seo-untuk-website-hotel-villa-di-bali-tahun-2026-en': '/blog/seo-strategy-guide-for-hotel-villa-websites-bali-2026-en',
+	'/blog/cara-meningkatkan-repeat-guest-hotel-villa-bali-en': '/blog/how-to-increase-repeat-guests-hotels-villas-bali-en',
+	'/blog/revpar-adr-occupancy-3-angka-yang-menentukan-revenue-hotel-anda-en': '/blog/revpar-adr-occupancy-3-numbers-that-determine-your-hotel-revenue-en',
+	'/blog/roas-iklan-hotel-berapa-yang-sehat-dan-cara-mengukurnya-en': '/blog/hotel-ads-roas-healthy-benchmark-and-how-to-measure-en',
+	'/blog/dashboard-analytics-all-in-one-untuk-klien-digital-marketing-bali-en': '/blog/all-in-one-analytics-dashboard-for-digital-marketing-bali-en',
+	'/blog/review-online-hotel-cara-kelola-bali-en': '/blog/how-to-manage-online-hotel-reviews-in-bali-en',
+	'/blog/rate-parity-adalah-pengaruhnya-ke-strategi-channel-hotel-en': '/blog/what-is-rate-parity-impact-on-hotel-channel-strategy-en',
+	'/blog/jasa-digital-marketing-bali-untuk-hotel-villa-cara-memilih-partner-en': '/blog/digital-marketing-services-bali-for-hotels-villas-how-to-choose-en',
+	'/blog/cara-meningkatkan-direct-booking-dari-website-sampai-tracking-en': '/blog/how-to-increase-direct-bookings-from-website-to-tracking-en',
+	'/blog/seo-untuk-hotel-villa-bali-en': '/blog/seo-for-bali-hotels-and-villas-en',
+	'/blog/booking-engine-adalah-en': '/blog/what-is-a-booking-engine-guide-for-bali-hotels-and-villas-en',
+	'/blog/google-tag-manager-adalah-en': '/blog/google-tag-manager-for-hotels-booking-tracking-guide-en',
+	'/blog/cara-tracking-konversi-booking-villa-bali-en': '/blog/how-to-track-bali-villa-booking-conversions-ga4-gtm-guide-en',
 };
 
 function mustRedirectToCanonical(hostname: string): boolean {
