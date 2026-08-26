@@ -1,6 +1,15 @@
 ---
 import { SOCIAL_LINKS } from "../consts";
 
+interface Props {
+    locale?: 'id' | 'en';
+}
+
+const { locale: localeProp } = Astro.props;
+const locale = localeProp || ((Astro.locals as any).locale as string) || 'id';
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+
 const today = new Date();
 
 // Social icon row. Monochrome inline SVGs that inherit footer text color.
@@ -46,11 +55,10 @@ const businessInfo = {
 };
 
 const services = [
-    { name: "Booking Engine", href: "/services/booking-engine" },
-    { name: "SEO & Data Tracking", href: "/services/seo-data" },
-    { name: "Bukti SEO Organik", href: "/seo" },
-    { name: "Blog", href: "/blog" },
-    { name: "Gallery", href: "/gallery" },
+    { name: "Booking Engine", href: `${prefix}/services/booking-integration` },
+    { name: "SEO & Data Tracking", href: `${prefix}/services/seo-data` },
+    { name: isEn ? "Organic SEO Proof" : "Bukti SEO Organik", href: `${prefix}/seo` },
+    { name: "Blog", href: `${prefix}/blog` },
 ];
 
 // LocalBusiness node removed — now emitted once per page inside the unified
@@ -75,7 +83,9 @@ const services = [
                 <p
                     class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
                 >
-                    Digital solutions for modern hospitality businesses.
+                    {isEn
+                        ? "Digital systems for modern hospitality businesses."
+                        : "Sistem digital untuk bisnis hospitality modern."}
                 </p>
             </div>
 
@@ -84,7 +94,7 @@ const services = [
                 <h4
                     class="font-display font-bold text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-400 mb-4"
                 >
-                    Services
+                    {isEn ? "Services" : "Layanan"}
                 </h4>
                 <ul class="space-y-2">
                     {
@@ -107,7 +117,7 @@ const services = [
                 <h4
                     class="font-display font-bold text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-400 mb-4"
                 >
-                    Contact
+                    {isEn ? "Contact" : "Kontak"}
                 </h4>
                 <ul
                     class="space-y-2 text-sm text-slate-600 dark:text-slate-300"
@@ -142,7 +152,7 @@ const services = [
                 <h4
                     class="font-display font-bold text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-400 mb-4"
                 >
-                    Location
+                    {isEn ? "Location" : "Lokasi"}
                 </h4>
                 <p
                     class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"
@@ -155,7 +165,7 @@ const services = [
 
         <!-- Partner Badges Trust Strip -->
         <div class="pt-6 mb-6 border-t border-slate-200 dark:border-slate-800">
-            <p class="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-3">Partners</p>
+            <p class="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-3">{isEn ? "Partners" : "Mitra"}</p>
             <div class="flex flex-wrap items-center gap-4">
                 <a
                     href="https://www.siteminder.com"
@@ -204,10 +214,10 @@ const services = [
                     class="flex gap-6 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-700 dark:text-slate-300"
                 >
                     <a
-                        href="/privacy-policy"
+                        href={`${prefix}/privacy-policy`}
                         class="hover:text-primary transition-colors"
                     >
-                        Privacy Policy
+                        {isEn ? "Privacy Policy" : "Kebijakan Privasi"}
                     </a>
                     <a
                         href="https://wa.me/6289536870777"

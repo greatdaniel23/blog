@@ -31,6 +31,7 @@ interface Post {
 	author?: string | null;
 	/** Resolved author name via authors table JOIN (0013). */
 	author_name?: string | null;
+	language?: 'id' | 'en' | null;
 }
 
 // Authors JOIN (migration 0013). Fail-degrade: if the migration hasn't been
@@ -72,6 +73,70 @@ if (!post) {
 	// the not-found view. CF Pages / crawlers see HTTP 404, preserving crawl budget.
 	Astro.response.status = 404;
 }
+
+// Dynamic EN posts use the `-en` slug convention rather than `/en/`. Astro.locals
+// therefore remains `id` on this route; use stored language as source of truth and
+// the suffix only as a legacy fallback, then pass it explicitly to all page chrome.
+const requestedIsEn = /-en$/.test(String(slug ?? ''));
+const isPostEn = post ? post.language === 'en' || /-en$/.test(post.slug) : requestedIsEn;
+const postLocale: 'id' | 'en' = isPostEn ? 'en' : 'id';
+
+// Fetch paired twin slug for accurate language toggling & hreflang
+let twinSlug: string | null = null;
+if (post) {
+	try {
+		if (isPostEn) {
+			const twin = await env.DB.prepare(
+				`SELECT pid.slug FROM content_work_items w
+				 JOIN posts pid ON pid.id = w.id_post_id
+				 WHERE w.en_post_id = ? AND pid.is_published = 1 LIMIT 1`
+			).bind(post.id).first<{ slug: string }>();
+			if (twin) twinSlug = twin.slug;
+		} else {
+			const twin = await env.DB.prepare(
+				`SELECT pen.slug FROM content_work_items w
+				 JOIN posts pen ON pen.id = w.en_post_id
+				 WHERE w.id_post_id = ? AND pen.is_published = 1 LIMIT 1`
+			).bind(post.id).first<{ slug: string }>();
+			if (twin) twinSlug = twin.slug;
+		}
+	} catch {
+		// ignore
+	}
+}
+const ui = isPostEn
+	? {
+		writtenBy: 'Written by',
+		updated: 'Updated',
+		practice: 'Alpha Digital Hospitality Practice',
+		ctaTitle: 'Need a Google Ads and Direct Booking Audit for Your Property?',
+		ctaBody: 'We audit OTA commission leakage, GA4 conversion tracking, and Google Ads connections to real hotel or villa reservations.',
+		whatsapp: 'Consult via WhatsApp',
+		email: 'Send Email',
+		relatedPages: 'Related Alpha Digital Pages',
+		continueTopic: 'Continue with',
+		exploreTopic: 'Explore all articles about',
+		relatedArticles: 'Related Articles',
+		back: 'Back to Blog',
+		notFoundTitle: 'Article Not Found',
+		notFoundBody: 'The article may have moved, been removed, or never existed.',
+	}
+	: {
+		writtenBy: 'Ditulis oleh',
+		updated: 'Diperbarui',
+		practice: 'Praktik Hospitality Alpha Digital',
+		ctaTitle: 'Butuh Audit Google Ads dan Direct Booking untuk Properti Anda?',
+		ctaBody: 'Kami membantu audit kebocoran komisi OTA, tracking konversi GA4, dan koneksi Google Ads ke reservasi riil hotel atau vila Anda.',
+		whatsapp: 'Konsultasi via WhatsApp',
+		email: 'Kirim Email',
+		relatedPages: 'Halaman Alpha Digital Terkait',
+		continueTopic: 'Lanjutkan ke topik',
+		exploreTopic: 'Jelajahi semua artikel tentang',
+		relatedArticles: 'Artikel Terkait',
+		back: 'Kembali ke Blog',
+		notFoundTitle: 'Artikel Tidak Ditemukan',
+		notFoundBody: 'Artikel yang Anda cari mungkin telah dipindahkan, dihapus, atau tidak pernah ada.',
+	};
 
 // Convert D1 timestamps ("YYYY-MM-DD HH:MM:SS", date-only "YYYY-MM-DD") to ISO
 // 8601 with the Bali offset. Idempotent: already-ISO input (has 'T' or an offset)
@@ -216,6 +281,20 @@ const PILLAR_UPWARD_TARGETS: Record<string, UpwardLink[]> = {
 	],
 };
 
+const PILLAR_UPWARD_TARGETS_EN: Record<string, UpwardLink[]> = {
+	"google-ads": [{ href: "/en/services/growth", label: "Google Ads for Bali Hospitality", desc: "Google Ads management connected to GA4, GTM, and direct reservations for Bali hotels and villas." }],
+	"booking-engine": [{ href: "/en/services/booking-integration", label: "Booking Engine Integration", desc: "A direct-reservation system that reduces OTA dependency and keeps guest data with your property." }],
+	"ai-agent": [{ href: "/en/services/ai-agent", label: "AI Concierge for Hotels and Villas", desc: "An AI assistant that answers guest questions 24/7 and routes demand toward direct booking." }],
+	"digital-marketing-for-hotel": [
+		{ href: "/en/services/growth", label: "Google Ads for Bali Hospitality", desc: "Google Ads management connected to GA4, GTM, and direct reservations for Bali hotels and villas." },
+		{ href: "/en/services/booking-integration", label: "Booking Engine Integration", desc: "A direct-reservation system that reduces OTA dependency and keeps guest data with your property." },
+	],
+	"digital-marketing-bali": [
+		{ href: "/en", label: "Bali Hospitality Digital Marketing", desc: "Alpha Digital connects ads, analytics, booking engines, AI, and SEO into one direct-booking system." },
+		{ href: "/en/services/foundation", label: "SEO and Data Foundation", desc: "SEO, GA4, GTM, and Search Console foundations for Bali hotels and villas." },
+	],
+};
+
 // Defensive fallback when a post has no pillar (should not happen post-0010).
 const FALLBACK_UPWARD_LINK: UpwardLink = PILLAR_UPWARD_TARGETS["digital-marketing-bali"][0];
 
@@ -236,7 +315,9 @@ function isInternalPath(href: string): boolean {
 //      [{ target_static_url, anchor_text, relevance_score }]) — validated + capped.
 //   2. else entity-matched module derived from the post's pillar.
 function resolveUpwardLinks(post: Post): UpwardLink[] {
-	if (post.upward_links && post.upward_links.trim() !== "") {
+	// Legacy CMS upward-link labels are Indonesian. EN pages use the verified
+	// locale-specific pillar map below so their chrome never inherits ID copy.
+	if (!isPostEn && post.upward_links && post.upward_links.trim() !== "") {
 		try {
 			const parsed: unknown = JSON.parse(post.upward_links);
 			if (Array.isArray(parsed)) {
@@ -256,8 +337,10 @@ function resolveUpwardLinks(post: Post): UpwardLink[] {
 			// malformed JSON — fall through to pillar derivation
 		}
 	}
-	const derived = post.pillar_id ? PILLAR_UPWARD_TARGETS[post.pillar_id] : undefined;
-	return derived && derived.length > 0 ? derived : [FALLBACK_UPWARD_LINK];
+	const targets = isPostEn ? PILLAR_UPWARD_TARGETS_EN : PILLAR_UPWARD_TARGETS;
+	const derived = post.pillar_id ? targets[post.pillar_id] : undefined;
+	const fallback = isPostEn ? PILLAR_UPWARD_TARGETS_EN["digital-marketing-bali"][0] : FALLBACK_UPWARD_LINK;
+	return derived && derived.length > 0 ? derived : [fallback];
 }
 
 const relatedSEOLinks = post ? resolveUpwardLinks(post) : [];
@@ -420,7 +503,6 @@ if (post?.howto_steps && post.howto_steps.trim() !== "") {
 // Breadcrumbs for the unified @graph (SeoGraph BreadcrumbList node) — all
 // items in no-slash canonical form (KG-SEO v3 Gap #11: zero redirect hops,
 // @id must match the page canonicals). EN posts breadcrumb to the /en pages.
-const isPostEn = post ? /-en$/.test(post.slug) : false;
 const breadcrumbsProp = post
 	? [
 			{ name: "Home", url: isPostEn ? "/en" : "/" },
@@ -453,6 +535,8 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 	faq={faqProp}
 	howto={howtoProp}
 	about={aboutProp}
+	locale={postLocale}
+	altSlug={twinSlug}
 >
 	<article class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
 		<!-- Hero Image -->
@@ -487,19 +571,19 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 			<!-- E-E-A-T byline: author + publish date above the fold. Author from
 			     the authors FK (0013); Person rows link no-slash to the profile. -->
 			<p class="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">
-				Ditulis oleh{" "}
-				{isPersonAuthor ? (
-					<a href="/daniel-santoso" class="text-primary hover:underline">Daniel Santoso</a>
+					{ui.writtenBy}{" "}
+					{isPersonAuthor ? (
+						<a href={isPostEn ? "/en/daniel-santoso" : "/daniel-santoso"} class="text-primary hover:underline">Daniel Santoso</a>
 				) : (
 					<span class="text-charcoal dark:text-white">{authorDisplayName}</span>
 				)}
 				<span class="text-slate-400 mx-2">·</span>
-				<FormattedDate date={new Date(post.pub_date)} />
+					<FormattedDate date={new Date(post.pub_date)} locale={postLocale} />
 				{
 					post.updated_at && post.updated_at !== post.pub_date && (
 						<span class="text-slate-400 ml-2">
-							· Diperbarui{" "}
-							<FormattedDate date={new Date(post.updated_at)} />
+								· {ui.updated}{" "}
+								<FormattedDate date={new Date(post.updated_at)} locale={postLocale} />
 						</span>
 					)
 				}
@@ -537,13 +621,13 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 		<!-- In-Article Consultation Card (Lead Capture) -->
 		<section class="mt-12 border-2 border-charcoal dark:border-white bg-primary/5 dark:bg-primary/10 p-6 md:p-8">
 			<p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary mb-2">
-				Alpha Digital Hospitality Practice
+					{ui.practice}
 			</p>
 			<h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-3">
-				Butuh Audit Google Ads & Direct Booking untuk Properti Anda?
+					{ui.ctaTitle}
 			</h2>
 			<p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed mb-6">
-				Kami bantu audit kebocoran komisi OTA, tracking konversi GA4, dan setup Google Ads yang langsung terhubung ke reservasi riil villa atau hotel Anda.
+					{ui.ctaBody}
 			</p>
 			<div class="flex flex-col sm:flex-row gap-3">
 				<a
@@ -553,24 +637,24 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 					class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
 				>
 					<span class="material-symbols-outlined">chat</span>
-					Konsultasi via WhatsApp
+						{ui.whatsapp}
 				</a>
 				<a
-					href="mailto:daniel@alphadigitalagency.id?subject=Konsultasi%20Properti%20Hospitality"
+						href={`mailto:daniel@alphadigitalagency.id?subject=${encodeURIComponent(isPostEn ? 'Hospitality Property Consultation' : 'Konsultasi Properti Hospitality')}`}
 					class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
 				>
 					<span class="material-symbols-outlined">mail</span>
-					Kirim Email
+						{ui.email}
 				</a>
 			</div>
 		</section>
 
 		<section class="mt-12 border-2 border-charcoal dark:border-white bg-white dark:bg-slate-900 shadow-premium dark:shadow-premium-dark p-6 md:p-8">
 			<p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary mb-3">
-				Related Alpha Digital Pages
+					{ui.relatedPages}
 			</p>
 			<h2 class="font-display font-bold text-2xl text-charcoal dark:text-white mb-5">
-				Lanjutkan ke topik {pillarTitle ?? "digital marketing Bali"}
+					{ui.continueTopic} {pillarTitle ?? "digital marketing Bali"}
 			</h2>
 			<div class:list={[
 				"grid gap-4",
@@ -591,10 +675,10 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 			</div>
 			{pillarTitle && (
 				<a
-					href={`/blog/pillar/${post.pillar_id}`}
+						href={`${isPostEn ? "/en" : ""}/blog/pillar/${post.pillar_id}`}
 					class="inline-flex items-center gap-2 mt-5 text-sm font-bold text-primary hover:underline"
 				>
-					Jelajahi semua artikel topik {pillarTitle}
+						{ui.exploreTopic} {pillarTitle}
 					<span class="material-symbols-outlined text-sm">arrow_forward</span>
 				</a>
 			)}
@@ -604,10 +688,10 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 			relatedArticles.length > 0 && (
 				<section class="mt-12 border-2 border-charcoal dark:border-white bg-white dark:bg-slate-900 shadow-premium dark:shadow-premium-dark p-6 md:p-8">
 					<p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary mb-3">
-						Related Articles
+							{isPostEn ? "More from Alpha Digital" : "Artikel Alpha Digital Lainnya"}
 					</p>
 					<h2 class="font-display font-bold text-2xl text-charcoal dark:text-white mb-5">
-						Artikel Terkait
+							{ui.relatedArticles}
 					</h2>
 					<div class="grid gap-4 grid-cols-1 md:grid-cols-3">
 						{relatedArticles.map((a) => (
@@ -633,26 +717,26 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 		<!-- Back to Blog -->
 		<div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
 			<a
-				href="/blog"
+					href={isPostEn ? "/en/blog" : "/blog"}
 				class="btn-swiss inline-flex items-center gap-2 px-6 py-3 bg-charcoal dark:bg-white text-white dark:text-charcoal border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest"
 			>
 				<span class="material-symbols-outlined">arrow_back</span>
-				Back to Blog
+					{ui.back}
 			</a>
 		</div>
 	</article>
 </SwissLayout>
 ) : (
-<SwissLayout title="Artikel Tidak Ditemukan | Alpha Digital Agency" currentPage="blog" robots="noindex, nofollow">
+<SwissLayout title={`${ui.notFoundTitle} | Alpha Digital Agency`} currentPage="blog" robots="noindex, nofollow" locale={postLocale}>
 	<section class="max-w-2xl mx-auto px-6 md:px-12 text-center py-16">
 		<div class="font-display font-extrabold text-[6rem] md:text-[9rem] leading-none text-primary mb-4">404</div>
-		<h1 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">Artikel Tidak Ditemukan</h1>
+		<h1 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">{ui.notFoundTitle}</h1>
 		<p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-md mx-auto">
-			Artikel yang Anda cari mungkin telah dipindahkan, dihapus, atau tidak pernah ada.
+			{ui.notFoundBody}
 		</p>
-		<a href="/blog" class="btn-swiss inline-flex items-center gap-2 px-6 py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest">
+		<a href={isPostEn ? "/en/blog" : "/blog"} class="btn-swiss inline-flex items-center gap-2 px-6 py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest">
 			<span class="material-symbols-outlined">arrow_back</span>
-			Kembali ke Blog
+			{ui.back}
 		</a>
 	</section>
 </SwissLayout>

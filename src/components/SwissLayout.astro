@@ -264,15 +264,32 @@ const ogType = article ? "article" : "website";
         />
         <slot name="head" />
         {ga4Id && (
-            <>
-                <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
-                <script is:inline define:vars={{ ga4Id }}>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', ga4Id);
-                </script>
-            </>
+            <script is:inline define:vars={{ ga4Id }}>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', ga4Id);
+
+                (function() {
+                    var loaded = false;
+                    function loadGtag() {
+                        if (loaded) return;
+                        loaded = true;
+                        var s = document.createElement('script');
+                        s.async = true;
+                        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id;
+                        document.head.appendChild(s);
+                    }
+                    if ('requestIdleCallback' in window) {
+                        requestIdleCallback(function() { setTimeout(loadGtag, 1000); });
+                    } else {
+                        window.addEventListener('load', function() { setTimeout(loadGtag, 1000); });
+                    }
+                    ['scroll', 'touchstart', 'mousemove', 'click'].forEach(function(ev) {
+                        window.addEventListener(ev, loadGtag, { once: true, passive: true });
+                    });
+                })();
+            </script>
         )}
     </head>
     <body
@@ -342,6 +359,29 @@ const ogType = article ? "article" : "website";
             var me = document.getElementById('mobile-cta-email');
             if (me) me.href = 'mailto:' + me.dataset.e + '@' + me.dataset.d;
         </script>
-        <script src="/assets/agency-agent-widget.js" data-agent-id="5" data-api-url="/api/chat" data-greeting="Halo! Saya asisten Alpha Digital. Ada yang bisa saya bantu soal digital marketing bisnis Anda?" data-accent="#10b981" defer is:inline></script>
+        <script is:inline>
+            (function() {
+                var loaded = false;
+                function loadWidget() {
+                    if (loaded) return;
+                    loaded = true;
+                    var s = document.createElement('script');
+                    s.src = '/assets/agency-agent-widget.js';
+                    s.setAttribute('data-agent-id', '5');
+                    s.setAttribute('data-api-url', '/api/chat');
+                    s.setAttribute('data-greeting', 'Halo! Saya asisten Alpha Digital. Ada yang bisa saya bantu soal digital marketing bisnis Anda?');
+                    s.setAttribute('data-accent', '#10b981');
+                    document.body.appendChild(s);
+                }
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(function() { setTimeout(loadWidget, 1500); });
+                } else {
+                    window.addEventListener('load', function() { setTimeout(loadWidget, 1500); });
+                }
+                ['scroll', 'touchstart', 'mousemove', 'click'].forEach(function(ev) {
+                    window.addEventListener(ev, loadWidget, { once: true, passive: true });
+                });
+            })();
+        </script>
     </body>
 </html>
