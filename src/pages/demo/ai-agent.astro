@@ -18,6 +18,7 @@ const chatMessages = [
     { role: 'guest', text: 'Wah menarik! Yang Pool Villa bisa extra bed? Sama anak 1.', label: 'Tamu' },
     { role: 'ai', text: 'Bisa! Extra bed Rp 500.000/malam, sudah include breakfast untuk anak. Jadi total untuk 2 malam:\n\n🏡 One Bedroom Pool Villa: Rp 4.200.000 × 2 = Rp 8.400.000\n🛏️ Extra bed: Rp 500.000 × 2 = Rp 1.000.000\n\nTotal: Rp 9.400.000 (include breakfast 3 orang + airport pick-up)\n\nMau saya lanjutkan ke booking? Bisa bayar nanti di hotel.', label: 'AI Concierge' },
 ];
+import Icon from "../../components/Icon.astro";
 ---
 
 <!doctype html>
@@ -79,7 +80,7 @@ const chatMessages = [
                     { icon: 'book_online', title: 'Arahkan ke Booking', desc: '"Booking sekarang" — AI arahkan langsung ke booking engine. Close the sale.' },
                 ].map(c => (
                     <div class="rounded-lg border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 backdrop-blur p-5 space-y-3 hover:border-purple-300 dark:hover:border-purple-700 transition-all">
-                        <span class="material-symbols-outlined text-purple-600 text-2xl">{c.icon}</span>
+                        <Icon name={c.icon} class="text-purple-600 text-2xl" />
                         <h3 class="font-bold text-sm">{c.title}</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{c.desc}</p>
                     </div>

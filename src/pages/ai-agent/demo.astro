@@ -39,6 +39,7 @@ const faq = [
     { q: "Bisakah saya minta agent dengan persona berbeda untuk villa saya?", a: "Ya. Setiap AI Agent yang kami setup punya nama, gaya bicara, dan pengetahuan yang disesuaikan dengan properti Anda. Dari bahasa yang diutamakan sampai cara agent memperkenalkan diri — semua bisa dikustomisasi." },
     { q: "Apakah ada demo untuk jenis properti villa lain?", a: "Demo ini menampilkan Samudra Villa. Untuk properti lain yang kami tangani, demo tidak kami publikasikan secara terbuka — tapi dalam diskusi setup kami bisa tunjukkan contoh agent lain yang berjalan untuk konteks berbeda." }
 ];
+import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout
@@ -121,7 +122,7 @@ const faq = [
                     id="chat-send"
                     class="btn-swiss inline-flex items-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-xs uppercase tracking-widest"
                 >
-                    <span class="material-symbols-outlined" style="font-size: 18px;">send</span>
+                    <Icon name="send" class=""  style="font-size: 18px;"/>
                     Kirim
                 </button>
             </form>
@@ -202,7 +203,7 @@ const faq = [
             rel="noopener noreferrer"
             class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
         >
-            <span class="material-symbols-outlined">chat</span>
+            <Icon name="chat" class="" />
             Diskusi via WhatsApp
         </a>
         <p class="mt-6">

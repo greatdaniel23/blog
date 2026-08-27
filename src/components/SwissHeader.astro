@@ -26,6 +26,7 @@ const navItems = [
     { href: `${prefix}/services/ai-agent`, label: "AI Agent", key: "ai-agent" },
     { href: `${prefix}/about`, label: "About", key: "about" },
 ];
+import Icon from "./Icon.astro";
 ---
 
 <!-- Header -->
@@ -167,7 +168,7 @@ const navItems = [
             rel="noopener noreferrer"
             class="mt-6 flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-white font-bold text-sm uppercase tracking-widest border-2 border-charcoal"
         >
-            <span class="material-symbols-outlined text-[18px]">chat</span>
+            <Icon name="chat" class="text-[18px]" />
             {isEn ? "Message Us" : "Hubungi Kami"}
         </a>
     </nav>

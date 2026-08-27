@@ -204,6 +204,7 @@ const about = [
   { name: "Artificial Intelligence", sameAs: "https://www.wikidata.org/wiki/Q11660" },
   { name: "Hotel", sameAs: "https://www.wikidata.org/wiki/Q27686" },
 ];
+import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout
@@ -229,7 +230,7 @@ const about = [
         href={isEn ? "/en/ai-agent/demo" : "/ai-agent/demo/"}
         class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
       >
-        <span class="material-symbols-outlined">play_circle</span>
+        <Icon name="play_circle" class="" />
         {tx.demoBtn}
       </a>
       <a
@@ -238,7 +239,7 @@ const about = [
         rel="noopener noreferrer"
         class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
       >
-        <span class="material-symbols-outlined">chat</span>
+        <Icon name="chat" class="" />
         {tx.waLabel}
       </a>
     </div>
@@ -373,7 +374,7 @@ const about = [
         href={isEn ? "/en/ai-agent/demo" : "/ai-agent/demo/"}
         class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
       >
-        <span class="material-symbols-outlined">play_circle</span>
+        <Icon name="play_circle" class="" />
         {tx.demoBannerBtn}
       </a>
     </div>
@@ -461,7 +462,7 @@ const about = [
           href="mailto:daniel@alphadigitalagency.id"
           class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
         >
-          <span class="material-symbols-outlined">mail</span>
+          <Icon name="mail" class="" />
           {tx.ctaMail}
         </a>
         <a
@@ -470,7 +471,7 @@ const about = [
           rel="noopener noreferrer"
           class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
         >
-          <span class="material-symbols-outlined">chat</span>
+          <Icon name="chat" class="" />
           {tx.waLabel}
         </a>
       </div>

@@ -10,6 +10,7 @@ import SwissLayout from "../../components/SwissLayout.astro";
 // Mobile-first: 20px mobile margins, 8px unit
 // Sections: Top bar → Hero(bg+gradient overlay) → Services(3 cards) → Gallery(bento) → Footer(primary bg) → Bottom tab bar
 // Canonical HTML: https://contribution.usercontent.google.com/download?... (Stitch export)
+import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout
@@ -677,7 +678,7 @@ import SwissLayout from "../../components/SwissLayout.astro";
         <p class="hero-subtitle">Digital marketing crafted for Bali's finest villas and hotels.</p>
         <a href="#services" class="hero-cta">
             Discover
-            <span class="material-symbols-outlined" style="font-size: 18px; font-variation-settings: 'FILL' 0, 'wght' 400;">arrow_forward</span>
+            <Icon name="arrow_forward" class=""  style="font-size: 18px; font-variation-settings: 'FILL' 0, 'wght' 400;"/>
         </a>
         <div class="scroll-indicator">Scroll</div>
     </div>
@@ -781,13 +782,13 @@ import SwissLayout from "../../components/SwissLayout.astro";
     <p class="footer-tagline">Alpha Digital Agency — Bali &middot; Digital Transformation &middot; Hospitality</p>
     <div class="footer-social">
         <a href="https://alphadigitalagency.id" target="_blank" rel="noopener noreferrer" aria-label="Website">
-            <span class="material-symbols-outlined">language</span>
+            <Icon name="language" class="" />
         </a>
         <a href="https://www.linkedin.com/company/alpha-digital-agency-indonesia/" target="_blank" rel="noopener noreferrer" aria-label="Share">
-            <span class="material-symbols-outlined">share</span>
+            <Icon name="share" class="" />
         </a>
         <a href="mailto:daniel@alphadigitalagency.id" aria-label="Email">
-            <span class="material-symbols-outlined">mail</span>
+            <Icon name="mail" class="" />
         </a>
     </div>
     <div class="footer-links">
@@ -801,19 +802,19 @@ import SwissLayout from "../../components/SwissLayout.astro";
 <!-- ── Bottom Tab Bar (Stitch mobile design) ── -->
 <nav class="bottom-tab-bar md:hidden" aria-label="Bottom navigation">
     <a href="/" class="tab-item active">
-        <span class="material-symbols-outlined material-icon">home</span>
+        <Icon name="home" class="material-icon" />
         <span>Home</span>
     </a>
     <a href="/services/google-ads" class="tab-item">
-        <span class="material-symbols-outlined material-icon">settings_input_component</span>
+        <Icon name="settings_input_component" class="material-icon" />
         <span>Services</span>
     </a>
     <a href="/gallery" class="tab-item">
-        <span class="material-symbols-outlined material-icon">gallery_thumbnail</span>
+        <Icon name="gallery_thumbnail" class="material-icon" />
         <span>Work</span>
     </a>
     <a href="mailto:daniel@alphadigitalagency.id" class="tab-item">
-        <span class="material-symbols-outlined material-icon">mail</span>
+        <Icon name="mail" class="material-icon" />
         <span>Contact</span>
     </a>
 </nav>

@@ -35,6 +35,7 @@ const tx = t[locale] || t.id;
 const mainEntity = { "@type":"Service","name":tx.serviceName,"provider":{"@type":"Organization","name":"Alpha Digital Agency","url":"https://alphadigitalagency.id"},"author":{"@type":"Person","name":"Daniel Santoso","url":"https://alphadigitalagency.id/daniel-santoso/#person"},"areaServed":"Bali, Indonesia","description":tx.serviceDesc,"serviceType":"Digital Marketing","url":tx.pageUrl };
 const faq = tx.faq;
 const breadcrumbs = [{ "name":"Home", "url":"/" },{ "name":"Services", "url":"/services/" },{ "name":"Foundation", "url":tx.pageUrl }];
+import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout title={isEn?"GA4 & Tracking Setup Bali | Alpha Digital":"GA4 & Tracking Setup Bali | Alpha Digital"} description={isEn?"GA4, GTM, and Search Console setup for Bali hotels and villas, built before ad spend scales so booking and inquiry data can be trusted.":"GA4, GTM, and Search Console setup for Bali hotels and villas, built before ad spend scales so booking and inquiry data can be trusted."} currentPage="services" mainEntity={mainEntity} faq={faq} breadcrumbs={breadcrumbs}>
@@ -43,8 +44,8 @@ const breadcrumbs = [{ "name":"Home", "url":"/" },{ "name":"Services", "url":"/s
     <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6">{tx.heroH1}<span class="text-primary">{tx.heroH1End}</span></h1>
     <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">{tx.heroDesc}</p>
     <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-      <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">chat</span>{tx.waLabel}</a>
-      <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.ctaMail}</a>
+      <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="chat" class="" />{tx.waLabel}</a>
+      <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="mail" class="" />{tx.ctaMail}</a>
     </div>
   </section>
 
@@ -63,8 +64,8 @@ const breadcrumbs = [{ "name":"Home", "url":"/" },{ "name":"Services", "url":"/s
       <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">{tx.finalTitle}</h2>
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">{tx.finalDesc}</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">chat</span>{tx.waLabel}</a>
-        <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.finalCta}</a>
+        <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="chat" class="" />{tx.waLabel}</a>
+        <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="mail" class="" />{tx.finalCta}</a>
       </div>
     </div>
   </section>

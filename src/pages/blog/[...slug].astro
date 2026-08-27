@@ -521,6 +521,7 @@ const PILLAR_ABOUT: Record<string, { name: string; sameAs: string }> = {
 	"ai-agent": { name: "Artificial Intelligence", sameAs: "https://www.wikidata.org/wiki/Q11660" },
 };
 const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolean) : null;
+import Icon from "../../components/Icon.astro";
 ---
 
 {post ? (
@@ -636,14 +637,14 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 					rel="noopener noreferrer"
 					class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
 				>
-					<span class="material-symbols-outlined">chat</span>
+					<Icon name="chat" class="" />
 						{ui.whatsapp}
 				</a>
 				<a
 						href={`mailto:daniel@alphadigitalagency.id?subject=${encodeURIComponent(isPostEn ? 'Hospitality Property Consultation' : 'Konsultasi Properti Hospitality')}`}
 					class="btn-swiss inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
 				>
-					<span class="material-symbols-outlined">mail</span>
+					<Icon name="mail" class="" />
 						{ui.email}
 				</a>
 			</div>
@@ -679,7 +680,7 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 					class="inline-flex items-center gap-2 mt-5 text-sm font-bold text-primary hover:underline"
 				>
 						{ui.exploreTopic} {pillarTitle}
-					<span class="material-symbols-outlined text-sm">arrow_forward</span>
+					<Icon name="arrow_forward" class="text-sm" />
 				</a>
 			)}
 		</section>
@@ -720,7 +721,7 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 					href={isPostEn ? "/en/blog" : "/blog"}
 				class="btn-swiss inline-flex items-center gap-2 px-6 py-3 bg-charcoal dark:bg-white text-white dark:text-charcoal border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest"
 			>
-				<span class="material-symbols-outlined">arrow_back</span>
+				<Icon name="arrow_back" class="" />
 					{ui.back}
 			</a>
 		</div>
@@ -735,7 +736,7 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 			{ui.notFoundBody}
 		</p>
 		<a href={isPostEn ? "/en/blog" : "/blog"} class="btn-swiss inline-flex items-center gap-2 px-6 py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest">
-			<span class="material-symbols-outlined">arrow_back</span>
+			<Icon name="arrow_back" class="" />
 			{ui.back}
 		</a>
 	</section>

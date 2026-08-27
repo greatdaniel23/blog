@@ -15,6 +15,7 @@ if (env?.DB) {
   ).all();
   posts = result.results || [];
 }
+import Icon from "../../../components/Icon.astro";
 ---
 
 <!doctype html>
@@ -23,10 +24,7 @@ if (env?.DB) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Posts | Alpha Admin</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
-    />
+    
     <link rel="stylesheet" href="/pembantu/dashboard.css" />
   </head>
   <body>
@@ -38,47 +36,17 @@ if (env?.DB) {
       <div class="wp-admin-bar-right">
         <span class="wp-admin-bar-user">Howdy, {user.name}</span>
         <a href="/" target="_blank" class="wp-admin-bar-link">
-          <span class="material-symbols-outlined" style="font-size: 18px;"
-            >open_in_new</span
-          >
-        </a>
-        <button
-          id="logout-btn"
-          class="wp-admin-bar-link"
-          style="background: none; border: none; cursor: pointer;"
-        >
-          <span class="material-symbols-outlined" style="font-size: 18px;"
-            >logout</span
-          >
-        </button>
-      </div>
-    </div>
-
-    <!-- Sidebar Navigation -->
-    <nav class="wp-sidebar">
-      <ul class="wp-sidebar-menu">
-        <li class="wp-sidebar-item">
-          <a href="/pembantu" class="wp-sidebar-link">
-            <span class="material-symbols-outlined wp-sidebar-icon"
-              >dashboard</span
-            >
-            <span>Dashboard</span>
+          <Icon name="open_in_new" class="" style="font-size: 18px;" />
           </a>
         </li>
         <li class="wp-sidebar-item">
           <a href="/pembantu/posts" class="wp-sidebar-link active">
-            <span class="material-symbols-outlined wp-sidebar-icon"
-              >article</span
-            >
-            <span>Posts</span>
+            <Icon name="article" class="wp-sidebar-icon" />
           </a>
         </li>
         <li class="wp-sidebar-item">
           <a href="/pembantu/gallery" class="wp-sidebar-link">
-            <span class="material-symbols-outlined wp-sidebar-icon"
-              >photo_library</span
-            >
-            <span>Gallery</span>
+            <Icon name="photo_library" class="wp-sidebar-icon" />
           </a>
         </li>
       </ul>
@@ -91,37 +59,7 @@ if (env?.DB) {
       >
         <h1 class="wp-heading" style="margin: 0;">Posts</h1>
         <a href="/pembantu/posts/new" class="wp-button">
-          <span
-            class="material-symbols-outlined"
-            style="font-size: 18px; vertical-align: middle; margin-right: 4px;"
-            >add</span
-          >
-          Add New
-        </a>
-      </div>
-
-      <!-- Posts Table -->
-      <div class="wp-table-container">
-        <table class="wp-table">
-          <thead>
-            <tr>
-              <th style="width: 100px;">Status</th>
-              <th>Title</th>
-              <th style="width: 200px;">Slug</th>
-              <th class="column-right" style="width: 120px;">Date</th>
-              <th class="column-right" style="width: 80px;">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              posts.map((post: any) => (
-                <tr>
-                  <td>
-                    <span
-                      class={`wp-badge ${post.is_published ? "wp-badge-success" : "wp-badge-draft"}`}
-                    >
-                      {post.is_published ? "Published" : "Draft"}
-                    </span>
+          <Icon name="add" class="" style="font-size: 18px; vertical-align: middle; margin-right: 4px;" />
                   </td>
                   <td>
                     <a
@@ -141,24 +79,18 @@ if (env?.DB) {
                       style="margin-right: 8px;"
                       title="Edit"
                     >
-                      <span
-                        class="material-symbols-outlined"
+                      <Icon name="edit" class="" 
                         style="font-size: 18px; vertical-align: middle;"
-                      >
-                        edit
-                      </span>
+                      />
                     </a>
                     <button
                       onclick={`deletePost(${post.id})`}
                       style="background: none; border: none; cursor: pointer; color: var(--error); padding: 0;"
                       title="Delete"
                     >
-                      <span
-                        class="material-symbols-outlined"
+                      <Icon name="delete" class="" 
                         style="font-size: 18px; vertical-align: middle;"
-                      >
-                        delete
-                      </span>
+                      />
                     </button>
                   </td>
                 </tr>

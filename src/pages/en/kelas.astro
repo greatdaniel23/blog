@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import SwissLayout from "../../components/SwissLayout.astro";
+import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout title="Digital Marketing Classes — Alpha Digital Agency" description="Alpha Digital classes and workshops. Learn Google Ads, SEO, AI for business, and digital marketing in Bali." currentPage="">
@@ -19,7 +20,7 @@ import SwissLayout from "../../components/SwissLayout.astro";
         { icon: 'school', title: 'Digital Marketing Fundamentals', desc: 'Complete introduction: SEO, Ads, analytics, strategy.', href: '/en/kelas/digital-marketing-fundamental' },
       ].map(k => (
         <a href={k.href} class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2 hover:border-primary/30 transition-all group">
-          <span class="material-symbols-outlined text-primary text-3xl">{k.icon}</span>
+          <Icon name={k.icon} class="text-primary text-3xl" />
           <h3 class="font-bold text-sm text-emerald-dark dark:text-white group-hover:text-primary transition-colors">{k.title}</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400">{k.desc}</p>
         </a>

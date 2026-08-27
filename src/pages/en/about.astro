@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import SwissLayout from "../../components/SwissLayout.astro";
+import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout title="About Alpha Digital Agency — Bali Digital Marketing" description="Alpha Digital Agency Indonesia — Bali's first openly AI-powered digital agency. Google Ads, SEO, Direct Booking Engine, AI Agent for hotels, villas, and restaurants." currentPage="about">
@@ -21,22 +22,22 @@ import SwissLayout from "../../components/SwissLayout.astro";
       <h2 class="text-xl font-bold text-emerald-dark dark:text-white mt-10">Core Services</h2>
       <div class="grid gap-4 sm:grid-cols-2 mt-4">
         <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5">
-          <span class="material-symbols-outlined text-primary text-3xl mb-2">ads_click</span>
+          <Icon name="ads_click" class="text-primary text-3xl mb-2" />
           <h3 class="font-bold text-sm">Google Ads</h3>
           <p class="text-sm text-gray-500">LLM-enchanted campaign management. ROAS-focused optimization.</p>
         </div>
         <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5">
-          <span class="material-symbols-outlined text-primary text-3xl mb-2">calendar_month</span>
+          <Icon name="calendar_month" class="text-primary text-3xl mb-2" />
           <h3 class="font-bold text-sm">Direct Booking Engine</h3>
           <p class="text-sm text-gray-500">Edge-rendered. Google Hotel Center ready. 0% OTA commission.</p>
         </div>
         <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5">
-          <span class="material-symbols-outlined text-primary text-3xl mb-2">smart_toy</span>
+          <Icon name="smart_toy" class="text-primary text-3xl mb-2" />
           <h3 class="font-bold text-sm">AI Agent for Business</h3>
           <p class="text-sm text-gray-500">LLM chatbot on your website. Trained on your property data. 24/7.</p>
         </div>
         <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5">
-          <span class="material-symbols-outlined text-primary text-3xl mb-2">analytics</span>
+          <Icon name="analytics" class="text-primary text-3xl mb-2" />
           <h3 class="font-bold text-sm">SEO & Data Tracking</h3>
           <p class="text-sm text-gray-500">GTM, GSC, GA4, Microsoft Clarity. Fundamental but done right.</p>
         </div>

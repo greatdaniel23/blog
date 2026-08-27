@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import SwissLayout from "../../../components/SwissLayout.astro";
+import Icon from "../../../components/Icon.astro";
 ---
 
 <SwissLayout title="Growth Package — Alpha Digital Agency" description="Alpha Digital Growth Package: Google Ads, advanced analytics, and conversion optimization for Bali hotels and villas." currentPage="services">
@@ -17,7 +18,7 @@ import SwissLayout from "../../../components/SwissLayout.astro";
         { icon: 'support', title: 'Monthly Reporting', desc: 'Clear reports: what was spent, what was earned, what to improve.' },
       ].map(f => (
         <div class="flex items-start gap-4 border border-gray-200 dark:border-gray-800 rounded-lg p-5">
-          <span class="material-symbols-outlined text-primary text-2xl shrink-0">{f.icon}</span>
+          <Icon name={f.icon} class="text-primary text-2xl shrink-0" />
           <div><h3 class="font-bold text-sm text-emerald-dark dark:text-white">{f.title}</h3><p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p></div>
         </div>
       ))}

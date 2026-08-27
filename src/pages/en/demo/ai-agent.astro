@@ -17,6 +17,7 @@ const chatMessages = [
     { role: 'guest', text: 'Nice! Can the Pool Villa fit an extra bed? I have a child.', label: 'Guest' },
     { role: 'ai', text: 'Absolutely! Extra bed is IDR 500,000/night, including breakfast for the child. For 2 nights:\n\n🏡 Pool Villa: IDR 4,200,000 × 2 = IDR 8,400,000\n🛏️ Extra bed: IDR 500,000 × 2 = IDR 1,000,000\n\nTotal: IDR 9,400,000 (breakfast for 3 + airport pick-up)\n\nShall I proceed to booking? Pay later at the hotel.', label: 'AI Concierge' },
 ];
+import Icon from "../../../components/Icon.astro";
 ---
 
 <!doctype html>
@@ -74,7 +75,7 @@ const chatMessages = [
                     { icon: 'book_online', title: 'Direct to Booking', desc: '"Book now" — AI routes to booking engine. Close the sale.' },
                 ].map(c => (
                     <div class="rounded-lg border border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-900/70 backdrop-blur p-5 space-y-3 hover:border-purple-300 dark:hover:border-purple-700 transition-all">
-                        <span class="material-symbols-outlined text-purple-600 text-2xl">{c.icon}</span>
+                        <Icon name={c.icon} class="text-purple-600 text-2xl" />
                         <h3 class="font-bold text-sm">{c.title}</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{c.desc}</p>
                     </div>

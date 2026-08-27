@@ -95,6 +95,7 @@ const layers = [
         link: { href: "/blog", label: "Insight dan Studi Kasus" }
     }
 ];
+import Icon from "../components/Icon.astro";
 ---
 
 <SwissLayout
@@ -125,7 +126,7 @@ const layers = [
                 href="mailto:daniel@alphadigitalagency.id"
                 class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
             >
-                <span class="material-symbols-outlined">mail</span>
+                <Icon name="mail" class="" />
                 Diskusi Implementasi
             </a>
         </div>
@@ -229,14 +230,14 @@ const layers = [
                 rel="noopener noreferrer"
                 class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
             >
-                <span class="material-symbols-outlined">chat</span>
+                <Icon name="chat" class="" />
                 Konsultasi via WhatsApp
             </a>
             <a
                 href="mailto:daniel@alphadigitalagency.id"
                 class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
             >
-                <span class="material-symbols-outlined">mail</span>
+                <Icon name="mail" class="" />
                 Mulai Diskusi
             </a>
         </div>

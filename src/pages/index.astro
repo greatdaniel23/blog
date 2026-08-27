@@ -118,6 +118,7 @@ const about = [
   { name: "Google Ads", sameAs: "https://www.wikidata.org/wiki/Q271982" },
   { name: "Bali", sameAs: "https://www.wikidata.org/wiki/Q3125978" },
 ];
+import Icon from "../components/Icon.astro";
 ---
 
 <SwissLayout title={tx.metaTitle} description={tx.metaDesc} currentPage="home" mainEntity={mainEntity} faq={faq} breadcrumbs={breadcrumbs} about={about}>
@@ -164,11 +165,11 @@ const about = [
       {/* CTA */}
       <div class="flex-none flex flex-col sm:flex-row gap-3 sm:gap-6 w-full sm:w-auto px-8 sm:px-0 pt-2 pb-2 md:pb-0 z-40">
         <a id="email-cta" class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover" href="#" data-e="daniel" data-d="alphadigitalagency.id">
-          <span class="material-symbols-outlined text-[18px] md:text-[20px]">mail</span>
+          <Icon name="mail" class="text-[18px] md:text-[20px]" />
           <span class="font-bold text-[11px] md:text-[13px] uppercase tracking-widest">{tx.ctaMail}</span>
         </a>
         <a class="btn-swiss group relative flex items-center justify-center gap-3 px-6 py-3.5 md:px-8 md:py-4 bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white text-charcoal dark:text-white shadow-premium dark:shadow-premium-dark shadow-inner-light hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover dark:hover:shadow-premium-dark-hover" href="tel:0895368707977">
-          <span class="material-symbols-outlined text-[18px] md:text-[20px] group-hover:text-primary transition-colors">call</span>
+          <Icon name="call" class="text-[18px] md:text-[20px] group-hover:text-primary transition-colors" />
           <span class="font-bold text-[11px] md:text-[13px] uppercase tracking-widest">{tx.ctaPhone}</span>
         </a>
         <script is:inline>
@@ -275,7 +276,7 @@ const about = [
     </div>
     <div class="mt-8 text-center">
       <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest">
-        <span class="material-symbols-outlined">mail</span>
+        <Icon name="mail" class="" />
         {tx.ctaMail}
       </a>
     </div>

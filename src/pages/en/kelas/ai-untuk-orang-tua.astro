@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import SwissLayout from "../../../components/SwissLayout.astro";
+import Icon from "../../../components/Icon.astro";
 ---
 
 <SwissLayout title="AI for Parents — Alpha Digital" description="Using AI to support children's learning and activities. Practical tools for busy parents in Bali.">
@@ -19,7 +20,7 @@ import SwissLayout from "../../../components/SwissLayout.astro";
           { icon: 'security', title: 'Safe AI Use', desc: 'Set boundaries, monitor usage, and teach kids to use AI responsibly.' },
         ].map(f => (
           <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2">
-            <span class="material-symbols-outlined text-primary text-2xl">{f.icon}</span>
+            <Icon name={f.icon} class="text-primary text-2xl" />
             <h3 class="font-bold text-sm">{f.title}</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p>
           </div>

@@ -111,6 +111,7 @@ const about = [
   { name: "Digital Marketing", sameAs: "https://www.wikidata.org/wiki/Q1323528" },
   { name: "Hotel", sameAs: "https://www.wikidata.org/wiki/Q27686" },
 ];
+import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout
@@ -132,8 +133,8 @@ const about = [
       {tx.heroDesc}
     </p>
     <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-      <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">chat</span>{tx.waLabel}</a>
-      <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><span class="material-symbols-outlined">mail</span>{tx.mailLabel}</a>
+      <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="chat" class="" />{tx.waLabel}</a>
+      <a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="mail" class="" />{tx.mailLabel}</a>
     </div>
     <!-- build:{BUILD_TAG} -->
   </section>
@@ -145,7 +146,7 @@ const about = [
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {tx.cards.map((s) => (
         <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6">
-          <span class="material-symbols-outlined text-primary text-[30px]">{s.icon}</span>
+          <Icon name={s.icon} class="text-primary text-[30px]" />
           <h3 class="font-bold text-charcoal dark:text-white text-base mt-3 mb-1.5">{s.title}</h3>
           <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
         </div>
@@ -207,7 +208,7 @@ const about = [
       <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-7 max-w-lg mx-auto">{tx.ctaDesc}</p>
       <div class="flex justify-center">
         <a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-7 py-3.5 min-h-[52px] bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest">
-          <span class="material-symbols-outlined">chat</span>
+          <Icon name="chat" class="" />
           {tx.waLabel}
         </a>
       </div>

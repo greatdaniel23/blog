@@ -45,6 +45,7 @@ const breadcrumbs = [
   { name: "Home", url: "/" },
   { name: "Links", url: "/links" },
 ];
+import Icon from "../components/Icon.astro";
 ---
 
 <SwissLayout
@@ -85,12 +86,12 @@ const breadcrumbs = [
           {...(b.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           class="btn-swiss group flex items-center gap-4 min-h-[60px] w-full bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark px-5 py-4"
         >
-          <span class="material-symbols-outlined text-primary text-[27px] shrink-0">{b.icon}</span>
+          <Icon name={b.icon} class="text-primary text-[27px] shrink-0" />
           <span class="flex flex-col text-left">
             <span class="font-bold text-sm md:text-base text-charcoal dark:text-white leading-tight">{b.label}</span>
             <span class="text-xs text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{b.sub}</span>
           </span>
-          <span class="material-symbols-outlined ml-auto text-charcoal dark:text-white text-[20px] shrink-0 transition-transform group-hover:translate-x-0.5">chevron_right</span>
+          <Icon name="chevron_right" class="ml-auto text-charcoal dark:text-white text-[20px] shrink-0 transition-transform group-hover:translate-x-0.5" />
         </a>
       ))}
     </div>

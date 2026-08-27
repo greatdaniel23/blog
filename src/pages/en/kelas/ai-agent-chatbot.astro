@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import SwissLayout from "../../../components/SwissLayout.astro";
+import Icon from "../../../components/Icon.astro";
 ---
 
 <SwissLayout title="AI Agent Chatbot Workshop — Alpha Digital" description="Learn how AI agents work for hotels and villas. Setup, training, and integration for guest communication.">
@@ -19,7 +20,7 @@ import SwissLayout from "../../../components/SwissLayout.astro";
           { icon: 'integration_instructions', title: 'Website Integration', desc: 'One script tag. Chat bubble placement. Booking engine connection.' },
         ].map(f => (
           <div class="border border-gray-200 dark:border-gray-800 rounded-lg p-5 space-y-2">
-            <span class="material-symbols-outlined text-primary text-2xl">{f.icon}</span>
+            <Icon name={f.icon} class="text-primary text-2xl" />
             <h3 class="font-bold text-sm">{f.title}</h3>
             <p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p>
           </div>

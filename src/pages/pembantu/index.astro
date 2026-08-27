@@ -37,6 +37,7 @@ if (env?.DB) {
   };
   recentPosts = recentPostsResult.results || [];
 }
+import Icon from "../../components/Icon.astro";
 ---
 
 <!doctype html>
@@ -47,10 +48,7 @@ if (env?.DB) {
     <title>Dashboard | Alpha Admin</title>
 
     <!-- Google Material Icons -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
-    />
+    
 
     <!-- Admin CSS -->
     <link rel="stylesheet" href="/pembantu/dashboard.css" />
@@ -64,47 +62,17 @@ if (env?.DB) {
       <div class="wp-admin-bar-right">
         <span class="wp-admin-bar-user">Howdy, {user.name}</span>
         <a href="/" target="_blank" class="wp-admin-bar-link">
-          <span class="material-symbols-outlined" style="font-size: 18px;"
-            >open_in_new</span
-          >
-        </a>
-        <button
-          id="logout-btn"
-          class="wp-admin-bar-link"
-          style="background: none; border: none; cursor: pointer;"
-        >
-          <span class="material-symbols-outlined" style="font-size: 18px;"
-            >logout</span
-          >
-        </button>
-      </div>
-    </div>
-
-    <!-- Sidebar Navigation -->
-    <nav class="wp-sidebar">
-      <ul class="wp-sidebar-menu">
-        <li class="wp-sidebar-item">
-          <a href="/pembantu" class="wp-sidebar-link active">
-            <span class="material-symbols-outlined wp-sidebar-icon"
-              >dashboard</span
-            >
-            <span>Dashboard</span>
+          <Icon name="open_in_new" class="" style="font-size: 18px;" />
           </a>
         </li>
         <li class="wp-sidebar-item">
           <a href="/pembantu/posts" class="wp-sidebar-link">
-            <span class="material-symbols-outlined wp-sidebar-icon"
-              >article</span
-            >
-            <span>Posts</span>
+            <Icon name="article" class="wp-sidebar-icon" />
           </a>
         </li>
         <li class="wp-sidebar-item">
           <a href="/pembantu/gallery" class="wp-sidebar-link">
-            <span class="material-symbols-outlined wp-sidebar-icon"
-              >photo_library</span
-            >
-            <span>Gallery</span>
+            <Icon name="photo_library" class="wp-sidebar-icon" />
           </a>
         </li>
       </ul>
@@ -118,7 +86,7 @@ if (env?.DB) {
       <div class="wp-dashboard-grid mb-lg">
         <div class="wp-stat-card">
           <div class="wp-stat-icon blue">
-            <span class="material-symbols-outlined">article</span>
+            <Icon name="article" class="" />
           </div>
           <div>
             <div class="wp-stat-number">{stats.posts}</div>
@@ -128,7 +96,7 @@ if (env?.DB) {
 
         <div class="wp-stat-card">
           <div class="wp-stat-icon green">
-            <span class="material-symbols-outlined">photo_library</span>
+            <Icon name="photo_library" class="" />
           </div>
           <div>
             <div class="wp-stat-number">{stats.gallery}</div>
@@ -199,10 +167,7 @@ if (env?.DB) {
           <div class="wp-widget-body">
             <div class="wp-quick-actions">
               <a href="/pembantu/posts/new" class="wp-quick-action">
-                <span
-                  class="material-symbols-outlined wp-quick-action-icon"
-                  style="color: #0073aa;">edit_note</span
-                >
+                <Icon name="edit_note" class="wp-quick-action-icon" style="color: #0073aa;" />
                 <div class="wp-quick-action-text">
                   <div class="wp-quick-action-title">New Post</div>
                   <div class="wp-quick-action-desc">Write an article</div>
@@ -210,10 +175,7 @@ if (env?.DB) {
               </a>
 
               <a href="/pembantu/gallery" class="wp-quick-action">
-                <span
-                  class="material-symbols-outlined wp-quick-action-icon"
-                  style="color: #46b450;">add_photo_alternate</span
-                >
+                <Icon name="add_photo_alternate" class="wp-quick-action-icon" style="color: #46b450;" />
                 <div class="wp-quick-action-text">
                   <div class="wp-quick-action-title">Upload Image</div>
                   <div class="wp-quick-action-desc">Add to gallery</div>
@@ -221,10 +183,7 @@ if (env?.DB) {
               </a>
 
               <a href="/" target="_blank" class="wp-quick-action">
-                <span
-                  class="material-symbols-outlined wp-quick-action-icon"
-                  style="color: #787c82;">open_in_new</span
-                >
+                <Icon name="open_in_new" class="wp-quick-action-icon" style="color: #787c82;" />
                 <div class="wp-quick-action-text">
                   <div class="wp-quick-action-title">View Site</div>
                   <div class="wp-quick-action-desc">Open in new tab</div>

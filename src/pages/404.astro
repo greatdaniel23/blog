@@ -3,6 +3,7 @@
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
 import SwissLayout from "../components/SwissLayout.astro";
+import Icon from "../components/Icon.astro";
 ---
 
 <SwissLayout title="Page Not Found | Alpha Digital Agency">
@@ -27,7 +28,7 @@ import SwissLayout from "../components/SwissLayout.astro";
             href="/"
             class="btn-swiss inline-flex items-center gap-2 px-6 py-3.5 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest"
         >
-            <span class="material-symbols-outlined">arrow_back</span>
+            <Icon name="arrow_back" class="" />
             Go to Homepage
         </a>
     </section>

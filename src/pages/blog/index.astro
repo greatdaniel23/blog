@@ -68,6 +68,7 @@ const blogIndexLD = {
 		})),
 	},
 };
+import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout title="Blog | Alpha Digital Agency" currentPage="blog" description={blogIndexDescription} mainEntity={blogIndexLD}>
@@ -204,9 +205,7 @@ const blogIndexLD = {
 									</p>
 									<div class="mt-4 flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
 										<span>{isEn ? "Read Article" : "Baca Artikel"}</span>
-										<span class="material-symbols-outlined text-sm">
-											arrow_forward
-										</span>
+										<Icon name="arrow_forward" class="text-sm" />
 									</div>
 								</div>
 							</a>
