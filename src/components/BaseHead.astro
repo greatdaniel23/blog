@@ -1,11 +1,12 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
 import { AstroSeo as SEO } from "@astrolib/seo";
 import SeoGraph from "./SeoGraph.astro";
 import "../styles/global.css";
 import type { ImageMetadata } from "astro";
 import FallbackImage from "../assets/blog-placeholder-1.jpg";
+
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
 import {
 	SITE_TITLE,
 	SITE_DESCRIPTION,
@@ -69,7 +70,8 @@ const {
 
 const ogImageURL = new URL(image.src, Astro.url).toString();
 
-// --- Site-wide structured data ---
+//
+--- Site-wide structured data ---
 // Build sameAs only from confirmed social URLs. Omit the field entirely
 // when none confirmed — empty/guessed URLs in Organization sameAs can
 // cause Knowledge Graph entity contamination (e.g. linking Alpha agency

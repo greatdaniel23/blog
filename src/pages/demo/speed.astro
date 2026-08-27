@@ -1,12 +1,13 @@
 ---
-// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
-const locale = (Astro.locals as any).locale || 'id';
-const isEn = locale === 'en';
 import "../../styles/global.css";
 import SwissHeader from "../../components/SwissHeader.astro";
 import SwissFooter from "../../components/SwissFooter.astro";
 import SeoGraph from "../../components/SeoGraph.astro";
 import { WA_JASA } from "../../lib/linkbio";
+
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
 
 const SITE_URL = "https://alphadigitalagency.id";
 

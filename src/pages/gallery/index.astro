@@ -1,5 +1,6 @@
 ---
 import SwissLayout from "../../components/SwissLayout.astro";
+import Icon from "../../components/Icon.astro";
 
 interface GalleryImage {
     id: number;
@@ -19,7 +20,6 @@ if (!env || !env.DB) {
 const { results: images } = await env.DB.prepare(
     "SELECT * FROM gallery WHERE is_published = 1 ORDER BY display_order ASC",
 ).all<GalleryImage>();
-import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout

@@ -1,8 +1,9 @@
 ---
-// SSR required — reads Astro.locals.locale set by middleware via X-Locale header.
-// Serves BOTH /seo (id) and /en/seo (worker rewrite) via SwissLayout.
 import SwissLayout from "../components/SwissLayout.astro";
 import { WA_JASA } from "../lib/linkbio";
+
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header.
+// Serves BOTH /seo (id) and /en/seo (worker rewrite) via SwissLayout.
 
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';

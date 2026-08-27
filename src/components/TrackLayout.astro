@@ -1,9 +1,11 @@
 ---
+import SwissLayout from "./SwissLayout.astro";
+import { waLink } from "../lib/linkbio";
+import Icon from "./Icon.astro";
+
 // Uniform layout for all 6 per-track curriculum pages (child of /kelas).
 // Identical structure for every track — only the content (props) differs.
 // Sections: (1) Judul+hook (2) Cocok buat (3) Kurikulum (4) Hasil (5) Format (6) CTA WA.
-import SwissLayout from "./SwissLayout.astro";
-import { waLink } from "../lib/linkbio";
 
 interface Props {
   no: string;          // track number, e.g. "1"
@@ -44,7 +46,6 @@ const mainEntity = {
   description: metaDesc,
   provider: { "@type": "Organization", name: "Alpha Digital Agency", url: "https://alphadigitalagency.id" },
 };
-import Icon from "./Icon.astro";
 ---
 
 <SwissLayout title={metaTitle} description={metaDesc} currentPage="kelas" mainEntity={mainEntity} breadcrumbs={breadcrumbs}>

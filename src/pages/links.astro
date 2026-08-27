@@ -1,9 +1,11 @@
 ---
+import SwissLayout from "../components/SwissLayout.astro";
+import { WA_JASA } from "../lib/linkbio";
+import Icon from "../components/Icon.astro";
+
 // SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
-import SwissLayout from "../components/SwissLayout.astro";
-import { WA_JASA } from "../lib/linkbio";
 
 // Unique build string for post-deploy curl-grep verification (raw HTTP, not WebFetch)
 const BUILD_TAG = "links-hub-v1-2026-06-02";
@@ -45,7 +47,6 @@ const breadcrumbs = [
   { name: "Home", url: "/" },
   { name: "Links", url: "/links" },
 ];
-import Icon from "../components/Icon.astro";
 ---
 
 <SwissLayout

@@ -1,7 +1,9 @@
 ---
-// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
 import { WA_JASA } from "../../lib/linkbio";
+import Icon from "../../components/Icon.astro";
+
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
@@ -35,7 +37,6 @@ const tx = t[locale] || t.id;
 const mainEntity = { "@type":"Service","name":tx.serviceName,"provider":{"@type":"Organization","name":"Alpha Digital Agency","url":"https://alphadigitalagency.id"},"author":{"@type":"Person","name":"Daniel Santoso","url":"https://alphadigitalagency.id/daniel-santoso/#person"},"areaServed":"Bali, Indonesia","description":tx.serviceDesc,"serviceType":"Digital Marketing","url":tx.pageUrl };
 const faq = tx.faq;
 const breadcrumbs = [{ "name":"Home", "url":"/" },{ "name":"Services", "url":"/services/" },{ "name":"Foundation", "url":tx.pageUrl }];
-import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout title={isEn?"GA4 & Tracking Setup Bali | Alpha Digital":"GA4 & Tracking Setup Bali | Alpha Digital"} description={isEn?"GA4, GTM, and Search Console setup for Bali hotels and villas, built before ad spend scales so booking and inquiry data can be trusted.":"GA4, GTM, and Search Console setup for Bali hotels and villas, built before ad spend scales so booking and inquiry data can be trusted."} currentPage="services" mainEntity={mainEntity} faq={faq} breadcrumbs={breadcrumbs}>

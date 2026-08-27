@@ -1,7 +1,9 @@
 ---
-// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
 import { WA_JASA } from "../../lib/linkbio";
+import Icon from "../../components/Icon.astro";
+
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
@@ -37,7 +39,6 @@ const tx = t[locale] || t.id;
 const mainEntity = { "@type":"Service","name":tx.serviceName,"provider":{"@type":"Organization","name":"Alpha Digital Agency","url":"https://alphadigitalagency.id"},"author":{"@type":"Person","name":"Daniel Santoso","url":"https://alphadigitalagency.id/daniel-santoso/#person"},"areaServed":"Bali, Indonesia","description":tx.serviceDesc,"serviceType":"Full-Funnel Digital Marketing","url":tx.pageUrl };
 const faq = tx.faq;
 const breadcrumbs = [{ "name":"Home", "url":"/" },{ "name":"Services", "url":"/services/" },{ "name":"Authority", "url":tx.pageUrl }];
-import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout title={isEn?"Full-Funnel Hotel Marketing Bali | Alpha Digital":"Full-Funnel Hotel Marketing Bali | Alpha Digital"} description={isEn?"Full-funnel marketing for Bali hospitality groups: Google Ads, direct booking, AI agent, SEO, and reporting coordinated across multi-property portfolios.":"Full-funnel marketing for Bali hospitality groups: Google Ads, direct booking, AI agent, SEO, and reporting coordinated across multi-property portfolios."} currentPage="services" mainEntity={mainEntity} faq={faq} breadcrumbs={breadcrumbs}>

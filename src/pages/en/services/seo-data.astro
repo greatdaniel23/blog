@@ -1,11 +1,12 @@
 ---
+import SwissLayout from "../../../components/SwissLayout.astro";
+import Icon from "../../../components/Icon.astro";
+
 // EN mirror of /services/seo-data — convention mirror matching the existing
 // src/pages/en/services/*.astro files (prerendered static, no raw JSON-LD;
 // the unified @graph for EN is emitted by the SSR page src/pages/services/
 // seo-data.astro, which the worker serves for /en/* via X-Locale rewrite).
 export const prerender = true;
-import SwissLayout from "../../../components/SwissLayout.astro";
-import Icon from "../../../components/Icon.astro";
 ---
 
 <SwissLayout

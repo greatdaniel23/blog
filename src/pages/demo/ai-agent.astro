@@ -1,11 +1,13 @@
 ---
-// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
-const locale = (Astro.locals as any).locale || 'id';
-const isEn = locale === 'en';
 import "../../styles/global.css";
 import SwissHeader from "../../components/SwissHeader.astro";
 import SwissFooter from "../../components/SwissFooter.astro";
 import SeoGraph from "../../components/SeoGraph.astro";
+import Icon from "../../components/Icon.astro";
+
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
+const locale = (Astro.locals as any).locale || 'id';
+const isEn = locale === 'en';
 
 const SITE_URL = "https://alphadigitalagency.id";
 const DEFAULT_IMAGE = `${SITE_URL}/images/og-alpha-default.png`;
@@ -18,7 +20,6 @@ const chatMessages = [
     { role: 'guest', text: 'Wah menarik! Yang Pool Villa bisa extra bed? Sama anak 1.', label: 'Tamu' },
     { role: 'ai', text: 'Bisa! Extra bed Rp 500.000/malam, sudah include breakfast untuk anak. Jadi total untuk 2 malam:\n\n🏡 One Bedroom Pool Villa: Rp 4.200.000 × 2 = Rp 8.400.000\n🛏️ Extra bed: Rp 500.000 × 2 = Rp 1.000.000\n\nTotal: Rp 9.400.000 (include breakfast 3 orang + airport pick-up)\n\nMau saya lanjutkan ke booking? Bisa bayar nanti di hotel.', label: 'AI Concierge' },
 ];
-import Icon from "../../components/Icon.astro";
 ---
 
 <!doctype html>

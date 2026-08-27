@@ -1,7 +1,9 @@
 ---
-// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
 import { WA_JASA } from "../../lib/linkbio";
+import Icon from "../../components/Icon.astro";
+
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
@@ -56,7 +58,6 @@ const breadcrumbs = [
   { name: "Home", url: isEn ? "/en" : "/" },
   { name: "Services", url: isEn ? "/en/services" : "/services" },
 ];
-import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout

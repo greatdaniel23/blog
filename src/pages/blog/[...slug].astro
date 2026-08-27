@@ -5,6 +5,7 @@ import SwissLayout from "../../components/SwissLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import { SITE_URL } from "../../consts";
 import { WA_JASA } from "../../lib/linkbio";
+import Icon from "../../components/Icon.astro";
 
 const { slug } = Astro.params;
 const { env } = Astro.locals.runtime;
@@ -527,7 +528,6 @@ const PILLAR_ABOUT: Record<string, { name: string; sameAs: string }> = {
 	"ai-agent": { name: "Artificial Intelligence", sameAs: "https://www.wikidata.org/wiki/Q11660" },
 };
 const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolean) : null;
-import Icon from "../../components/Icon.astro";
 ---
 
 {post ? (

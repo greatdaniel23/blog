@@ -1,8 +1,10 @@
 ---
-// Landing page using SwissLayout for nav & SEO consistency
 import SwissLayout from "../../components/SwissLayout.astro";
 import FeaturedResources from "../../components/FeaturedResources.astro";
 import { WA_JASA } from "../../lib/linkbio";
+import Icon from "../../components/Icon.astro";
+
+// Landing page using SwissLayout for nav & SEO consistency
 
 const SITE_URL = "https://alphadigitalagency.id";
 const PAGE_URL = `${SITE_URL}/services/booking-engine`;
@@ -42,7 +44,6 @@ const breadcrumbs = [
 const about = [
     { "name": "Hotel", "sameAs": "https://www.wikidata.org/wiki/Q27686" },
 ];
-import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout

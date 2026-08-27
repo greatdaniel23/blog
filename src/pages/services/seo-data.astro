@@ -1,9 +1,11 @@
 ---
+import SwissLayout from "../../components/SwissLayout.astro";
+import { WA_JASA } from "../../lib/linkbio";
+import Icon from "../../components/Icon.astro";
+
 // SSR required — reads Astro.locals.locale set by middleware via X-Locale header.
 // Serves BOTH /services/seo-data (id) and /en/services/seo-data (worker rewrite,
 // verified live 2026-08-07) — same pattern as google-ads/foundation pages.
-import SwissLayout from "../../components/SwissLayout.astro";
-import { WA_JASA } from "../../lib/linkbio";
 
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
@@ -111,7 +113,6 @@ const about = [
   { name: "Digital Marketing", sameAs: "https://www.wikidata.org/wiki/Q1323528" },
   { name: "Hotel", sameAs: "https://www.wikidata.org/wiki/Q27686" },
 ];
-import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout

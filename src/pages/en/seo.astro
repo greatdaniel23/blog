@@ -1,10 +1,11 @@
 ---
+import SwissLayout from "../../components/SwissLayout.astro";
+import { WA_JASA } from "../../lib/linkbio";
+
 // EN mirror of /seo — convention mirror matching existing src/pages/en/*.astro files
 // (prerendered static). The unified @graph for EN is emitted by the SSR page
 // src/pages/seo.astro, which the worker serves for /en/* via X-Locale rewrite.
 export const prerender = true;
-import SwissLayout from "../../components/SwissLayout.astro";
-import { WA_JASA } from "../../lib/linkbio";
 
 const mainEntity = {
   "@type": "TechArticle",

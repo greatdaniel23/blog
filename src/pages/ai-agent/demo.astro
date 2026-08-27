@@ -1,8 +1,10 @@
 ---
+import SwissLayout from "../../components/SwissLayout.astro";
+import Icon from "../../components/Icon.astro";
+
 // SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
-import SwissLayout from "../../components/SwissLayout.astro";
 
 const BUILD_MARKER = "AI-AGENT-DEMO-2026-05-20-MASON-SAMUDRA";
 
@@ -39,7 +41,6 @@ const faq = [
     { q: "Bisakah saya minta agent dengan persona berbeda untuk villa saya?", a: "Ya. Setiap AI Agent yang kami setup punya nama, gaya bicara, dan pengetahuan yang disesuaikan dengan properti Anda. Dari bahasa yang diutamakan sampai cara agent memperkenalkan diri — semua bisa dikustomisasi." },
     { q: "Apakah ada demo untuk jenis properti villa lain?", a: "Demo ini menampilkan Samudra Villa. Untuk properti lain yang kami tangani, demo tidak kami publikasikan secara terbuka — tapi dalam diskusi setup kami bisa tunjukkan contoh agent lain yang berjalan untuk konteks berbeda." }
 ];
-import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout

@@ -1,5 +1,6 @@
 ---
 import { getSession } from "../../lib/auth";
+import Icon from "../../components/Icon.astro";
 
 const { env } = Astro.locals.runtime;
 const { user } = await getSession(Astro.cookies, env?.DB);
@@ -37,7 +38,6 @@ if (env?.DB) {
   };
   recentPosts = recentPostsResult.results || [];
 }
-import Icon from "../../components/Icon.astro";
 ---
 
 <!doctype html>

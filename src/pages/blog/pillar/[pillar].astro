@@ -1,11 +1,12 @@
 ---
+import SwissLayout from "../../../components/SwissLayout.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { SITE_URL } from "../../../consts";
+
 // PillarPage hub — Evergreen Topical Hub per content pillar (KG-SEO v3
 // Gap #17 / PRD REQ-ST-1 PillarPage node type). Data-driven from
 // content_pillars + posts, so a new pillar needs zero code.
 // Route: /blog/pillar/<pillar_id>  (no-trailing-slash standard)
-import SwissLayout from "../../../components/SwissLayout.astro";
-import FormattedDate from "../../../components/FormattedDate.astro";
-import { SITE_URL } from "../../../consts";
 
 const { env } = Astro.locals.runtime;
 const { pillar } = Astro.params;

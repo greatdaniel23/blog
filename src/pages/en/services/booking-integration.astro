@@ -1,6 +1,8 @@
 ---
-export const prerender = true;
 import SwissLayout from "../../../components/SwissLayout.astro";
+import Icon from "../../../components/Icon.astro";
+
+export const prerender = true;
 
 const serviceLD = {
   "@context": "https://schema.org",
@@ -67,7 +69,6 @@ const breadcrumbLD = {
     { "@type": "ListItem", "position": 3, "name": "Booking Integration", "item": "https://alphadigitalagency.id/en/services/booking-integration" }
   ]
 };
-import Icon from "../../../components/Icon.astro";
 ---
 
 <SwissLayout

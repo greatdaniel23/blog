@@ -1,6 +1,7 @@
 ---
 import { getSession } from "../../../lib/auth";
 import PostForm from "@/components/admin/PostForm";
+import Icon from "../../../components/Icon.astro";
 
 const { env } = Astro.locals.runtime;
 const { user } = await getSession(Astro.cookies, env?.DB);
@@ -8,7 +9,6 @@ const { user } = await getSession(Astro.cookies, env?.DB);
 if (!user) {
   return Astro.redirect("/pembantu/login");
 }
-import Icon from "../../../components/Icon.astro";
 ---
 
 <!doctype html>

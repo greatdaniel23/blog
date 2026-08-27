@@ -1,7 +1,9 @@
 ---
-// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
 import { WA_JASA } from "../../lib/linkbio";
+import Icon from "../../components/Icon.astro";
+
+// SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
@@ -110,7 +112,6 @@ const mainEntity = { "@type": "Service", "name": tx.serviceName, "provider": { "
 const faq = tx.faq;
 
 const breadcrumbs = [ { "name": "Home", "url": "/" }, { "name": "Services", "url": "/services/" }, { "name": "Growth", "url": tx.pageUrl } ];
-import Icon from "../../components/Icon.astro";
 ---
 
 <SwissLayout title={isEn ? "Google Ads for Bali Hotels | Alpha Digital" : "Google Ads for Bali Hotels | Alpha Digital"} description={isEn ? "Google Ads management for Bali hotels and villas, connected to booking funnel audits, Search Console data, and direct reservation tracking." : "Google Ads management for Bali hotels and villas, connected to booking funnel audits, Search Console data, and direct reservation tracking."} currentPage="services" mainEntity={mainEntity} faq={faq} breadcrumbs={breadcrumbs}>

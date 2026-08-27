@@ -1,9 +1,11 @@
 ---
+import SwissLayout from "../components/SwissLayout.astro";
+import { WA_JASA } from "../lib/linkbio";
+import Icon from "../components/Icon.astro";
+
 // SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
-import SwissLayout from "../components/SwissLayout.astro";
-import { WA_JASA } from "../lib/linkbio";
 
 // Unique build marker for post-deploy verification (per feedback_verify_deploy_target).
 // Grep for this string on production after deploy.
@@ -95,7 +97,6 @@ const layers = [
         link: { href: "/blog", label: "Insight dan Studi Kasus" }
     }
 ];
-import Icon from "../components/Icon.astro";
 ---
 
 <SwissLayout

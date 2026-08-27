@@ -1,8 +1,10 @@
 ---
-export const prerender = true;
 import "../../../styles/global.css";
 import SwissHeader from "../../../components/SwissHeader.astro";
 import SwissFooter from "../../../components/SwissFooter.astro";
+import Icon from "../../../components/Icon.astro";
+
+export const prerender = true;
 
 const SITE_URL = "https://alphadigitalagency.id";
 const DEFAULT_IMAGE = `${SITE_URL}/images/og-alpha-default.png`;
@@ -17,7 +19,6 @@ const chatMessages = [
     { role: 'guest', text: 'Nice! Can the Pool Villa fit an extra bed? I have a child.', label: 'Guest' },
     { role: 'ai', text: 'Absolutely! Extra bed is IDR 500,000/night, including breakfast for the child. For 2 nights:\n\n🏡 Pool Villa: IDR 4,200,000 × 2 = IDR 8,400,000\n🛏️ Extra bed: IDR 500,000 × 2 = IDR 1,000,000\n\nTotal: IDR 9,400,000 (breakfast for 3 + airport pick-up)\n\nShall I proceed to booking? Pay later at the hotel.', label: 'AI Concierge' },
 ];
-import Icon from "../../../components/Icon.astro";
 ---
 
 <!doctype html>
