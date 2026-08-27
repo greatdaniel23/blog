@@ -2,237 +2,172 @@
 // SSR required — reads Astro.locals.locale set by middleware via X-Locale header
 import SwissLayout from "../../components/SwissLayout.astro";
 import FeaturedResources from "../../components/FeaturedResources.astro";
+import { WA_JASA } from "../../lib/linkbio";
 
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
 
 const t = {
   id: {
-    tierLabel: "AI Agent untuk Hospitality Bali",
-    heroH1: "Asisten AI 24/7 untuk Villa & Hotel Anda.",
-    heroH1Sub: "Terhubung Langsung ke Booking Engine.",
-    heroDesc: "Tamu bertanya pukul 2 pagi, AI menjawab dalam 0.6 detik dalam bahasa mereka, menampilkan ketersediaan kamar riil, dan mengarahkan langsung ke direct booking tanpa komisi OTA.",
+    tier: "Tier 5 — AI Agent Hospitality",
+    heroH1: "Aktif 24 Jam. Terhubung Booking Engine",
+    heroH1End: ".",
+    heroDesc: "Asisten digital yang dilatih dari data properti Anda sendiri — menjawab pertanyaan tamu secara instan dalam bahasa mereka, menampilkan ketersediaan kamar riil, dan mengarahkan langsung ke direct booking tanpa komisi OTA.",
     demoBtn: "Coba Live Demo",
-    waBtn: "Konsultasi via WhatsApp",
+    waLabel: "Konsultasi via WhatsApp",
+    ctaMail: "Minta Penawaran",
     
-    // Stats
-    stat1Val: "24/7",
-    stat1Lbl: "Respon Instan Tanpa Delay",
-    stat2Val: "< 0.8s",
-    stat2Lbl: "Rata-rata Waktu Jawab",
-    stat3Val: "10+",
-    stat3Lbl: "Bahasa Otomatis",
-    stat4Val: "15–30%",
-    stat4Lbl: "Target Pergeseran OTA → Direct",
+    outcome: "AI Agent kami dipasang langsung di website properti Anda — dilatih dari data kamar, tarif, Google Place ID, dan terintegrasi real-time ke booking engine untuk mengubah traffic malam hari menjadi direct booking tanpa komisi OTA.",
 
-    // Chat Mockup
-    chatHeaderTitle: "Samudra Luxury Villa — AI Concierge",
-    chatStatus: "Online 24/7 · Terverifikasi Real-Time",
+    // Chat Showcase
+    chatTitle: "Simulasi Chat Tamu Real-Time",
     chatGuestTime: "02:14 WITA · Tamu dari Tokyo",
     chatGuestMsg: "Halo! Apakah Sunset Pool Villa masih tersedia untuk weekend depan (2 malam)? Bisa sekalian antar-jemput bandara Ngurah Rai?",
-    chatAiTime: "02:14 WITA · Dijawab dalam 0.6s",
-    chatAiMsg: "Selamat pagi! Ya, Sunset Pool Villa masih tersedia untuk tanggal 12–14 Oktober. Paket sudah termasuk sarapan gourmet harian, private infinity pool, dan complimentary private airport transfer.",
+    chatAiTime: "02:14 WITA · Dijawab dalam 0.6 detik",
+    chatAiMsg: "Selamat pagi! Ya, Sunset Pool Villa masih tersedia untuk tanggal 12–14 Oktober. Paket sudah mencakup sarapan gourmet harian, private infinity pool, dan complimentary private airport transfer.",
     chatRoomTitle: "Sunset Pool Villa (2 Kamar)",
     chatRoomRate: "Rp 3.850.000 / malam",
     chatRoomTag: "Garansi Harga Direct Booking Termurah",
-    chatBookBtn: "Pesan Langsung (Diskon 15% vs OTA) →",
-    chatFooterBadge: "⚡ Alur Booking Langsung Terpicu · Terintegrasi GA4 Analytics",
+    chatBookBtn: "Pesan Langsung (0% Komisi OTA) →",
+    chatFooter: "⚡ Alur Direct Booking Terpicu · Data Terintegrasi ke GA4 Analytics",
 
-    // Comparison Section
-    compTitle: "Kenapa Pertanyaan Tengah Malam Sering Membocorkan Revenue?",
-    compSubtitle: "Tamu internasional mencari villa di zona waktu yang berbeda. Jika pertanyaan mereka tidak terjawab instan, mereka akan berpindah ke OTA.",
-    compWithoutTitle: "Tanpa AI Agent (Margin Bocor)",
-    compWithout1: "Tamu bertanya pukul 23:00 → Tim reservasi offline hingga 08:00 pagi.",
-    compWithout2: "Tamu ragu soal ketersediaan & fasilitas → Pindah cari di Booking.com / Agoda.",
-    compWithout3: "Booking terjadi di OTA → Komisi 15–25% terpotong dari pendapatan kamar Anda.",
-    compWithTitle: "Dengan Alpha AI Agent (Margin Recovery)",
-    compWith1: "Tamu bertanya kapan saja → Dijawab seketika dalam bahasa ibu mereka.",
-    compWith2: "Rekomendasi kamar riil dari database & Place ID langsung tersaji di layar.",
-    compWith3: "Tamu diarahkan ke direct booking engine → 0% komisi OTA, data tamu milik Anda penuh.",
+    // Why section
+    whyTitle: "Kenapa Pertanyaan Tengah Malam Sering Membocorkan Revenue?",
+    whyP1: "Tamu internasional mencari vila dan hotel Bali dari berbagai zona waktu. Pertanyaan seperti ketersediaan kamar, rate 3 malam, hingga fasilitas kolam renang privat sering masuk di luar jam operasional kantor.",
+    whyP2: "Jika pertanyaan tidak dijawab instan, tamu yang ragu akan berpindah ke OTA (Booking.com / Agoda). Setiap booking yang lari ke OTA berarti komisi 15–25% terpotong dari pendapatan kamar Anda.",
+    whyP3: "Alpha AI Agent menangkap momen emas tersebut: merespons dalam hitungan detik dalam bahasa tamu, menyajikan harga direct terbaik, dan langsung mengarahkan tamu menyelesaikan booking di booking engine Anda.",
 
-    // Core Capabilities
-    featTitle: "4 Kemampuan Utama AI Agent Alpha Digital",
-    featSubtitle: "Bukan sekadar chatbot FAQ statis. Ini adalah sistem concierge penjualan yang terhubung ke infrastruktur digital properti Anda.",
-    feat1Title: "Koneksi Real-Time Booking Engine",
-    feat1Desc: "Terhubung langsung ke Cloudbeds, SiteMinder, Little Hotelier, STAAH, atau booking engine Alpha. Tamu mengecek ketersediaan riil dan langsung masuk ke alur pembayaran.",
-    feat2Title: "Berbasis Data Riil & Google Place ID",
-    feat2Desc: "Dilatih dari kamar, tarif, fasilitas, kebijakan pembatalan, hingga rekomendasi restoran sekitar dari Place ID properti Anda. Tidak ada jawaban halusinasi.",
-    feat3Title: "Deteksi Multibahasa Otomatis",
-    feat3Desc: "Merespons instan dalam Bahasa Inggris, Mandarin, Jepang, Jerman, Prancis, dan bahasa lainnya tanpa tamu harus memilih opsi bahasa secara manual.",
-    feat4Title: "Tracking Konversi Closed-Loop GA4",
-    feat4Desc: "Setiap interaksi dicatat ke Google Analytics 4. Anda tahu persis pertanyaan apa yang memicu booking dan channel iklan mana yang paling profitable.",
+    // Features
+    featuresTitle: "Yang Anda Dapatkan dari Alpha AI Agent",
+    features: [
+      { title: "Koneksi Real-Time ke Booking Engine Anda", desc: "Terhubung langsung ke Cloudbeds, SiteMinder, Little Hotelier, STAAH, atau booking engine Alpha. Tamu mengecek ketersediaan riil dan langsung masuk ke checkout direct." },
+      { title: "Dilatih dari Data Riil & Google Place ID Properti", desc: "Dilatih dari kamar, tarif, amenitas, kebijakan pembatalan, dan ulasan Place ID properti Anda sendiri — bukan template generik. Tidak ada jawaban halusinasi." },
+      { title: "Deteksi Multibahasa Otomatis", desc: "Merespons dalam bahasa tamu secara instan — Bahasa Indonesia, Inggris, Mandarin, Jepang, Jerman, Prancis, dan lainnya tanpa perlu setup manual per bahasa." },
+      { title: "Closed-Loop GA4 Analytics & Ads Attribution", desc: "Setiap percakapan dicatat ke GA4. Anda tahu persis pertanyaan apa yang paling sering diajukan dan channel iklan mana yang menghasilkan direct booking aktual." }
+    ],
 
-    // How It Works
-    stepsTitle: "Alur Setup & Implementasi Cepat",
-    step1Num: "01",
-    step1Title: "Ekstraksi Data & Place ID Properti",
-    step1Desc: "Kami mengumpulkan detail kamar, foto, amenities, kebijakan villa, dan menghubungkan Google Place ID Anda ke basis pengetahuan agent.",
-    step2Num: "02",
-    step2Title: "Integrasi Booking Engine & PMS",
-    step2Desc: "Menghubungkan agent ke sistem reservasi properti agar mampu menyajikan harga kamar dan link reservasi langsung secara real-time.",
-    step3Num: "03",
-    step3Title: "Pemasangan Widget & Uji Skenario",
-    step3Desc: "Widget dipasang di website villa dengan styling brand mewah. Kami uji puluhan skenario pertanyaan tamu dalam berbagai bahasa.",
-    step4Num: "04",
-    step4Title: "Live & Monitoring GA4",
-    step4Desc: "Agent aktif 24/7 melayani tamu. Laporan performa dan log percakapan dipantau berkala untuk penyempurnaan terus-menerus.",
+    // Steps
+    stepsTitle: "Setup dan Cara Kerja",
+    steps: [
+      { step: "01", title: "Ekstraksi Data & Place ID Properti", desc: "Kami training basis pengetahuan agent dari Google Place ID, database kamar, tarif, dan kebijakan operasional properti Anda." },
+      { step: "02", title: "Integrasi ke Website dan Booking Engine", desc: "Agent dipasang di website properti dan dihubungkan ke booking engine agar tamu bisa cek ketersediaan riil dari dalam chat." },
+      { step: "03", title: "Uji Skenario & Go-Live", desc: "Kami uji puluhan skenario pertanyaan tamu dalam berbagai bahasa sebelum agent aktif melayani pengunjung website 24/7." },
+      { step: "04", title: "Monitoring GA4 & Optimasi Rutin", desc: "Setiap log percakapan tercatat di GA4. Data digunakan untuk menyempurnakan informasi properti dan meningkatkan konversi booking." }
+    ],
 
-    // Demo Callout
-    demoBannerTitle: "Ingin Menguji AI Agent Secara Langsung?",
-    demoBannerDesc: "Kami telah menyiapkan sandbox interaktif Samudra Luxury Villa. Anda bisa mencoba bertanya dalam bahasa apa pun dan melihat bagaimana agent merekomendasikan kamar.",
-    demoBannerBtn: "Buka Interactive Demo Sandbox →",
+    // Demo Banner
+    demoBannerTitle: "Coba Langsung di Sandbox Samudra Villa",
+    demoBannerDesc: "Kami telah menyiapkan demo interaktif AI Agent yang berjalan pada data vila boutique Samudra Villa di Bali. Coba tanyakan ketersediaan kamar dalam bahasa apa pun.",
+    demoBannerBtn: "Buka Live Demo Sandbox →",
 
     // Languages
-    langTitle: "Mendukung Komunikasi Tamu Global",
-    langSubtitle: "Tamu Bali datang dari berbagai belahan dunia. Agent kami otomatis menyesuaikan bahasa komunikasi mereka.",
-    langs: [
-      { code: "EN", name: "English", note: "Global & Regional" },
-      { code: "ID", name: "Bahasa Indonesia", note: "Domestik & Lokal" },
-      { code: "ZH", name: "Mandarin (中文)", note: "Mainland & Taiwan" },
-      { code: "JA", name: "Japanese (日本語)", note: "Tokyo & Osaka" },
-      { code: "DE", name: "Deutsch", note: "DACH Region" },
-      { code: "FR", name: "Français", note: "France & Europe" },
-      { code: "KO", name: "Korean (한국어)", note: "South Korea" },
-      { code: "RU", name: "Russian (Русский)", note: "CIS Region" },
-    ],
+    langTitle: "Bahasa yang Didukung Otomatis",
+    langP: "Tamu Bali datang dari seluruh dunia. AI Agent mendeteksi bahasa tamu secara otomatis dan merespons dalam bahasa yang sama:",
+    langs: ["English", "Bahasa Indonesia", "Mandarin (中文)", "Japanese (日本語)", "German (Deutsch)", "French (Français)", "Korean (한국어)", "Russian (Русский)"],
 
     // FAQ
-    faqTitle: "Pertanyaan yang Sering Diajukan",
+    faqTitle: "Pertanyaan tentang AI Agent",
     faq: [
-      { q: "Apakah AI Agent menggantikan staf front desk atau reservasi kami?", a: "Tidak. AI Agent dirancang untuk menangani beban pertanyaan berulang dan melayani tamu di luar jam kerja (misal jam 1–5 subuh). Saat jam operasional, tim Anda tetap memegang interaksi personal bernilai tinggi." },
-      { q: "Bagaimana cara AI Agent mengetahui ketersediaan kamar?", a: "AI Agent terintegrasi dengan booking engine (Cloudbeds, SiteMinder, STAAH, Little Hotelier, atau Alpha Booking Engine) melalui API ketersediaan langsung. Jawaban kamar dan harga yang diberikan selalu akurat." },
-      { q: "Apakah data tamu dan histori percakapan aman?", a: "Sangat aman. Seluruh data percakapan tersimpan secara privat dalam infrastruktur terenkripsi dan terhubung ke akun GA4 properti Anda. Tidak ada data yang dibagikan ke pihak ketiga." },
-      { q: "Berapa lama proses setup hingga agent live di website?", a: "Rata-rata 5–10 hari kerja mencakup ekstraksi data, training knowledge base, integrasi booking engine, dan uji skenario percakapan sebelum peluncuran resmi." },
-      { q: "Apakah ada biaya lisensi tambahan per percakapan?", a: "Paket implementasi Alpha Digital mencakup maintenance dan optimasi berkelanjutan tanpa sistem biaya per-chat yang membingungkan." }
+      { q: "Apa yang dimaksud AI Agent untuk hotel atau villa?", a: "AI Agent adalah asisten chat cerdas yang dipasang di website properti Anda. Dilatih dari data vila Anda sendiri — kebijakan, kamar, tarif, dan layanan — sehingga bisa menjawab pertanyaan tamu secara instan 24/7 dan mengarahkan ke direct booking." },
+      { q: "Apakah AI Agent menggantikan staf reservasi atau front desk?", a: "Tidak. AI Agent menangani pertanyaan berulang (ketersediaan, tarif, kebijakan, rekomendasi lokal) di luar jam kerja (misal jam 1–5 subuh). Tim Anda tetap memegang interaksi personal bernilai tinggi." },
+      { q: "Bagaimana cara AI Agent mengetahui ketersediaan kamar?", a: "AI Agent terintegrasi dengan booking engine (Cloudbeds, SiteMinder, STAAH, Little Hotelier, atau Alpha Booking Engine) via API ketersediaan langsung. Informasi yang disajikan selalu akurat dan up-to-date." },
+      { q: "Apakah AI Agent bisa terhubung ke Google Analytics 4?", a: "Ya. Setiap interaksi dan klik booking dicatat sebagai event di GA4, sehingga Anda bisa mengevaluasi efektivitas agent dan performa traffic Google Ads." },
+      { q: "Berapa lama proses setup hingga go-live?", a: "Rata-rata 5–10 hari kerja mencakup ekstraksi data, training knowledge base, integrasi sistem booking, dan uji coba skenario." }
     ],
 
-    // Ecosystem Navigation
-    ecoLabel: "Bagian dari Ekosistem Alpha Digital",
+    // Ecosystem
+    ecoLabel: "Bagian dari Ekosistem Digital Marketing Hospitality",
     card1Label: "Tier 1", card1Title: "Foundation →", card1Desc: "Setup tracking GA4, GTM, dan Search Console yang presisi.",
     card2Label: "Tier 2", card2Title: "Growth →", card2Desc: "Manajemen Google Ads berorientasi ROAS & reservasi langsung.",
     card3Label: "Tier 4", card3Title: "Booking Integration →", card3Desc: "Pasang booking engine mandiri tanpa lock-in vendor.",
 
     // Final CTA
-    ctaCardTitle: "Siap Tingkatkan Direct Booking dengan AI Concierge?",
-    ctaCardDesc: "Diskusikan kebutuhan properti villa atau hotel Anda bersama tim Alpha Digital. Kami siapkan roadmap integrasi khusus untuk properti Anda.",
-    ctaMailBtn: "Minta Penawaran Resmi",
+    finalCtaTitle: "Siap Pasang AI Agent untuk Properti Anda?",
+    finalCtaDesc: "Diskusikan kebutuhan hotel atau vila Anda bersama kami. Kami siapkan demonstrasi dan opsi integrasi terbaik untuk properti Anda.",
     author: "Ditulis oleh <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Terakhir diperbarui: Agustus 2026",
     serviceName: "AI Agent untuk Hotel dan Vila Bali",
-    serviceDesc: "AI Agent 24/7 yang dilatih khusus dari data properti Anda — menjawab pertanyaan tamu, merekomendasikan kamar riil dari booking engine, dan meningkatkan direct booking.",
+    serviceDesc: "AI Agent yang dilatih khusus untuk properti Anda — jawab pertanyaan tamu 24/7, rekomendasikan kamar dari booking engine, terintegrasi Google Analytics.",
     pageUrl: "https://alphadigitalagency.id/services/ai-agent"
   },
   en: {
-    tierLabel: "AI Agent for Bali Hospitality",
-    heroH1: "24/7 AI Concierge for Your Hotel & Villa.",
-    heroH1Sub: "Directly Connected to Your Booking Engine.",
-    heroDesc: "Guests ask questions at 2 AM, your AI answers in 0.6 seconds in their native language, displays real-time room availability, and routes them directly to 0% OTA commission direct bookings.",
+    tier: "Tier 5 — AI Agent Hospitality",
+    heroH1: "24/7 Active. Direct Booking Integrated",
+    heroH1End: ".",
+    heroDesc: "A digital assistant trained on your own property data — answering guest inquiries instantly in their language, displaying real-time room availability, and routing directly to direct reservations without OTA commissions.",
     demoBtn: "Try Live Demo",
-    waBtn: "Consult via WhatsApp",
+    waLabel: "Consult via WhatsApp",
+    ctaMail: "Request a Proposal",
     
-    // Stats
-    stat1Val: "24/7",
-    stat1Lbl: "Instant Zero-Delay Response",
-    stat2Val: "< 0.8s",
-    stat2Lbl: "Average Answer Latency",
-    stat3Val: "10+",
-    stat3Lbl: "Auto-detected Languages",
-    stat4Val: "15–30%",
-    stat4Lbl: "Target OTA → Direct Shift",
+    outcome: "Our AI Agent is installed directly on your property website — trained on your rooms, rates, Google Place ID, and integrated real-time with your booking engine to convert late-night inquiries into direct bookings with zero OTA commissions.",
 
-    // Chat Mockup
-    chatHeaderTitle: "Samudra Luxury Villa — AI Concierge",
-    chatStatus: "Online 24/7 · Verified Real-Time",
+    // Chat Showcase
+    chatTitle: "Real-Time Guest Interaction Simulation",
     chatGuestTime: "02:14 AM WITA · Guest from Tokyo",
     chatGuestMsg: "Hi! Is the 2-Bedroom Sunset Pool Villa available for next weekend (2 nights)? Can we arrange private airport pickup as well?",
-    chatAiTime: "02:14 AM WITA · Answered in 0.6s",
-    chatAiMsg: "Good morning! Yes, our 2-Bedroom Sunset Pool Villa is available for October 12–14. It includes daily gourmet breakfast, a private infinity pool, and complimentary private airport transfer.",
+    chatAiTime: "02:14 AM WITA · Answered in 0.6 seconds",
+    chatAiMsg: "Good morning! Yes, our 2-Bedroom Sunset Pool Villa is available for October 12–14. It includes daily gourmet breakfast, private infinity pool, and complimentary private airport transfer.",
     chatRoomTitle: "Sunset Pool Villa (2-Bedroom)",
     chatRoomRate: "IDR 3,850,000 / night",
     chatRoomTag: "Best Direct Booking Rate Guaranteed",
-    chatBookBtn: "Book Direct (Save 15% vs OTA) →",
-    chatFooterBadge: "⚡ Direct Booking Flow Triggered · Tracked in GA4 Analytics",
+    chatBookBtn: "Book Direct (0% OTA Fee) →",
+    chatFooter: "⚡ Direct Booking Flow Triggered · Tracked in GA4 Analytics",
 
-    // Comparison Section
-    compTitle: "Why Late-Night Inquiries Leak Direct Revenue",
-    compSubtitle: "International travelers search for villas across different time zones. If their questions are not answered instantly, they revert to OTAs.",
-    compWithoutTitle: "Without AI Agent (Margin Leakage)",
-    compWithout1: "Guest asks at 11:00 PM → Reservation team offline until 8:00 AM.",
-    compWithout2: "Guest hesitates on availability & amenities → Searches on Booking.com / Agoda.",
-    compWithout3: "Booking happens on OTA → 15–25% commission deducted from your room revenue.",
-    compWithTitle: "With Alpha AI Agent (Margin Recovery)",
-    compWith1: "Guest asks anytime → Instant answer in their native language.",
-    compWith2: "Real-time room recommendations from your database & Place ID appear instantly.",
-    compWith3: "Guest flows straight into your direct booking engine → 0% OTA commission, guest relationship owned.",
+    // Why section
+    whyTitle: "Why Late-Night Inquiries Leak Direct Revenue",
+    whyP1: "International travelers search for Bali villas and hotels across different time zones. Questions regarding availability, 3-night rates, or private pool amenities often arrive outside local office hours.",
+    whyP2: "If questions are not answered instantly, hesitant guests revert to OTAs (Booking.com / Agoda). Every booking lost to an OTA means a 15–25% commission deducted from your room revenue.",
+    whyP3: "Alpha AI Agent captures that critical moment: responding within seconds in the guest's language, presenting real availability, and guiding them straight to your direct booking engine.",
 
-    // Core Capabilities
-    featTitle: "4 Core Capabilities of Alpha Digital's AI Agent",
-    featSubtitle: "Not a static FAQ chatbot. A dedicated digital sales concierge connected to your hotel's digital infrastructure.",
-    feat1Title: "Real-Time Booking Engine Sync",
-    feat1Desc: "Connects directly with Cloudbeds, SiteMinder, Little Hotelier, STAAH, or Alpha's own booking engine. Guests check real availability and enter checkout seamlessly.",
-    feat2Title: "Grounded in Real Property & Place ID Data",
-    feat2Desc: "Trained on your room types, rates, amenities, cancellation policies, and nearby dining recommendations from your Google Place ID. Zero hallucinated answers.",
-    feat3Title: "Auto-Detected Multilingual Concierge",
-    feat3Desc: "Instantly responds in English, Mandarin, Japanese, German, French, Korean, and more without requiring guests to manually select a language.",
-    feat4Title: "Closed-Loop GA4 & Ads Conversion Attribution",
-    feat4Desc: "Every inquiry and booking intent is logged into GA4. You know exactly what questions drive direct bookings and which ad campaigns generate real revenue.",
+    // Features
+    featuresTitle: "What You Get with Alpha AI Agent",
+    features: [
+      { title: "Real-Time Booking Engine Sync", desc: "Connects directly to Cloudbeds, SiteMinder, Little Hotelier, STAAH, or Alpha's booking engine. Guests check real availability and enter direct checkout seamlessly." },
+      { title: "Trained on Real Property Data & Place ID", desc: "Trained on your room types, rates, amenities, cancellation policies, and Place ID reviews — not generic templates. Zero hallucinated answers." },
+      { title: "Automatic Multi-Language Recognition", desc: "Instantly responds in the guest's language — English, Indonesian, Mandarin, Japanese, German, French, and more with no manual setup needed." },
+      { title: "Closed-Loop GA4 Analytics & Ads Attribution", desc: "Every conversation is logged in GA4. You see exactly what questions guests ask most and which ad campaigns drive actual direct reservations." }
+    ],
 
-    // How It Works
-    stepsTitle: "Rapid Setup & Implementation Process",
-    step1Num: "01",
-    step1Title: "Property Knowledge & Place ID Extraction",
-    step1Desc: "We extract your room inventory, photos, policies, amenities, and connect your verified Google Place ID into the agent's knowledge base.",
-    step2Num: "02",
-    step2Title: "Booking Engine & PMS Integration",
-    step2Desc: "We connect the agent to your reservation system so it can pull live availability, dynamic rates, and provide direct booking deep links.",
-    step3Num: "03",
-    step3Title: "Widget Deployment & Scenario Testing",
-    step3Desc: "We install the branded luxury widget onto your website and run extensive multi-lingual test scenarios before going live.",
-    step4Num: "04",
-    step4Title: "Go-Live & GA4 Attribution Monitoring",
-    step4Desc: "The AI agent goes live 24/7. Conversation logs and conversion metrics are continually audited for ongoing refinement.",
+    // Steps
+    stepsTitle: "Setup and How It Works",
+    steps: [
+      { step: "01", title: "Property Knowledge & Place ID Extraction", desc: "We train the agent's knowledge base from your Google Place ID, room inventory, rates, and operational policies." },
+      { step: "02", title: "Website & Booking Engine Integration", desc: "The agent is installed on your website and connected to your booking engine so guests can view real availability inside the chat." },
+      { step: "03", title: "Scenario Testing & Go-Live", desc: "We test dozens of guest inquiry scenarios in multiple languages before the agent goes live 24/7." },
+      { step: "04", title: "GA4 Monitoring & Continuous Optimization", desc: "Every conversation log is analyzed in GA4 to refine property information and continually boost booking conversion rates." }
+    ],
 
-    // Demo Callout
-    demoBannerTitle: "Want to Experience the AI Agent Live?",
-    demoBannerDesc: "We have built an interactive sandbox for Samudra Luxury Villa. You can ask questions in any language and see how the agent responds and recommends rooms.",
-    demoBannerBtn: "Open Interactive Demo Sandbox →",
+    // Demo Banner
+    demoBannerTitle: "Experience the AI Agent Live in Sandbox",
+    demoBannerDesc: "We have built an interactive demo running on data from Samudra Villa Bali. Try asking questions about room availability or services in any language.",
+    demoBannerBtn: "Open Live Demo Sandbox →",
 
     // Languages
-    langTitle: "Supporting Global Guest Inquiries",
-    langSubtitle: "Bali travelers arrive from all continents. Our AI concierge automatically speaks their language with natural luxury tone.",
-    langs: [
-      { code: "EN", name: "English", note: "Global & Regional" },
-      { code: "ID", name: "Bahasa Indonesia", note: "Domestic & Regional" },
-      { code: "ZH", name: "Mandarin (中文)", note: "Mainland & Taiwan" },
-      { code: "JA", name: "Japanese (日本語)", note: "Tokyo & Osaka" },
-      { code: "DE", name: "Deutsch", note: "DACH Region" },
-      { code: "FR", name: "Français", note: "France & Europe" },
-      { code: "KO", name: "Korean (한국어)", note: "South Korea" },
-      { code: "RU", name: "Russian (Русский)", note: "CIS Region" },
-    ],
+    langTitle: "Automatically Supported Languages",
+    langP: "Bali guests arrive from all over the world. The AI Agent detects the guest's language automatically and responds in the same language:",
+    langs: ["English", "Bahasa Indonesia", "Mandarin (中文)", "Japanese (日本語)", "German (Deutsch)", "French (Français)", "Korean (한국어)", "Russian (Русский)"],
 
     // FAQ
-    faqTitle: "Frequently Asked Questions",
+    faqTitle: "Questions About the AI Agent",
     faq: [
-      { q: "Does the AI Agent replace our front desk or reservation team?", a: "No. The AI Agent is built to handle repetitive queries and capture inquiries outside office hours (e.g., 1–5 AM). During business hours, your team remains focused on high-touch hospitality." },
-      { q: "How does the AI Agent know real room availability?", a: "The agent connects directly to your booking engine (Cloudbeds, SiteMinder, STAAH, Little Hotelier, or Alpha's engine) via live API availability feeds. Room data and pricing are always up to date." },
-      { q: "Is guest conversation data private and secure?", a: "Absolutely. All conversation data is stored privately within encrypted infrastructure and linked directly to your property's GA4 instance. No data is shared with third parties." },
-      { q: "How long does it take from kickoff to go-live?", a: "Typically 5–10 business days, covering knowledge extraction, booking engine wiring, multi-lingual testing, and final quality review." },
-      { q: "Are there additional per-conversation license fees?", a: "Our deployment package includes ongoing maintenance and optimization without unpredictable per-chat pricing." }
+      { q: "What is an AI Agent for hotels and villas?", a: "An AI Agent is an intelligent chat concierge installed on your property website. Trained on your own villa data — policies, rooms, rates, and amenities — it answers guest inquiries 24/7 and drives direct bookings." },
+      { q: "Does the AI Agent replace our front desk or reservation team?", a: "No. The AI Agent handles repetitive queries and captures late-night inquiries outside working hours (e.g., 1–5 AM). Your team remains focused on high-touch guest hospitality." },
+      { q: "How does the AI Agent know real room availability?", a: "The agent connects directly to your booking engine (Cloudbeds, SiteMinder, STAAH, Little Hotelier, or Alpha's engine) via live API availability feeds. Room data and rates are always accurate." },
+      { q: "Can the AI Agent connect to Google Analytics 4?", a: "Yes. Every interaction and booking click is logged as a conversion event in GA4, allowing you to measure agent ROI and Google Ads effectiveness." },
+      { q: "How long does setup take until go-live?", a: "Typically 5–10 business days, covering knowledge extraction, booking engine wiring, multi-lingual testing, and final quality review." }
     ],
 
-    // Ecosystem Navigation
+    // Ecosystem
     ecoLabel: "Part of the Alpha Digital Direct Booking Ecosystem",
-    card1Label: "Tier 1", card1Title: "Foundation →", card1Desc: "Accurate tracking across GA4, GTM, and Google Search Console.",
-    card2Label: "Tier 2", card2Title: "Growth →", card2Desc: "ROAS-driven Google Ads management for hotels & villas.",
+    card1Label: "Tier 1", card1Title: "Foundation →", card1Desc: "Proper tracking setup across GA4, GTM, and Search Console.",
+    card2Label: "Tier 2", card2Title: "Growth →", card2Desc: "Active Google Ads management focused on direct bookings and ROAS.",
     card3Label: "Tier 4", card3Title: "Booking Integration →", card3Desc: "Platform-agnostic booking engine deployment with zero lock-in.",
 
     // Final CTA
-    ctaCardTitle: "Ready to Boost Direct Bookings with an AI Concierge?",
-    ctaCardDesc: "Discuss your property's direct booking setup with Alpha Digital. We will walk you through a tailored implementation roadmap.",
-    ctaMailBtn: "Request a Custom Proposal",
+    finalCtaTitle: "Ready to Deploy an AI Agent for Your Property?",
+    finalCtaDesc: "Discuss your property's direct booking setup with us. We will prepare a live demonstration and integration options tailored for your villa or hotel.",
     author: "Written by <a href=\"/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Last updated: August 2026",
     serviceName: "AI Agent for Bali Hotels and Villas",
-    serviceDesc: "24/7 AI Concierge trained on your property data — answering guest inquiries, recommending live room availability from your booking engine, and maximizing direct bookings.",
+    serviceDesc: "AI Agent trained specifically for your property — answers guest questions 24/7, recommends rooms from your booking engine, integrated with Google Analytics.",
     pageUrl: "https://alphadigitalagency.id/en/services/ai-agent"
   }
 };
@@ -261,7 +196,7 @@ const mainEntity = {
 
 const breadcrumbs = [
   { name: "Home", url: "/" },
-  { name: "Services", url: isEn ? "/en/services" : "/services" },
+  { name: "Services", url: isEn ? "/en/services/" : "/services/" },
   { name: "AI Agent", url: tx.pageUrl }
 ];
 const faq = tx.faq;
@@ -272,7 +207,7 @@ const about = [
 ---
 
 <SwissLayout
-  title={isEn ? "24/7 Hotel AI Agent & Concierge Bali | Alpha Digital" : "AI Agent Hotel & Villa Bali — 24/7 Direct Booking | Alpha Digital"}
+  title={isEn ? "AI Agent for Bali Hotels & Villas | Alpha Digital" : "AI Agent Hotel & Villa Bali — 24/7 Direct Booking | Alpha Digital"}
   description={tx.serviceDesc}
   currentPage="services"
   mainEntity={mainEntity}
@@ -280,316 +215,192 @@ const about = [
   faq={faq}
   about={about}
 >
-  <!-- ── HERO SECTION ── -->
-  <section class="relative max-w-5xl mx-auto pt-8 pb-16 px-6 md:px-12 text-center">
-    <!-- Live Badge -->
-    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 mb-6 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-xs font-mono font-bold tracking-wider uppercase">
-      <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-      {tx.tierLabel}
-    </div>
-
-    <!-- H1 Headline -->
-    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-[1.05] tracking-tightest text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 max-w-4xl mx-auto">
-      {tx.heroH1} <span class="text-primary block mt-1">{tx.heroH1Sub}</span>
+  <!-- Hero -->
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
+    <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.tier}</p>
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6">
+      {tx.heroH1}<span class="text-primary">{tx.heroH1End}</span>
     </h1>
-
-    <!-- Subheadline -->
-    <p class="text-slate-600 dark:text-slate-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
+    <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
       {tx.heroDesc}
     </p>
-
-    <!-- CTAs -->
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-14">
+    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
       <a
         href={isEn ? "/en/ai-agent/demo" : "/ai-agent/demo/"}
-        class="btn-swiss w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest hover:bg-primary-dark transition-colors"
+        class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
       >
-        <span class="material-symbols-outlined text-[18px]">play_circle</span>
+        <span class="material-symbols-outlined">play_circle</span>
         {tx.demoBtn}
       </a>
       <a
-        href="https://wa.me/6289536870777"
+        href={WA_JASA}
         target="_blank"
         rel="noopener noreferrer"
-        class="btn-swiss w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark font-bold text-sm uppercase tracking-widest hover:text-primary transition-colors"
+        class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
       >
-        <span class="material-symbols-outlined text-[18px]">chat</span>
-        {tx.waBtn}
+        <span class="material-symbols-outlined">chat</span>
+        {tx.waLabel}
       </a>
     </div>
+  </section>
 
-    <!-- ── INTERACTIVE CHAT MOCKUP SHOWCASE ── -->
-    <div class="max-w-3xl mx-auto text-left bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark overflow-hidden">
-      <!-- Mockup Header Bar -->
-      <div class="bg-charcoal text-white px-5 py-3.5 flex items-center justify-between border-b-2 border-charcoal dark:border-slate-800">
-        <div class="flex items-center gap-3">
-          <div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold text-xs">
-            AI
-            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-charcoal rounded-full"></span>
-          </div>
-          <div>
-            <div class="font-display font-bold text-xs tracking-wide uppercase">{tx.chatHeaderTitle}</div>
-            <div class="text-[10px] font-mono text-emerald-400 tracking-wider uppercase">{tx.chatStatus}</div>
-          </div>
+  <!-- Outcome statement -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
+      <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+        {tx.outcome}
+      </p>
+    </div>
+  </section>
+
+  <!-- Interactive Chat Showcase (Swiss Style) -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 md:p-8">
+      <div class="flex items-center justify-between border-b-2 border-charcoal dark:border-white pb-4 mb-6">
+        <div>
+          <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">Live Concierge Simulation</p>
+          <h2 class="font-display font-bold text-xl text-charcoal dark:text-white">{tx.chatTitle}</h2>
         </div>
-        <div class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
-        </div>
+        <span class="flex items-center gap-2 text-xs font-mono font-bold text-primary uppercase">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          24/7 Live
+        </span>
       </div>
 
-      <!-- Mockup Conversation Body -->
-      <div class="p-6 md:p-8 space-y-6 bg-slate-50/50 dark:bg-slate-950/40">
-        <!-- Guest Message Bubble -->
-        <div class="flex flex-col items-end max-w-[90%] md:max-w-[80%] ml-auto">
-          <span class="text-[10px] font-mono text-slate-600 dark:text-slate-400 mb-1.5">{tx.chatGuestTime}</span>
-          <div class="bg-charcoal dark:bg-slate-800 text-white p-4 rounded-tl-xl rounded-tr-sm rounded-bl-xl rounded-br-xl text-sm leading-relaxed border border-slate-700">
-            {tx.chatGuestMsg}
-          </div>
+      <!-- Dialogue flow -->
+      <div class="space-y-4 mb-6">
+        <!-- Guest -->
+        <div class="border-2 border-charcoal dark:border-white p-4 bg-slate-50 dark:bg-slate-800">
+          <p class="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">{tx.chatGuestTime}</p>
+          <p class="text-sm font-medium text-charcoal dark:text-white leading-relaxed">{tx.chatGuestMsg}</p>
         </div>
 
-        <!-- AI Concierge Response Bubble -->
-        <div class="flex flex-col items-start max-w-[95%] md:max-w-[88%] mr-auto">
-          <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold mb-1.5 flex items-center gap-1">
-            <span class="material-symbols-outlined text-[14px]">bolt</span> {tx.chatAiTime}
-          </span>
-          <div class="bg-white dark:bg-slate-900 text-charcoal dark:text-slate-100 p-5 rounded-tr-xl rounded-tl-sm rounded-bl-xl rounded-br-xl text-sm leading-relaxed border-2 border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-            <p>{tx.chatAiMsg}</p>
-
-            <!-- Embedded Room Card Preview -->
-            <div class="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-4 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-              <div>
-                <div class="font-bold text-sm text-charcoal dark:text-white">{tx.chatRoomTitle}</div>
-                <div class="text-primary font-extrabold text-base">{tx.chatRoomRate}</div>
-                <div class="text-[11px] font-mono text-slate-600 dark:text-slate-400 mt-0.5">{tx.chatRoomTag}</div>
-              </div>
-              <a
-                href={isEn ? "/en/ai-agent/demo" : "/ai-agent/demo/"}
-                class="btn-swiss inline-flex items-center gap-1 px-4 py-2 bg-primary text-white font-bold text-xs uppercase tracking-wider rounded border border-charcoal whitespace-nowrap hover:bg-primary-dark transition-colors"
-              >
-                {tx.chatBookBtn}
-              </a>
+        <!-- AI Agent -->
+        <div class="border-2 border-primary p-4 bg-primary/5 dark:bg-primary/10">
+          <p class="text-[11px] font-mono uppercase tracking-wider text-primary font-bold mb-1">{tx.chatAiTime}</p>
+          <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed mb-4">{tx.chatAiMsg}</p>
+          
+          <div class="border border-charcoal dark:border-white p-3 bg-white dark:bg-slate-900 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <div>
+              <p class="font-bold text-sm text-charcoal dark:text-white">{tx.chatRoomTitle}</p>
+              <p class="text-xs font-bold text-primary">{tx.chatRoomRate} <span class="text-slate-500 font-normal">({tx.chatRoomTag})</span></p>
             </div>
+            <a
+              href={isEn ? "/en/ai-agent/demo" : "/ai-agent/demo/"}
+              class="btn-swiss inline-flex items-center gap-1 px-3 py-1.5 bg-primary text-white font-bold text-xs uppercase tracking-wider border border-charcoal"
+            >
+              {tx.chatBookBtn}
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- Mockup Footer Badge -->
-      <div class="px-5 py-3 bg-emerald-500/10 border-t border-emerald-500/20 text-center">
-        <p class="text-xs font-mono font-bold text-emerald-800 dark:text-emerald-300">
-          {tx.chatFooterBadge}
-        </p>
+      <div class="pt-3 border-t border-slate-200 dark:border-slate-700 text-center">
+        <p class="text-xs font-mono font-bold text-slate-600 dark:text-slate-400">{tx.chatFooter}</p>
       </div>
     </div>
   </section>
 
-  <!-- ── STATS STRIP ── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-12 mb-16">
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 text-center">
-        <div class="font-display font-extrabold text-3xl md:text-4xl text-primary mb-1">{tx.stat1Val}</div>
-        <div class="text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400">{tx.stat1Lbl}</div>
-      </div>
-      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 text-center">
-        <div class="font-display font-extrabold text-3xl md:text-4xl text-primary mb-1">{tx.stat2Val}</div>
-        <div class="text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400">{tx.stat2Lbl}</div>
-      </div>
-      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 text-center">
-        <div class="font-display font-extrabold text-3xl md:text-4xl text-primary mb-1">{tx.stat3Val}</div>
-        <div class="text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400">{tx.stat3Lbl}</div>
-      </div>
-      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 text-center">
-        <div class="font-display font-extrabold text-3xl md:text-4xl text-primary mb-1">{tx.stat4Val}</div>
-        <div class="text-xs font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400">{tx.stat4Lbl}</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── COMPARISON SECTION (MARGIN RECOVERY) ── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-12 mb-16">
-    <div class="text-center mb-10">
-      <h2 class="font-display font-bold text-2xl md:text-4xl text-charcoal dark:text-white mb-3">
-        {tx.compTitle}
+  <!-- Why Section / Margin Recovery Thesis -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
+        {tx.whyTitle}
       </h2>
-      <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-        {tx.compSubtitle}
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        {tx.whyP1}
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+        {tx.whyP2}
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+        {tx.whyP3}
       </p>
     </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Without Card -->
-      <div class="bg-red-50/50 dark:bg-red-950/20 border-2 border-red-200 dark:border-red-900/50 p-8">
-        <div class="flex items-center gap-2 mb-6 text-red-600 dark:text-red-400 font-bold uppercase text-xs tracking-wider font-mono">
-          <span class="material-symbols-outlined text-[18px]">cancel</span>
-          {tx.compWithoutTitle}
-        </div>
-        <ul class="space-y-4">
-          <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-            <span class="text-red-500 font-bold mt-0.5">✕</span>
-            <span>{tx.compWithout1}</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-            <span class="text-red-500 font-bold mt-0.5">✕</span>
-            <span>{tx.compWithout2}</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-            <span class="text-red-500 font-bold mt-0.5">✕</span>
-            <span>{tx.compWithout3}</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- With Card -->
-      <div class="bg-emerald-50/60 dark:bg-emerald-950/20 border-2 border-emerald-500/40 p-8 shadow-premium dark:shadow-premium-dark">
-        <div class="flex items-center gap-2 mb-6 text-emerald-700 dark:text-emerald-300 font-bold uppercase text-xs tracking-wider font-mono">
-          <span class="material-symbols-outlined text-[18px]">check_circle</span>
-          {tx.compWithTitle}
-        </div>
-        <ul class="space-y-4">
-          <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-            <span class="text-primary font-bold mt-0.5">✓</span>
-            <span>{tx.compWith1}</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
-            <span class="text-primary font-bold mt-0.5">✓</span>
-            <span>{tx.compWith2}</span>
-          </li>
-          <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 font-medium">
-            <span class="text-primary font-bold mt-0.5">✓</span>
-            <span>{tx.compWith3}</span>
-          </li>
-        </ul>
-      </div>
-    </div>
   </section>
 
-  <!-- ── 4 CORE CAPABILITIES ── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-12 mb-16">
-    <div class="text-center mb-10">
-      <h2 class="font-display font-bold text-2xl md:text-4xl text-charcoal dark:text-white mb-3">
-        {tx.featTitle}
-      </h2>
-      <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-        {tx.featSubtitle}
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8">
-        <div class="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-primary mb-5">
-          <span class="material-symbols-outlined text-2xl">sync_saved_locally</span>
-        </div>
-        <h3 class="font-display font-bold text-xl text-charcoal dark:text-white mb-2">{tx.feat1Title}</h3>
-        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{tx.feat1Desc}</p>
-      </div>
-
-      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8">
-        <div class="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-primary mb-5">
-          <span class="material-symbols-outlined text-2xl">verified</span>
-        </div>
-        <h3 class="font-display font-bold text-xl text-charcoal dark:text-white mb-2">{tx.feat2Title}</h3>
-        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{tx.feat2Desc}</p>
-      </div>
-
-      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8">
-        <div class="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-primary mb-5">
-          <span class="material-symbols-outlined text-2xl">translate</span>
-        </div>
-        <h3 class="font-display font-bold text-xl text-charcoal dark:text-white mb-2">{tx.feat3Title}</h3>
-        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{tx.feat3Desc}</p>
-      </div>
-
-      <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8">
-        <div class="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-primary mb-5">
-          <span class="material-symbols-outlined text-2xl">analytics</span>
-        </div>
-        <h3 class="font-display font-bold text-xl text-charcoal dark:text-white mb-2">{tx.feat4Title}</h3>
-        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{tx.feat4Desc}</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 4-STAGE PIPELINE ── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-12 mb-16">
+  <!-- Features Grid -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8 text-center">
-        {tx.stepsTitle}
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        {tx.featuresTitle}
       </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="relative">
-          <div class="font-display font-extrabold text-4xl text-primary mb-2">{tx.step1Num}</div>
-          <h3 class="font-bold text-charcoal dark:text-white text-base mb-2">{tx.step1Title}</h3>
-          <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">{tx.step1Desc}</p>
-        </div>
-        <div class="relative">
-          <div class="font-display font-extrabold text-4xl text-primary mb-2">{tx.step2Num}</div>
-          <h3 class="font-bold text-charcoal dark:text-white text-base mb-2">{tx.step2Title}</h3>
-          <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">{tx.step2Desc}</p>
-        </div>
-        <div class="relative">
-          <div class="font-display font-extrabold text-4xl text-primary mb-2">{tx.step3Num}</div>
-          <h3 class="font-bold text-charcoal dark:text-white text-base mb-2">{tx.step3Title}</h3>
-          <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">{tx.step3Desc}</p>
-        </div>
-        <div class="relative">
-          <div class="font-display font-extrabold text-4xl text-primary mb-2">{tx.step4Num}</div>
-          <h3 class="font-bold text-charcoal dark:text-white text-base mb-2">{tx.step4Title}</h3>
-          <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">{tx.step4Desc}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── INTERACTIVE LIVE DEMO CALLOUT BANNER ── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-12 mb-16">
-    <div class="bg-charcoal text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
-      <div class="max-w-xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 mb-3 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Live Interactive Sandbox
-        </div>
-        <h2 class="font-display font-bold text-2xl md:text-3xl mb-3">
-          {tx.demoBannerTitle}
-        </h2>
-        <p class="text-slate-300 text-sm leading-relaxed">
-          {tx.demoBannerDesc}
-        </p>
-      </div>
-      <a
-        href={isEn ? "/en/ai-agent/demo" : "/ai-agent/demo/"}
-        class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-white font-bold text-sm uppercase tracking-widest hover:bg-primary-dark transition-colors whitespace-nowrap"
-      >
-        {tx.demoBannerBtn}
-      </a>
-    </div>
-  </section>
-
-  <!-- ── SUPPORTED LANGUAGES GRID ── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-12 mb-16">
-    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
-      <div class="text-center mb-8">
-        <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-2">
-          {tx.langTitle}
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 text-sm max-w-xl mx-auto">
-          {tx.langSubtitle}
-        </p>
-      </div>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {tx.langs.map(l => (
-          <div class="border border-slate-200 dark:border-slate-700 p-4 rounded bg-slate-50/50 dark:bg-slate-800/40">
-            <span class="text-xs font-mono font-extrabold text-primary block mb-1">[{l.code}]</span>
-            <div class="font-bold text-charcoal dark:text-white text-sm">{l.name}</div>
-            <div class="text-[11px] text-slate-600 dark:text-slate-400">{l.note}</div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {tx.features.map(f => (
+          <div class="flex gap-4 items-start">
+            <div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+            <div>
+              <h3 class="font-bold text-charcoal dark:text-white mb-1">{f.title}</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{f.desc}</p>
+            </div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ── FAQ SECTION ── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-12 mb-16">
+  <!-- Setup & How It Works -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        {tx.stepsTitle}
+      </h2>
+      <div class="space-y-6">
+        {tx.steps.map(({ step, title, desc }) => (
+          <div class="flex gap-6 items-start">
+            <div class="font-display font-extrabold text-3xl text-primary min-w-[3rem]">{step}</div>
+            <div>
+              <h3 class="font-bold text-charcoal dark:text-white mb-1">{title}</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Sandbox Banner -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center">
+      <p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Interactive Prototype</p>
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
+        {tx.demoBannerTitle}
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 max-w-xl mx-auto text-sm md:text-base">
+        {tx.demoBannerDesc}
+      </p>
+      <a
+        href={isEn ? "/en/ai-agent/demo" : "/ai-agent/demo/"}
+        class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
+      >
+        <span class="material-symbols-outlined">play_circle</span>
+        {tx.demoBannerBtn}
+      </a>
+    </div>
+  </section>
+
+  <!-- Supported Languages -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
+        {tx.langTitle}
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4 text-sm">
+        {tx.langP}
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+        {tx.langs.map(lang => (
+          <div class="flex items-center gap-2">
+            <div class="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></div>
+            <span class="text-slate-600 dark:text-slate-400 text-sm font-medium">{lang}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
       <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8 text-center">
         {tx.faqTitle}
@@ -597,7 +408,7 @@ const about = [
       <div class="space-y-6">
         {tx.faq.map((item) => (
           <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0">
-            <h3 class="font-bold text-charcoal dark:text-white text-base mb-2">{item.q}</h3>
+            <h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3>
             <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p>
           </div>
         ))}
@@ -605,8 +416,8 @@ const about = [
     </div>
   </section>
 
-  <!-- ── ECOSYSTEM NAVIGATION ── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-12 mb-16">
+  <!-- Ecosystem Navigation -->
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12">
     <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4 text-center">{tx.ecoLabel}</p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <a
@@ -614,7 +425,7 @@ const about = [
         class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block"
       >
         <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">{tx.card1Label}</p>
-        <p class="font-bold text-charcoal dark:text-white text-base">{tx.card1Title}</p>
+        <p class="font-bold text-charcoal dark:text-white">{tx.card1Title}</p>
         <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">{tx.card1Desc}</p>
       </a>
       <a
@@ -622,7 +433,7 @@ const about = [
         class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block"
       >
         <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">{tx.card2Label}</p>
-        <p class="font-bold text-charcoal dark:text-white text-base">{tx.card2Title}</p>
+        <p class="font-bold text-charcoal dark:text-white">{tx.card2Title}</p>
         <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">{tx.card2Desc}</p>
       </a>
       <a
@@ -630,37 +441,37 @@ const about = [
         class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 card-swiss block"
       >
         <p class="text-xs font-mono uppercase tracking-widest text-primary mb-1">{tx.card3Label}</p>
-        <p class="font-bold text-charcoal dark:text-white text-base">{tx.card3Title}</p>
+        <p class="font-bold text-charcoal dark:text-white">{tx.card3Title}</p>
         <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">{tx.card3Desc}</p>
       </a>
     </div>
   </section>
 
-  <!-- ── FINAL HIGH-IMPACT CTA ── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-12 mb-12 text-center">
-    <div class="bg-primary/5 dark:bg-primary/10 border-2 border-primary p-8 md:p-12 shadow-premium dark:shadow-premium-dark">
-      <h2 class="font-display font-extrabold text-2xl md:text-4xl text-charcoal dark:text-white mb-4">
-        {tx.ctaCardTitle}
+  <!-- Final CTA Card -->
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">
+        {tx.finalCtaTitle}
       </h2>
-      <p class="text-slate-600 dark:text-slate-300 text-sm md:text-base max-w-xl mx-auto mb-8 leading-relaxed">
-        {tx.ctaCardDesc}
+      <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base max-w-lg mx-auto mb-8 leading-relaxed">
+        {tx.finalCtaDesc}
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a
           href="mailto:daniel@alphadigitalagency.id"
-          class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest hover:bg-primary-dark transition-colors"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
         >
-          <span class="material-symbols-outlined text-[18px]">mail</span>
-          {tx.ctaMailBtn}
+          <span class="material-symbols-outlined">mail</span>
+          {tx.ctaMail}
         </a>
         <a
-          href="https://wa.me/6289536870777"
+          href={WA_JASA}
           target="_blank"
           rel="noopener noreferrer"
-          class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest hover:text-primary transition-colors"
+          class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
         >
-          <span class="material-symbols-outlined text-[18px]">chat</span>
-          {tx.waBtn}
+          <span class="material-symbols-outlined">chat</span>
+          {tx.waLabel}
         </a>
       </div>
     </div>
