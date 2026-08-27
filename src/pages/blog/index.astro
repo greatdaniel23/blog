@@ -28,15 +28,28 @@ const hasEnPrefix =
 	Astro.url.pathname === "/en" || Astro.url.pathname.startsWith("/en/");
 const isEn = pageLocale === "en" || hasEnPrefix;
 
-const { results: posts } = await env.DB.prepare(
-	`SELECT * FROM posts WHERE is_published = 1 AND slug ${isEn ? "LIKE '%-en'" : "NOT LIKE '%-en'"} ORDER BY pub_date DESC`,
-).all<Post>();
+let posts: Post[] = [];
+let pillars: { pillar_id: string; title: string }[] = [];
 
-// Pillar hubs for the topical nav (KG-SEO v3 Gap #17) — data-driven from
-// content_pillars so a new pillar needs zero code.
-const { results: pillars } = await env.DB.prepare(
-	"SELECT pillar_id, title FROM content_pillars ORDER BY title",
-).all<{ pillar_id: string; title: string }>();
+if (env && env.DB) {
+	try {
+		const postsRes = await env.DB.prepare(
+			`SELECT * FROM posts WHERE is_published = 1 AND slug ${isEn ? "LIKE '%-en'" : "NOT LIKE '%-en'"} ORDER BY pub_date DESC`,
+		).all<Post>();
+		posts = postsRes.results ?? [];
+	} catch (e) {
+		console.error("Failed to load posts:", e);
+	}
+
+	try {
+		const pillarsRes = await env.DB.prepare(
+			"SELECT pillar_id, title FROM content_pillars ORDER BY title",
+		).all<{ pillar_id: string; title: string }>();
+		pillars = pillarsRes.results ?? [];
+	} catch (e) {
+		console.error("Failed to load pillars:", e);
+	}
+}
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/assets/*.{jpeg,jpg,png,gif}",

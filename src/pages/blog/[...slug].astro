@@ -55,12 +55,18 @@ try {
 
 // Increment view count (fire-and-forget via waitUntil, don't block render).
 // ctx is the CF ExecutionContext from the Astro Cloudflare adapter runtime.
-if (post) {
-	Astro.locals.runtime.ctx.waitUntil(
-		env.DB.prepare("UPDATE posts SET view_count = view_count + 1 WHERE id = ?")
+if (post && env?.DB) {
+	try {
+		const ctx = (Astro.locals as any)?.runtime?.ctx || (Astro.locals as any)?.runtime?.context;
+		const updatePromise = env.DB.prepare("UPDATE posts SET view_count = view_count + 1 WHERE id = ?")
 			.bind(post.id)
-			.run(),
-	);
+			.run();
+		if (ctx && typeof ctx.waitUntil === 'function') {
+			ctx.waitUntil(updatePromise);
+		}
+	} catch {
+		// Non-fatal view count update
+	}
 }
 
 const images = import.meta.glob<{ default: ImageMetadata }>(

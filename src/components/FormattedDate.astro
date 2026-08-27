@@ -1,18 +1,39 @@
 ---
 interface Props {
-	date: Date;
+	date: Date | string | number;
 	locale?: 'id' | 'en';
 }
 
-const { date, locale = 'id' } = Astro.props;
----
+const { date: rawDate, locale = 'id' } = Astro.props;
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString(locale === 'en' ? 'en-US' : 'id-ID', {
+let parsedDate: Date;
+if (rawDate instanceof Date) {
+	parsedDate = rawDate;
+} else if (typeof rawDate === 'string') {
+	const normalized = rawDate.includes(' ') && !rawDate.includes('T')
+		? rawDate.replace(' ', 'T') + '+08:00'
+		: rawDate;
+	parsedDate = new Date(normalized);
+	if (isNaN(parsedDate.getTime())) {
+		parsedDate = new Date(rawDate);
+	}
+} else if (typeof rawDate === 'number') {
+	parsedDate = new Date(rawDate);
+} else {
+	parsedDate = new Date();
+}
+
+const isValid = !isNaN(parsedDate.getTime());
+const isoString = isValid ? parsedDate.toISOString() : new Date().toISOString();
+const displayString = isValid
+	? parsedDate.toLocaleDateString(locale === 'en' ? 'en-US' : 'id-ID', {
 			year: 'numeric',
 			month: 'short',
 			day: 'numeric',
-		})
-	}
+	  })
+	: String(rawDate || '');
+---
+
+<time datetime={isoString}>
+	{displayString}
 </time>
