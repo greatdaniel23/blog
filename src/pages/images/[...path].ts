@@ -13,7 +13,27 @@ export async function GET({ params, locals }: { params: { path?: string }; local
     }
 
     try {
-        const object = await env.IMAGES.get(path);
+        let object = await env.IMAGES.get(path);
+
+        // Try alternative extensions (.webp <-> .png)
+        if (!object && path.endsWith('.png')) {
+            object = await env.IMAGES.get(path.replace(/\.png$/, '.webp'));
+        } else if (!object && path.endsWith('.webp')) {
+            object = await env.IMAGES.get(path.replace(/\.webp$/, '.png'));
+        }
+
+        // Try prefixing heroes/
+        if (!object && !path.startsWith('heroes/')) {
+            object = await env.IMAGES.get(`heroes/${path}`);
+            if (!object && path.endsWith('.png')) {
+                object = await env.IMAGES.get(`heroes/${path.replace(/\.png$/, '.webp')}`);
+            }
+        }
+
+        if (!object) {
+            // Try default fallback hero
+            object = await env.IMAGES.get("heroes/og-alpha-default.webp") || await env.IMAGES.get("og-alpha-default.webp");
+        }
 
         if (!object) {
             return new Response("Not Found", { status: 404 });
@@ -21,7 +41,7 @@ export async function GET({ params, locals }: { params: { path?: string }; local
 
         return new Response(object.body, {
             headers: {
-                "Content-Type": object.httpMetadata?.contentType || "image/png",
+                "Content-Type": object.httpMetadata?.contentType || (path.endsWith('.webp') ? "image/webp" : "image/png"),
                 "Cache-Control": "public, max-age=31536000, immutable",
             },
         });
@@ -30,3 +50,4 @@ export async function GET({ params, locals }: { params: { path?: string }; local
         return new Response("Failed to fetch image", { status: 500 });
     }
 }
+

@@ -167,7 +167,9 @@ const rawContent = post ? String(marked.parse(post.content)) : "";
 const content = rawContent
 	.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
 	.replace(/<h1(\s[^>]*)?>/gi, "<h2$1>")
-	.replace(/<\/h1>/gi, "</h2>");
+	.replace(/<\/h1>/gi, "</h2>")
+	.replace(/src=["'](?!https?:\/\/|\/)([^"']+)["']/gi, 'src="/images/heroes/$1"')
+	.replace(/\/images\/heroes\/([^"']+)\.png/gi, '/images/heroes/$1.webp');
 
 const seoTitleBySlug: Record<string, string> = {
 	"digital-marketing-agency-bali-hospitality": "Cara Memilih Digital Marketing Agency Bali untuk Hotel",
