@@ -394,22 +394,23 @@ if (post) {
 			topK: KG_QUERY_TOP_K,
 			returnMetadata: "all",
 		});
-		const twinSlug = post.slug.endsWith("-en") ? post.slug.slice(0, -3) : `${post.slug}-en`;
+		const fallbackTwinSlug = post.slug.endsWith("-en") ? post.slug.slice(0, -3) : `${post.slug}-en`;
 		const hits: RelatedArticle[] = [];
 		for (const m of res.matches ?? []) {
 			const md = m.metadata ?? {};
 			// Old chunks lack a language field (pre-re-sync) — treat missing as 'id'.
 			if ((md.language ?? "id") !== language) continue;
-			const slug = String(md.slug ?? md.doc_id ?? "").replace(/^blog_/, "");
-			if (!slug || slug === post.slug || slug === twinSlug) continue;
+			const hitSlug = String(md.slug ?? md.doc_id ?? "").replace(/^blog_/, "");
+			if (!hitSlug || hitSlug === post.slug || hitSlug === twinSlug || hitSlug === fallbackTwinSlug) continue;
+			if (/-en-en/.test(hitSlug)) continue;
 			let score = m.score;
 			const pillar = String(md.entity_tags ?? "");
 			if (post.pillar_id && pillar === post.pillar_id) score += KG_PILLAR_BOOST;
 			else if (post.pillar_id && pillar !== "unclassified") score -= KG_PILLAR_BOOST;
 			if (score < KG_FLOOR) continue;
 			hits.push({
-				slug,
-				title: String(md.title ?? slug),
+				slug: hitSlug,
+				title: String(md.title ?? hitSlug),
 				description: String(md.description ?? ""),
 				score,
 			});
