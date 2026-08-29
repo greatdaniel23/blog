@@ -153,10 +153,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
         ['Referrer-Policy', 'strict-origin-when-cross-origin'],
         ['Permissions-Policy', 'camera=(), microphone=(), geolocation=()'],
         // Content-Security-Policy (2026-08-17, Daniel-approved enforce; allow-list from
-        // live resource inventory: gtag GA4 + Google Fonts + inline scripts/styles +
+        // live resource inventory: gtag GA4 + Google Fonts + Google Preferred Sources + inline scripts/styles +
         // lh3.googleusercontent.com partner/hero images (WARDEN fix 2026-08-17).
         // No iframes/embeds exist on the site → frame-src 'none').
-        ['Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lh3.googleusercontent.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://stats.g.doubleclick.net; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"],
+        ['Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://news.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lh3.googleusercontent.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://stats.g.doubleclick.net; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"],
     ] as const) {
         response.headers.set(k, v);
     }

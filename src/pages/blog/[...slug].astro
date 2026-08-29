@@ -547,6 +547,10 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 	locale={postLocale}
 	altSlug={twinSlug}
 >
+	<Fragment slot="head">
+		<!-- Google Preferred Sources standard button library: article pages only. -->
+		<script async src="https://news.google.com/swg/js/v1/publisher.js"></script>
+	</Fragment>
 	<article class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
 		<!-- Hero Image -->
 		{
@@ -656,6 +660,8 @@ const aboutProp = post?.pillar_id ? [PILLAR_ABOUT[post.pillar_id]].filter(Boolea
 						{ui.email}
 				</a>
 			</div>
+			<!-- Native Google Preferred Sources badge; localized by Google's standard library. -->
+			<div class="mt-5" google-add-preferred-source-btn></div>
 		</section>
 
 		<section class="mt-12 border-2 border-charcoal dark:border-white bg-white dark:bg-slate-900 shadow-premium dark:shadow-premium-dark p-6 md:p-8">
