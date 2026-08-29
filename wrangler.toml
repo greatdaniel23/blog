@@ -1,5 +1,4 @@
 name = "blogtemplate"
-account_id = "b2a5cc3520b42302ad302f7a4790fbee"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat_v2"]
 pages_build_output_dir = "./dist"
