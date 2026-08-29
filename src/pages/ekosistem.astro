@@ -7,13 +7,185 @@ import Icon from "../components/Icon.astro";
 const locale = (Astro.locals as any).locale || 'id';
 const isEn = locale === 'en';
 
-// Unique build marker for post-deploy verification (per feedback_verify_deploy_target).
-// Grep for this string on production after deploy.
-const BUILD_MARKER = "EKOSISTEM-PITCH-2026-05-16-NEXUS";
+// Unique build marker for post-deploy verification.
+const BUILD_MARKER = "EKOSISTEM-LOCALIZED-2026-08-30";
+
+const t = {
+    id: {
+        metaTitle: "Hospitality Digital Stack Bali | Alpha Digital",
+        metaDesc: "Stack ekosistem digital end-to-end untuk vila dan hotel Bali: Google Ads, website, AI agent, booking engine, GA4, dan reporting dalam satu pipeline.",
+        serviceName: "Ekosistem Digital Hospitality Bali — Stack Terintegrasi Alpha Digital",
+        serviceDesc: "Stack ekosistem digital end-to-end untuk vila dan hotel Bali: Google Ads → Website → AI Agent → Booking Engine → GA4 → MCP. Satu pipeline, satu data, satu tujuan: geser 15–30% reservasi OTA ke direct booking.",
+        pageUrl: "https://alphadigitalagency.id/ekosistem/",
+        homeLabel: "Home",
+        homeUrl: "/",
+        badge: "Ekosistem — Stack Terintegrasi",
+        heroTitle: "Lima Lapisan. Satu Pipeline",
+        heroSubtitle: "Google Ads, website, AI Agent, booking engine, dan GA4 + MCP — dirancang sebagai satu sistem terintegrasi. Bukan lima vendor terpisah dengan sambungan yang bocor.",
+        heroCta: "Diskusi Implementasi",
+        thesis: "Tujuan akhir bukan \"punya lima alat digital\". Tujuannya adalah <strong>menggeser 15–30% reservasi dari OTA ke direct booking dalam 90 hari pertama</strong> — sehingga komisi 15–25% yang biasanya keluar ke Booking.com atau Agoda tetap di kantong properti Anda. Setiap lapisan di ekosistem ini diukur kontribusinya terhadap angka itu.",
+        flowTitle: "Alur Data End-to-End",
+        flowSubtitle: "Dari klik iklan sampai laporan bulanan — satu pipeline.",
+        flowNote: "↓ Konversi booking → atribusi balik ke Ads → optimasi keyword berdasarkan reservasi aktual ↑",
+        layers: [
+            {
+                n: "01",
+                name: "Google Ads",
+                role: "Sumber Traffic Bertarget",
+                body: "Kampanye Search, Performance Max, dan Hotel Ads dijalankan dengan keyword yang dipilih berdasarkan intent reservasi — bukan brand awareness umum. 9 tahun pengalaman di sisi praktisi.",
+                link: { href: "/services/growth", label: "Detail Layanan Growth" }
+            },
+            {
+                n: "02",
+                name: "Website",
+                role: "Landing dan Konversi",
+                body: "Halaman properti yang cepat (Core Web Vitals optimized), schema markup hospitality, dan jalur konversi yang lurus dari iklan ke booking — tanpa pop-up agresif yang merusak pengalaman tamu luxury.",
+                link: { href: "/services/authority", label: "Detail Layanan Authority" }
+            },
+            {
+                n: "03",
+                name: "AI Agent",
+                role: "Konsultan 24 Jam",
+                body: "Chatbot yang dilatih dari Google Place ID dan database properti Anda — menjawab pertanyaan ketersediaan, tarif, lokasi, dan kebijakan secara akurat dalam bahasa tamu. Mengarahkan tamu langsung ke booking engine.",
+                link: { href: "/services/ai-agent", label: "Detail AI Agent" }
+            },
+            {
+                n: "04",
+                name: "Booking Engine",
+                role: "Mesin Reservasi Langsung Milik Anda",
+                body: "Booking engine open-source milik Alpha (tanpa biaya lisensi bulanan) atau integrasi Cloudbeds / SiteMinder / Little Hotelier — pilihan Anda. Data reservasi tetap di properti, tidak terkunci vendor.",
+                link: { href: "/services/booking-integration", label: "Detail Booking Engine" }
+            },
+            {
+                n: "05",
+                name: "GA4 + MCP",
+                role: "Lapisan Data dan Laporan",
+                body: "Konversi booking engine masuk kembali ke Google Ads dan GA4 dengan atribusi yang benar. MCP server menggabungkan GA4 + Search Console + Google Ads + GBP dalam satu analisis cross-channel — pondasi laporan bulanan.",
+                link: { href: "/blog", label: "Insight dan Studi Kasus" }
+            }
+        ],
+        diffTitle: "Mengapa Integrasi yang Membedakan",
+        diffP1: "Banyak vila Bali sudah punya website, beberapa punya booking engine, sebagian kecil punya chatbot. Yang langka adalah <strong>data konversi yang mengalir bersih</strong> dari booking engine kembali ke Google Ads — dengan atribusi yang benar, dengan tagging yang konsisten, dengan laporan yang readable.",
+        diffP2: "Tanpa integrasi itu, Google Ads dioptimasi terhadap klik atau form-fill, bukan reservasi aktual. Vendor terpisah biasanya gagal di sambungan: tracking event tidak konsisten, conversion mismatch antara GA4 dan Ads, atau revenue tidak terkirim balik sebagai conversion value.",
+        diffP3: "Alpha Digital mendesain stack ini sebagai satu sistem dari awal — sehingga sambungan tidak bocor, dan keputusan optimasi iklan berbasis revenue, bukan proxy metric. Inilah alasan kami memposisikan Alpha sebagai <a href=\"/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency in Bali for hospitality</a>, bukan vendor lepas untuk satu channel.",
+        faqTitle: "Pertanyaan yang Sering Ditanya",
+        faq: [
+            {
+                q: "Apa yang dimaksud 'ekosistem' digital Alpha Digital?",
+                a: "Lima lapisan yang dirancang sebagai satu sistem terintegrasi: Google Ads sebagai sumber traffic berbayar, website sebagai landing, AI Agent sebagai konsultan 24 jam, booking engine sebagai mesin reservasi langsung milik properti, dan GA4 + MCP sebagai lapisan data yang menyatukan semuanya menjadi laporan readable dan optimizable."
+            },
+            {
+                q: "Apa bedanya dengan beli komponen ini dari vendor terpisah?",
+                a: "Setiap komponen sendiri-sendiri adalah komoditas. Yang langka adalah desain ujung-ke-ujung di mana data konversi dari booking engine mengalir kembali ke Google Ads dengan benar — sehingga keyword yang menghasilkan reservasi aktual bisa diidentifikasi, bukan sekadar klik. Multi-vendor biasanya gagal di sambungan; satu tim mengurangi blind spot."
+            },
+            {
+                q: "Apakah saya bisa pakai sebagian saja dari ekosistem?",
+                a: "Bisa. Banyak klien mulai dari Google Ads + GA4 tracking, lalu menambahkan booking engine, lalu AI Agent. Urutan dan komposisi disesuaikan kondisi properti — bukan paket all-or-nothing."
+            },
+            {
+                q: "Apa yang Alpha Digital miliki yang vendor lain tidak?",
+                a: "Booking engine milik kami sendiri (open source, tanpa biaya lisensi bulanan), AI Agent yang dilatih dari Google Place ID dan database properti Anda, dan 9 tahun pengalaman Google Ads di sisi praktisi — bukan dari side project. Kombinasi ini memungkinkan kami merekomendasikan opsi yang tidak terikat satu vendor mana pun."
+            },
+            {
+                q: "Berapa lama setup ekosistem lengkap?",
+                a: "Implementasi bertahap: GA4 + tracking foundation (2 minggu), Google Ads aktif (2–4 minggu), booking engine integration (3–6 minggu), AI Agent training dan deploy (2–4 minggu). Properti yang sudah punya sebagian komponen bisa lebih cepat."
+            }
+        ],
+        ctaQuestion: "Mau lihat ekosistem ini diterapkan ke properti Anda?",
+        ctaWa: "Konsultasi via WhatsApp",
+        ctaEmail: "Mulai Diskusi"
+    },
+    en: {
+        metaTitle: "Hospitality Digital Stack Bali | Alpha Digital",
+        metaDesc: "End-to-end integrated digital stack for Bali hotels and villas: Google Ads, high-performance website, AI concierge, booking engine, GA4, and unified reporting.",
+        serviceName: "Bali Hospitality Digital Ecosystem — Alpha Digital Integrated Stack",
+        serviceDesc: "End-to-end digital ecosystem stack for Bali villas and hotels: Google Ads → Website → AI Agent → Booking Engine → GA4 → MCP. One pipeline, one data truth, one goal: shift 15–30% of OTA reservations to direct bookings.",
+        pageUrl: "https://alphadigitalagency.id/en/ekosistem",
+        homeLabel: "Home",
+        homeUrl: "/en",
+        badge: "Ecosystem — Integrated Stack",
+        heroTitle: "Five Layers. One Pipeline",
+        heroSubtitle: "Google Ads, website, AI Agent, booking engine, and GA4 + MCP — engineered as a unified system. Not five disconnected vendors with leaking handoffs.",
+        heroCta: "Discuss Implementation",
+        thesis: "The end goal is not \"having five digital tools.\" The goal is to <strong>shift 15–30% of reservations from OTAs to direct bookings within the first 90 days</strong> — keeping the 15–25% commission normally lost to Booking.com or Agoda in your property's pocket. Every layer in this ecosystem is measured by its contribution to that number.",
+        flowTitle: "End-to-End Data Pipeline",
+        flowSubtitle: "From ad click to monthly reporting — one continuous pipeline.",
+        flowNote: "↓ Booking conversion → reverse attribution to Ads → keyword optimization based on real reservations ↑",
+        layers: [
+            {
+                n: "01",
+                name: "Google Ads",
+                role: "Targeted Traffic Source",
+                body: "Search, Performance Max, and Hotel Ads campaigns executed with keywords selected based on reservation intent — not generic awareness. Backed by 9 years of hands-on Google Ads expertise.",
+                link: { href: "/en/services/growth", label: "Explore Growth Services" }
+            },
+            {
+                n: "02",
+                name: "Website",
+                role: "Landing & Conversion Hub",
+                body: "Ultra-fast property landing pages (Core Web Vitals optimized), rich hospitality schema markup, and a direct conversion path from ad to booking — free of aggressive pop-ups that degrade the luxury guest experience.",
+                link: { href: "/en/services/authority", label: "Explore Authority Services" }
+            },
+            {
+                n: "03",
+                name: "AI Agent",
+                role: "24/7 AI Concierge",
+                body: "An AI assistant trained on your Google Place ID and property database — accurately answering questions about rates, availability, location, and policies in your guest's language. Seamlessly directs demand into your booking engine.",
+                link: { href: "/en/services/ai-agent", label: "Explore AI Concierge" }
+            },
+            {
+                n: "04",
+                name: "Booking Engine",
+                role: "Your Direct Reservation Engine",
+                body: "Alpha's open-source booking engine (zero monthly licensing fees) or seamless integration with Cloudbeds, SiteMinder, Little Hotelier, and STAAH. Your reservation data stays with your property — zero vendor lock-in.",
+                link: { href: "/en/services/booking-integration", label: "Explore Booking Engine" }
+            },
+            {
+                n: "05",
+                name: "GA4 + MCP",
+                role: "Data Layer & Unified Analytics",
+                body: "Direct booking conversions flow back into Google Ads and GA4 with clean, deterministic attribution. Our MCP server synthesizes GA4, Search Console, Google Ads, and GBP into unified cross-channel analytics — powering monthly actionable reporting.",
+                link: { href: "/en/blog", label: "Insights & Case Studies" }
+            }
+        ],
+        diffTitle: "Why Integration Makes the Difference",
+        diffP1: "Many Bali villas already have a website, some have a booking engine, and a few have an AI chatbot. What is truly rare is <strong>clean conversion data flowing seamlessly</strong> from the booking engine back into Google Ads — with correct attribution, disciplined event tagging, and clear, actionable reporting.",
+        diffP2: "Without end-to-end integration, Google Ads can only optimize for clicks or form fills rather than actual reservations. Multiple disconnected vendors almost always fail at the integration seams: broken event tracking, conversion mismatches between GA4 and Ads, or booking revenue never passing back as conversion value.",
+        diffP3: "Alpha Digital designs this stack as one cohesive system from day one — eliminating attribution leaks and anchoring advertising decisions in real revenue rather than vanity metrics. That is why we position Alpha as a <a href=\"/en\" class=\"text-primary font-semibold hover:underline\">hospitality digital marketing agency in Bali</a>, not an isolated vendor for a single channel.",
+        faqTitle: "Frequently Asked Questions",
+        faq: [
+            {
+                q: "What does Alpha Digital mean by a 'digital ecosystem'?",
+                a: "Five interconnected layers designed as one system: Google Ads as the high-intent traffic driver, website as the conversion landing page, AI Agent as the 24/7 concierge, booking engine as your commission-free direct sales channel, and GA4 + MCP as the data foundation uniting everything into actionable intelligence."
+            },
+            {
+                q: "How does this differ from buying components from separate vendors?",
+                a: "Individually, software tools are commodities. The true competitive moat is the end-to-end architecture where conversion data from your booking engine feeds back into Google Ads — enabling the algorithm to optimize for actual bookings instead of cheap clicks. Multi-vendor setups routinely fail at the integration seams."
+            },
+            {
+                q: "Can my property adopt only select components of the ecosystem?",
+                a: "Yes. Many clients begin with Google Ads + GA4 tracking foundation, subsequently integrating our booking engine, and later deploying the AI Agent. We tailor the sequence to your property's immediate operational needs rather than an all-or-nothing package."
+            },
+            {
+                q: "What proprietary capabilities does Alpha Digital offer?",
+                a: "Our own commission-free booking engine (open-source architecture without recurring license fees), a custom AI Agent trained on your Google Place ID and villa inventory, and 9 years of dedicated practitioner experience in Google Ads hospitality marketing."
+            },
+            {
+                q: "What is the typical implementation timeline for the full ecosystem?",
+                a: "We deploy in structured phases: GA4 + tracking foundation (2 weeks), active Google Ads campaigns (2–4 weeks), booking engine integration (3–6 weeks), and AI Agent customization & deployment (2–4 weeks). Properties with existing assets can move even faster."
+            }
+        ],
+        ctaQuestion: "Ready to see this ecosystem deployed for your property?",
+        ctaWa: "Consult via WhatsApp",
+        ctaEmail: "Start a Conversation"
+    }
+};
+
+const c = isEn ? t.en : t.id;
 
 const mainEntity = {
     "@type": "Service",
-    "name": "Ekosistem Digital Hospitality Bali — Stack Terintegrasi Alpha Digital",
+    "name": c.serviceName,
     "provider": {
         "@type": "Organization",
         "name": "Alpha Digital Agency",
@@ -22,87 +194,28 @@ const mainEntity = {
     "author": {
         "@type": "Person",
         "name": "Daniel Santoso",
-        "url": "https://alphadigitalagency.id/daniel-santoso/#person"
+        "url": isEn ? "https://alphadigitalagency.id/en/daniel-santoso/#person" : "https://alphadigitalagency.id/daniel-santoso/#person"
     },
     "areaServed": "Bali, Indonesia",
-    "description": "Stack ekosistem digital end-to-end untuk vila dan hotel Bali: Google Ads → Website → AI Agent → Booking Engine → GA4 → MCP. Satu pipeline, satu data, satu tujuan: geser 15–30% reservasi OTA ke direct booking.",
+    "description": c.serviceDesc,
     "serviceType": "Integrated Hospitality Digital Stack",
-    "url": "https://alphadigitalagency.id/ekosistem/"
+    "url": c.pageUrl
 };
 
-const faqItems = [
-    {
-        q: "Apa yang dimaksud 'ekosistem' digital Alpha Digital?",
-        a: "Lima lapisan yang dirancang sebagai satu sistem terintegrasi: Google Ads sebagai sumber traffic berbayar, website sebagai landing, AI Agent sebagai konsultan 24 jam, booking engine sebagai mesin reservasi langsung milik properti, dan GA4 + MCP sebagai lapisan data yang menyatukan semuanya menjadi laporan readable dan optimizable."
-    },
-    {
-        q: "Apa bedanya dengan beli komponen ini dari vendor terpisah?",
-        a: "Setiap komponen sendiri-sendiri adalah komoditas. Yang langka adalah desain ujung-ke-ujung di mana data konversi dari booking engine mengalir kembali ke Google Ads dengan benar — sehingga keyword yang menghasilkan reservasi aktual bisa diidentifikasi, bukan sekadar klik. Multi-vendor biasanya gagal di sambungan; satu tim mengurangi blind spot."
-    },
-    {
-        q: "Apakah saya bisa pakai sebagian saja dari ekosistem?",
-        a: "Bisa. Banyak klien mulai dari Google Ads + GA4 tracking, lalu menambahkan booking engine, lalu AI Agent. Urutan dan komposisi disesuaikan kondisi properti — bukan paket all-or-nothing."
-    },
-    {
-        q: "Apa yang Alpha Digital miliki yang vendor lain tidak?",
-        a: "Booking engine milik kami sendiri (open source, tanpa biaya lisensi bulanan), AI Agent yang dilatih dari Google Place ID dan database properti Anda, dan 9 tahun pengalaman Google Ads di sisi praktisi — bukan dari side project. Kombinasi ini memungkinkan kami merekomendasikan opsi yang tidak terikat satu vendor mana pun."
-    },
-    {
-        q: "Berapa lama setup ekosistem lengkap?",
-        a: "Implementasi bertahap: GA4 + tracking foundation (2 minggu), Google Ads aktif (2–4 minggu), booking engine integration (3–6 minggu), AI Agent training dan deploy (2–4 minggu). Properti yang sudah punya sebagian komponen bisa lebih cepat."
-    }
-];
-
+const faqItems = c.faq;
 const faq = faqItems;
 
 const breadcrumbs = [
-    { "name": "Home", "url": "/" },
-    { "name": "Ekosistem", "url": "https://alphadigitalagency.id/ekosistem/" }
-];
-
-const layers = [
-    {
-        n: "01",
-        name: "Google Ads",
-        role: "Sumber Traffic Bertarget",
-        body: "Kampanye Search, Performance Max, dan Hotel Ads dijalankan dengan keyword yang dipilih berdasarkan intent reservasi — bukan brand awareness umum. 9 tahun pengalaman di sisi praktisi.",
-        link: { href: "/services/growth", label: "Detail Layanan Growth" }
-    },
-    {
-        n: "02",
-        name: "Website",
-        role: "Landing dan Konversi",
-        body: "Halaman properti yang cepat (Core Web Vitals optimized), schema markup hospitality, dan jalur konversi yang lurus dari iklan ke booking — tanpa pop-up agresif yang merusak pengalaman tamu luxury.",
-        link: { href: "/services/authority", label: "Detail Layanan Authority" }
-    },
-    {
-        n: "03",
-        name: "AI Agent",
-        role: "Konsultan 24 Jam",
-        body: "Chatbot yang dilatih dari Google Place ID dan database properti Anda — menjawab pertanyaan ketersediaan, tarif, lokasi, dan kebijakan secara akurat dalam bahasa tamu. Mengarahkan tamu langsung ke booking engine.",
-        link: { href: "/services/ai-agent", label: "Detail AI Agent" }
-    },
-    {
-        n: "04",
-        name: "Booking Engine",
-        role: "Mesin Reservasi Langsung Milik Anda",
-        body: "Booking engine open-source milik Alpha (tanpa biaya lisensi bulanan) atau integrasi Cloudbeds / SiteMinder / Little Hotelier — pilihan Anda. Data reservasi tetap di properti, tidak terkunci vendor.",
-        link: { href: "/services/booking-engine", label: "Detail Booking Engine" }
-    },
-    {
-        n: "05",
-        name: "GA4 + MCP",
-        role: "Lapisan Data dan Laporan",
-        body: "Konversi booking engine masuk kembali ke Google Ads dan GA4 dengan atribusi yang benar. MCP server menggabungkan GA4 + Search Console + Google Ads + GBP dalam satu analisis cross-channel — pondasi laporan bulanan.",
-        link: { href: "/blog", label: "Insight dan Studi Kasus" }
-    }
+    { "name": c.homeLabel, "url": c.homeUrl },
+    { "name": isEn ? "Ecosystem" : "Ekosistem", "url": c.pageUrl }
 ];
 ---
 
 <SwissLayout
-    title="Hospitality Digital Stack Bali | Alpha Digital"
-    description="Integrated digital stack for Bali hotels and villas: Google Ads, website, AI agent, booking engine, GA4, and reporting in one implementation pipeline."
+    title={c.metaTitle}
+    description={c.metaDesc}
     currentPage="ekosistem"
+    locale={isEn ? "en" : "id"}
     mainEntity={mainEntity}
     faq={faq}
     breadcrumbs={breadcrumbs}
@@ -113,22 +226,22 @@ const layers = [
 
     <!-- Hero -->
     <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center pt-24">
-        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">Ekosistem — Stack Terintegrasi</p>
+        <p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{c.badge}</p>
         <h1
             class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6"
         >
-            Lima Lapisan. Satu Pipeline<span class="text-primary">.</span>
+            {c.heroTitle}<span class="text-primary">.</span>
         </h1>
         <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-            Google Ads, website, AI Agent, booking engine, dan GA4 + MCP — dirancang sebagai satu sistem terintegrasi. Bukan lima vendor terpisah dengan sambungan yang bocor.
+            {c.heroSubtitle}
         </p>
         <div class="mt-8">
             <a
-                href="mailto:daniel@alphadigitalagency.id"
+                href={isEn ? "mailto:daniel@alphadigitalagency.id?subject=Hospitality%20Digital%20Ecosystem%20Inquiry" : "mailto:daniel@alphadigitalagency.id?subject=Konsultasi%20Ekosistem%20Digital"}
                 class="btn-swiss inline-flex items-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
             >
                 <Icon name="mail" class="" />
-                Diskusi Implementasi
+                {c.heroCta}
             </a>
         </div>
     </section>
@@ -136,8 +249,7 @@ const layers = [
     <!-- Thesis statement -->
     <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
         <div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8">
-            <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">
-                Tujuan akhir bukan "punya lima alat digital". Tujuannya adalah <strong>menggeser 15–30% reservasi dari OTA ke direct booking dalam 90 hari pertama</strong> — sehingga komisi 15–25% yang biasanya keluar ke Booking.com atau Agoda tetap di kantong properti Anda. Setiap lapisan di ekosistem ini diukur kontribusinya terhadap angka itu.
+            <p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed" set:html={c.thesis}>
             </p>
         </div>
     </section>
@@ -146,12 +258,12 @@ const layers = [
     <section class="max-w-5xl mx-auto mb-16 px-6 md:px-12">
         <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
             <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-2">
-                Alur Data End-to-End
+                {c.flowTitle}
             </h2>
-            <p class="text-slate-600 dark:text-slate-400 text-sm mb-8">Dari klik iklan sampai laporan bulanan — satu pipeline.</p>
+            <p class="text-slate-600 dark:text-slate-400 text-sm mb-8">{c.flowSubtitle}</p>
 
             <div class="flex flex-col md:flex-row gap-4 items-stretch text-sm">
-                {layers.map((l) => (
+                {c.layers.map((l) => (
                     <div class="flex-1 border-2 border-charcoal/10 dark:border-white/10 p-4">
                         <p class="text-[10px] font-mono text-primary mb-1">{l.n}</p>
                         <p class="font-bold text-charcoal dark:text-white text-sm mb-1">{l.name}</p>
@@ -161,14 +273,14 @@ const layers = [
             </div>
 
             <div class="mt-6 text-xs font-mono text-slate-500 dark:text-slate-400 text-center">
-                ↓ Konversi booking → atribusi balik ke Ads → optimasi keyword berdasarkan reservasi aktual ↑
+                {c.flowNote}
             </div>
         </div>
     </section>
 
     <!-- Layer detail -->
     <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 space-y-6">
-        {layers.map((l) => (
+        {c.layers.map((l) => (
             <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-10">
                 <div class="flex items-baseline gap-4 mb-3">
                     <span class="text-xs font-mono text-primary">{l.n}</span>
@@ -188,16 +300,14 @@ const layers = [
     <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12">
         <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
             <h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">
-                Mengapa Integrasi yang Membedakan
+                {c.diffTitle}
             </h2>
-            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                Banyak vila Bali sudah punya website, beberapa punya booking engine, sebagian kecil punya chatbot. Yang langka adalah <strong>data konversi yang mengalir bersih</strong> dari booking engine kembali ke Google Ads — dengan atribusi yang benar, dengan tagging yang konsisten, dengan laporan yang readable.
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4" set:html={c.diffP1}>
             </p>
             <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                Tanpa integrasi itu, Google Ads dioptimasi terhadap klik atau form-fill, bukan reservasi aktual. Vendor terpisah biasanya gagal di sambungan: tracking event tidak konsisten, conversion mismatch antara GA4 dan Ads, atau revenue tidak terkirim balik sebagai conversion value.
+                {c.diffP2}
             </p>
-            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-                Alpha Digital mendesain stack ini sebagai satu sistem dari awal — sehingga sambungan tidak bocor, dan keputusan optimasi iklan berbasis revenue, bukan proxy metric. Inilah alasan kami memposisikan Alpha sebagai <a href="/" class="text-primary font-semibold hover:underline">digital marketing agency in Bali for hospitality</a>, bukan vendor lepas untuk satu channel.
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed" set:html={c.diffP3}>
             </p>
         </div>
     </section>
@@ -206,7 +316,7 @@ const layers = [
     <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12">
         <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12">
             <h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
-                Pertanyaan yang Sering Ditanya
+                {c.faqTitle}
             </h2>
             <div class="space-y-6">
                 {faqItems.map((item) => (
@@ -222,7 +332,7 @@ const layers = [
     <!-- CTA -->
     <section class="max-w-4xl mx-auto mb-20 px-6 md:px-12 text-center">
         <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg mb-6">
-            Mau lihat ekosistem ini diterapkan ke properti Anda?
+            {c.ctaQuestion}
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -232,14 +342,14 @@ const layers = [
                 class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"
             >
                 <Icon name="chat" class="" />
-                Konsultasi via WhatsApp
+                {c.ctaWa}
             </a>
             <a
-                href="mailto:daniel@alphadigitalagency.id"
+                href={isEn ? "mailto:daniel@alphadigitalagency.id?subject=Hospitality%20Digital%20Ecosystem%20Consultation" : "mailto:daniel@alphadigitalagency.id?subject=Konsultasi%20Ekosistem%20Digital"}
                 class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"
             >
                 <Icon name="mail" class="" />
-                Mulai Diskusi
+                {c.ctaEmail}
             </a>
         </div>
     </section>
