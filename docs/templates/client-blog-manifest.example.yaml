@@ -1,0 +1,130 @@
+# Non-secret input contract for BLOG_PLATFORM_LLM_IMPLEMENTATION_SPEC.md.
+# Copy this file per client. Never place credentials, OAuth tokens, API keys,
+# session secrets, or trigger secrets here.
+
+spec_version: 1
+
+client:
+  slug: "<client-slug>"
+  legal_name: "<Client Legal Name>"
+  brand_name: "<Client Brand Name>"
+  production_domain: "https://www.example.com"
+  staging_domain: "https://staging.example.com"
+  default_locale: "id"
+  locales:
+    - "id"
+    - "en"
+  timezone: "Asia/Singapore"
+
+cloudflare:
+  account_id: "<cloudflare-account-id>"
+  zone_id: "<cloudflare-zone-id>"
+  production:
+    website_project: "<client-slug>-website"
+    website_builder: "<website-command-center-or-provider>"
+    blog_dashboard_worker: "<client-slug>-blog-dashboard"
+    blog_dashboard_domain: "https://blog-admin.example.com"
+    blog_dashboard_access_application_id: "<production-access-app-id>"
+    blog_dashboard_access_audience: "<production-access-aud>"
+    content_worker: "<client-slug>-content-factory"
+    blog_database_name: "<client-slug>-blog-db"
+    blog_database_id: "<production-blog-d1-id>"
+    factory_database_name: "<client-slug>-content-factory-db"
+    factory_database_id: "<production-factory-d1-id>"
+    media_bucket_name: "<client-slug>-blog-media"
+  staging:
+    website_project: "<client-slug>-website-staging"
+    website_builder: "<website-command-center-or-provider>"
+    blog_dashboard_worker: "<client-slug>-blog-dashboard-staging"
+    blog_dashboard_domain: "https://blog-admin-staging.example.com"
+    blog_dashboard_access_application_id: "<staging-access-app-id>"
+    blog_dashboard_access_audience: "<staging-access-aud>"
+    content_worker: "<client-slug>-content-factory-staging"
+    blog_database_name: "<client-slug>-blog-db-staging"
+    blog_database_id: "<staging-blog-d1-id>"
+    factory_database_name: "<client-slug>-content-factory-db-staging"
+    factory_database_id: "<staging-factory-d1-id>"
+    media_bucket_name: "<client-slug>-blog-media-staging"
+
+bindings:
+  blog_database: "BLOG_DB"
+  factory_database: "FACTORY_DB"
+  blog_media: "BLOG_MEDIA"
+  workers_ai: "AI"
+  send_email: "EMAIL"
+  static_assets: "ASSETS"
+
+dashboard:
+  runtime: "cloudflare-python-worker"
+  framework: "fastapi"
+  access_protected: true
+  direct_cloudflare_account_api_token: false
+  roles:
+    viewer: []
+    editor: []
+    reviewer: []
+    publisher: []
+    admin: []
+  require_separate_reviewer_and_publisher: true
+  publication_requires_approved_hash: true
+  media_max_bytes: 10485760
+  allowed_media_types:
+    - "image/jpeg"
+    - "image/png"
+    - "image/webp"
+    - "image/avif"
+
+content:
+  required_approval_roles:
+    - "editor"
+    - "client_owner"
+  minimum_word_count: 1200
+  title_max_characters: 65
+  meta_description_min_characters: 120
+  meta_description_max_characters: 160
+  required_internal_links: 2
+  publishing_mode: "human_approval_required"
+  workers_ai_model: "@cf/meta/llama-3.2-3b-instruct"
+
+seo:
+  site_name: "<Client Site Name>"
+  publisher_name: "<Publisher Name>"
+  publisher_logo_url: "https://www.example.com/path/to/logo.png"
+  default_og_image_url: "https://www.example.com/path/to/default-og.png"
+  sitemap_path: "/sitemap.xml"
+  blog_paths:
+    id: "/id/blog"
+    en: "/en/blog"
+  article_path_pattern: "/{locale}/blog/{slug}"
+  staging_noindex: true
+
+author:
+  name: "<Primary Author Name>"
+  slug: "<primary-author-slug>"
+  credentials: "<Truthful public credentials>"
+  bio_id: "<Indonesian author bio>"
+  bio_en: "<English author bio>"
+  same_as: []
+
+analytics:
+  gsc_property: "sc-domain:example.com"
+  gtm_container_id: "<GTM-XXXXXXX>"
+  ga4_property_id: "<GA4 property id>"
+
+legacy_import:
+  enabled: false
+  source_database_name: null
+  source_posts_schema: null
+  english_slug_suffix: null
+  preserve_source_ids: true
+  require_backup_before_import: true
+
+operations:
+  backup_owner: "<person-or-role>"
+  deployment_approver: "<person-or-role>"
+  incident_contact: "<person-or-role>"
+  alert_email: "<verified-routing-address>"
+  data_retention_days:
+    audit_events: 730
+    gsc_snapshots: 400
+    rejected_drafts: 180
