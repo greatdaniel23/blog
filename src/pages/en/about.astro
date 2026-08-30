@@ -2,10 +2,52 @@
 import SwissLayout from "../../components/SwissLayout.astro";
 import Icon from "../../components/Icon.astro";
 
-export const prerender = true;
+const mainEntity = {
+  "@type": "Person",
+  "@id": "https://alphadigitalagency.id/daniel-santoso/#person",
+  "name": "Daniel Santoso",
+  "jobTitle": "Founder & Google Ads Specialist",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Alpha Digital Agency",
+    "url": "https://alphadigitalagency.id"
+  },
+  "knowsAbout": [
+    "Google Ads",
+    "GA4",
+    "Google Search Console",
+    "GTM",
+    "Booking Engine Integration",
+    "Hospitality Digital Marketing",
+    "Direct Booking Strategy",
+    "SEO for Hotels",
+    "AI Agent for Hospitality",
+    "Google Ads for Hotels Bali",
+    "OTA Reduction Strategy",
+    "Hotel Revenue Analytics"
+  ],
+  "description": "9 years of Google Ads specialization for hospitality properties in Bali. Founder of Alpha Digital Agency — a marketing practice combining Ads, SEO, and booking engine in one data system.",
+  "url": "https://alphadigitalagency.id/daniel-santoso/",
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "name": "Google Ads Specialist",
+    "credentialCategory": "professional experience"
+  }
+};
+
+const breadcrumbs = [
+  { "name": "Home", "url": "/en/" },
+  { "name": "About", "url": "/en/about/" }
+];
 ---
 
-<SwissLayout title="About Alpha Digital Agency — Bali Digital Marketing" description="Alpha Digital Agency Indonesia — Bali's first openly AI-powered digital agency. Google Ads, SEO, Direct Booking Engine, AI Agent for hotels, villas, and restaurants." currentPage="about">
+<SwissLayout
+  title="About Alpha Digital Agency — Bali Digital Marketing"
+  description="Alpha Digital Agency Indonesia — Bali's first openly AI-powered digital agency. Google Ads, SEO, Direct Booking Engine, AI Agent for hotels, villas, and restaurants."
+  currentPage="about"
+  mainEntity={mainEntity}
+  breadcrumbs={breadcrumbs}
+>
 
   <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
     <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-6">About <span class="text-primary">Alpha Digital</span></h1>
@@ -18,7 +60,7 @@ export const prerender = true;
 
       <h2 class="text-xl font-bold text-emerald-dark dark:text-white mt-10">Our Founder</h2>
       <p><strong>Daniel Santoso</strong> — 9 years of Google Ads experience, Google certified in Digital Marketing & E-Commerce and Google Ads Search. He operates as both founder and hands-on executor.</p>
-      <p><a href="/en/daniel-santoso" class="text-primary hover:underline font-bold">More about Daniel →</a></p>
+      <p><a href="/daniel-santoso/" class="text-primary hover:underline font-bold">More about Daniel →</a></p>
 
       <h2 class="text-xl font-bold text-emerald-dark dark:text-white mt-10">Core Services</h2>
       <div class="grid gap-4 sm:grid-cols-2 mt-4">

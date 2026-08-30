@@ -32,6 +32,10 @@ const STATIC_ROUTES: StaticRouteConfig[] = [
   { path: '/gallery', changefreq: 'monthly', priority: '0.6', lang: 'id' },
   { path: '/blog', changefreq: 'daily', priority: '0.7', altPath: '/blog', lang: 'id' },
   { path: '/privacy-policy', changefreq: 'yearly', priority: '0.3', altPath: '/en/privacy-policy', lang: 'id' },
+  // 3 Commercial Money Landing Pages (Indonesian)
+  { path: '/marketing-agency-bali', changefreq: 'weekly', priority: '0.9', altPath: '/en/marketing-agency-bali', lang: 'id' },
+  { path: '/digital-marketing-agency-bali', changefreq: 'weekly', priority: '0.9', altPath: '/en/digital-marketing-agency-bali', lang: 'id' },
+  { path: '/digital-agency-bali', changefreq: 'weekly', priority: '0.9', altPath: '/en/digital-agency-bali', lang: 'id' },
 
   // English Core Pages
   { path: '/en', changefreq: 'weekly', priority: '1.0', altPath: '/', lang: 'en' },
@@ -45,6 +49,10 @@ const STATIC_ROUTES: StaticRouteConfig[] = [
   { path: '/en/services/booking-integration', changefreq: 'monthly', priority: '0.8', altPath: '/services/booking-integration', lang: 'en' },
   { path: '/en/services/seo-data', changefreq: 'monthly', priority: '0.8', altPath: '/services/seo-data', lang: 'en' },
   { path: '/en/privacy-policy', changefreq: 'yearly', priority: '0.3', altPath: '/privacy-policy', lang: 'en' },
+  // 3 Commercial Money Landing Pages (English)
+  { path: '/en/marketing-agency-bali', changefreq: 'weekly', priority: '0.9', altPath: '/marketing-agency-bali', lang: 'en' },
+  { path: '/en/digital-marketing-agency-bali', changefreq: 'weekly', priority: '0.9', altPath: '/digital-marketing-agency-bali', lang: 'en' },
+  { path: '/en/digital-agency-bali', changefreq: 'weekly', priority: '0.9', altPath: '/digital-agency-bali', lang: 'en' },
 
   // Classes / Training (Indonesian)
   { path: '/kelas', changefreq: 'monthly', priority: '0.5', altPath: '/en/kelas', lang: 'id' },

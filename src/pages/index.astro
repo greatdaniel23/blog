@@ -25,7 +25,7 @@ const t = {
     compareLabel: "Digital Marketing Agency Bali",
     compareH2: "Digital Marketing Agency Bali for Hospitality Businesses",
     compareP1: "Banyak bisnis mencari digital marketing Bali karena butuh website, iklan, konten, atau SEO. Untuk hotel, vila, dan restoran, masalahnya lebih spesifik: traffic harus berubah menjadi reservasi langsung, data iklan harus tersambung ke booking engine, dan laporan harus menunjukkan channel mana yang benar-benar menghasilkan revenue.",
-    compareP2: "Alpha Digital tidak memposisikan diri sebagai agency umum untuk semua industri. Kami adalah digital marketing agency in Bali yang fokus pada hospitality: Google Ads, SEO, GA4/GTM tracking, booking engine integration, dan AI Agent yang membantu tamu sebelum mereka pindah ke OTA. Dalam istilah yang lebih sempit, kami juga tetap relevan untuk pencarian digital agency Bali, tapi fokus kami lebih besar: sistem marketing yang menghasilkan booking.",
+    compareP2: "Alpha Digital tidak memposisikan diri sebagai agency umum untuk semua industri. Sebagai <a href=\"/marketing-agency-bali/\" class=\"text-primary font-semibold hover:underline\">Marketing Agency Bali</a> dan <a href=\"/digital-marketing-agency-bali/\" class=\"text-primary font-semibold hover:underline\">Digital Marketing Agency Bali</a>, fokus kami eksklusif pada hospitality: Google Ads, SEO, GA4/GTM tracking, booking engine villa, dan AI Agent yang membantu tamu sebelum mereka pindah ke OTA. Sebagai <a href=\"/digital-agency-bali/\" class=\"text-primary font-semibold hover:underline\">Digital Agency Bali</a> terpadu, seluruh sistem kami terhubung dalam satu pipeline konversi.",
     compareP3: "Jika Anda mengelola properti di Bali, memilih digital marketing agency Bali seharusnya bukan hanya soal siapa yang bisa membuat konten terlihat bagus. Yang lebih penting adalah siapa yang bisa membaca Search Console, menghubungkan campaign Google Ads ke conversion value, memperbaiki halaman yang bocor, dan membangun sistem direct booking yang bisa dievaluasi setiap bulan.",
     compareP4: "Karena itu homepage ini menjadi pusat layanan Alpha: dari Google Ads untuk hotel dan vila, booking engine integration, AI Agent untuk hospitality, sampai ekosistem digital hospitality yang menyatukan traffic, website, reservasi, dan reporting.",
     compareBoxH3: "How Alpha Compares",
@@ -66,7 +66,7 @@ const t = {
     compareLabel: "Digital Marketing Agency Bali",
     compareH2: "Digital Marketing Agency Bali for Hospitality Businesses",
     compareP1: "Many businesses search for digital marketing Bali because they need a website, ads, content, or SEO. For hotels, villas, and restaurants, the problem is more specific: traffic must convert into direct reservations, ad data must connect to the booking engine, and reports must show which channels actually generate revenue.",
-    compareP2: "Alpha Digital does not position itself as a general agency for all industries. We are a digital marketing agency in Bali focused on hospitality: Google Ads, SEO, GA4/GTM tracking, booking engine integration, and AI Agents that assist guests before they move to an OTA. In narrower terms, we remain relevant for digital agency Bali searches, but our focus is larger: marketing systems that generate bookings.",
+    compareP2: "Alpha Digital does not position itself as a general agency for all industries. As a specialized <a href=\"/en/marketing-agency-bali/\" class=\"text-primary font-semibold hover:underline\">Marketing Agency Bali</a> and <a href=\"/en/digital-marketing-agency-bali/\" class=\"text-primary font-semibold hover:underline\">Digital Marketing Agency Bali</a>, our focus is hospitality: Google Ads, SEO, GA4/GTM tracking, villa booking engines, and AI Agents that assist guests before they move to an OTA. As a unified <a href=\"/en/digital-agency-bali/\" class=\"text-primary font-semibold hover:underline\">Digital Agency Bali</a>, all systems connect into one conversion pipeline.",
     compareP3: "If you manage a property in Bali, choosing a digital marketing agency Bali should not just be about who can make content look good. What matters more is who can read Search Console, connect Google Ads campaigns to conversion value, fix leaking pages, and build a direct booking system that can be evaluated every month.",
     compareP4: "That is why this homepage serves as Alpha's service hub: from Google Ads for hotels and villas, booking engine integration, AI Agent for hospitality, to the digital hospitality ecosystem that unifies traffic, website, reservations, and reporting.",
     compareBoxH3: "How Alpha Compares",
@@ -238,10 +238,10 @@ const about = [
         <p class="text-[10px] font-mono font-bold uppercase tracking-[0.22em] text-primary mb-3">{tx.compareLabel}</p>
         <h2 class="font-display font-bold text-3xl md:text-4xl text-charcoal dark:text-white leading-tight mb-5">{tx.compareH2}</h2>
         <div class="space-y-4 text-slate-700 dark:text-slate-300 text-sm md:text-base leading-relaxed">
-          <p>{tx.compareP1}</p>
-          <p>{tx.compareP2}</p>
-          <p>{tx.compareP3}</p>
-          <p>{tx.compareP4}</p>
+          <p set:html={tx.compareP1} />
+          <p set:html={tx.compareP2} />
+          <p set:html={tx.compareP3} />
+          <p set:html={tx.compareP4} />
         </div>
       </div>
       <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-6 md:p-8">

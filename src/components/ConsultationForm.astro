@@ -1,0 +1,255 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+    locale?: "id" | "en";
+}
+
+const { locale = "id" } = Astro.props;
+const isEn = locale === "en";
+---
+
+<section class="consultation-shell" aria-labelledby="consultation-form-title">
+    <div class="consultation-intro">
+        <p class="consultation-eyebrow">{isEn ? "A considered first step" : "Langkah pertama yang jelas"}</p>
+        <h1 id="consultation-form-title">{isEn ? "Tell us where your hospitality business needs momentum." : "Ceritakan bagian bisnis hospitality Anda yang perlu bergerak."}</h1>
+        <p class="consultation-lede">{isEn ? "Share a little context and Daniel will reply with the most useful next step for your property. This is a request for a conversation, not a guaranteed calendar booking." : "Ceritakan konteks singkatnya. Daniel akan membalas dengan langkah berikutnya yang paling relevan untuk properti Anda. Ini adalah permintaan percakapan, bukan booking kalender yang otomatis."}</p>
+        <div class="consultation-signals" aria-label={isEn ? "What happens next" : "Apa yang terjadi berikutnya"}>
+            <div class="consultation-signal">
+                <span class="consultation-signal-number">01</span>
+                <div><strong>{isEn ? "You share the signal" : "Anda berbagi konteks"}</strong><span>{isEn ? "A few details, in your own words." : "Beberapa detail, dengan bahasa Anda sendiri."}</span></div>
+            </div>
+            <div class="consultation-signal">
+                <span class="consultation-signal-number">02</span>
+                <div><strong>{isEn ? "We read the situation" : "Kami membaca situasinya"}</strong><span>{isEn ? "No generic package pitch." : "Bukan pitch paket yang generik."}</span></div>
+            </div>
+            <div class="consultation-signal">
+                <span class="consultation-signal-number">03</span>
+                <div><strong>{isEn ? "Daniel confirms availability" : "Daniel mengonfirmasi ketersediaan"}</strong><span>{isEn ? "You choose whether to continue." : "Anda yang memutuskan untuk lanjut."}</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="consultation-card">
+        <form id="consultation-request-form" novalidate data-locale={locale}>
+            <div class="consultation-form-heading">
+                <div>
+                    <p class="consultation-form-kicker">{isEn ? "Consultation request" : "Permintaan konsultasi"}</p>
+                    <h2>{isEn ? "A useful conversation starts here." : "Percakapan yang berguna dimulai di sini."}</h2>
+                </div>
+                <span class="consultation-required-note">* {isEn ? "required" : "wajib"}</span>
+            </div>
+
+            <div class="consultation-fields">
+                <div class="consultation-field consultation-field-wide">
+                    <label for="consultation-service">{isEn ? "What would you like to improve?" : "Apa yang ingin Anda benahi?"} <span aria-hidden="true">*</span></label>
+                    <select id="consultation-service" name="service" required>
+                        <option value="">{isEn ? "Choose a focus" : "Pilih fokus"}</option>
+                        <option value="website">{isEn ? "Website development" : "Pengembangan website"}</option>
+                        <option value="booking-engine">{isEn ? "Direct booking / booking engine" : "Direct booking / booking engine"}</option>
+                        <option value="ai-agent">{isEn ? "AI agent for business" : "AI agent untuk bisnis"}</option>
+                        <option value="google-ads">Google Ads</option>
+                        <option value="seo-data">{isEn ? "SEO & data tracking" : "SEO & tracking data"}</option>
+                        <option value="other">{isEn ? "Something else" : "Lainnya"}</option>
+                    </select>
+                    <span class="consultation-error" data-error-for="service" role="alert"></span>
+                </div>
+
+                <div class="consultation-field">
+                    <label for="consultation-name">{isEn ? "Your name" : "Nama Anda"} <span aria-hidden="true">*</span></label>
+                    <input id="consultation-name" name="name" type="text" autocomplete="name" maxlength="120" required placeholder={isEn ? "e.g. Maya Putri" : "contoh: Maya Putri"} />
+                    <span class="consultation-error" data-error-for="name" role="alert"></span>
+                </div>
+
+                <div class="consultation-field">
+                    <label for="consultation-business">{isEn ? "Business / property" : "Nama bisnis / properti"} <span aria-hidden="true">*</span></label>
+                    <input id="consultation-business" name="business_name" type="text" autocomplete="organization" maxlength="160" required placeholder={isEn ? "e.g. Ubud Garden Villas" : "contoh: Ubud Garden Villas"} />
+                    <span class="consultation-error" data-error-for="business_name" role="alert"></span>
+                </div>
+
+                <div class="consultation-field consultation-field-wide">
+                    <label for="consultation-contact">{isEn ? "Email or WhatsApp" : "Email atau WhatsApp"} <span aria-hidden="true">*</span></label>
+                    <input id="consultation-contact" name="contact" type="text" autocomplete="email" inputmode="email" maxlength="160" required placeholder={isEn ? "Where should Daniel reach you?" : "Daniel menghubungi Anda lewat mana?"} />
+                    <span class="consultation-hint">{isEn ? "One reliable way to reach you is enough." : "Satu jalur kontak yang aktif sudah cukup."}</span>
+                    <span class="consultation-error" data-error-for="contact" role="alert"></span>
+                </div>
+
+                <div class="consultation-field">
+                    <label for="consultation-date">{isEn ? "Preferred date" : "Tanggal pilihan"} <span aria-hidden="true">*</span></label>
+                    <input id="consultation-date" name="preferred_date" type="date" required />
+                    <span class="consultation-error" data-error-for="preferred_date" role="alert"></span>
+                </div>
+
+                <div class="consultation-field">
+                    <label for="consultation-time">{isEn ? "Preferred time" : "Waktu pilihan"} <span aria-hidden="true">*</span></label>
+                    <input id="consultation-time" name="preferred_time" type="time" required />
+                    <span class="consultation-hint">WITA · Asia/Makassar</span>
+                    <span class="consultation-error" data-error-for="preferred_time" role="alert"></span>
+                </div>
+
+                <div class="consultation-field consultation-field-wide">
+                    <label for="consultation-notes">{isEn ? "What should we know before we speak?" : "Apa yang perlu kami tahu sebelum bicara?"}</label>
+                    <textarea id="consultation-notes" name="notes" maxlength="1000" rows="4" placeholder={isEn ? "A current challenge, target, or useful context…" : "Tantangan, target, atau konteks yang membantu…"}></textarea>
+                    <span class="consultation-hint">{isEn ? "Optional · up to 1,000 characters" : "Opsional · maksimal 1.000 karakter"}</span>
+                    <span class="consultation-error" data-error-for="notes" role="alert"></span>
+                </div>
+            </div>
+
+            <div class="consultation-honeypot" aria-hidden="true">
+                <label for="consultation-company-url">Company URL</label>
+                <input id="consultation-company-url" name="company_url" tabindex="-1" autocomplete="off" />
+            </div>
+            <input type="hidden" name="timezone" value="Asia/Makassar" />
+
+            <div class="consultation-actions">
+                <p class="consultation-privacy">{isEn ? "Your details are used only to respond to this request." : "Data Anda hanya digunakan untuk merespons permintaan ini."}</p>
+                <button id="consultation-submit" class="btn-swiss consultation-submit" type="submit">
+                    <span class="consultation-submit-label">{isEn ? "Send consultation request" : "Kirim permintaan konsultasi"}</span>
+                    <span class="consultation-submit-loading" hidden>{isEn ? "Sending…" : "Mengirim…"}</span>
+                    <Icon name="arrow_forward" class="consultation-submit-icon" />
+                </button>
+            </div>
+            <p id="consultation-form-status" class="consultation-status" aria-live="polite"></p>
+        </form>
+
+        <div id="consultation-success" class="consultation-success" hidden tabindex="-1" aria-labelledby="consultation-success-title">
+            <span class="consultation-success-mark" aria-hidden="true">✓</span>
+            <p class="consultation-form-kicker">{isEn ? "Request received" : "Permintaan diterima"}</p>
+            <h2 id="consultation-success-title">{isEn ? "Thank you — Daniel will confirm the next step." : "Terima kasih — Daniel akan mengonfirmasi langkah berikutnya."}</h2>
+            <p>{isEn ? "We have your context. Your preferred time is a helpful guide, and Daniel will confirm availability directly." : "Konteks Anda sudah kami terima. Waktu pilihan menjadi panduan, dan Daniel akan mengonfirmasi ketersediaan secara langsung."}</p>
+            <p class="consultation-reference-label">{isEn ? "Reference" : "Referensi"} <strong id="consultation-reference"></strong></p>
+            <a class="consultation-back-link" href={isEn ? "/en" : "/"}>{isEn ? "Back to Alpha Digital" : "Kembali ke Alpha Digital"} <span aria-hidden="true">↗</span></a>
+        </div>
+    </div>
+</section>
+
+<script is:inline>
+    (() => {
+        const form = document.getElementById('consultation-request-form');
+        if (!form) return;
+        const success = document.getElementById('consultation-success');
+        const status = document.getElementById('consultation-form-status');
+        const submit = document.getElementById('consultation-submit');
+        const dateInput = document.getElementById('consultation-date');
+        const locale = form.dataset.locale === 'en' ? 'en' : 'id';
+        const text = locale === 'en'
+            ? { required: 'Please complete this field.', contact: 'Enter a valid email or WhatsApp number.', date: 'Choose a valid future date.', time: 'Choose a valid time.', failed: 'We could not send that request. Please check your details and try again.', network: 'The request could not reach us. Please try again in a moment.' }
+            : { required: 'Mohon lengkapi bagian ini.', contact: 'Masukkan email atau nomor WhatsApp yang valid.', date: 'Pilih tanggal mendatang yang valid.', time: 'Pilih waktu yang valid.', failed: 'Permintaan belum terkirim. Periksa data Anda lalu coba lagi.', network: 'Permintaan belum dapat terhubung. Silakan coba lagi sebentar.' };
+
+        const now = new Date();
+        const today = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+        if (dateInput) dateInput.min = today;
+
+        const errorFor = (name) => form.querySelector(`[data-error-for="${name}"]`);
+        const setError = (name, message) => {
+            const field = form.elements.namedItem(name);
+            const error = errorFor(name);
+            if (field && field.classList) field.classList.toggle('consultation-invalid', Boolean(message));
+            if (error) error.textContent = message || '';
+        };
+        const clearErrors = () => ['service', 'name', 'business_name', 'contact', 'preferred_date', 'preferred_time', 'notes'].forEach((name) => setError(name, ''));
+        const validEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        const validContact = (value) => validEmail(value) || value.replace(/\D/g, '').length >= 7;
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            clearErrors();
+            if (status) { status.textContent = ''; status.className = 'consultation-status'; }
+            const data = new FormData(form);
+            const values = Object.fromEntries(data.entries());
+            let firstInvalid = null;
+            const requireField = (name) => {
+                if (!String(values[name] || '').trim()) { setError(name, text.required); firstInvalid ||= form.elements.namedItem(name); return false; }
+                return true;
+            };
+            ['service', 'name', 'business_name', 'contact', 'preferred_date', 'preferred_time'].forEach(requireField);
+            if (values.contact && !validContact(String(values.contact).trim())) { setError('contact', text.contact); firstInvalid ||= form.elements.namedItem('contact'); }
+            if (values.preferred_date && (String(values.preferred_date) < today || !/^\d{4}-\d{2}-\d{2}$/.test(String(values.preferred_date)))) { setError('preferred_date', text.date); firstInvalid ||= form.elements.namedItem('preferred_date'); }
+            if (values.preferred_time && !/^\d{2}:\d{2}$/.test(String(values.preferred_time))) { setError('preferred_time', text.time); firstInvalid ||= form.elements.namedItem('preferred_time'); }
+            if (firstInvalid) { firstInvalid.focus(); return; }
+
+            submit.disabled = true;
+            submit.querySelector('.consultation-submit-label').hidden = true;
+            submit.querySelector('.consultation-submit-loading').hidden = false;
+            try {
+                const response = await fetch('/api/agency/consultation-request', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ...values, source_page: window.location.pathname }),
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok || payload.success !== true || !payload.reference) {
+                    if (status) { status.textContent = payload.error || text.failed; status.className = 'consultation-status consultation-status-error'; }
+                    return;
+                }
+                form.hidden = true;
+                document.getElementById('consultation-reference').textContent = payload.reference;
+                success.hidden = false;
+                success.focus();
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({ event: 'consultation_request', service: String(values.service), page_context: window.location.pathname });
+            } catch (_) {
+                if (status) { status.textContent = text.network; status.className = 'consultation-status consultation-status-error'; }
+            } finally {
+                submit.disabled = false;
+                submit.querySelector('.consultation-submit-label').hidden = false;
+                submit.querySelector('.consultation-submit-loading').hidden = true;
+            }
+        });
+    })();
+</script>
+
+<style>
+    .consultation-shell { width: min(1160px, calc(100% - 3rem)); margin: 0 auto 5rem; display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(2rem, 6vw, 6.5rem); align-items: start; }
+    .consultation-intro { padding-top: .75rem; }
+    .consultation-eyebrow, .consultation-form-kicker { color: #059669; font: 800 .68rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .2em; text-transform: uppercase; }
+    .consultation-intro h1 { margin: .9rem 0 1.35rem; color: #0f172a; font: 800 clamp(2.1rem, 4.2vw, 4.2rem)/.98 Manrope, sans-serif; letter-spacing: -.06em; }
+    .consultation-lede { max-width: 34rem; color: #475569; font-size: 1rem; line-height: 1.75; }
+    .consultation-signals { display: grid; gap: .9rem; margin-top: 2.5rem; border-top: 2px solid #0f172a; padding-top: 1.2rem; }
+    .consultation-signal { display: grid; grid-template-columns: 2.6rem 1fr; gap: .8rem; align-items: start; }
+    .consultation-signal-number { color: #059669; font: 800 .72rem/1 Manrope, sans-serif; letter-spacing: .08em; padding-top: .15rem; }
+    .consultation-signal strong, .consultation-signal span:last-child { display: block; }
+    .consultation-signal strong { color: #0f172a; font-size: .85rem; }
+    .consultation-signal span:last-child { color: #64748b; font-size: .78rem; line-height: 1.5; margin-top: .2rem; }
+    .consultation-card { border: 2px solid #0f172a; background: rgba(255,255,255,.92); box-shadow: 7px 5px 0 #0f172a; padding: clamp(1.3rem, 3vw, 2.3rem); }
+    .consultation-form-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: end; border-bottom: 1px solid #cbd5e1; padding-bottom: 1.25rem; margin-bottom: 1.35rem; }
+    .consultation-form-heading h2, .consultation-success h2 { margin-top: .45rem; color: #0f172a; font: 800 clamp(1.35rem, 2vw, 1.85rem)/1.08 Manrope, sans-serif; letter-spacing: -.04em; }
+    .consultation-required-note { color: #64748b; font-size: .7rem; white-space: nowrap; }
+    .consultation-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .consultation-field { min-width: 0; }
+    .consultation-field-wide { grid-column: 1 / -1; }
+    .consultation-field label { display: block; color: #0f172a; font-size: .78rem; font-weight: 800; margin-bottom: .45rem; }
+    .consultation-field label span { color: #059669; }
+    .consultation-field input, .consultation-field select, .consultation-field textarea { width: 100%; border: 1px solid #94a3b8; border-radius: 0; background: #f8fafc; color: #0f172a; font: 500 .9rem/1.4 Manrope, sans-serif; padding: .75rem .8rem; outline: none; transition: border-color .15s, box-shadow .15s, background-color .15s; }
+    .consultation-field textarea { resize: vertical; min-height: 7.2rem; }
+    .consultation-field input:focus, .consultation-field select:focus, .consultation-field textarea:focus { border-color: #059669; box-shadow: 3px 3px 0 rgba(5,150,105,.22); background: #fff; }
+    .consultation-field .consultation-invalid { border-color: #be123c; box-shadow: 3px 3px 0 rgba(190,18,60,.14); }
+    .consultation-hint, .consultation-error { display: block; font-size: .68rem; line-height: 1.45; margin-top: .35rem; }
+    .consultation-hint { color: #64748b; }
+    .consultation-error { color: #be123c; min-height: 0; }
+    .consultation-actions { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-top: 1px solid #cbd5e1; margin-top: 1.35rem; padding-top: 1.35rem; }
+    .consultation-privacy { max-width: 15rem; color: #64748b; font-size: .68rem; line-height: 1.5; }
+    .consultation-submit { display: inline-flex; align-items: center; justify-content: center; gap: .7rem; min-height: 3.2rem; border: 2px solid #0f172a; background: #059669; color: #fff; box-shadow: 5px 3px 0 #0f172a; padding: .75rem 1rem; font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .consultation-submit:disabled { cursor: wait; opacity: .7; }
+    .consultation-submit-icon { font-size: 1.1rem; }
+    .consultation-status { color: #475569; font-size: .78rem; line-height: 1.5; margin-top: 1rem; }
+    .consultation-status-error { color: #be123c; }
+    .consultation-success { text-align: left; }
+    .consultation-success-mark { display: grid; place-items: center; width: 3rem; height: 3rem; border: 2px solid #0f172a; background: #a7f3d0; color: #0f172a; font-size: 1.5rem; font-weight: 800; }
+    .consultation-success h2 { margin-top: 1.1rem; }
+    .consultation-success > p:not(.consultation-form-kicker):not(.consultation-reference-label) { color: #475569; font-size: .9rem; line-height: 1.7; margin-top: 1rem; }
+    .consultation-reference-label { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid #cbd5e1; margin-top: 1.5rem; padding-top: 1rem; color: #64748b; font: 700 .7rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; letter-spacing: .1em; }
+    .consultation-reference-label strong { color: #0f172a; letter-spacing: .08em; }
+    .consultation-back-link { display: inline-flex; gap: .45rem; margin-top: 1.8rem; color: #059669; font-size: .8rem; font-weight: 800; }
+    .consultation-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    @media (max-width: 800px) { .consultation-shell { width: min(100% - 2rem, 40rem); grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3rem; } .consultation-intro h1 { font-size: clamp(2.25rem, 11vw, 3.6rem); } }
+    @media (max-width: 520px) { .consultation-fields { grid-template-columns: 1fr; } .consultation-field-wide { grid-column: auto; } .consultation-actions { align-items: stretch; flex-direction: column; } .consultation-privacy { max-width: none; } .consultation-submit { width: 100%; } .consultation-card { box-shadow: 4px 4px 0 #0f172a; } }
+    :global(.dark) .consultation-intro h1, :global(.dark) .consultation-signal strong, :global(.dark) .consultation-field label, :global(.dark) .consultation-form-heading h2, :global(.dark) .consultation-success h2, :global(.dark) .consultation-reference-label strong { color: #fff; }
+    :global(.dark) .consultation-lede, :global(.dark) .consultation-signal span:last-child, :global(.dark) .consultation-hint, :global(.dark) .consultation-privacy, :global(.dark) .consultation-success > p:not(.consultation-form-kicker):not(.consultation-reference-label) { color: #cbd5e1; }
+    :global(.dark) .consultation-card { border-color: #fff; background: rgba(15,23,42,.92); box-shadow: 7px 5px 0 rgba(255,255,255,.9); }
+    :global(.dark) .consultation-signals, :global(.dark) .consultation-form-heading, :global(.dark) .consultation-actions, :global(.dark) .consultation-reference-label { border-color: #475569; }
+    :global(.dark) .consultation-field input, :global(.dark) .consultation-field select, :global(.dark) .consultation-field textarea { border-color: #64748b; background: #020617; color: #fff; }
+    :global(.dark) .consultation-field input:focus, :global(.dark) .consultation-field select:focus, :global(.dark) .consultation-field textarea:focus { background: #0f172a; }
+    :global(.dark) .consultation-success-mark { border-color: #fff; background: #059669; color: #fff; }
+    :global(.dark) .consultation-submit { border-color: #fff; box-shadow: 5px 3px 0 rgba(255,255,255,.9); }
+</style>

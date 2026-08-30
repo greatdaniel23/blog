@@ -1,0 +1,507 @@
+---
+import SwissLayout from "./SwissLayout.astro";
+import Icon from "./Icon.astro";
+import { WA_JASA } from "../lib/linkbio";
+
+interface Props {
+  variant: 'marketing' | 'digital-marketing' | 'digital-agency';
+  locale?: 'id' | 'en';
+}
+
+const { variant, locale = 'id' } = Astro.props;
+const isEn = locale === 'en';
+const prefix = isEn ? '/en' : '';
+const SITE_URL = 'https://alphadigitalagency.id';
+
+const pageData = {
+  marketing: {
+    id: {
+      canonicalSlug: 'marketing-agency-bali',
+      eyebrow: 'Hospitality Growth & Strategy',
+      title: 'Marketing Agency Bali untuk Hospitality Growth | Alpha Digital',
+      h1: 'Marketing Agency Bali untuk Keputusan Growth yang Terukur',
+      h2: 'Bukan sekadar agensi iklan — kami menghubungkan strategi akuisisi, booking funnel, dan audit data revenue untuk hotel, villa, dan restoran di Bali.',
+      deliverablesH2: 'Deliverables & Ruang Lingkup Kerja',
+      deliverables: [
+        {
+          title: 'Full-Funnel Acquisition Strategy',
+          desc: 'Pemetaan komprehensif dari pencarian berniat tinggi di Google, retensi tamu, hingga konversi reservasi langsung tanpa membakar anggaran pada saluran yang tidak efektif.'
+        },
+        {
+          title: 'Bi-Weekly Booking Funnel Audit',
+          desc: 'Audit berkala setiap dua minggu untuk menemukan kebocoran pada alur reservasi, drop-off rate pada halaman kamar/villa, dan performa konversi.'
+        },
+        {
+          title: 'Direct vs OTA Revenue Attribution',
+          desc: 'Pelacakan multi-channel yang membedakan pendapatan dari Google Ads, pencarian organik, dan OTA, sehingga return on ad spend (ROAS) terlihat transparan.'
+        },
+        {
+          title: 'Hospitality Tech Stack Advisory',
+          desc: 'Panduan integrasi booking engine standalone khusus villa atau integrasi tracking PMS hotel (SiteMinder, Cloudbeds, STAAH) dengan GA4.'
+        }
+      ],
+      comparisonH2: 'Perbedaan Pendekatan Marketing Agency Alpha',
+      comparisonRows: [
+        { aspect: 'Fokus Utama', general: 'Branding visual & jangkauan impresi luas', alpha: 'Direct booking, penurunan komisi OTA, dan ROAS terukur' },
+        { aspect: 'Akuntabilitas Data', general: 'Laporan metrik vanity (like, reach, klik)', alpha: 'Konversi reservasi riil, nilai transaksi, dan CPA' },
+        { aspect: 'Spesialisasi', general: 'Menangani semua sektor bisnis secara generik', alpha: 'Eksklusif hospitality (villa, boutique hotel, dan F&B) di Bali' },
+        { aspect: 'Teknologi & AI', general: 'Alat pemasaran standar terpisah', alpha: 'AI Agent 24/7 terintegrasi dengan GA4 dan booking flow' }
+      ],
+      faqTitle: 'Pertanyaan tentang Marketing Agency Bali',
+      faq: [
+        {
+          q: 'Apa perbedaan mendasar Marketing Agency Bali dengan Digital Marketing Agency?',
+          a: 'Marketing Agency berfokus pada strategi akuisisi menyeluruh, struktur penawaran, audit funnel reservasi, dan keputusan alokasi anggaran bisnis. Digital Marketing Agency adalah lapisan eksekusi taktis channel (Google Ads, SEO, GTM/GA4).'
+        },
+        {
+          q: 'Apakah Alpha Digital menangani properti hotel dan villa?',
+          a: 'Ya. Kami menangani villa, boutique hotel, dan restoran di Bali. Untuk villa mandiri, kami menyediakan sistem booking engine standalone (autoupdate kalender Airbnb). Untuk hotel, kami mengaudit dan mengintegrasikan tracking pada PMS/booking engine yang sudah digunakan.'
+        },
+        {
+          q: 'Bagaimana cara memulai evaluasi strategi marketing kami?',
+          a: 'Kami memulai dengan audit cepat terhadap data tracking, Search Console, dan performa Google Ads properti Anda tanpa biaya komitmen.'
+        }
+      ],
+      ctaTitle: 'Ubah Aktivitas Marketing Menjadi Keputusan Growth yang Jelas',
+      ctaDesc: 'Konsultasikan tantangan reservasi langsung dan ketergantungan OTA properti Anda bersama Daniel Santoso.',
+      ctaButton: 'Jadwalkan Konsultasi Strategi'
+    },
+    en: {
+      canonicalSlug: 'marketing-agency-bali',
+      eyebrow: 'Hospitality Growth & Strategy',
+      title: 'Marketing Agency Bali for Hospitality Growth | Alpha Digital',
+      h1: 'Marketing Agency Bali for Accountable Growth Decisions',
+      h2: 'Beyond a standard ad agency — we connect guest acquisition strategy, booking funnels, and revenue attribution for Bali hotels, villas, and restaurants.',
+      deliverablesH2: 'Core Deliverables & Scope of Work',
+      deliverables: [
+        {
+          title: 'Full-Funnel Acquisition Strategy',
+          desc: 'Comprehensive mapping from high-intent Google search to direct reservation conversion without wasting budget on low-intent channels.'
+        },
+        {
+          title: 'Bi-Weekly Booking Funnel Audit',
+          desc: 'Regular bi-weekly reviews identifying reservation leakages, room drop-off rates, and booking engine conversion friction.'
+        },
+        {
+          title: 'Direct vs OTA Revenue Attribution',
+          desc: 'Multi-channel analytics clearly tracking revenue generated from Google Ads, organic search, and OTAs for transparent ROAS.'
+        },
+        {
+          title: 'Hospitality Tech Stack Advisory',
+          desc: 'Architectural guidance on standalone booking engines for villas or GA4 tracking integration for existing hotel PMS platforms (SiteMinder, Cloudbeds, STAAH).'
+        }
+      ],
+      comparisonH2: 'How Alpha Marketing Agency Compares',
+      comparisonRows: [
+        { aspect: 'Primary Focus', general: 'Visual branding & broad vanity impressions', alpha: 'Direct bookings, lower OTA commissions, and verified ROAS' },
+        { aspect: 'Data Accountability', general: 'Vanity reports (likes, reach, clicks)', alpha: 'Actual confirmed reservations, booking value, and true CPA' },
+        { aspect: 'Industry Depth', general: 'Generic agency serving all industries', alpha: 'Dedicated exclusively to Bali villas, hotels, and luxury F&B' },
+        { aspect: 'AI & Automation', general: 'Siloed conventional marketing tools', alpha: '24/7 AI guest agents connected directly to GA4 and booking flows' }
+      ],
+      faqTitle: 'Frequently Asked Questions',
+      faq: [
+        {
+          q: 'What is the distinction between a Marketing Agency and a Digital Marketing Agency in Bali?',
+          a: 'A Marketing Agency focuses on high-level growth strategy, offer positioning, booking funnel architecture, and business-level capital allocation. A Digital Marketing Agency executes tactical channels (Google Ads, Technical SEO, GA4 setup).'
+        },
+        {
+          q: 'Does Alpha Digital service both villas and hotels?',
+          a: 'Yes. For standalone villas, we provide proprietary direct booking engines with Airbnb calendar auto-sync. For hotels, we audit and integrate end-to-end tracking on their existing PMS or booking engine platforms.'
+        },
+        {
+          q: 'How do we begin reviewing our marketing system?',
+          a: 'We start with a rapid diagnostic of your current tracking setup, Search Console health, and ad campaign structure with zero upfront commitment.'
+        }
+      ],
+      ctaTitle: 'Turn Marketing Activities into Measurable Growth Decisions',
+      ctaDesc: 'Discuss direct booking strategies and OTA reduction with founder Daniel Santoso.',
+      ctaButton: 'Schedule Strategy Consultation'
+    }
+  },
+  'digital-marketing': {
+    id: {
+      canonicalSlug: 'digital-marketing-agency-bali',
+      eyebrow: 'Channel Execution & Direct Bookings',
+      title: 'Digital Marketing Agency Bali untuk Direct Booking | Alpha Digital',
+      h1: 'Digital Marketing Agency Bali Khusus Direct Booking Hotel & Villa',
+      h2: 'Eksekusi Google Ads, SEO hospitality, GA4 tracking, dan AI Agent yang dirancang khusus untuk mendatangkan tamu langsung dan menekan komisi OTA.',
+      deliverablesH2: 'Layanan Eksekusi Channel Digital',
+      deliverables: [
+        {
+          title: 'Google Ads & Performance Max Management',
+          desc: 'Pengelolaan kampanye Search dan PMax dengan bid strategy berbasis nilai konversi aktual untuk menangkap tamu berintensi booking tinggi.'
+        },
+        {
+          title: 'Hospitality Technical SEO & Local Schema',
+          desc: 'Optimasi arsitektur website, schema markup terstruktur (Hotel/Resort/Villa), dan optimasi Google Business Profile untuk peringkat pencarian lokal.'
+        },
+        {
+          title: 'GA4 & Server-Side GTM Tracking',
+          desc: 'Setup pelacakan e-commerce lengkap dari impresi iklan, klik kamar, hingga transaksi reservasi terkonfirmasi tanpa data yang terputus.'
+        },
+        {
+          title: 'Multilingual AI Agent Chatbot',
+          desc: 'Asisten cerdas 24/7 yang terlatih dengan data properti untuk menjawab pertanyaan tamu dalam 6 bahasa dan memandu reservasi langsung.'
+        }
+      ],
+      comparisonH2: 'Mengapa Memilih Digital Marketing Agency Spesialis Hospitality?',
+      comparisonRows: [
+        { aspect: 'Struktur Iklan', general: 'Targeting generik dengan metrik klik', alpha: 'Targeting berintensi reservasi dengan konversi revenue riil' },
+        { aspect: 'Pelacakan Booking', general: 'Berhenti di klik tombol tanpa pelacakan payment', alpha: 'Pelacakan penuh hingga status payment gateway dan DOKU' },
+        { aspect: 'Konektivitas Sistem', general: 'Website terpisah dari sistem iklan', alpha: 'Google Ads, SEO, booking engine, dan GA4 terhubung satu sistem' },
+        { aspect: 'Evaluasi Berkala', general: 'Laporan bulanan pasif', alpha: 'Audit dua minggu sekali dengan penyesuaian strategi aktif' }
+      ],
+      faqTitle: 'Pertanyaan tentang Digital Marketing Agency Bali',
+      faq: [
+        {
+          q: 'Channel digital marketing apa yang paling efektif untuk villa dan hotel di Bali?',
+          a: 'Kombinasi Google Ads (Search & Performance Max) untuk menangkap permintaan instan dan Technical SEO untuk mengamankan pencarian organik bermerek serta kata kunci lokasi adalah yang paling efisien.'
+        },
+        {
+          q: 'Apakah saya membutuhkan booking engine khusus untuk menjalankan digital marketing?',
+          a: 'Untuk properti villa, kami menyediakan direct booking engine standalone yang terhubung ke kalender Airbnb. Untuk hotel yang sudah memiliki engine (seperti Cloudbeds atau SiteMinder), kami menyambungkan tracking konversinya.'
+        },
+        {
+          q: 'Berapa lama waktu yang dibutuhkan untuk melihat hasil Google Ads?',
+          a: 'Data konversi awal umumnya terlihat dalam 1–2 minggu pertama. Optimasi berbasis data nyata dilakukan setiap dua minggu untuk memaksimalkan ROAS.'
+        }
+      ],
+      ctaTitle: 'Siap Tingkatkan Direct Booking Properti Anda?',
+      ctaDesc: 'Diskusikan kampanye Google Ads dan audit tracking properti Anda bersama tim spesialis kami.',
+      ctaButton: 'Mulai Konsultasi Digital Marketing'
+    },
+    en: {
+      canonicalSlug: 'digital-marketing-agency-bali',
+      eyebrow: 'Channel Execution & Direct Bookings',
+      title: 'Digital Marketing Agency Bali for Direct Bookings | Alpha Digital',
+      h1: 'Digital Marketing Agency Bali for Hotel & Villa Direct Bookings',
+      h2: 'Hands-on Google Ads execution, hospitality SEO, GA4 tracking, and 24/7 AI agents built specifically to maximize direct reservations and reduce OTA commissions.',
+      deliverablesH2: 'Digital Channel Execution Services',
+      deliverables: [
+        {
+          title: 'Google Ads & Performance Max Management',
+          desc: 'High-precision Search and PMax campaigns managed with conversion-value bidding to capture high-intent travelers actively looking to book in Bali.'
+        },
+        {
+          title: 'Hospitality Technical SEO & Local Schema',
+          desc: 'Architecture optimization, structured Schema.org markups (Hotel/Resort/Villa), and Google Business Profile optimization for dominant local visibility.'
+        },
+        {
+          title: 'GA4 & Server-Side GTM Tracking',
+          desc: 'Complete e-commerce tracking architecture recording ad impression, room view, check-out initiation, and confirmed payment.'
+        },
+        {
+          title: 'Multilingual AI Agent Chatbot',
+          desc: '24/7 intelligent concierge trained on property specifications, responding in 6 languages and guiding guests directly to direct booking.'
+        }
+      ],
+      comparisonH2: 'Why Work With a Dedicated Hospitality Digital Agency?',
+      comparisonRows: [
+        { aspect: 'Ad Structure', general: 'Generic broad targeting focused on clicks', alpha: 'Intent-driven booking campaigns optimized for transaction value' },
+        { aspect: 'Conversion Tracking', general: 'Stops at generic button clicks', alpha: 'Full transaction value tracking through payment gateway completion' },
+        { aspect: 'System Integration', general: 'Website and ad accounts operating in silos', alpha: 'Google Ads, SEO, booking flow, and analytics fully synchronized' },
+        { aspect: 'Cadence', general: 'Static passive monthly reports', alpha: 'Active bi-weekly optimization cycles and strategy adjustments' }
+      ],
+      faqTitle: 'Frequently Asked Questions',
+      faq: [
+        {
+          q: 'Which digital marketing channels yield the highest ROI for Bali properties?',
+          a: 'The combination of high-intent Google Ads (Search & Performance Max) capturing immediate demand alongside Technical SEO protecting branded queries consistently yields the highest direct booking margins.'
+        },
+        {
+          q: 'Do I need a proprietary booking engine to run digital marketing?',
+          a: 'For standalone villas, we provide high-speed booking engines with Airbnb sync. For hotels with existing systems (e.g., Cloudbeds, SiteMinder, STAAH), we audit and integrate full GA4 conversion tracking.'
+        },
+        {
+          q: 'How fast can we see results from Google Ads campaigns?',
+          a: 'Initial conversion signals appear within the first 1–2 weeks. Ongoing bi-weekly refinements progressively lower customer acquisition costs.'
+        }
+      ],
+      ctaTitle: 'Ready to Scale Your Direct Booking Revenue?',
+      ctaDesc: 'Schedule a free audit of your current Google Ads and tracking setup with our hospitality specialists.',
+      ctaButton: 'Start Digital Marketing Consultation'
+    }
+  },
+  'digital-agency': {
+    id: {
+      canonicalSlug: 'digital-agency-bali',
+      eyebrow: 'Connected Digital Infrastructure',
+      title: 'Digital Agency Bali untuk Hotel & Villa | Alpha Digital',
+      h1: 'Digital Agency Bali untuk Infrastruktur Digital Hospitality Terpadu',
+      h2: 'Satu sistem terhubung yang menyatukan Google Ads, website berkecepatan tinggi, AI Agent, booking engine villa, dan analitik GA4 tanpa friksi vendor terpisah.',
+      deliverablesH2: 'Komponen Infrastruktur Digital Terpadu',
+      deliverables: [
+        {
+          title: 'High-Performance Hospitality Websites',
+          desc: 'Website berbasis static/edge technology yang sangat cepat (Core Web Vitals grade A) dan didesain khusus untuk alur konversi mobile.'
+        },
+        {
+          title: 'Direct Booking Engine (Khusus Villa)',
+          desc: 'Sistem pemesanan langsung mandiri dengan integrasi sinkronisasi kalender Airbnb dan payment gateway aman tanpa biaya komisi bulanan.'
+        },
+        {
+          title: '24/7 AI Concierge & Chat Agent',
+          desc: 'Sistem chatbot cerdas berbasis LLM yang menjawab pertanyaan fasilitas properti secara instan dan mengarahkan tamu ke alur reservasi.'
+        },
+        {
+          title: 'Unified GA4 & Search Console Analytics',
+          desc: 'Penyatuan seluruh metrik bisnis dalam satu dashboard analytics terintegrasi untuk gambaran bisnis yang utuh.'
+        }
+      ],
+      comparisonH2: 'Infrastruktur Terpadu vs Vendor Terpisah',
+      comparisonRows: [
+        { aspect: 'Integrasi Data', general: 'Data terfragmentasi antar web dev, agency iklan, dan vendor booking', alpha: 'Satu pipeline terpadu dari klik iklan hingga pelaporan konversi' },
+        { aspect: 'Kecepatan Web', general: 'Website berat dengan banyak plugin WordPress yang rentan', alpha: 'Arsitektur modern edge-rendered tanpa bloatware' },
+        { aspect: 'Tanggung Jawab', general: 'Vendor saling lempar tanggung jawab jika konversi rendah', alpha: 'Satu partner bertanggung jawab atas seluruh ekosistem digital' },
+        { aspect: 'Transparansi Biaya', general: 'Biaya langganan tersembunyi dan komisi per platform', alpha: 'Biaya transparan tanpa potongan komisi pada booking engine villa' }
+      ],
+      faqTitle: 'Pertanyaan tentang Digital Agency Bali',
+      faq: [
+        {
+          q: 'Apa yang membedakan Digital Agency Bali terpadu dari web development agency biasa?',
+          a: 'Web agency biasa selesai begitu website online. Digital agency terpadu membangun website yang langsung terhubung dengan Google Ads, GA4 e-commerce tracking, AI agent, dan alur booking yang siap menghasilkan reservasi.'
+        },
+        {
+          q: 'Bagaimana solusi Alpha Digital untuk integrasi booking engine hotel vs villa?',
+          a: 'Untuk properti villa, kami menyediakan standalone booking engine dengan fitur auto-sync kalender Airbnb. Untuk hotel bertaraf bintang yang menggunakan PMS korporat, kami fokus pada integrasi tracking dan optimasi jalur konversi.'
+        },
+        {
+          q: 'Berapa lama waktu implementasi infrastruktur digital lengkap?',
+          a: 'Implementasi stack digital terpadu membutuhkan waktu sekitar 3–6 minggu tergantung pada kompleksitas inventaris kamar dan kebutuhan integrasi.'
+        }
+      ],
+      ctaTitle: 'Bangun Ekosistem Digital Hospitality Properti Anda',
+      ctaDesc: 'Hubungi kami untuk menyatukan website, sistem booking, iklan, dan analitik dalam satu infrastruktur yang solid.',
+      ctaButton: 'Konsultasi Infrastruktur Digital'
+    },
+    en: {
+      canonicalSlug: 'digital-agency-bali',
+      eyebrow: 'Connected Digital Infrastructure',
+      title: 'Digital Agency Bali for Connected Hospitality Stack | Alpha Digital',
+      h1: 'Digital Agency Bali for Unified Hospitality Digital Infrastructure',
+      h2: 'A connected digital stack uniting Google Ads, high-speed websites, AI agents, villa booking engines, and GA4 analytics without the friction of siloed vendors.',
+      deliverablesH2: 'Unified Digital Infrastructure Components',
+      deliverables: [
+        {
+          title: 'High-Performance Hospitality Websites',
+          desc: 'Edge-rendered static web architecture with superior Core Web Vitals, designed specifically for seamless mobile booking experiences.'
+        },
+        {
+          title: 'Direct Booking Engine (Villas Only)',
+          desc: 'Zero-commission standalone direct booking system with Airbnb calendar auto-sync and secure payment gateway integration.'
+        },
+        {
+          title: '24/7 AI Concierge & Chat Agent',
+          desc: 'LLM-powered intelligent assistant trained on property data, answering guest inquiries instantly and driving direct bookings.'
+        },
+        {
+          title: 'Unified GA4 & Search Console Analytics',
+          desc: 'Consolidation of ad traffic, search data, and reservation transactions into a single actionable analytics dashboard.'
+        }
+      ],
+      comparisonH2: 'Unified Digital Infrastructure vs Fragmented Vendors',
+      comparisonRows: [
+        { aspect: 'Data Flow', general: 'Fragmented data silos across disparate web, ad, and booking vendors', alpha: 'One continuous pipeline from ad click to verified direct booking' },
+        { aspect: 'Performance', general: 'Heavy, slow WordPress themes loaded with plugin conflicts', alpha: 'Modern edge-rendered builds with zero bloat and instant load times' },
+        { aspect: 'Accountability', general: 'Vendors blaming each other when bookings underperform', alpha: 'Single-source accountability across the entire digital stack' },
+        { aspect: 'Cost Structure', general: 'Hidden monthly plugin licenses and commission cuts', alpha: 'Transparent terms with zero commission cuts on villa booking engines' }
+      ],
+      faqTitle: 'Frequently Asked Questions',
+      faq: [
+        {
+          q: 'How does a unified digital agency differ from a standard web development studio?',
+          a: 'A web studio stops once the website launches. A unified digital agency builds high-speed websites engineered with native Google Ads tracking, AI concierge capabilities, and verified direct booking pipelines.'
+        },
+        {
+          q: 'How does Alpha Digital handle hotel vs villa booking systems?',
+          a: 'For villas, we deploy a standalone direct booking engine with automatic Airbnb calendar synchronization. For hotels operating commercial PMS systems, we engineer full conversion tracking integration.'
+        },
+        {
+          q: 'How long does full digital stack implementation take?',
+          a: 'Full stack deployment typically spans 3–6 weeks depending on property room inventory and tracking integration complexity.'
+        }
+      ],
+      ctaTitle: 'Build a Solid Digital Infrastructure for Your Property',
+      ctaDesc: 'Connect with us to unify your website, booking flow, ad campaigns, and analytics into one cohesive system.',
+      ctaButton: 'Discuss Digital Infrastructure'
+    }
+  }
+};
+
+const current = pageData[variant][isEn ? 'en' : 'id'];
+const pageUrl = `${SITE_URL}${prefix}/${current.canonicalSlug}/`;
+
+const mainEntity = {
+  "@type": "Service",
+  "@id": `${pageUrl}#service`,
+  "name": current.title,
+  "provider": {
+    "@id": "https://alphadigitalagency.id/#organization"
+  },
+  "areaServed": {
+    "@type": "AdministrativeArea",
+    "name": "Bali",
+    "sameAs": "https://www.wikidata.org/wiki/Q3125978"
+  },
+  "description": current.h2,
+  "serviceType": current.eyebrow,
+  "url": pageUrl
+};
+
+const breadcrumbs = [
+  { "name": "Home", "url": isEn ? "/en/" : "/" },
+  { "name": current.eyebrow, "url": pageUrl }
+];
+---
+
+<SwissLayout
+  title={current.title}
+  description={current.h2}
+  currentPage={variant}
+  mainEntity={mainEntity}
+  faq={current.faq}
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero Section -->
+  <section class="max-w-4xl mx-auto pt-8 pb-14 px-6 md:px-12 text-center">
+    <div class="inline-block bg-primary/10 border border-primary/30 text-primary px-3.5 py-1 text-xs font-bold uppercase tracking-widest mb-6">
+      {current.eyebrow}
+    </div>
+    <h1 class="font-display font-extrabold text-charcoal dark:text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tightest mb-6">
+      {current.h1}
+    </h1>
+    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed mb-8">
+      {current.h2}
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <a
+        href={WA_JASA}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal dark:border-white font-bold text-sm uppercase tracking-wider shadow-premium dark:shadow-premium-dark hover:translate-x-[2px] hover:translate-y-[1px] hover:shadow-premium-hover transition-all"
+      >
+        <Icon name="whatsapp" size={20} />
+        {current.ctaButton}
+      </a>
+      <a
+        href={isEn ? "/en/about/" : "/about/"}
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white font-bold text-sm uppercase tracking-wider shadow-premium dark:shadow-premium-dark hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
+      >
+        {isEn ? "About Daniel & Alpha" : "Tentang Daniel & Alpha"}
+      </a>
+    </div>
+  </section>
+
+  <!-- Deliverables Matrix -->
+  <section class="max-w-4xl mx-auto pb-16 px-6 md:px-12">
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-12">
+      <div class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-2">Scope of Work</div>
+      <h2 class="font-display font-extrabold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">
+        {current.deliverablesH2}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {current.deliverables.map((item) => (
+          <div class="border border-slate-200 dark:border-slate-800 p-6 bg-slate-50/50 dark:bg-slate-800/50 flex flex-col justify-between">
+            <div>
+              <h3 class="font-display font-bold text-lg text-charcoal dark:text-white mb-2">{item.title}</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-12 overflow-x-auto">
+      <div class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-2">Comparison Matrix</div>
+      <h2 class="font-display font-extrabold text-2xl md:text-3xl text-charcoal dark:text-white mb-6">
+        {current.comparisonH2}
+      </h2>
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b-2 border-charcoal dark:border-white text-xs uppercase tracking-wider">
+            <th class="py-3 px-4 font-bold">Aspek</th>
+            <th class="py-3 px-4 font-bold text-slate-500">{isEn ? 'General Agencies' : 'Agency Umum / Non-Spesialis'}</th>
+            <th class="py-3 px-4 font-bold text-primary">Alpha Digital Agency</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+          {current.comparisonRows.map((row) => (
+            <tr>
+              <td class="py-4 px-4 font-bold text-charcoal dark:text-white align-top">{row.aspect}</td>
+              <td class="py-4 px-4 text-slate-600 dark:text-slate-400 align-top">{row.general}</td>
+              <td class="py-4 px-4 font-semibold text-charcoal dark:text-white bg-primary/5 align-top">{row.alpha}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cross Navigation of 3 Money Pages -->
+    <div class="border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 p-6 mb-12">
+      <div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">{isEn ? 'Explore Other Alpha Capabilities:' : 'Pelajari Layanan Terkait Lainnya:'}</div>
+      <div class="flex flex-wrap gap-4 text-sm font-bold">
+        {variant !== 'marketing' && (
+          <a href={`${prefix}/marketing-agency-bali/`} class="text-primary hover:underline">
+            &rarr; Marketing Agency Bali
+          </a>
+        )}
+        {variant !== 'digital-marketing' && (
+          <a href={`${prefix}/digital-marketing-agency-bali/`} class="text-primary hover:underline">
+            &rarr; Digital Marketing Agency Bali
+          </a>
+        )}
+        {variant !== 'digital-agency' && (
+          <a href={`${prefix}/digital-agency-bali/`} class="text-primary hover:underline">
+            &rarr; Digital Agency Bali
+          </a>
+        )}
+        <a href={isEn ? "/en/services/booking-engine/" : "/services/booking-engine/"} class="text-slate-600 dark:text-slate-400 hover:text-primary">
+          &rarr; Booking Engine Villa
+        </a>
+        <a href={isEn ? "/en/services/ai-agent/" : "/services/ai-agent/"} class="text-slate-600 dark:text-slate-400 hover:text-primary">
+          &rarr; AI Agent Hospitality
+        </a>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 mb-12">
+      <h2 class="font-display font-extrabold text-2xl md:text-3xl text-charcoal dark:text-white mb-6">
+        {current.faqTitle}
+      </h2>
+      <div class="space-y-4">
+        {current.faq.map((item) => (
+          <details class="border border-slate-200 dark:border-slate-800 p-5 group bg-slate-50/30 dark:bg-slate-800/30">
+            <summary class="font-bold text-charcoal dark:text-white cursor-pointer list-none flex justify-between items-center gap-4">
+              <span>{item.q}</span>
+              <span class="text-primary font-mono text-xl group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              {item.a}
+            </p>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom CTA Card -->
+    <div class="bg-primary text-white border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12 text-center">
+      <h2 class="font-display font-extrabold text-2xl md:text-4xl tracking-tight mb-4">
+        {current.ctaTitle}
+      </h2>
+      <p class="text-sm md:text-base text-white/90 max-w-xl mx-auto leading-relaxed mb-8">
+        {current.ctaDesc}
+      </p>
+      <a
+        href={WA_JASA}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-charcoal border-2 border-charcoal font-bold text-sm uppercase tracking-wider shadow-sm hover:bg-slate-100 transition-all"
+      >
+        <Icon name="whatsapp" size={20} />
+        {current.ctaButton}
+      </a>
+    </div>
+  </section>
+</SwissLayout>

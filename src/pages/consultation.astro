@@ -1,0 +1,21 @@
+---
+import SwissLayout from "../components/SwissLayout.astro";
+import ConsultationForm from "../components/ConsultationForm.astro";
+
+const locale = ((Astro.locals as any).locale || "id") as "id" | "en";
+const isEn = locale === "en";
+const breadcrumbs = [
+    { name: isEn ? "Home" : "Beranda", url: isEn ? "/en" : "/" },
+    { name: isEn ? "Consultation" : "Konsultasi", url: isEn ? "/en/consultation" : "/consultation" },
+];
+---
+
+<SwissLayout
+    title={isEn ? "Request a consultation — Alpha Digital Agency" : "Minta konsultasi — Alpha Digital Agency"}
+    description={isEn ? "Tell Alpha Digital about your Bali hospitality business and request a consultation with Daniel." : "Ceritakan bisnis hospitality Anda di Bali dan minta konsultasi bersama Daniel."}
+    currentPage="consultation"
+    robots="index, follow"
+    breadcrumbs={breadcrumbs}
+>
+    <ConsultationForm locale={locale} />
+</SwissLayout>

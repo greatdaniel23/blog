@@ -14,7 +14,7 @@ const PAGE_URL = `${SITE_URL}/services/booking-engine`;
 const mainEntity = {
     "@type": "Service",
     "@id": `${PAGE_URL}/#service`,
-    "name": "Direct Booking Engine untuk Vila dan Hotel di Bali",
+    "name": "Direct Booking Engine untuk Villa di Bali",
     "provider": {
         "@id": "https://alphadigitalagency.id/#organization"
     },
@@ -23,13 +23,13 @@ const mainEntity = {
         "name": "Bali",
         "sameAs": "https://www.wikidata.org/wiki/Q3125978"
     },
-    "description": "Direct booking engine untuk vila dan hotel Bali — edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Kurangi ketergantungan OTA.",
-    "serviceType": "Booking Engine Integration",
+    "description": "Direct booking engine standalone khusus villa di Bali — edge-rendered, auto-sync kalender Airbnb, PCI-compliant payment gateway, dan tracking konversi GA4 siap pakai.",
+    "serviceType": "Direct Booking Engine for Villas",
     "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Paket Booking Engine Villa",
         "itemListElement": [
-            { "@type": "Offer", "name": "Booking Engine Installation & Setup", "priceCurrency": "IDR" },
+            { "@type": "Offer", "name": "Booking Engine Installation & Airbnb Sync", "priceCurrency": "IDR" },
             { "@type": "Offer", "name": "Booking Engine + Conversion Tracking Bundle", "priceCurrency": "IDR" }
         ]
     },
@@ -38,17 +38,17 @@ const mainEntity = {
 
 const breadcrumbs = [
     { "name": "Home", "url": "/" },
-    { "name": "Booking Engine", "url": PAGE_URL }
+    { "name": "Booking Engine Villa", "url": PAGE_URL }
 ];
 
 const about = [
-    { "name": "Hotel", "sameAs": "https://www.wikidata.org/wiki/Q27686" },
+    { "name": "Villa", "sameAs": "https://www.wikidata.org/wiki/Q3950" },
 ];
 ---
 
 <SwissLayout
-    title="Direct Booking Engine — Alpha Digital Agency Indonesia"
-    description="Direct booking engine for Bali villas and hotels. Edge-rendered, Google Hotel Center ready, Core Web Vitals optimized. Reduce OTA dependency."
+    title="Direct Booking Engine untuk Villa Bali | Alpha Digital"
+    description="Direct booking engine standalone untuk villa di Bali. Bebas komisi OTA, auto-sync kalender Airbnb, payment gateway aman, dan tracking konversi GA4."
     currentPage="services"
     mainEntity={mainEntity}
     breadcrumbs={breadcrumbs}
@@ -67,26 +67,22 @@ const about = [
                         <span
                             class="w-2 h-2 rounded-full bg-primary animate-pulse"
                         ></span>
-                        Google Connectivity Partner Ready
+                        Airbnb Calendar Auto-Sync Ready
                     </div>
 
                     <h1
                         class="text-emerald-dark dark:text-white text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight mb-6"
                     >
-                        The Direct Booking Engine <span
+                        Direct Booking Engine <span
                             class="text-emerald-500 dark:text-primary"
-                            >Built for Speed.</span
+                            >Khusus Villa.</span
                         >
                     </h1>
 
                     <p
                         class="text-emerald-mid dark:text-gray-300 text-lg sm:text-xl leading-relaxed mb-6 max-w-lg"
                     >
-                        Maximize direct revenue with our powerful booking
-                        solution. Built on <strong>edge technology</strong> for lightning-fast
-                        performance, Core Web Vitals excellence, and seamless <strong
-                            >Google Hotel Center</strong
-                        > integration.
+                        Maksimalkan pendapatan langsung villa Anda tanpa komisi OTA. Dibangun dengan <strong>edge technology</strong> untuk kecepatan maksimal, Core Web Vitals grade A, dan auto-sync kalender <strong>Airbnb</strong>.
                     </p>
 
                     <!-- Technical Compliance List for Google Reviewer -->
