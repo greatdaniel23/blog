@@ -25,9 +25,31 @@ interface Props {
     extraNodes?: object[];
     /** Entity topics for WebPage.about — Wikidata-verified QIDs only (Gap #6). */
     about?: { name: string; sameAs?: string }[] | null;
+    /** Explicit language locale override ('id' | 'en'). */
+    locale?: string;
+    /** Dynamic paired twin slug for blog post pages. */
+    altSlug?: string | null;
+    /** Custom alternate path override. */
+    altPath?: string | null;
 }
 
-const { title, description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality", currentPage = "", robots = "index, follow", image, article, mainEntity, breadcrumbs, faq, howto, extraNodes, about } = Astro.props;
+const {
+    title,
+    description = "Alpha Digital Agency Indonesia — Google Ads, AI & Digital Transformation for Bali Hospitality",
+    currentPage = "",
+    robots = "index, follow",
+    image,
+    article,
+    mainEntity,
+    breadcrumbs,
+    faq,
+    howto,
+    extraNodes,
+    about,
+    locale: explicitLocale,
+    altSlug = null,
+    altPath: customAltPath = null,
+} = Astro.props;
 // Per-deploy unique build marker for post-deploy raw-HTTP verification
 // (alpha-deploy-verify skill). Bumped on every KG-SEO v3 deploy.
 const BUILD_MARKER = "KG-SEO-V3-LANG-FILTER-2026-08-18";
@@ -48,18 +70,15 @@ const ga4Id: string = (import.meta.env.PUBLIC_GA4_ID as string | undefined) || '
 //
 // i18n: EN blog POSTS live at <slug>-en (e.g. /blog/xxx-en) — reached directly,
 // no /en/ path prefix. The /en/ prefix scheme exists only for the static pages
-// (src/pages/en/*; worker.ts rewrites /en/* → /* and sets X-Locale). Hreflang
-// pairs ID ↔ EN by adding/stripping the -en suffix on post paths; other paths
-// keep the /en/ form.
+// (src/pages/en/*; worker.ts rewrites /en/* → /* and sets X-Locale).
 const rawPath = "/" + Astro.url.pathname.replace(/^[/\\]+/, "").replace(/\/+$/, "") || "/";
 const pageLocale = ((Astro.locals as any).locale as string) || 'id';
 const isPostPage = /^\/blog\/[^/]+$/.test(rawPath);
 // EN detection:
-//   - post pages: -en slug suffix ONLY (posts never use the /en/ prefix);
-//   - other pages: /en/ path prefix (prerendered static EN pages) OR
-//     X-Locale: en (SSR routes rewritten by worker.ts, e.g. /en/blog).
 const hasEnPrefix = rawPath === '/en' || rawPath.startsWith('/en/');
-const isPageEn = isPostPage ? /-en$/.test(rawPath) : (hasEnPrefix || pageLocale === 'en');
+const isPageEn = explicitLocale
+    ? explicitLocale === 'en'
+    : (isPostPage ? /-en$/.test(rawPath) : (hasEnPrefix || pageLocale === 'en'));
 
 // Path forms for non-post pages. Static EN pages already carry /en/ in their
 // path; SSR EN pages (rewritten) have it stripped — reconstruct so canonical
@@ -71,17 +90,38 @@ const withEn = withoutEn === '/' ? '/en' : `/en${withoutEn}`;
 // prefix preserved/restored for EN pages.
 const canonicalPath = isPostPage ? rawPath : (isPageEn ? withEn : withoutEn);
 const canonicalURL = new URL(canonicalPath || '/', Astro.site ?? SITE_URL);
-// The alternate (other locale) URL — post pages pair via the -en suffix.
-const altPath = isPostPage
-	? /-en$/.test(rawPath)
-		? rawPath.replace(/-en$/, '')
-		: `${rawPath}-en`
-	: isPageEn
-		? withoutEn
-		: withEn;
-const altURL = new URL(altPath || '/', Astro.site ?? SITE_URL);
-// x-default: the ID form for non-post pages, the raw path for posts.
-const xDefaultPath = isPostPage ? rawPath : withoutEn;
+
+// The alternate (other locale) URL:
+// - If customAltPath provided, use it.
+// - For blog posts: use paired altSlug if available (/blog/<altSlug>), otherwise fallback to target blog index.
+// - For regular pages: swap /en/ prefix.
+let resolvedAltPath: string;
+if (customAltPath) {
+    resolvedAltPath = customAltPath;
+} else if (isPostPage) {
+    if (altSlug) {
+        resolvedAltPath = `/blog/${altSlug}`;
+    } else {
+        resolvedAltPath = isPageEn ? '/blog' : '/en/blog';
+    }
+} else {
+    resolvedAltPath = isPageEn ? withoutEn : withEn;
+}
+const altURL = new URL(resolvedAltPath || '/', Astro.site ?? SITE_URL);
+
+// x-default: points to the Indonesian version where available.
+let xDefaultPath: string;
+if (isPostPage) {
+    if (isPageEn && altSlug) {
+        xDefaultPath = `/blog/${altSlug}`;
+    } else if (!isPageEn) {
+        xDefaultPath = rawPath;
+    } else {
+        xDefaultPath = '/blog';
+    }
+} else {
+    xDefaultPath = withoutEn;
+}
 
 let isPagesDevHost = false;
 try {

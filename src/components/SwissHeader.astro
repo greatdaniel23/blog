@@ -224,23 +224,14 @@ const navItems = [
         function enPath(p) { return p.startsWith('/en') ? p : '/en' + (p === '/' ? '' : p); }
         function idPath(p) { return p.replace(/^\/en/, '') || '/'; }
 
-        function postEnHref(p) {
-            const clean = p.replace(/\/+$/, '');
-            return clean.endsWith('-en') ? clean : clean + '-en';
-        }
-        function postIdHref(p) {
-            const clean = p.replace(/\/+$/, '');
-            return clean.replace(/-en$/, '') || '/';
-        }
-
         const activeClass = 'border-primary/40 text-primary bg-primary/5';
         const inactiveClass = 'border-transparent hover:border-primary/30 text-slate-400 hover:text-primary';
 
         const altIdTag = document.querySelector('link[rel="alternate"][hreflang="id"]');
         const altEnTag = document.querySelector('link[rel="alternate"][hreflang="en"]');
 
-        const idTarget = altIdTag?.getAttribute('href') || (isPost ? postIdHref(path) : (isEN ? idPath(path) : path));
-        const enTarget = altEnTag?.getAttribute('href') || (isPost ? postEnHref(path) : (isEN ? path : enPath(path)));
+        const idTarget = altIdTag?.getAttribute('href') || (isPost ? (isEN ? '/blog' : path) : (isEN ? idPath(path) : path));
+        const enTarget = altEnTag?.getAttribute('href') || (isPost ? (isEN ? path : '/en/blog') : (isEN ? path : enPath(path)));
 
         // Desktop toggle
         const idBtn = document.getElementById('lang-id');

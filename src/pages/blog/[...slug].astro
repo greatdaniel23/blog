@@ -110,6 +110,27 @@ if (post) {
 	} catch {
 		// ignore
 	}
+
+	// Fallback lookup if not mapped in content_work_items: check posts table directly
+	if (!twinSlug) {
+		try {
+			if (isPostEn) {
+				const directIdSlug = post.slug.replace(/-en$/, '');
+				const directTwin = await env.DB.prepare(
+					`SELECT slug FROM posts WHERE slug = ? AND is_published = 1 LIMIT 1`
+				).bind(directIdSlug).first<{ slug: string }>();
+				if (directTwin) twinSlug = directTwin.slug;
+			} else {
+				const directEnSlug = `${post.slug}-en`;
+				const directTwin = await env.DB.prepare(
+					`SELECT slug FROM posts WHERE slug = ? AND is_published = 1 LIMIT 1`
+				).bind(directEnSlug).first<{ slug: string }>();
+				if (directTwin) twinSlug = directTwin.slug;
+			}
+		} catch {
+			// ignore
+		}
+	}
 }
 const ui = isPostEn
 	? {
