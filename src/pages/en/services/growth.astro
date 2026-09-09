@@ -1,33 +1,59 @@
 ---
 import SwissLayout from "../../../components/SwissLayout.astro";
+import { WA_JASA } from "../../../lib/linkbio";
 import Icon from "../../../components/Icon.astro";
 
-export const prerender = true;
+const tx = {
+  tier: "Tier 2 — Growth",
+  heroH1: "Google Ads That Pay for Themselves in Direct Bookings",
+  heroDesc: "Manage Google Ads and optimize your direct booking funnel — bi-weekly audits, not once-a-year reports.",
+  ctaMail: "Request a Proposal", waLabel: "Consult via WhatsApp",
+  outcome: "We identify which search queries already get free organic clicks — so you do not pay twice via ads for the same visitors. Everything is measured through GA4 Analytics and GTM configured for luxury hospitality — high-end hotels requiring accurate conversion data.",
+  featuresTitle: "What You Get",
+  features: [
+    { title: "Google Ads: Keywords, Bids, and Creatives", desc: "Active campaign management — ongoing keyword research, conversion-based bid adjustments, and creative testing. Nine years of hospitality Ads depth, powered by Data Science and GA4 Analytics for luxury Bali properties." },
+    { title: "Bi-Weekly Booking Funnel Audits", desc: "Many properties know how much they have spent on ads — but not where guests drop off before booking. We show you that point and recommend the specific fix." },
+    { title: "Conversion Optimization: From Click to Reservation", desc: "A low click-to-reservation rate means your landing page or booking flow has problems. We identify the friction and recommend practical improvements." },
+    { title: "Content Cadence and Organic Distribution Reports", desc: "We recommend content topics based on existing organic queries that are not yet monetized — not random content created without a demand signal." }
+  ],
+  proofTitle: "Measurable Results",
+  proofQuote: "A four-unit Bali villa property — direct bookings up 34% within 90 days after a funnel audit and Google Ads optimization.",
+  proofCite: "— Verified client data. Name withheld per client policy.", proofNote: "Case Study #1 — full breakdown coming soon.",
+  adsSeoH2: "Google Ads vs. SEO: Why You Need Both",
+  adsSeoP1: "Many property owners ask: \"If I already have organic traffic, why do I need Ads?\" Or the reverse: \"If Ads are already running, why do I still need SEO?\"",
+  adsSeoP2: "The answer is that both fill different roles in your booking funnel. Google Ads captures high-intent traffic instantly — guests typing \"Bali villa available\" right now and ready to book. SEO builds long-term protection — OTAs cannot take your brand's position in organic search results.",
+  adsSeoP3: "For Bali villa properties, both channels work together: branded queries are protected by SEO, while high-intent availability queries are captured by Ads. We view both in one report — so budget is not wasted twice on the same visitor.",
+  adsSeoP4: "Read more: Foundation — Proper Tracking Setup and Authority — All Channels Connected.",
+  monthlyTitle: "What We Manage Every Month",
+  monthlyDesc: "Transparency is part of the service. Here is what gets done each month in Growth management:",
+  monthlyItems: ["Keyword review — identify new opportunities and budget-wasting terms", "Bid adjustments based on actual conversion data", "Negative keyword audit — stop irrelevant clicks", "Quality Score monitoring per ad group", "Landing page conversion rate review", "Bi-weekly booking funnel audit", "Cross-channel review: Ads + organic + booking in one view", "Monthly report with priority action recommendations"],
+  faqTitle: "Questions About Growth",
+  faq: [
+    { q: "How quickly can Google Ads generate direct bookings?", a: "Properly set up campaigns typically generate quality clicks within the first one to two weeks. Actual direct bookings depend on your website and booking engine conversion. We audit drop-off points and improve them regularly." },
+    { q: "What does a bi-weekly booking funnel audit mean?", a: "Every two weeks we review data from Google Ads, Search Console, and your booking engine together — to see where guests stop before booking. We identify those points and recommend specific fixes." },
+    { q: "Do I need Growth if I already have another ad agency?", a: "If you already have an Ads agency but lack reports that combine Ads, organic traffic, and bookings in one place, there is a significant gap. We fill that gap." },
+    { q: "We already get many reservations from OTAs. Why do we need Google Ads?", a: "OTAs take 15–30% commission per booking. Direct booking via Google Ads typically has a lower cost per acquisition once campaigns mature. More importantly, you own the guest data — OTAs do not give that to you." },
+    { q: "Does Growth include tracking setup?", a: "Proper tracking is a prerequisite for Growth. If tracking is missing or broken, we recommend starting with Foundation first — so the Ads data we manage is truly accurate." }
+  ],
+  seoAnchor: "Growth is part of the <a href=\"/en/\" class=\"text-primary font-semibold hover:underline\">digital marketing agency Bali for hospitality</a> system: Google Ads, SEO, booking engine, and tracking working as one funnel.",
+  tier1Title: "Foundation →", tier1Desc: "Start with proper tracking", tier3Title: "Authority →", tier3Desc: "Multi-property, all channels", tier4Title: "Booking Engine →", tier4Desc: "Connect Ads to direct bookings",
+  author: "Written by <a href=\"/en/daniel-santoso/\" class=\"underline hover:text-primary\">Daniel Santoso</a> · Last updated: May 2026",
+  finalTitle: "Start with Growth", finalDesc: "Send us an email. We will audit your current Ads campaigns and identify the first quick wins.", finalCta: "Request a Proposal",
+  serviceName: "Growth — Google Ads Management for Bali Villas and Hotels", serviceDesc: "Google Ads management and bi-weekly booking funnel audits for Bali villas and hotels looking to reduce OTA dependency.", pageUrl: "https://alphadigitalagency.id/en/services/growth"
+};
+const mainEntity = { "@type": "Service", name: tx.serviceName, provider: { "@type": "Organization", name: "Alpha Digital Agency", url: "https://alphadigitalagency.id" }, author: { "@type": "Person", name: "Daniel Santoso", url: "https://alphadigitalagency.id/daniel-santoso/#person" }, areaServed: "Bali, Indonesia", description: tx.serviceDesc, serviceType: "Google Ads Management", url: tx.pageUrl };
+const breadcrumbs = [{ name: "Home", url: "/en/" }, { name: "Services", url: "/en/services/" }, { name: "Growth", url: tx.pageUrl }];
 ---
 
-<SwissLayout title="Growth Package — Alpha Digital Agency" description="Alpha Digital Growth Package: Google Ads, advanced analytics, and conversion optimization for Bali hotels and villas." currentPage="services">
-
-  <section class="pt-28 md:pt-40 pb-16 px-6 max-w-3xl mx-auto">
-    <h1 class="text-4xl md:text-5xl font-black tracking-tight text-emerald-dark dark:text-white mb-4">Growth <span class="text-primary">Package</span></h1>
-    <p class="text-lg text-emerald-mid dark:text-gray-400 mb-10">For villas and hotels ready to scale direct revenue.</p>
-
-    <div class="space-y-4 mb-10">
-      {[
-        { icon: 'ads_click', title: 'Google Ads Management', desc: 'LLM-enchanted campaigns. ROAS-focused. Conversion tracking with GA4 + GTM integration.' },
-        { icon: 'analytics', title: 'Advanced Analytics', desc: 'GA4, GTM, Looker Studio dashboards. Real conversion data, not vanity metrics.' },
-        { icon: 'trending_up', title: 'Conversion Optimization', desc: 'Booking flow analysis. A/B testing. Revenue tracking.' },
-        { icon: 'support', title: 'Monthly Reporting', desc: 'Clear reports: what was spent, what was earned, what to improve.' },
-      ].map(f => (
-        <div class="flex items-start gap-4 border border-gray-200 dark:border-gray-800 rounded-lg p-5">
-          <Icon name={f.icon} class="text-primary text-2xl shrink-0" />
-          <div><h3 class="font-bold text-sm text-emerald-dark dark:text-white">{f.title}</h3><p class="text-sm text-gray-600 dark:text-gray-400">{f.desc}</p></div>
-        </div>
-      ))}
-    </div>
-
-    <div class="text-center">
-      <a href="https://wa.me/6289536870777?text=Hello%20Alpha%20Digital" target="_blank" rel="noopener noreferrer" class="bg-primary hover:bg-green-400 text-emerald-dark font-bold rounded-lg px-8 py-3.5 transition-colors shadow-lg shadow-green-500/20 inline-block">Get Started →</a>
-    </div>
-  </section>
-
+<SwissLayout locale="en" title="Google Ads for Bali Hotels | Alpha Digital" description="Google Ads management for Bali hotels and villas, connected to booking funnel audits, Search Console data, and direct reservation tracking." currentPage="services" mainEntity={mainEntity} faq={tx.faq} breadcrumbs={breadcrumbs}>
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12 text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-4">{tx.tier}</p><h1 class="font-display font-extrabold text-charcoal dark:text-white leading-display tracking-tightest text-[2rem] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] mb-6">{tx.heroH1}<span class="text-primary">.</span></h1><p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">{tx.heroDesc}</p><div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center"><a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="chat" />{tx.waLabel}</a><a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="mail" />{tx.ctaMail}</a></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-primary/5 dark:bg-primary/10 border-l-4 border-primary p-6 md:p-8"><p class="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed">{tx.outcome}</p></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.featuresTitle}</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-6">{tx.features.map(f => <div class="flex gap-4 items-start"><div class="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div><div><h3 class="font-bold text-charcoal dark:text-white mb-1">{f.title}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{f.desc}</p></div></div>)}</div></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">{tx.proofTitle}</h2><blockquote class="border-l-4 border-primary pl-6 py-2"><p class="text-slate-700 dark:text-slate-300 text-base leading-relaxed italic mb-2">&quot;{tx.proofQuote}&quot;</p><cite class="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 not-italic">{tx.proofCite}</cite></blockquote><p class="text-slate-500 dark:text-slate-400 text-xs mt-4">{tx.proofNote}</p></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">{tx.adsSeoH2}</h2><p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{tx.adsSeoP1}</p><p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{tx.adsSeoP2}</p><p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{tx.adsSeoP3}</p><p class="text-slate-600 dark:text-slate-400 leading-relaxed">{tx.adsSeoP4}</p></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-xl md:text-2xl text-charcoal dark:text-white mb-4">{tx.monthlyTitle}</h2><p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">{tx.monthlyDesc}</p><div class="grid grid-cols-1 md:grid-cols-2 gap-3">{tx.monthlyItems.map(item => <div class="flex items-start gap-3"><div class="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></div><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item}</p></div>)}</div></div></section>
+  <section class="max-w-4xl mx-auto mb-8 px-6 md:px-12"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-8">{tx.faqTitle}</h2><div class="space-y-6">{tx.faq.map(item => <div class="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0 last:pb-0"><h3 class="font-bold text-charcoal dark:text-white mb-2">{item.q}</h3><p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{item.a}</p></div>)}</div></div></section>
+  <section class="max-w-4xl mx-auto mb-12 px-6 md:px-12"><p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 text-center"><Fragment set:html={tx.seoAnchor} /></p><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><a href="/en/services/foundation" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 1</p><p class="font-bold text-charcoal dark:text-white">{tx.tier1Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier1Desc}</p></a><a href="/en/services/authority" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 3</p><p class="font-bold text-charcoal dark:text-white">{tx.tier3Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier3Desc}</p></a><a href="/en/services/booking-integration" class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-5 card-swiss block text-center"><p class="text-xs font-mono uppercase tracking-widest text-primary mb-2">Tier 4</p><p class="font-bold text-charcoal dark:text-white">{tx.tier4Title}</p><p class="text-slate-600 dark:text-slate-400 text-xs mt-1">{tx.tier4Desc}</p></a></div></section>
+  <section class="max-w-4xl mx-auto mb-4 px-6 md:px-12"><p class="text-xs text-slate-500 dark:text-slate-400"><Fragment set:html={tx.author} /></p></section>
+  <section class="max-w-4xl mx-auto mb-16 px-6 md:px-12 text-center"><div class="bg-white dark:bg-slate-900 border-2 border-charcoal dark:border-white shadow-premium dark:shadow-premium-dark p-8 md:p-12"><h2 class="font-display font-bold text-2xl md:text-3xl text-charcoal dark:text-white mb-4">{tx.finalTitle}</h2><p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto">{tx.finalDesc}</p><div class="flex flex-col sm:flex-row gap-4 justify-center"><a href={WA_JASA} target="_blank" rel="noopener noreferrer" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white border-2 border-charcoal shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="chat" />{tx.waLabel}</a><a href="mailto:daniel@alphadigitalagency.id" class="btn-swiss inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 text-charcoal dark:text-white border-2 border-charcoal dark:border-white shadow-premium font-bold text-sm uppercase tracking-widest"><Icon name="mail" />{tx.finalCta}</a></div></div></section>
 </SwissLayout>

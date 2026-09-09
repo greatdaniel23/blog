@@ -327,13 +327,13 @@ const ogType = article ? "article" : "website";
         >
         </div>
 
-        <SwissHeader currentPage={currentPage} />
+        <SwissHeader currentPage={currentPage} locale={isPageEn ? 'en' : 'id'} />
 
         <main class="relative flex-1 z-10 pt-24 md:pt-32 pb-20 md:pb-0">
             <slot />
         </main>
 
-        <SwissFooter />
+        <SwissFooter locale={isPageEn ? 'en' : 'id'} />
 
         <!-- Mobile sticky CTA bar — thumb zone, bottom of screen, hidden on md+ -->
         <!-- pb-20 on main ensures content is not obscured by this bar -->

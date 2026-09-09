@@ -565,6 +565,7 @@ const breadcrumbs = [
 <SwissLayout
   title={current.title}
   description={current.h2}
+  locale={locale}
   currentPage={variant}
   mainEntity={mainEntity}
   faq={current.faq}
@@ -628,7 +629,7 @@ const breadcrumbs = [
       <table class="w-full text-left border-collapse text-sm">
         <thead>
           <tr class="border-b-2 border-charcoal dark:border-white text-xs uppercase tracking-wider">
-            <th class="py-3 px-4 font-bold">Aspek</th>
+            <th class="py-3 px-4 font-bold">{isEn ? 'Aspect' : 'Aspek'}</th>
             <th class="py-3 px-4 font-bold text-slate-500">{isEn ? 'General Agencies' : 'Agency Umum / Non-Spesialis'}</th>
             <th class="py-3 px-4 font-bold text-primary">Alpha Digital Agency</th>
           </tr>
